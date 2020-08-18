@@ -1,0 +1,639 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>消息frame页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+        }
+
+        #footer {
+            background-color: rgba(255, 255, 255, 0.9);
+            position: fixed;
+            bottom: 5%;
+            width: 86%;
+            border-radius: 50px;
+            left: 7%;
+        }
+
+        #footer:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-radius: 50px;
+            border: 1px solid #e6e6e6;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 200%;
+            height: 200%;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+            -webkit-transform-origin: left top;
+            transform-origin: left top;
+            pointer-events: none;
+        }
+
+        #footer ul li {
+            padding-top: 23px;
+            margin-top: 2px;
+            font-size: 12px;
+            background: url() no-repeat center 2px;
+            background-size: auto 20px;
+            text-align: center;
+        }
+
+        #footer ul li:nth-child(1) {
+            background-image: url(../../image/message_frame/sendMessage.png);
+        }
+
+        #footer ul li:nth-child(2) {
+            background-image: url(../../image/message_frame/delete.png);
+        }
+
+        #footer ul li:nth-child(3) {
+            background-image: url(../../image/message_frame/yidu.png);
+        }
+
+        #footer ul li:nth-child(4) {
+            background-image: url(../../image/message_frame/selectAll.png);
+        }
+
+        .delete_active {
+            background-image: url(../../image/message_frame/delete_active.png) !important;
+        }
+
+        .yidu_active {
+            background-image: url(../../image/message_frame/yidu_active.png) !important;
+        }
+
+        .selectAll_active {
+            background-image: url(../../image/message_frame/selectAll_active.png) !important;
+        }
+
+        #footer ul {
+            padding: 0 1rem;
+        }
+
+        .border-t:before,
+        .border-b:after {
+            border-color: #F1F1F1;
+        }
+
+        .aui-list {
+            background-image: none !important;
+        }
+
+        .aui-list .aui-list-item-title {
+            font-size: 15px !important;
+        }
+
+        .aui-list .aui-list-item-text {
+            font-size: 14px !important;
+            color: #999999;
+        }
+
+        .sendUser {
+            padding-left: 18px;
+        }
+
+        .aui-list .aui-list-item-right {
+            font-size: 14px !important;
+        }
+
+        .aui-radio {
+            margin-right: 20px;
+            box-sizing: border-box;
+        }
+
+        .aui-dot {
+            width: 0.5rem !important;
+            height: 0.5rem !important;
+            border-radius: 50% !important;
+            top: 0.6rem !important;
+            right: 0;
+        }
+
+        .aui-tab button {
+            background-color: #FFF;
+            outline: none;
+            box-sizing: content-box;
+            border-radius: 0;
+        }
+
+        .aui-list-item-arrow:before {
+            border-color: #A2A2A2 !important;
+            width: 0.6rem !important;
+            height: 0.6rem !important;
+            top: 43% !important;
+            right: 0.5rem !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-con" id="myMessage">
+        <div class="aui-content">
+            <ul class="aui-list aui-media-list">
+                <li class="aui-list-item aui-list-item-middle auiMessageList" data-id='1'>
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title aui-font-size-14">标题内容</div>
+                                <div class="aui-list-item-right">13:44:50</div>
+                            </div>
+                            <div class="aui-list-item-text sendUser">
+                                发送人：组织管理员
+                                <div class="aui-radio"></div>
+                                <!-- <div class="aui-dot"></div> -->
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="aui-list-item aui-list-item-middle auiMessageList" data-id='2'>
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title aui-font-size-14">标题内容</div>
+                                <div class="aui-list-item-right">08:32:21</div>
+                            </div>
+                            <div class="aui-list-item-text sendUser">
+                                发送人：组织管理员
+                                <div class="aui-radio"></div>
+                                <!-- <div class="aui-dot"></div> -->
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+        </div>
+    </div>
+
+    <div class="flex-con" id="warningMessage">
+        <div class="aui-content">
+            <ul class="aui-list aui-media-list">
+                <li class="aui-list-item aui-list-item-middle auiMessageList">
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title aui-font-size-14">报警提示</div>
+                                <div class="aui-list-item-right">09:25:30</div>
+                            </div>
+                            <div class="aui-list-item-text sendUser">
+                                渝北区突增瞬时流量
+                                <div class="aui-radio"></div>
+                                <!-- <div class="aui-dot"></div> -->
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="aui-list-item aui-list-item-middle auiMessageList">
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title aui-font-size-14">报警提示</div>
+                                <div class="aui-list-item-right">昨天13:44:44</div>
+                            </div>
+                            <div class="aui-list-item-text sendUser">
+                                渝北区突增瞬时流量
+                                <div class="aui-radio"></div>
+                                <!-- <div class="aui-dot"></div> -->
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="aui-list-item aui-list-item-middle auiMessageList">
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title aui-font-size-14">报警提示</div>
+                                <div class="aui-list-item-right">昨天10:33:18</div>
+                            </div>
+                            <div class="aui-list-item-text sendUser">
+                                渝北区突增瞬时流量
+                                <div class="aui-radio"></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="aui-list-item aui-list-item-middle auiMessageList">
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title aui-font-size-14">报警提示</div>
+                                <div class="aui-list-item-right">10/29 06:45:49</div>
+                            </div>
+                            <div class="aui-list-item-text sendUser">
+                                渝北区突增瞬时流量
+                                <div class="aui-radio"></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="aui-list-item aui-list-item-middle auiMessageList">
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title aui-font-size-14">报警提示</div>
+                                <div class="aui-list-item-right">10/28 19:31:29</div>
+                            </div>
+                            <div class="aui-list-item-text sendUser">
+                                渝北区突增瞬时流量
+                                <div class="aui-radio"></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li class="aui-list-item aui-list-item-middle auiMessageList">
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title aui-font-size-14">报警提示</div>
+                                <div class="aui-list-item-right">10/27 08:14:31</div>
+                            </div>
+                            <div class="aui-list-item-text sendUser">
+                                渝北区突增瞬时流量
+                                <div class="aui-radio"></div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="footer">
+        <ul class="flex-wrap">
+            <li tapmode="hover" class="flex-con" id="sendMessageLi" tapmode onclick="sendMessage()">发送消息</li>
+            <li tapmode="hover" class="flex-con" id="delete">删除</li>
+            <li tapmode="hover" class="flex-con" id="yidu">设为已读</li>
+            <li tapmode="hover" class="flex-con" id="selectAll" tapmode onclick="selectAll()">全选</li>
+        </ul>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/hammer.min.js"></script>
+<script type="text/javascript" src="../../script/fx.js"></script>
+<script type="text/javascript" src="../../script/fx_methods.js"></script>
+<script type="text/javascript" src="../../script/date.format.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript">
+    var headerH;
+    var tabH;
+    var topH = "";
+    var topHide;
+    var topActive;
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        $api.rmStorage('editMessage');
+        $('#warningMessage').hide();
+        getMyMessageList();
+        getWarningMessageList();
+        // checkboxSelect();
+    };
+
+    //字符串替换所有匹配字段
+    String.prototype.replaceAll = function(s1, s2) {
+        return this.replace(new RegExp(s1, "gm"), s2);
+    }
+
+    function getDayName(d) {
+        var td = new Date();
+        td = new Date(td.getFullYear(), td.getMonth(), td.getDate());
+        var od = new Date(d);
+        od = new Date(od.getFullYear(), od.getMonth(), od.getDate());
+        var xc = (od - td) / 1000 / 60 / 60 / 24;
+        if (xc < 0) {
+            return "昨天";
+        } else if (xc == 0) {
+            return "今天";
+        }
+    }
+
+    //获取时分秒
+    function getTime(data) {
+        var str = data;
+        var num = str.indexOf("T");
+        if (num != -1) {
+            str = str.substr(num + 1);
+            return str;
+        } else {
+            return "";
+        }
+    }
+
+    //获取站内消息
+    function getMyMessageList() {
+        fnGet('services/app/Message/GetMessageList?PageIndex=1&MaxResultCount=10', {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    // alert(JSON.stringify(ret));
+                    $('#myMessage ul').html('');
+                    var data = ret.result.items;
+                    var html = ""
+                    for (var i = 0; i < data.length; i++) {
+                        var sendTime = data[i].sendTime;
+                        var time = getTime(sendTime);
+                        sendTime = sendTime.replace('T', ' ').replaceAll('-', '/');
+                        if (getDayName(sendTime) == '今天') {
+                            sendTime = time;
+                        } else if (getDayName(sendTime) == '昨天') {
+                            sendTime = '昨天 ' + time;
+                        };
+                        var li =
+                            '<li class="aui-list-item aui-list-item-middle auiMessageList" data-id="' + data[i].id +
+                            '"><div class="aui-media-list-item-inner"><div class="aui-list-item-inner"><div class="aui-list-item-text"><div class="aui-list-item-title aui-font-size-14">' +
+                            data[i].title + '</div><div class="aui-list-item-right">' + sendTime + '</div></div><div class="aui-list-item-text sendUser">发送人：' + data[i].sendUserName + '<div class="aui-radio"></div></div></div></div></li>';
+                        html += li;
+                    }
+                    $('#myMessage ul').append(html);
+                    $('#myMessage .aui-radio').hide();
+                    longpress();
+                    openDetail();
+                    setTimeout(function() {
+                        api.setFrameAttr({
+                            name: 'messageList_frame',
+                            hidden: true
+                        });
+                    }, 200);
+                }
+            }
+        })
+    }
+
+
+
+    function getWarningMessageList() {
+        fnGet('services/app/Message/GetMessageAlarmList?PageIndex=1&MaxResultCount=10', {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    // alert(JSON.stringify(ret));
+                    $('#warningMessage ul').html('');
+                    var html = ""
+                    var data = ret.result.items;
+                    for (var i = 0; i < data.length; i++) {
+                        var sendTime = data[i].sendTime;
+                        var time = getTime(sendTime);
+                        sendTime = sendTime.replace('T', ' ').replaceAll('-', '/');
+                        if (getDayName(sendTime) == '今天') {
+                            sendTime = time;
+                        } else if (getDayName(sendTime) == '昨天') {
+                            sendTime = '昨天 ' + time;
+                        };
+                        var li = '<li class="aui-list-item aui-list-item-middle auiMessageList" data-id="' + data[i].id +
+                            '"><div class="aui-media-list-item-inner"><div class="aui-list-item-inner"><div class="aui-list-item-text"><div class="aui-list-item-title aui-font-size-14">' + data[i].title +
+                            '</div><div class="aui-list-item-right">' + sendTime + '</div></div><div class="aui-list-item-text sendUser">' + data[i].content + '<div class="aui-radio"></div></div></div></div></li>';
+                        html += li;
+                    }
+                    $('#warningMessage ul').append(html);
+                    $('#warningMessage .aui-radio').hide();
+                    longpress();
+                    openDetail();
+                }
+            }
+        })
+    }
+
+    //展示站内消息
+    function showMyMessage() {
+        $('#sendMessageLi').show();
+        $('#myMessage').show();
+        $('#warningMessage').hide();
+
+    }
+
+    //展示报警消息
+    function showWarningMessage() {
+        $('#sendMessageLi').hide();
+        $('#warningMessage').show();
+        $('#myMessage').hide();
+    }
+
+    //点击checkbox时，已读和删除图标置于可用状态，如果没有选中任何消息时，置于不可用状态
+    function checkboxSelect() {
+        var checkbox = $api.domAll('.aui-radio');
+        var num = 0;
+        for (var i = 0; i < checkbox.length; i++) {
+            if ($api.hasCls(checkbox[i], 'aui-checked')) {
+                num += 1;
+            }
+        }
+        if (num == 0) {
+            $('#footer').find('#delete').removeClass('delete_active');
+            $('#footer').find('#yidu').removeClass('yidu_active');
+        } else {
+            $('#footer').find('#delete').addClass('delete_active');
+            $('#footer').find('#yidu').addClass('yidu_active');
+        }
+    }
+
+    //点击消息时，打开消息详情页面
+    function openDetail() {
+        var auiList = $api.domAll('.auiMessageList');
+        for (var i = 0; i < auiList.length; i++) {
+            var hammer = new Hammer(auiList[i]);
+            hammer.on("tap", function(ret) {
+                var dom = $(ret.target);
+                var domCls = dom.attr('class');
+                var domId = dom.parents('.flex-con').attr('id');
+                var id = dom.parents('.aui-list-item').attr('data-id');
+                if (!$api.getStorage('editMessage')) {
+                    if (domId == 'myMessage') {
+                        api.openWin({
+                            name: 'messageDetails',
+                            url: './messageDetails.html',
+                            pageParam: {
+                                type: 'my',
+                                id: id
+                            }
+                        });
+                    } else if (domId == 'warningMessage') {
+                        api.openWin({
+                            name: 'messageDetails',
+                            url: './messageDetails.html',
+                            pageParam: {
+                                type: 'warning',
+                                id: id
+                            }
+                        });
+                    }
+                } else {
+                    dom.parents('.aui-list-item').find('.aui-radio').toggleClass('aui-checked');
+                    var checkboxArr = $api.domAll('#myMessage .aui-radio');
+                    var checkedNum = 0;
+                    for (var i = 0; i < checkboxArr.length; i++) {
+                        if (!$(checkboxArr[i]).hasClass('aui-checked')) {
+                            $('#selectAll').removeClass('selectAll_active');
+                        } else {
+                            ++checkedNum;
+                        }
+                    }
+                    if (checkedNum == checkboxArr.length) {
+                        $('#selectAll').addClass('selectAll_active');
+                    }
+                    checkboxSelect();
+                }
+            })
+        }
+
+
+    }
+
+    //长按消息时进入编辑模式
+    function longpress() {
+        var list = $api.domAll('.auiMessageList');
+        for (var i = 0; i < list.length; i++) {
+            var hammer = new Hammer(list[i]);
+            hammer.get('press').set({
+                time: 300
+            });
+            hammer.on("press", function(e) {
+                var dom = $(e.target);
+                dom.parents('.aui-list-item').find('.aui-radio').addClass('aui-checked');
+                $('#footer').find('#delete').addClass('delete_active');
+                $('#footer').find('#yidu').addClass('yidu_active');
+                $('#delete').on('touchstart', function() {
+                    if ($(this).hasClass('delete_active')) {
+                        api.openFrame({
+                            name: 'delete_frame',
+                            url: './delete_frame.html',
+                            rect: {
+                                x: 0,
+                                y: 0,
+                                w: 'auto',
+                                h: 'auto'
+                            },
+                            pageParam: {
+                                msg: '确定要删除吗？',
+                                winName: 'main',
+                                frameName: 'messageList_frame',
+                                jsfun: "deleteMyMessage();"
+                            },
+                            bounces: false,
+                            bgColor: 'rgba(0,0,0,0.1)',
+                        });
+                    }
+                })
+                api.execScript({
+                    name: 'main',
+                    frameName: 'message_frame',
+                    script: 'showClose();'
+                });
+                $api.setStorage('editMessage', true);
+            })
+        };
+
+    }
+
+    //删除站内消息
+    function deleteMyMessage() {
+        var checkboxs = $api.domAll('#myMessage .aui-radio');
+        var ids = [];
+        for (var i = 0; i < checkboxs.length; i++) {
+            if ($(checkboxs[i]).hasClass('aui-checked')) {
+                var id = $(checkboxs[i]).parents('.auiMessageList').attr('data-id');
+                ids.push(id);
+            }
+        }
+        alert(JSON.stringify(ids));
+        // fnGet('services/app/Message/DeleteMessage?Ids=' + ids + '', {}, false, function(ret, err) {
+        //
+        // })
+    }
+
+    //显示我的消息的checkbox
+    function showMyMessageCheckbox() {
+        $('#myMessage .aui-radio').fadeIn(100);
+    }
+
+    //显示报警消息的checkbox
+    function showWarningMessageCheckbox() {
+        $('#warningMessage .aui-radio').fadeIn(100);
+    }
+
+    //全选
+    function selectAll() {
+        $('#selectAll').toggleClass('selectAll_active');
+        api.execScript({
+            name: 'main',
+            frameName: 'message_frame',
+            script: 'selectAll();'
+        });
+
+    }
+
+    //我的消息全选以及底部工具栏展示
+    function myMessageSelectAll() {
+        if ($('#selectAll').hasClass('selectAll_active')) {
+            $('#myMessage .aui-radio').addClass('aui-checked');
+            $('#footer').find('#delete').addClass('delete_active');
+            $('#footer').find('#yidu').addClass('yidu_active');
+        } else {
+            $('#myMessage .aui-radio').removeClass('aui-checked');
+            $('#footer').find('#delete').removeClass('delete_active');
+            $('#footer').find('#yidu').removeClass('yidu_active');
+        }
+    }
+
+    //报警消息全选以及底部工具栏展示
+    function warningMessageSelectAll() {
+        if ($('#selectAll').hasClass('selectAll_active')) {
+            $('#warningMessage .aui-radio').addClass('aui-checked');
+            $('#footer').find('#delete').addClass('delete_active');
+            $('#footer').find('#yidu').addClass('yidu_active');
+        } else {
+            $('#warningMessage .aui-radio').removeClass('aui-checked');
+            $('#footer').find('#delete').removeClass('delete_active');
+            $('#footer').find('#yidu').removeClass('yidu_active');
+        }
+    }
+
+    //进入编辑模式时，点击左上角关闭图标退出编辑模式
+    function fnCloseCheckBox(tab) {
+        $api.rmStorage('editMessage');
+        if (tab == 0) {
+            $('#myMessage .aui-radio').fadeOut(100);
+        } else {
+            $('#warningMessage .aui-radio').fadeOut(100);
+        }
+        $('#selectAll').removeClass('selectAll_active');
+        $('.aui-list-item .aui-radio').removeClass('aui-checked');
+        $('#footer').find('#delete').removeClass('delete_active');
+        $('#footer').find('#yidu').removeClass('yidu_active');
+    }
+
+    //打开发送消息页面
+    function sendMessage() {
+        api.openWin({
+            name: 'sendMessage',
+            url: './sendMessage.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+</script>
+
+</html>

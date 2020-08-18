@@ -1,0 +1,1324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>更新数据</title>
+    <link rel="stylesheet" type="text/css" href="../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../public/css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../public/css/dialog.css">
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            background-color: #ffffff;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+        }
+
+        #center {
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        #download {
+            background-color: #03A9F4;
+            color: #ffffff;
+            border-radius: 20px;
+            font-size: 18px;
+            width: 80%;
+            height: 40px;
+            margin-left: 10%;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav aui-border-b" id="header">
+        <div class="aui-pull-left aui-btn" tapmode onclick="fnReturnMyInfo();">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">更新数据</div>
+    </header>
+    <div id="center">
+        <div class="center_top">
+
+        </div>
+        <div class="center_bottom">
+            <div id="download" onclick="downloadBaseData()">下载</div>
+        </div>
+    </div>
+
+    <div id="footer">
+
+    </div>
+</body>
+<script type="text/javascript" src="../../public/script/api.js"></script>
+<script type="text/javascript" src="../../public/script/common.js"></script>
+<script type="text/javascript" src="../script/cbpublic.js"></script>
+<script type="text/javascript" src="../script/cbremote.js"></script>
+<script type="text/javascript" src="../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../public/script/diy/template.js"></script>
+<script type="text/javascript">
+    var CBB = 0X071,
+        STATUS = 0X072,
+        PARAM = 0X073,
+        PERMISS = 0X074,
+        USERPERMISS = 0X075,
+        AREA = 0X076;
+    ONLINE = 0X077;
+    DXMB = 0X078; //DXMB短信模板
+    var downlaodTag = 0; //下载标识,当前下载到哪一种
+    var dtr = [];
+    var bool = true; //用来判断是否是本月第一次下载基础数据
+    var year = ""; //获取系统的年；
+    var month = ""; //获取系统月份，由于月份是从0开始计算，所以要加1
+    var date = "";
+
+    var UserId = "";
+    var UserName = "";
+    var Password = "";
+    var LoginName = "";
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+
+        $('#center').css('margin-top', '' + headerH + 'px');
+        LoginName = $api.getStorage('loginData').userName;
+        year = Time("year"); //获取系统的年；
+        month = Time("month"); //获取系统月份，由于月份是从0开始计算，所以要加1
+        date = year + "" + month
+
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            api.sendEvent({
+                name: 'newPERMISSION'
+            });
+            api.closeWin();
+        })
+
+        if ($api.getStorage('cbOperatorId') == null || $api.getStorage('cbOperatorId') == "") {
+            //没有通过判断的抄表员账号
+            UserId = $api.getStorage('yptOperatorId');
+            UserName = $api.getStorage('yptOperatorName');
+            Password = $api.getStorage('yptPassword');
+            if (UserName == null || UserName == "" || Password == null || Password == "") {
+                api.alert({
+                    title: '提示',
+                    msg: '未获取到对应抄表员数据',
+                }, function(ret, err) {
+                    if (ret) {
+                        api.closeWin();
+                    } else {}
+                });
+            } else {
+                getUserInfo();
+            }
+        } else {
+            //有账号判断保存的账号和当前登录的抄表员是否相同
+            if ($api.getStorage('cbOperatorId') == $api.getStorage('yptOperatorId')) {
+                //相同就是一个账号
+                createTable();
+            } else {
+                //不相同，需要重新判断抄表员账号
+                UserId = $api.getStorage('yptOperatorId');
+                UserName = $api.getStorage('yptOperatorName');
+                Password = $api.getStorage('yptPassword');
+                if (UserName == null || UserName == "" || Password == null || Password == "") {
+                    api.alert({
+                        title: '提示',
+                        msg: '未获取到对应抄表员数据',
+                    }, function(ret, err) {
+                        if (ret) {
+                            api.closeWin();
+                        } else {}
+                    });
+                } else {
+                    getUserInfo();
+                }
+            }
+        }
+
+        // if ($api.getStorage('yptOperatorId') == null || $api.getStorage('yptOperatorId') == "") {
+        //     $api.setStorage('cbOperatorId', $api.getStorage('yptOperatorId'));
+        //     $api.setStorage('cbOperatorName', $api.getStorage('yptOperatorName'));
+        //     $api.setStorage('cbPassword', $api.getStorage('yptPassword'));
+        // }
+        //
+        // api.addEventListener({
+        //     name: 'keyback'
+        // }, function(ret, err) {
+        //     api.sendEvent({
+        //         name: 'newPERMISSION'
+        //     });
+        //     api.closeWin();
+        // })
+        //
+        // createTable();
+    };
+
+    function getUserInfo() {
+        var connectionType = api.connectionType;
+        if (connectionType == "none") {
+            if ($api.getStorage('cbOperatorId') == $api.getStorage('yptOperatorId')) {
+                createTable();
+            } else {
+                api.alert({
+                    title: '提示',
+                    msg: '当前账号没有通过验证，请连接网络后重新尝试',
+                }, function(ret, err) {
+                    if (ret) {
+                        api.closeWin();
+                    } else {}
+                });
+            }
+        } else {
+            var Parameter = {
+                "ClientId": api.deviceId,
+                "ClientName": api.deviceModel,
+                "OperatorId": $api.getStorage('yptOperatorId'),
+                "OperatorName": $api.getStorage('yptOperatorName'),
+                "Required": '',
+                "Type": '101'
+            }
+            var body = {
+                body: JSON.stringify({
+                    "UserName": $api.getStorage('yptOperatorName'),
+                    "Password": $api.getStorage('yptPassword'),
+                    "SerialNo": dataTime(),
+                    "Method": "R999",
+                    "Parameter": JSON.stringify(Parameter)
+                })
+            };
+            //alert(body.body);
+            fnPost('', body, 'application/json', false, function(ret, err) {
+                if (ret) {
+                    if (ret.Status == 0) {
+                        var Data = [];
+                        if (ret.Data != "" && ret.Data != " ") {
+                            Data = JSON.parse(ret.Data);
+                        }
+                        if (Data.length > 0) {
+                            for (var i = 0; i < Data.length; i++) {
+                                if (Data[i].ID == UserId) {
+                                    $api.setStorage('cbOperatorId', Data[i].ID);
+                                    $api.setStorage('cbOperatorName', Data[i].DLZH);
+                                    $api.setStorage('cbPassword', Password);
+                                    $api.setStorage('cbOperatorMoblie', Data[i].GDDH);
+                                    break;
+                                }
+                            }
+                        } else {
+                            api.alert({
+                                title: '提示',
+                                msg: "抄表员账号验证失败，没有对应的账号信息",
+                            }, function(ret, err) {
+                                if (ret) {
+                                    api.closeWin();
+                                } else {}
+                            });
+                        }
+                    } else {
+                        api.alert({
+                            title: '提示',
+                            msg: ret.Message,
+                        }, function(ret, err) {
+                            if (ret) {
+                                api.closeWin();
+                            } else {}
+                        });
+                    }
+                } else {
+                    if ($api.getStorage('cbOperatorId') == $api.getStorage('yptOperatorId')) {
+
+                    } else {
+                        api.alert({
+                            title: '提示',
+                            msg: err.msg,
+                        }, function(ret, err) {
+                            if (ret) {
+                                api.closeWin();
+                            } else {}
+                        });
+                    }
+
+                }
+                createTable();
+            });
+        }
+    }
+
+    //创建基础数据的表
+    function createTable() {
+        var db = api.require("db");
+        var path = 'fs://Sntsoft/Data/CBtest.db';
+        db.openDatabase({
+            name: 'CBtest',
+            path: path
+        }, function(ret, err) {
+            if (ret.status) {
+                api.showProgress({
+                    title: '加载中',
+                    modal: false
+                });
+
+                //创建基础数据下载日期记录表
+                //alert("查询基础数据下载日期记录表");
+                var dtrsdata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_DTR_BEAN where userName="' + LoginName + '"'
+                });
+                //alert(JSON.stringify(dtrsdata));
+                if (!dtrsdata.status) {
+                    //alert("创建基础数据下载日期记录表")
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE MRM_DTR_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"userName" TEXT,"XZRQ" TEXT)'
+                    });
+                    //alert(JSON.stringify(ret));
+                } else {
+                    dtr = dtrsdata.data;
+                }
+                //alert("dtr:" + dtr);
+
+                //抄表册
+                var booksdata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_BOOKS_BEAN'
+                });
+                if (!booksdata.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_BOOKS_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"userName" TEXT,"ID" TEXT,"CBCH" TEXT,"CBCMC" TEXT,"BBCYHZS" TEXT,"DQCBXH" TEXT,"YZM" TEXT,"SFSC" TEXT,"SFTX" TEXT,"JHR" TEXT,"YCSM" TEXT,"YSC" TEXT,"YC" TEXT,"WC" TEXT,"YXZ" TEXT,"XZDD" TEXT,"CBBRZ" TEXT,"CBBDATA" TEXT,"CBNUMER" TEXT,"NOTDOWNLOAD" TEXT,"GDSBS" INTEGER,"XCYH" TEXT)'
+                    });
+                }
+
+                //水表状态
+                var statusdata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_METERSTATE_BEAN'
+                });
+                if (!statusdata.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE MRM_METERSTATE_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"userName" TEXT,"BH" TEXT,"MC" TEXT,"SLLRFS" TEXT,"CBZTID" TEXT,"CBZT" TEXT)'
+                    });
+                }
+
+                //系统参数
+                var deploysdata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_DEPLOYS_BEAN'
+                });
+                if (!deploysdata.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_DEPLOYS_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"userName" TEXT,"CODE" TEXT,"VALUE" TEXT)'
+                    });
+                }
+
+                //权限数据
+                var permissionalldata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_PERMISSION_ALL_BEAN'
+                });
+                if (!permissionalldata.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_PERMISSION_ALL_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"userName" TEXT,"ID" TEXT,"NAME" TEXT,"DESCRIPTION" TEXT,"SORT" TEXT)'
+                    });
+                }
+
+                //用户权限
+                var userpermissiondata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_USER_PERMISSION_BEAN'
+                });
+                if (!userpermissiondata.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_USER_PERMISSION_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"userName" TEXT,"ID" TEXT,"FUNCTION_ID" TEXT,"OPERATOR_ID" TEXT,"IS_DISMINSS" TEXT)'
+                    });
+                }
+
+                //地理围栏
+                var areadata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_AREA_BEAN'
+                });
+                if (!areadata.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_AREA_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"userName" TEXT,"ID" TEXT,"BOOK_ID" TEXT,"LNG" TEXT,"LAT" TEXT,"SORT" INTEGER NOT NULL )'
+                    });
+                }
+
+                //数据字典
+                var areadata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_ONLINE_BEAN'
+                });
+                if (!areadata.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_ONLINE_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"userName" TEXT,"ID" TEXT,"NAME" TEXT,"TYPEID" TEXT)'
+                    });
+                }
+
+                //创建短信模板表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_SHORT_MEESSAGE_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE MRM_SHORT_MEESSAGE_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"userName" TEXT,"ID" TEXT,"MBMC" TEXT,"MBNR" TEXT,"MBSL" TEXT)'
+                    });
+                }
+
+                api.hideProgress();
+            }
+        })
+    }
+
+    //开始下载
+    function downloadBaseData() {
+        if ($('#download').html() == "完成") {
+            api.sendEvent({
+                name: 'newPERMISSION'
+            });
+            fnReturnMyInfo();
+        } else {
+            //alert(JSON.stringify(dtr));
+            var db = api.require('db');
+            if (dtr.length > 0) {
+                if (dtr[0].XZRQ == date) {
+                    bool = false;
+                }
+            }
+
+            if (bool) {
+                // if (dataQuery()) {
+                //     alert("当前数据中存在未上传的数据,无法更新数据。");
+                //     return;
+                // }
+                api.confirm({
+                    title: '提示消息',
+                    msg: '该操作会清空已有基础数据，确认下载?',
+                    buttons: ['确定', '取消']
+                }, function(ret, err) {
+                    var index = ret.buttonIndex;
+                    if (index == 1) {
+                        if (dtr.length > 0) {
+                            if (dtr[0].XZRQ == date) {
+                                bool = false;
+                            } else {
+                                //alert("修改时间");
+                                var ret = db.executeSqlSync({
+                                    name: 'CBtest',
+                                    sql: 'update MRM_DTR_BEAN set XZRQ="' + date + '" where _id="' + dtr[0]._id + '" and userName="' + LoginName + '"'
+                                });
+                                //alert(JSON.stringify(ret));
+                            }
+                        } else {
+                            //alert("新增时间");
+                            var ret = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: 'INSERT INTO MRM_DTR_BEAN(userName, XZRQ) VALUES ("' + LoginName + '","' + date + '")'
+                            });
+                            //alert(JSON.stringify(ret));
+                        }
+
+                        downlaodDatas();
+                    }
+                });
+            } else {
+                $('.center_top').append("更新抄表册...</br>");
+                updateBCB();
+            }
+        }
+    }
+
+    function updateBCB() {
+        //更新抄表册数据
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage("cbOperatorId"),
+            "OperatorName": $api.getStorage("cbOperatorName"),
+            "Required": '',
+            "Type": '103'
+        }
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage("cbOperatorName"),
+                "Password": $api.getStorage("cbPassword"),
+                "SerialNo": "20191212112600",
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost1('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    if (ret.Data != '') {
+                        Booksdata = [];
+                        if (ret.Data != "" && ret.Data != " ") {
+                            Booksdata = JSON.parse(ret.Data);
+                        }
+
+                        var db = api.require('db');
+                        for (var i in Booksdata) {
+                            var bookdata = db.selectSqlSync({
+                                name: 'CBtest',
+                                sql: 'select * from MRM_BOOKS_BEAN where CBCH="' + Booksdata[i].CBCH + '" and userName="' + LoginName + '"'
+                            });
+                            console.log(JSON.stringify(bookdata));
+                            var sql = "";
+                            if (bookdata.data.length > 0) {
+                                sql = 'update MRM_BOOKS_BEAN set ' +
+                                    'ID="' + Booksdata[i].ID + '" ' +
+                                    'CBCMC="' + Booksdata[i].CBCMC + '" ' +
+                                    'BBCYHZS="' + Booksdata[i].BBCYHZS + '" ' +
+                                    'DQCBXH="' + Booksdata[i].DQCBXH + '" ' +
+                                    'YCSM="' + Booksdata[i].YCSM + '" ' +
+                                    'JHR="' + Booksdata[i].JHR + '" ' +
+                                    'where CBCH="' + Booksdata[i].CBCH + '" and userName="' + LoginName + '"';
+                            } else {
+                                sql = 'INSERT INTO MRM_BOOKS_BEAN(userName, ID, CBCH, CBCMC, BBCYHZS, DQCBXH,YCSM,JHR,GDSBS,XCYH,YC,WC,YSC,CBNUMER) VALUES ("' + LoginName + '","' + Booksdata[i].ID + '",' +
+                                    '"' + Booksdata[i].CBCH + '",' +
+                                    '"' + Booksdata[i].CBCMC + '",' +
+                                    '"' + Booksdata[i].BBCYHZS + '",' +
+                                    '"' + Booksdata[i].DQCBXH + '",' +
+                                    '"' + Booksdata[i].YCSM + '",' +
+                                    '"' + Booksdata[i].JHR + '",' +
+                                    '"0","0","0","0","0","0")';
+                            }
+
+                            var ret = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: sql
+                            });
+                        }
+                        $('.center_top').append("更新抄表册成功</br>");
+                    }
+                } else {
+                    $('.center_top').append("更新抄表册失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                alert(JSON.stringify(err));
+            }
+
+            $('#download').html("完成");
+            $('#download').css("background-color", "#69BB20");
+        })
+    }
+
+    function downlaodDatas() {
+        if (downlaodTag < CBB) {
+            $('.center_top').append("下载抄表册...</br>");
+            downLoadBooks();
+        } else if (downlaodTag < STATUS) {
+            $('.center_top').append("下载水表状态...</br>");
+            beginDownLoadMeterState();
+        } else if (downlaodTag < PARAM) {
+            $('.center_top').append("下载系统参数...</br>");
+            beginDownLoadSysData();
+        } else if (downlaodTag < PERMISS) {
+            $('.center_top').append("下载系统模块...</br>");
+            beginDownLoadAllPromiss();
+        } else if (downlaodTag < USERPERMISS) {
+            $('.center_top').append("下载用户权限模块...</br>");
+            beginDownLoadUserPromiss();
+        } else if (downlaodTag < AREA) {
+            $('.center_top').append("下载地理围栏...</br>");
+            beginDownLoadArea();
+        } else if (downlaodTag < ONLINE) {
+            $('.center_top').append("下载下拉列表数据...</br>");
+            beginDownLoadOnline();
+        } else if (downlaodTag < DXMB) {
+            $('.center_top').append("下载短信模板...</br>");
+            beginDownLoadDxmb();
+        } else {
+            downlaodTag = 0;
+            $('#download').html("完成");
+            $('#download').css("background-color", "#69BB20");
+            insertRecords("下载基础数据", "下载基础数据完成");
+        }
+    }
+
+    //下载抄表本信息
+    function downLoadBooks() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Type": "103",
+            "Required": "",
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": datetime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+        console.log(body.body);
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            console.log(JSON.stringify(ret));
+            if (ret) {
+                if (ret.Status == 0) {
+                    deleteboods();
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: "INSERT INTO MRM_BOOKS_BEAN " +
+                                    "(userName, ID, CBCH, CBCMC, BBCYHZS, DQCBXH, JHR, YCSM, SFSC, SFTX, YSC, YC, WC, YXZ, XZDD, GDSBS, XCYH, CBNUMER) VALUES " +
+                                    "('" + LoginName +
+                                    "', '" + Data[i].ID +
+                                    "', '" + Data[i].CBCH +
+                                    "', '" + Data[i].CBCMC +
+                                    "', '" + Data[i].BBCYHZS +
+                                    "', '" + Data[i].DQCBXH +
+                                    "', '" + Data[i].JHR +
+                                    "', '" + Data[i].YCSM + "', '0', '0', '0', '0', '0', '0', '0', '0', '0', '0')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无当前账号对应抄表本!',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载抄表册成功</br>");
+                    downlaodTag = CBB;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载抄表册失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
+    }
+
+    //下载水表状态
+    function beginDownLoadMeterState() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Type": "104",
+            "Required": "",
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": datetime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    deletestatus();
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                        console.log(JSON.stringify(Data));
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: "INSERT INTO MRM_METERSTATE_BEAN " +
+                                    "(userName, BH, MC, SLLRFS, CBZTID, CBZT) VALUES " +
+                                    "('" + LoginName +
+                                    "', '" + Data[i].BH +
+                                    "', '" + Data[i].MC +
+                                    "', '" + Data[i].SLLRFS +
+                                    "', '" + Data[i].CBZTID +
+                                    "', '" + Data[i].CBZT + "')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无水表状态返回',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载水表状态成功</br>");
+                    downlaodTag = STATUS;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载水表状态失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
+    }
+
+    //下载系统参数
+    function beginDownLoadSysData() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Type": "105",
+            "Required": "",
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": datetime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    deletedeploys();
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: "INSERT INTO MRM_DEPLOYS_BEAN " +
+                                    "(userName, CODE, VALUE) VALUES " +
+                                    "('" + LoginName + "', '" + Data[i].CODE +
+                                    "', '" + Data[i].VALUE + "')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无系统参数返回',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载系统参数成功</br>");
+                    downlaodTag = PARAM;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载系统参数失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
+    }
+
+    //下载权限数据
+    function beginDownLoadAllPromiss() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Type": "131",
+            "Required": "",
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": datetime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    deletepermissionall();
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: "INSERT INTO MRM_PERMISSION_ALL_BEAN " +
+                                    "(userName, ID, NAME, DESCRIPTION, SORT) VALUES ('" +
+                                    LoginName + "','" +
+                                    Data[i].ID + "','" +
+                                    Data[i].NAME + "','" +
+                                    Data[i].DESCRIPTION + "','" +
+                                    Data[i].SORT + "')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无权限数据返回',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载系统模块成功</br>");
+                    downlaodTag = PERMISS;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载系统模块失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
+    }
+
+    //下载用户权限
+    function beginDownLoadUserPromiss() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Type": "132",
+            "Required": "",
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": datetime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    deleteuserpermission();
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: "INSERT INTO MRM_USER_PERMISSION_BEAN " +
+                                    "(userName, FUNCTION_ID, OPERATOR_ID, IS_DISMINSS) VALUES ('" +
+                                    LoginName + "','" +
+                                    Data[i].FUNCTION_ID + "','" +
+                                    Data[i].OPERATOR_ID + "','" +
+                                    Data[i].IS_DISMINSS + "')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无权限数据返回',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载用户权限成功</br>");
+                    downlaodTag = USERPERMISS;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载用户权限失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
+    }
+
+    //下载地理围栏
+    function beginDownLoadArea() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Type": "125",
+            "Required": "",
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": datetime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    deletearea();
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: "INSERT INTO MRM_AREA_BEAN " +
+                                    "(userName, ID, BOOK_ID, LNG, LAT, SORT) VALUES ('" + LoginName +
+                                    "', '" + Data[i].ID +
+                                    "', '" + Data[i].BOOK_ID +
+                                    "', '" + Data[i].LNG +
+                                    "', '" + Data[i].LAT +
+                                    "', '" + Data[i].SORT + "')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无地理围栏返回',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载地理围栏成功</br>");
+                    downlaodTag = AREA;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载地理围栏失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
+    }
+
+    //下载下拉列表数据
+    function beginDownLoadOnline() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Type": "136",
+            "Required": ""
+
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                var photoList = [];
+                if (ret.Status == 0) {
+                    deletonline();
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: "INSERT INTO MRM_ONLINE_BEAN " +
+                                    "(userName, ID, NAME, TYPEID) VALUES " +
+                                    "('" + LoginName +
+                                    "', '" + Data[i].ID +
+                                    "', '" + Data[i].NAME +
+                                    "', '" + Data[i].TYPEID + "')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无地下拉列表数据返回',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载下拉列表数据成功</br>");
+                    downlaodTag = ONLINE;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载下拉列表数据失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        });
+    }
+
+    //下载短信模板
+    function beginDownLoadDxmb() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": '',
+            "Type": '149'
+        }
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                var photoList = [];
+                if (ret.Status == 0) {
+                    deletondxmb();
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: 'INSERT INTO MRM_SHORT_MEESSAGE_BEAN(userName,ID,MBMC,MBNR,MBSL) VALUES ("' + LoginName + '","' + Data[i].ID + '","' + Data[i].MBMC + '","' + Data[i].MBNR + '","' + Data[i].MBSL + '")'
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无短信模板数据返回',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载短信模板数据成功</br>");
+                    downlaodTag = DXMB;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载短信模板数据失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+        })
+    }
+
+    function deleteboods() {
+        var db = api.require('db');
+        var book = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_BOOKS_BEAN where userName="' + LoginName + '"'
+        });
+        var user = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_USER_BEAN where userName="' + LoginName + '"'
+        });
+        var user = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_NAVIPHOTOS_BEAN where userName="' + LoginName + '"'
+        });
+        var user = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_METER_LOCATION_BEAN where userName="' + LoginName + '"'
+        });
+        var storang = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_MEESSAGE_STORANG_BEAN where userName="' + LoginName + '"'
+        });
+        var historys = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_HISTORYS_BEAN where userName="' + LoginName + '"'
+        });
+        var workorder = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_WORKORDER_BEAN where userName="' + LoginName + '"'
+        });
+        var workorder = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_WORKORDERPHOTOS_BEAN where userName="' + LoginName + '"'
+        });
+        var photo = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_PHOTOS_BEAN where userName="' + LoginName + '"'
+        });
+        if (photo.status) {
+            if (photo.data.length > 0) {
+                var LJ = photo.data[0].ZPLJ;
+                var index = LJ.lastIndexOf('/');
+                LJ = LJ.substring(0, index);
+                var fs = api.require('fs');
+                fs.rmdir({
+                    path: LJ
+                }, function(ret, err) {
+                    if (ret.status) {
+                        var photos = db.executeSqlSync({
+                            name: 'CBtest',
+                            sql: 'delete from MRM_PHOTOS_BEAN where userName="' + LoginName + '"'
+                        });
+                    } else {
+                        //alert(JSON.stringify(err));
+                    }
+                });
+            }
+        }
+
+    }
+
+    function deletestatus() {
+        var db = api.require('db');
+        var user = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_METERSTATE_BEAN where userName="' + LoginName + '"'
+        });
+    }
+
+    function deletedeploys() {
+        var db = api.require('db');
+        var user = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_DEPLOYS_BEAN where userName="' + LoginName + '"'
+        });
+    }
+
+    function deletepermissionall() {
+        var db = api.require('db');
+        var user = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_PERMISSION_ALL_BEAN where userName="' + LoginName + '"'
+        });
+    }
+
+    function deleteuserpermission() {
+        var db = api.require('db');
+        var user = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_USER_PERMISSION_BEAN where userName="' + LoginName + '"'
+        });
+    }
+
+    function deletearea() {
+        var db = api.require('db');
+        var user = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_AREA_BEAN where userName="' + LoginName + '"'
+        });
+    }
+
+    function deletonline() {
+        var db = api.require('db');
+        var user = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_ONLINE_BEAN where userName="' + LoginName + '"'
+        });
+    }
+
+    function deletondxmb() {
+        var db = api.require('db');
+        var user = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_SHORT_MEESSAGE_BEAN where userName="' + LoginName + '"'
+        });
+    }
+
+    //返回我的资料页面
+    function fnReturnMyInfo() {
+        api.sendEvent({
+            name: 'newPERMISSION'
+        });
+        api.closeWin({});
+    }
+
+    function datetime() {
+        var date = new Date(); //实例一个时间对象；
+        var year = getTime("year"); //获取系统的年；
+        var month = getTime("month"); //获取系统月份，由于月份是从0开始计算，所以要加1
+        var day = getTime("day"); //获取系统日
+        var hour = getTime("hour"); //获取系统时间
+        var minute = getTime("minute"); //分
+        var second = getTime("second"); //秒
+        var ZPMC = year + month + day + hour + minute + second + ""
+    }
+
+    function getTime(type) {
+        var date = new Date()
+        var time = null
+        switch (type) {
+            case 'year':
+                time = date.getFullYear().toString()
+                break
+            case 'month':
+                time = date.getMonth() + 1
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+            case 'day':
+                time = date.getDate()
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+            case 'hour':
+                time = date.getHours()
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+            case 'minute':
+                time = date.getMinutes()
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+            case 'second':
+                time = date.getSeconds()
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+        }
+        return time
+    }
+
+    function insertRecords(event, information) {
+        var db = api.require('db');
+        var ret = db.executeSqlSync({
+            name: 'CBtest',
+            sql: "INSERT INTO MRM_LOGS_BEAN " +
+                "(userName, ID, EVENT, INFORMATION, TIME) VALUES " +
+                "('" + LoginName +
+                "', '" + $api.getStorage('cbOperatorId') +
+                "', '" + event +
+                "', '" + information +
+                "', '" + dataTime() + "')"
+        });
+    }
+</script>
+
+</html>

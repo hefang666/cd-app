@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            flex-flow: column;
+            display: flex;
+            background-color: #F3F3F3;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #center {
+            display: flex;
+            flex-direction: row;
+            background-color: #fff;
+            padding: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .center_dv1 {
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .center_dv2 {
+            flex: 1;
+            font-size: 20px;
+            color: #626262;
+            margin-left: 20px;
+        }
+
+        .center_dv3 i {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">申报工单</div>
+    </header>
+    <div id="center">
+        <div class="center_dv1">异常类型</div>
+        <div class="center_dv2" onclick="alertList()" id="YCLXNAME">类型</div>
+        <div class="center_dv3" onclick="alertList()"><i class="aui-iconfont aui-icon-down"></i></div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+    var centerH, centerW;
+
+    var onlineName = []; //异常类型名称数据。
+    var onlineId = []; //异常类型值数据。
+    var workorderbean; //工单数据
+
+    var YHBH;
+    var YCLXID = ""; //异常类型编码
+    var YCLXNAME = ""; //异常类型名称
+    var pageParam;
+    var workordertype = 0;
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+
+        var body = $api.byId('bd');
+        bodyH = $api.offset(body).h;
+        bodyW = $api.offset(body).w;
+
+        var body = $api.byId('center');
+        centerH = $api.offset(body).h;
+        centerW = $api.offset(body).w;
+
+        $('#center').css('margin-top', '' + headerH + 'px');
+
+        pageParam = api.pageParam;
+        YHBH = api.pageParam.YHBH;
+
+        //返回键监听
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            if (pageParam != null && pageParam != "") {
+                if (pageParam.WinName == "userWorkOrder" || pageParam.WinName == "workOrderList" || pageParam.WinName == "MeterReading_userList") {
+                    var jsfun = 'show();';
+                    api.execScript({
+                        name: pageParam.WinName,
+                        script: jsfun
+                    });
+                }
+            }
+            api.closeWin();
+        });
+
+        queryYCLX();
+    };
+
+    function queryYCLX() {
+        var Parameter = {
+            "TypeId": "YWLX",
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "MMS103",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+        console.log(body.body);
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            console.log(JSON.stringify(ret));
+            if (ret) {
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        for (var i = 0; i < Data.length; i++) {
+                          if (Data[i].Id == "13" ||Data[i].Id == "3" ||Data[i].Id == "15" ||Data[i].Id == "16") {
+                            onlineId.push(Data[i].Id);
+                            onlineName.push(Data[i].Name);
+                          }
+                        }
+                    }
+
+                } else {
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err)
+                });
+            }
+            show();
+            openFrames(YCLXID, YCLXNAME);
+        });
+    }
+
+    function show() {
+        var db = api.require('db');
+        /*
+                //获取异常类型数据
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_ONLINE_BEAN where TYPEID="GDYCLX" order by ID'
+                });
+
+                if (ret.status) {
+                    if (ret.data.length > 0) {
+                        list = ret.data;
+                        for (var i = 0; i < list.length; i++) {
+                            onlineId.push(list[i].ID);
+                            onlineName.push(list[i].NAME);
+                        }
+                        //设置测试类型
+                        //onlineId.push("3");
+                        //onlineName.push("换表");
+                        //onlineId.push("15");
+                        //onlineName.push("三来");
+                        //onlineId.push("13");
+                        //onlineName.push("移改提");
+                    }
+                }
+        */
+        //获取工单数据
+        var workorderdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_WORKORDER_BEAN where YHBH="' + YHBH + '"'
+        });
+        if (workorderdata.status) {
+            if (workorderdata.data.length > 0) {
+                //有工单
+                workordertype = 1;
+                workorderbean = workorderdata.data[0];
+                $('#YCLXNAME').html(workorderbean.YCLXNAME);
+                YCLXID = workorderbean.YCLXID;
+                YCLXNAME = workorderbean.YCLXNAME;
+            } else {
+                //没有工单
+                workordertype = 0;
+                $('#YCLXNAME').html(onlineName[0]);
+                YCLXNAME = onlineName[0];
+                YCLXID = onlineId[0];
+            }
+        }
+    }
+
+    //获取查询的参数类型
+    function alertList() {
+        if (onlineId.length > 0) {
+            api.actionSheet({
+                buttons: onlineName
+            }, function(ret, err) {
+                var index = ret.buttonIndex;
+                if (index <= onlineId.length) {
+                    if (workordertype == 1 && workorderbean.YCLXID != onlineId[index - 1]) {
+                        api.confirm({
+                            title: '提示',
+                            msg: '已有工单，是否清除当前工单?',
+                            buttons: ['确定', '取消']
+                        }, function(ret, err) {
+                            var buttonIndex = ret.buttonIndex;
+                            if (buttonIndex == 1) {
+                                workordertype = 0;
+                                YCLXID = onlineId[index - 1];
+                                YCLXNAME = onlineName[index - 1];
+                                $('#YCLXNAME').html(YCLXNAME);
+                                api.closeFrameGroup();
+                                if (YCLXID == "3") {
+                                    api.openFrame({
+                                        name: 'workOrder_navFragment',
+                                        url: './workOrder_navFragment.html',
+                                        scrollEnabled: false,
+                                        bounces: false,
+                                        reload: true,
+                                        rect: {
+                                            x: 0,
+                                            y: headerH + centerH,
+                                            w: "auto",
+                                            h: "auto"
+                                        },
+                                        pageParam: {
+                                            YHBH: YHBH,
+                                            YCLXID: YCLXID,
+                                            YCLXNAME: YCLXNAME
+                                        }
+                                    });
+                                } else if (YCLXID == "15") {
+                                    api.openFrame({
+                                        name: 'workOrder_navFragment2',
+                                        url: './workOrder_navFragment2.html',
+                                        scrollEnabled: false,
+                                        bounces: false,
+                                        reload: true,
+                                        rect: {
+                                            x: 0,
+                                            y: headerH + centerH,
+                                            w: "auto",
+                                            h: "auto"
+                                        },
+                                        pageParam: {
+                                            YHBH: YHBH,
+                                            YCLXID: YCLXID,
+                                            YCLXNAME: YCLXNAME
+                                        }
+                                    });
+                                } else if (YCLXID == "13") {
+                                    api.openFrame({
+                                        name: 'workOrder_navFragment3',
+                                        url: './workOrder_navFragment3.html',
+                                        scrollEnabled: false,
+                                        bounces: false,
+                                        reload: true,
+                                        rect: {
+                                            x: 0,
+                                            y: headerH + centerH,
+                                            w: "auto",
+                                            h: "auto"
+                                        },
+                                        pageParam: {
+                                            YHBH: YHBH,
+                                            YCLXID: YCLXID,
+                                            YCLXNAME: YCLXNAME
+                                        }
+                                    });
+                                } else {
+                                    api.openFrame({
+                                        name: 'workOrder_navFragment4',
+                                        url: './workOrder_navFragment4.html',
+                                        scrollEnabled: false,
+                                        bounces: false,
+                                        reload: true,
+                                        rect: {
+                                            x: 0,
+                                            y: headerH + centerH,
+                                            w: "auto",
+                                            h: "auto"
+                                        },
+                                        pageParam: {
+                                            YHBH: YHBH,
+                                            YCLXID: YCLXID,
+                                            YCLXNAME: YCLXNAME
+                                        }
+                                    });
+                                }
+                            }
+                        });
+                    } else {
+                        YCLXID = onlineId[index - 1];
+                        YCLXNAME = onlineName[index - 1];
+                        $('#YCLXNAME').html(YCLXNAME);
+                        api.closeFrameGroup();
+                        if (YCLXID == "3") {
+                            api.openFrame({
+                                name: 'workOrder_navFragment',
+                                url: './workOrder_navFragment.html',
+                                scrollEnabled: false,
+                                bounces: false,
+                                reload: true,
+                                rect: {
+                                    x: 0,
+                                    y: headerH + centerH,
+                                    w: "auto",
+                                    h: "auto"
+                                },
+                                pageParam: {
+                                    YHBH: YHBH,
+                                    YCLXID: YCLXID,
+                                    YCLXNAME: YCLXNAME
+                                }
+                            });
+                        } else if (YCLXID == "15") {
+                            api.openFrame({
+                                name: 'workOrder_navFragment2',
+                                url: './workOrder_navFragment2.html',
+                                scrollEnabled: false,
+                                bounces: false,
+                                reload: true,
+                                rect: {
+                                    x: 0,
+                                    y: headerH + centerH,
+                                    w: "auto",
+                                    h: "auto"
+                                },
+                                pageParam: {
+                                    YHBH: YHBH,
+                                    YCLXID: YCLXID,
+                                    YCLXNAME: YCLXNAME
+                                }
+                            });
+                        } else if (YCLXID == "13") {
+                            api.openFrame({
+                                name: 'workOrder_navFragment3',
+                                url: './workOrder_navFragment3.html',
+                                scrollEnabled: false,
+                                bounces: false,
+                                reload: true,
+                                rect: {
+                                    x: 0,
+                                    y: headerH + centerH,
+                                    w: "auto",
+                                    h: "auto"
+                                },
+                                pageParam: {
+                                    YHBH: YHBH,
+                                    YCLXID: YCLXID,
+                                    YCLXNAME: YCLXNAME
+                                }
+                            });
+                        } else {
+                            api.openFrame({
+                                name: 'workOrder_navFragment4',
+                                url: './workOrder_navFragment4.html',
+                                scrollEnabled: false,
+                                bounces: false,
+                                reload: true,
+                                rect: {
+                                    x: 0,
+                                    y: headerH + centerH,
+                                    w: "auto",
+                                    h: "auto"
+                                },
+                                pageParam: {
+                                    YHBH: YHBH,
+                                    YCLXID: YCLXID,
+                                    YCLXNAME: YCLXNAME
+                                }
+                            });
+                        }
+                    }
+                }
+            });
+        } else {
+            api.toast({
+                msg: '没有异常类型数据',
+                duration: 2000,
+                location: 'top'
+            });
+        }
+
+    }
+
+    function openFrames(YCLXID, YCLXNAME) {
+        if (YCLXID == "3") {
+            api.openFrame({
+                name: 'workOrder_navFragment',
+                url: './workOrder_navFragment.html',
+                scrollEnabled: false,
+                bounces: false,
+                reload: true,
+                rect: {
+                    x: 0,
+                    y: headerH + centerH,
+                    w: "auto",
+                    h: "auto"
+                },
+                pageParam: {
+                    YHBH: YHBH,
+                    YCLXID: YCLXID,
+                    YCLXNAME: YCLXNAME
+                }
+            });
+        } else if (YCLXID == "15") {
+            api.openFrame({
+                name: 'workOrder_navFragment2',
+                url: './workOrder_navFragment2.html',
+                scrollEnabled: false,
+                bounces: false,
+                reload: true,
+                rect: {
+                    x: 0,
+                    y: headerH + centerH,
+                    w: "auto",
+                    h: "auto"
+                },
+                pageParam: {
+                    YHBH: YHBH,
+                    YCLXID: YCLXID,
+                    YCLXNAME: YCLXNAME
+                }
+            });
+        } else if (YCLXID == "13") {
+            api.openFrame({
+                name: 'workOrder_navFragment3',
+                url: './workOrder_navFragment3.html',
+                scrollEnabled: false,
+                bounces: false,
+                reload: true,
+                rect: {
+                    x: 0,
+                    y: headerH + centerH,
+                    w: "auto",
+                    h: "auto"
+                },
+                pageParam: {
+                    YHBH: YHBH,
+                    YCLXID: YCLXID,
+                    YCLXNAME: YCLXNAME
+                }
+            });
+        } else {
+            api.openFrame({
+                name: 'workOrder_navFragment4',
+                url: './workOrder_navFragment4.html',
+                scrollEnabled: false,
+                bounces: false,
+                reload: true,
+                rect: {
+                    x: 0,
+                    y: headerH + centerH,
+                    w: "auto",
+                    h: "auto"
+                },
+                pageParam: {
+                    YHBH: YHBH,
+                    YCLXID: YCLXID,
+                    YCLXNAME: YCLXNAME
+                }
+            });
+        }
+    }
+
+    var actionList = {
+        'back': function() {
+            if (pageParam != null && pageParam != "") {
+                if (pageParam.WinName == "userWorkOrder" || pageParam.WinName == "workOrderList" || pageParam.WinName == "MeterReading_userList") {
+                    var jsfun = 'show();';
+                    api.execScript({
+                        name: pageParam.WinName,
+                        script: jsfun
+                    });
+                }
+            }
+            api.closeWin();
+        }
+    }
+</script>
+
+</html>

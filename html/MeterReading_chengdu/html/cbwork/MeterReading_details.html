@@ -1,0 +1,4153 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>抄表详情</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style media="screen">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(243, 243, 243.1);
+            position: relative;
+        }
+
+        .content {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        .header .aui-pull-left {
+            padding-left: 1.2rem;
+        }
+
+        .header .aui-title {
+            font-size: 1.14rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .flex-wrap {
+            /*display: flex;*/
+            /*flex-flow: row;*/
+            width: 100%;
+            background: #fff;
+            /*height: 5.85rem;*/
+            background: rgba(243, 243, 243.1);
+            padding-bottom: 1rem;
+        }
+
+        .header .Allnumer {
+            position: absolute;
+            bottom: 0!important;
+            padding: 0!important;
+            height: auto!important;
+            width: 100%;
+        }
+
+        .header .Allnumer #Allnumer {
+            line-height: ;
+            padding: 0!important;
+            height: auto!important;
+            line-height: 0.7rem;
+            color: #fff;
+        }
+
+        .aui-btn>img {
+            max-width: 80%;
+        }
+
+        .flex-wrap-box {
+            flex: 1;
+            overflow: scroll;
+            margin-top: 3.5rem;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .line-left-blue {
+            border-left: .2rem solid #03a9f4;
+        }
+
+        .aui-list {
+            border: none;
+        }
+
+        .aui-grid [class*=aui-col-xs-]:active {
+            background-color: #fff;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #000000;
+            box-shadow: 0rem 0.05rem 0.13rem 0rem #c8c8c8;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            font-weight: 900;
+            padding-right: 1.21rem;
+        }
+
+        .aui-bar-nav .aui-pull-right {
+            padding-right: 0.7rem;
+        }
+
+        .section_one {
+            padding: 0.8rem 1.25rem;
+            background: white;
+            padding-bottom: 0.01rem;
+        }
+
+        .aui-card-list .section_one_box .box>div {
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(80, 80, 80, 1);
+        }
+        .aui-card-list .section_one_box .box>#ioformantionList>div {
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(80, 80, 80, 1);
+        }
+
+        .aui-card-list .section_one_box .box>div:before {
+            content: "";
+            display: table;
+        }
+
+        .aui-card-list .section_one_box .box>div:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .aui-card-list .section_one_box .box>div>span:nth-child(1) {
+            float: left;
+            text-align: left;
+            width: 50%;
+        }
+
+        .aui-card-list .section_one_box .box>div>span:nth-child(2) {
+            float: right;
+            text-align: left;
+            width: 50%;
+        }
+
+        .aui-card-list .section_one_box .box>div:last-child>span:nth-child(1) {
+            float: left;
+            text-align: left;
+            width: 70%;
+        }
+
+        .aui-card-list .section_one_box .box>div:last-child>span:nth-child(2) {
+            float: right;
+            text-align: right;
+            width: 30%;
+            color: rgba(48, 96, 237, 1);
+        }
+
+        .section_two {
+            border-radius: 0.5rem;
+            margin: 0.25rem 0.25rem;
+        }
+
+        .section_two .box>div:first-child {
+            padding-bottom: 0.5rem;
+        }
+
+        .section_two .box>div:first-child span:nth-child(1) {
+            width: 20%!important;
+            line-height: 2rem;
+        }
+
+        .section_two .box>div:first-child span:nth-child(2) {
+            width: 80%!important;
+        }
+        /*.section_two .box>div:nth-child(2) .textdiscript{
+        background: pink;
+      }*/
+        /*.section_two .box>div:nth-child(2) span:nth-child(2){
+        background: red;
+        width: 80%!important;
+      }*/
+
+        .section_two .state div {
+            display: inline-block;
+            background: rgba(0, 210, 123, 1);
+            border-radius: 0.8rem;
+            height: 2rem;
+            line-height: 2rem;
+            width: 7rem;
+            text-align: center;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            /*color: rgba(255, 255, 255, 1);*/
+        }
+
+        .section_two .box>div:last-child.dunumer span:nth-child(1) {
+            width: 50%;
+        }
+
+        .section_two .box>div:last-child.dunumer span:nth-child(1) {
+            overflow: hidden;
+            position: relative;
+            right: 0;
+            width: 50%;
+        }
+        .section_two .box>div:last-child.dunumer span:nth-child(2) {
+            overflow: hidden;
+            position: relative;
+            width: 50%;
+            /*background: pink;*/
+            text-align: left;
+            right: 0rem;
+            /*border-bottom: 1px solid rgba(206, 206, 206, 1);*/
+        }
+        #shijibiaoma{
+          color:#2F80F6!important;
+          margin-top: 0.5rem;
+        }
+        .section_two .box>div:last-child.dunumer .textdiscript {
+            position: absolute;
+            overflow: scroll;
+            display: inline-block;
+            width: 60%;
+            height: 1.5rem;
+            border-bottom: 1px solid rgba(206, 206, 206, 1);
+            font-weight: bold;
+            font-size: 1rem;
+            color:#000;
+        }
+        /*.section_two .box>div:last-child.dunumer span:nth-child(2) .textdiscript {
+
+            width: 40%;
+
+        }*/
+        .section_two .box>div:last-child.dunumer span:nth-child(3) .textdiscript {
+
+            width: 30%;
+
+        }
+
+        .changeDegrees {
+
+            border: 1px solid #102e7b!important;
+            color: #fff!important;
+            background: #3883f8;
+        }
+        .MustBeEntered {
+            background: #d7e2ff;
+            opacity: 0.8;
+        }
+        /*表号的样式*/
+        #biaohao{
+          position: relative;
+          margin-top: 0.8rem;
+          width: 100%;
+          overflow: hidden;
+          height: 2rem;
+          vertical-align: middle;
+          color:#2F80F6!important;
+          /*line-height: 50%;*/
+        }
+        #biaohao .textdiscript{
+          width: 70%;
+          overflow: scroll;
+          display: inline-block;
+          height: 1.6rem;
+          border-bottom: 1px solid rgba(206, 206, 206, 1);
+          font-weight: bold;
+          font-size: 1rem;
+          color:rgba(0, 210, 123, 1);
+        }
+        #biaohao .CodeScanning{
+          position: absolute;
+          right: 0.3rem;
+          top:3%;
+        }
+
+        .footer {
+            /*background: transparent;*/
+            /*padding-bottom: 0.3rem;*/
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(227, 227, 227, 1);
+        }
+
+        .footer>ul {
+            margin: 0.4rem 0.25rem;
+            background: transparent;
+        }
+
+        .footer>ul>li:nth-child(1)::before {
+            content: "";
+            display: table;
+        }
+
+        .footer>ul>li:nth-child(1)::after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .footer>ul>li:nth-child(1) {
+            display: flex;
+            width: 100%;
+            flex-flow: row;
+        }
+
+        .footer>ul>li:nth-child(1)>div {
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(80, 80, 80, 1);
+            /*float: left;*/
+            flex: 1;
+            width: 100%;
+            border-radius: 0.5rem;
+            background: #fff;
+            /*width: 5.71rem;
+        height: 3.83rem;*/
+            /*margin-bottom: 0.58rem;*/
+            margin-right: 0.58rem;
+            text-align: center;
+            line-height: 2.5rem;
+            overflow: hidden;
+        }
+
+        .footer>ul>li:nth-child(1)>div:active {
+            background: #bec5d0;
+        }
+
+        .delete:active {
+            background: #757575!important;
+        }
+
+        .reMeter:active {
+            background: #757575!important;
+        }
+
+        .footer>ul>li:nth-child(1)>div:active {}
+
+        .footer>ul>li:nth-child(1)>div:nth-child(1) {
+            width: 20%;
+        }
+
+        .footer>ul>li:nth-child(1)>div:nth-child(2) {
+            width: 20%;
+        }
+
+        .footer>ul>li:nth-child(1)>div:nth-child(1) {
+            width: 30%;
+        }
+
+        .footer>ul>li:nth-child(1)>div:nth-child(1) {
+            width: 30%;
+        }
+
+        .footer>ul:last-child>li>div {
+            margin-bottom: 0;
+        }
+
+        .footer>ul>li:nth-child(1)>div:last-child {
+            margin-right: 0;
+        }
+
+        .footer>ul>li:nth-child(1)>div img {
+            width: 1.5rem;
+            height: 1.5rem;
+            /*margin-left: 0.9rem;
+        margin-top: 0.5rem*/
+            margin: 0.5rem auto 0 auto;
+        }
+
+        .footer .Allsave {
+            width: 100%;
+            margin: 0 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer .Allsave>div:active {
+            background: #757575;
+        }
+
+        .footer .Allsave>div {
+            width: 98%;
+            border-radius: 0.5rem;
+            line-height: 2rem;
+            text-align: center;
+            background: rgba(47, 128, 246, 1);
+            padding-top: 0.3rem;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: #fff;
+        }
+
+        .icon {
+            padding-top: 1.4rem;
+            margin-top: 0.2rem;
+            margin-bottom: 0.2rem;
+            font-size: 0.6rem;
+            background: url() no-repeat center 0px;
+            background-size: auto 1.2rem;
+            text-align: center;
+            color: #6f95f2;
+        }
+
+        .icon.user {
+            background-image: url(../../image/MeterReading/depict_icon_lxr.png);
+            margin-left: 82%;
+            background-size: auto 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .icon.camera {
+            background-image: url(../../image/MeterReading/Audit_icon_photograph.png);
+            width: 2rem;
+            display: inline-block;
+            background-position: .2rem 0.1rem;
+            margin: 0;
+            margin-right: .1rem;
+        }
+
+        .icon.camera1 {
+            background-image: url(../../image/MeterReading/Audit_icon_photograph_2.png);
+            width: 4rem;
+            height: 4rem;
+            display: inline-block;
+            margin: 0;
+            margin-right: .75rem;
+            background-size: cover;
+        }
+
+        .icon.delete {
+            background-image: url(../../image/MeterReading/Audit_icon_close.png);
+            width: 2rem;
+            display: inline-block;
+            background-position: 0rem 0.1rem;
+            margin: 0;
+            margin-right: 0rem;
+        }
+
+        .icon.caret {
+            background-image: url(../../image/MeterReading/depict_icon_down.png);
+            /* width: 2rem; */
+            display: inline-block;
+            background-position: 91% 0.25rem;
+            /* margin: 0; */
+            margin-right: 0rem;
+            /* position: absolute; */
+            /* top: .25rem; */
+            /* right: .25rem; */
+        }
+
+        .user-title {
+            margin: .3rem auto;
+            width: 96%;
+            line-height: 1.3rem;
+            padding: .2rem 1.5rem;
+            color: white;
+            border-radius: .5rem;
+            background-image: linear-gradient(0deg, #83baff 0%, #6581eb 100%), linear-gradient( #3883f8, #3883f8);
+            box-shadow: 0rem 0rem 0rem 0rem #d7e2ff;
+        }
+
+        .box-line {
+            border: 1px solid #d7e2ff;
+            margin: 1rem auto;
+            width: 92%;
+            border-radius: .6rem;
+            box-shadow: 0.1rem 0.1rem 1.1rem 0.1rem #d7e2ff;
+        }
+
+        .aui-collapse-arrow {
+            font-weight: 900;
+        }
+
+        .aui-info {
+            padding: 0;
+            color: #222222;
+        }
+
+        .aui-card-list-content,
+        .aui-card-list-content-padded {
+            line-height: 1.2rem;
+        }
+
+        @media screen and (-webkit-min-device-pixel-ratio: 1.5) {
+            .aui-list {
+                background-size: 0;
+            }
+            .aui-border-t {
+                border-top: 1px solid #dddddd;
+                background-size: 0;
+            }
+        }
+
+        .getpic {
+            height: 3rem;
+            line-height: 3rem;
+            padding: 0 2rem;
+            display: flex;
+            border-bottom: 1px solid #f3f3f3;
+        }
+
+        .Picture {
+            display: flex;
+            padding: 0.4rem 2rem;
+            flex-wrap: wrap;
+            display: none;
+        }
+
+        .get-img {
+            width: 2rem;
+            position: absolute;
+            right: 2rem;
+            top: 1.2rem
+        }
+
+        .picBox {
+            position: relative;
+            padding: 0.2rem;
+        }
+
+        .delpic {
+            position: absolute;
+            top: -.2rem;
+            right: -0.2rem;
+            width: 1rem;
+        }
+
+        .aui-list [class*=aui-col-xs-] img {
+            height: 4rem;
+            width: 4rem;
+            border-radius: .5rem;
+        }
+
+        .camera_color {
+            display: none;
+        }
+
+        .aui-card-list,
+        .aui-list {
+            border-radius: .4rem;
+        }
+
+        .aui-collapse-header.aui-active {
+            background: #fff;
+            border-radius: .4rem .4rem 0 0;
+        }
+
+        .aui-card-list-header,
+        .aui-card-list-footer {
+            padding: 0.5rem 0.75rem .5rem .5rem;
+        }
+
+        select {
+            width: 100%;
+            height: 1.8rem;
+            border-radius: 0.2rem;
+            border: solid 1px #bfbfbf;
+            color: #bfbfbf;
+        }
+
+        .aui-list-item-input textarea {
+            margin: 0.1rem 0;
+            height: auto;
+            color: #666666;
+        }
+
+        .section_three .section_card_two {
+            margin-bottom: 0;
+        }
+
+        .section_hidden {
+            display: none;
+        }
+
+        .section_three .section_card_two>div::before {
+            content: '';
+            display: table;
+        }
+
+        .section_three .section_card_two>div::after {
+            content: '';
+            display: table;
+            clear: both;
+        }
+
+        .section_three .section_card_two>div>div:first-child {
+            width: 20%;
+            float: left;
+        }
+
+        .section_three .section_card_two>div>div:last-child {
+            float: right;
+        }
+
+        .close {
+            width: 1.6rem;
+            height: 1.6rem;
+            background-size: 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-image: url(../../image/MeteReading/home/close.png);
+            position: absolute;
+            top: -0.5rem;
+            right: -0.5rem;
+        }
+
+        .ImgOrVideo {
+            width: 80%;
+            padding-bottom: 5px;
+            display: table !important;
+        }
+
+        .ImgOrVideo img {
+            width: 2.5rem !important;
+            height: 2rem;
+        }
+
+        .ImgOrVideo .aui-col-xs-4 {
+            margin-bottom: 0.5rem;
+        }
+
+        /*.closeHide {
+            display: none;
+        }*/
+
+        /*.transformed0 {
+            -webkit-transform: rotate(3deg);
+            -moz-transform: rotate(3deg);
+            -ms-transform: rotate(3deg);
+            transform: rotate(3deg);
+        }
+
+        .transformed1 {
+            -webkit-transform: rotate(0deg);
+            -moz-transform: rotate(0deg);
+            -ms-transform: rotate(0deg);
+            transform: rotate(0deg);
+        }
+
+        .transformed2 {
+            -webkit-transform: rotate(357deg);
+            -moz-transform: rotate(357deg);
+            -ms-transform: rotate(357deg);
+            transform: rotate(357deg);
+        }*/
+
+        .inner .aui-list-item-inner.infoDetails {
+            padding: 0.85rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: #999999;
+            letter-spacing: 0.1rem;
+        }
+
+        .backgroundskblue {
+            background: rgba(47, 128, 246, 1);
+            color: #fff;
+        }
+
+        .section_two .box>div:last-child,
+        .dunumer>span:last-child {
+            color: rgba(42, 42, 42, 1)!important;
+        }
+
+        /*#changeDegrees {
+            color: rgba(47, 128, 246, 1);
+        }*/
+
+        .user {
+            display: flex;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .user1 {
+            color: #2A2A2A;
+        }
+
+        .user2 {
+            color: #585858;
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+        #changeAddressSb>.user1{
+          width: 85%!important;
+        }
+        /*.userLoction{
+          flex: none!important;
+          overflow: none;
+        }*/
+        /*水表位置图片*/
+        #changeAddressSb{
+          position: relative;
+        }
+        #changeAddressSb .userstake-img{
+          background:#fff;
+          position: absolute!important;
+          top:4%;
+          right: 2%!important;
+          width: 1.5rem;
+          height: 1.5rem;
+          color: #2F80F6!important;
+
+          /*background-image:url(../../image/MeteReading/cbdatiles/zhaoxiang@2x.png);
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 100% 100%;*/
+
+        }
+          #changeAddressSb .userstake-img>img{
+            display: block;
+            width: 100%;
+          }
+        /*备忘录*/
+        .user3 {
+            color: #2F80F6!important;
+            padding-bottom: 0.8rem;
+        }
+        .userstake-bwl{
+            position: absolute!important;
+            right: 0.2rem!important;
+        }
+        .userstake-nth{
+          position: absolute;
+          left: 65%;
+        }
+        .user4 :nth-child(1){
+            color: #2A2A2A;
+        }
+
+        .user4 div {
+            float: left;
+        }
+
+        .dv1 {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv1_1 {
+            width: 60px;
+            height: 45px;
+            margin-top: 5px;
+            margin-left: 10px;
+            margin-right: 10px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            text-align: center;
+            line-height: 45px;
+        }
+
+        .dv1_1:active {
+            background: #bec5d0;
+        }
+
+        .dv1_1 img {
+            width: 30px;
+            height: 25px;
+            margin-left: 15px;
+            margin-top: 10px;
+            line-height: 30px;
+        }
+
+        .dv1_2 {
+            height: 45px;
+            flex: 1;
+            margin-right: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            background-color: #ffffff;
+            text-align: center;
+            font-size: 18px;
+            line-height: 45px;
+        }
+
+        .dv1_2:active {
+            background: #bec5d0;
+        }
+
+        .dv1_2 img {
+            width: 30px;
+            height: 20px;
+            margin-top: 12px;
+            line-height: 30px;
+        }
+
+        .baocun {
+            height: 45px;
+            margin-top: 5px;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 5px;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 45px;
+            background-color: #2F80F6;
+            color: #ffffff;
+        }
+
+        .baocun:active {
+            background: #bec5d0;
+        }
+
+        #close {
+            background-color: #CBCFD9;
+        }
+
+        #close:active {
+            background: #bec5d0;
+        }
+
+        #gengduo {
+            background-color: #CBCFD9;
+        }
+
+        #gengduo img {
+            width: 30px;
+            height: 5px;
+            margin-top: 20px;
+            line-height: 5px;
+        }
+
+        #gengduo:active {
+            background: #bec5d0;
+        }
+
+        .stateData2 {
+            display: flex;
+        }
+
+        .stateData2_dv1 {
+            width: 60%;
+            display: flex;
+        }
+
+        .stateData2_dv2 {
+            flex: 1;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        #stateData {
+            border-radius: 0.8rem;
+            color: rgba(255, 255, 255, 1);
+            text-align: center;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .blue {
+            background: rgba(0, 210, 123, 1);
+        }
+
+        .red {
+            background: red;
+        }
+
+        .aui-col-xs-2 {
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        .gengduo {
+            float: right;
+        }
+        .looksave{
+          background: #bec5d0;
+          color: #fff;
+        }
+    </style>
+</head>
+
+<body id="body">
+    <div class="content">
+        <header class="aui-bar aui-bar-nav header" id="header" style="min-height:2.6rem;">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title" style="font-size:18px;"></div>
+            <div class="aui-pull-right aui-btn" tapmode data-action="back">
+                <img src="../../image/MeteReading/cbdatiles/yonghuxiangqing-copy.png" style="width:1.2rem;height:1.2rem" alt="">
+            </div>
+            <div class="Allnumer" id="Allnumers">
+                <div id="Allnumer">0/0</div>
+            </div>
+        </header>
+        <div class="flex-wrap-box flex-vertical" id="flex-vertical">
+            <!-- <div id="content">
+        <section class="section_one">
+            <div class="aui-card-list">
+                <div class="section_one_box">
+                    <div class="box">
+                      <div>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 名:</div>
+                      <div>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 号:</div>
+                      <div>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 址:</div>
+                      <div>水表位置:</div>
+                      <div>用水性质:自来水公司用水</div>
+                      <div>用户状态:用户状态</div>
+                      <div><span>起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 度:</span><span>口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 径:</span></div>
+                        <div><span>近三月用水量:15/25/35</span><span tapmode data-action="openMore">更多</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section_one section_two">
+          <div class="aui-card-list section_card_two">
+              <div class="section_one_box">
+                  <div class="box">
+                    <div class="stateData" tapmode data-action="statselectr"><span>状态:</span><span class="state"><div id="stateData" params="">正常</div></span></div>
+                    <div class="dunumer"><span>读数:<div class="textdiscript" id="changeDegrees" tapmode data-action='changeDegrees'></div></span><span>用量:<div class="textdiscript" tapmode data-action='changeConsumption' id="changeConsumption"></div></span></div>
+              </div>
+          </div>
+        </div>
+        </section>
+        <section class="section_one section_two section_three section_hidden" style="margin-bottom:2rem;">
+          <div class="aui-card-list section_card_two">
+              <div class="pazhao">
+                <div>照片:</div>
+                <div class="ImgOrVideo">
+
+                </div>
+              </div>
+          </div>
+        </section>
+      </div> -->
+            <!-- <div id="content">
+        <section class="section_one">
+            <div class="aui-card-list">
+                <div class="section_one_box">
+                    <div class="box">
+                      <div>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 名:</div>
+                      <div>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 号:</div>
+                      <div>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 址:</div>
+                      <div>水表位置:</div>
+                      <div>用水性质:自来水公司用水</div>
+                      <div>用户状态:用户状态</div>
+                      <div><span>起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 度:</span><span>口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 径:</span></div>
+                        <div><span>近三月用水量:15/25/35</span><span tapmode data-action="openMore">更多</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section_one section_two">
+          <div class="aui-card-list section_card_two">
+              <div class="section_one_box">
+                  <div class="box">
+                    <div class="stateData" tapmode data-action="statselectr"><span>状态:</span><span class="state"><div id="stateData" params="">正常</div></span></div>
+                    <div class="dunumer"><span>读数:<div class="textdiscript" id="changeDegrees" tapmode data-action='changeDegrees'></div></span><span>用量:<div class="textdiscript" tapmode data-action='changeConsumption' id="changeConsumption"></div></span></div>
+              </div>
+          </div>
+        </div>
+        </section>
+        <section class="section_one section_two section_three section_hidden" style="margin-bottom:2rem;">
+          <div class="aui-card-list section_card_two">
+              <div class="pazhao">
+                <div>照片:</div>
+                <div class="ImgOrVideo">
+
+                </div>
+              </div>
+          </div>
+        </section>
+      </div> -->
+        </div>
+        <footer class="aui-bar aui-bar-tab aui-border-t footer" id="footer">
+            <div class="dv1">
+                <div class="dv1_1" tapmode data-action="Photograph">
+                    <img src="../../image/MeteReading/cbdatiles/zhaoxiang(1).png" alt="">
+                </div>
+                <div class="dv1_2"  tapmode onclick="inputNumer(this);">1</div>
+                <div class="dv1_2"  tapmode onclick="inputNumer(this);">2</div>
+                <div class="dv1_2"  tapmode onclick="inputNumer(this);">3</div>
+            </div>
+            <div class="dv1">
+                <div class="dv1_1" data-action="openLight">
+                    <img src="../../image/MeteReading/cbdatiles/shoudiantong.png" alt="">
+                </div>
+                <div class="dv1_2"  tapmode onclick="inputNumer(this);">4</div>
+                <div class="dv1_2"  tapmode onclick="inputNumer(this);">5</div>
+                <div class="dv1_2"  tapmode onclick="inputNumer(this);">6</div>
+            </div>
+            <div class="dv1">
+                <div class="dv1_1" data-action="Navigation">
+                    <img src="../../image/MeteReading/cbdatiles/daohang.png" alt="">
+                </div>
+                <div class="dv1_2"  tapmode onclick="inputNumer(this);">7</div>
+                <div class="dv1_2"  tapmode onclick="inputNumer(this);">8</div>
+                <div class="dv1_2"  tapmode onclick="inputNumer(this);">9</div>
+            </div>
+            <div class="dv1">
+                <div class="dv1_1" id="gengduo" data-action="ContactsPhone">
+                    <img src="../../image/MeteReading/tupian/gengduo.png" alt="">
+                </div>
+                <div class="dv1_2">.</div>
+                <div class="dv1_2"  tapmode onclick="inputNumer(this);">0</div>
+                <div class="dv1_2" tapmode data-action="delete" id="close"><img src="../../image/MeteReading/cbdatiles/shanchu.png" alt=""></div>
+            </div>
+            <div class="baocun" tapmode data-action="Allsave" id="Allsave">
+                保存
+            </div>
+            <!--
+            <ul>
+                <li>
+                    <div class="reMeter" style="background:rgba(190,197,208,1);" tapmode data-action="removecb">
+                        <div>重抄</div>
+                    </div>
+                    <div>
+                        <div onclick="inputNumer(this);">1</div>
+                    </div>
+                    <div>
+                        <div onclick="inputNumer(this);">2</div>
+                    </div>
+                    <div>
+                        <div onclick="inputNumer(this);">3</div>
+                    </div>
+                    <div class="delete" style="background:rgba(190,197,208,1);">
+                        <div tapmode data-action="delete"><img src="../../image/MeteReading/cbdatiles/shanchu.png" alt=""></div>
+                    </div>
+
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <div tapmode data-action="Location">
+                        <div><img src="../../image/MeteReading/cbdatiles/dingwei.png" alt=""></div>
+                    </div>
+                    <div>
+                        <div onclick="inputNumer(this);">4</div>
+                    </div>
+                    <div>
+                        <div onclick="inputNumer(this);">5</div>
+                    </div>
+                    <div>
+                        <div onclick="inputNumer(this);">6</div>
+                    </div>
+                    <div tapmode data-action="openLight">
+                        <div><img src="../../image/MeteReading/cbdatiles/shoudiantong.png" alt=""></div>
+                    </div>
+
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <div tapmode data-action="Navigation">
+                        <div><img src="../../image/MeteReading/cbdatiles/daohang.png" alt=""></div>
+                    </div>
+                    <div>
+                        <div onclick="inputNumer(this);">7</div>
+                    </div>
+                    <div>
+                        <div onclick="inputNumer(this);">8</div>
+                    </div>
+                    <div>
+                        <div onclick="inputNumer(this);">9</div>
+                    </div>
+                    <div>
+                        <div tapmode data-action="Photograph"><img src="../../image/MeteReading/cbdatiles/zhaoxiang(1).png" alt=""></div>
+                    </div>
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <div>
+                        <div tapmode data-action="ContactsPhone"><img src="../../image/MeteReading/cbdatiles/tongxun.png" alt=""></div>
+                    </div>
+                    <div>
+                        <div onclick="inputNumer(this);">0</div>
+                    </div>
+                    <div id="FirstHousehold" tapmode data-action="FirstHousehold">
+                        <div class="backgroundskblue">上一户</div>
+                    </div>
+                    <div id="LastHousehold" tapmode data-action="LastHousehold">
+                        <div class="backgroundskblue">下一户</div>
+                    </div>
+                </li>
+            </ul>
+            <div class="Allsave" tapmode data-action="Allsave" id="Allsave">
+                <div class="backgroundskblue">保存</div>
+            </div>
+-->
+        </footer>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/template" id="Booksdata">
+    <div id="content" params="{{listdataLst.DJC}}" paramsmoney="{{listdataLst.QFJE}}">
+        <section class="section_one">
+            <div class="aui-card-list" params="{{listdataLst.YDDH}}" id="telponeNumer">
+                <div class="section_one_box">
+                    <div class="box">
+                        <div class="user">
+                            <div class="user1">户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 名：</div>
+                            <div class="user2">{{listdataLst.YHMC}}</div>
+                            <!-- <div class="user3" onclick="openbz()" id="bwl" style="display:none;">备</div> -->
+                        </div>
+                        <section id="ioformantionList">
+                          <div class="user" id="userCoder" params="{{listdataLst.YHBH}}" data-cbch="{{listdataLst.CBCH}}">
+                              <div class="user1">户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 号：</div>
+                              <div class="user2">{{listdataLst.YHBH}}</div>
+                          </div>
+                          <div class="" id="changeAddressYh">
+                              <div class="user1">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 址：{{listdataLst.YHDZ}}</div>
+                          </div>
+                          <div class="" id="changeAddressSb">
+                              <div class="user1">水表位置：{{listdataLst.SBWZ}}</div>
+                              <div class="userstake-img" tapmode data-action="LocationImg" id="Location-img" data-param="{{listdataLst.PATH}}"><img src="../../image/MeteReading/cbdatiles/zhaoxiang@2x.png" alt="" ></div>
+                          </div>
+                          <div class="user">
+                              <div class="user1">用水性质：</div>
+                              <div class="user2">{{listdataLst.YSXZ}}</div>
+                          </div>
+
+                          <div class="user">
+                              <div class="user4">
+                                  <div>用户状态：</div>
+                                  <div class="user2">{{if listdataLst.CBZTTEXT!=" "}} {{listdataLst.CBZTTEXT}} {{else}} 正常 {{/if}}</div>
+                              </div>
+                              <div class="user4 userstake-nth">
+                                  <div>口径：</div>
+                                  <div class="user2">{{listdataLst.KJ}}</div>
+                              </div>
+                          </div>
+                          <div class="user " id="qdDegree" params="{{listdataLst.QD}}">
+                            <div class="user4">
+                                <div>起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 度：</div>
+                                <div class="user2">{{listdataLst.QD}}</div>
+                            </div>
+                            <div class="user4 userstake-nth">
+                                <div>平均：</div>
+                                {{if listdataLst.JSYPJL!=null||listdataLst.JSYPJL!="null"||listdataLst.JSYPJL!=""||listdataLst.JSYPJL!=" "}}
+                                <div class="user2" id="WoterAverage">{{listdataLst.JSYPJL}}</div>
+                                {{else}}
+                                <div class="user2" id="WoterAverage"></div>
+                                {{/if}}
+                            </div>
+                          </div>
+                          <div class="user">
+                              <div class="user1">近3期水量：</div>
+                              <div class="user2" id="WoterContent">{{listdataLst.JSYYSL}}</div>
+                              <div class=" user3 userstake-bwl" onclick="openbz()" id="bwl" style="display:none">备忘录
+                              </div>
+                          </div>
+                        </section>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="section_one section_two">
+            <div class="aui-card-list section_card_two">
+                <div class="section_one_box">
+                    <div class="box">
+                    {{if listdataLst.BYXZT != " "}}
+                      <div class="stateData2">
+                          <div class="stateData2_dv1">状态:
+                              <div class="stateData2_dv2 blue" id="stateData" tapmode data-action="statselectr" data-params="1" params='1'>{{listdataLst.SBYXZT}}</div>
+                          </div>
+                          <!-- <div class="stateData2_dv1 hidden" id="shijibiaoma">实际表码:
+                              <div class="stateData2_dv2" id="SJBM" tapmode data-action='changeSJBM'>{{listdataLst.SJBM}}</div>
+                          </div> -->
+                      </div>
+                      {{else}}
+                      <div class="stateData2">
+                          <div class="stateData2_dv1">状态:
+                              <div class="stateData2_dv2 blue" id="stateData" tapmode data-action="statselectr" data-params="1" params='1'>正常</div>
+                          </div>
+                          <!-- <div class="stateData2_dv1 hidden" id="shijibiaoma">实际表码:
+                              <div class="stateData2_dv2" id="SJBM" tapmode data-action='changeSJBM'>{{listdataLst.SJBM}}</div>
+                          </div> -->
+                      </div>
+                      {{/if}}
+                        <div class="dunumer" id="dunumer">
+                          {{if listdataLst.CBBZ != "0"}}
+                            {{if listdataLst.BYXZT=="10"||listdataLst.BYXZT=="11"}}
+                              <span id="dushu" class="textdiscript-span1">读数:<div class="textdiscript textdiscript1" id="changeDegrees" tapmode data-action='changeDegrees' style="color:rgba(0, 210, 123, 1)">{{listdataLst.ZD}}</div></span>
+                              <span id="yongliang" class="textdiscript-span3" style="color:#000">用量:<div class="textdiscript textdiscript1" tapmode data-action='changeConsumption' id="changeConsumption">{{listdataLst.YL}}</div></span>
+                              <span id="shijibiaoma" class="textdiscript-span2" style="color:#2F80F6">实际表码:<div class="textdiscript textdiscript1" id="SJBM" tapmode data-action='changeSJBM' style="color:rgba(0, 210, 123, 1)">{{listdataLst.SJBM}}</div></span>
+                              <span id="biaohao" class="textdiscript-span2 hidden" style="color:#2F80F6">表号:<div class="textdiscript textdiscript1" id="TableNumber" tapmode data-action="TableNumber" style="color:rgba(0, 210, 123, 1)"></div>
+                                <div class="CodeScanning" tapmode data-action="CodeScanning">
+                                  <img src="../../image/MeteReading/cbdatiles/saoma.png" alt="">
+                                </div>
+                              </span>
+                            {{else if listdataLst.BYXZT=="27"}}
+                              <span id="dushu" class="textdiscript-span1 hidden">读数:<div class="textdiscript textdiscript1" id="changeDegrees" tapmode data-action='changeDegrees' style="color:rgba(0, 210, 123, 1)">{{listdataLst.ZD}}</div></span>
+                              <span id="yongliang" class="textdiscript-span3 hidden" style="color:#000">用量:<div class="textdiscript textdiscript1" tapmode data-action='changeConsumption' id="changeConsumption">{{listdataLst.YL}}</div></span>
+                              <span id="shijibiaoma" class="textdiscript-span2" style="right:50%;color:#2F80F6">实际表码:<div class="textdiscript textdiscript1 changeDegrees" id="SJBM" tapmode data-action='changeSJBM' style="color:rgba(0, 210, 123, 1)">{{listdataLst.SJBM}}</div></span>
+                              <span id="biaohao" class="textdiscript-span2 hidden" style="color:#2F80F6">表号:<div class="textdiscript textdiscript1" id="TableNumber" tapmode data-action="TableNumber" style="color:rgba(0, 210, 123, 1)"></div>
+                                <div class="CodeScanning" tapmode data-action="CodeScanning">
+                                  <img src="../../image/MeteReading/cbdatiles/saoma.png" alt="">
+                                </div>
+                              </span>
+                            {{else if listdataLst.BYXZT=="4"}}
+                              <span id="dushu" class="textdiscript-span1">读数:<div class="textdiscript textdiscript1" id="changeDegrees" tapmode data-action='changeDegrees' style="color:rgba(0, 210, 123, 1)">{{listdataLst.ZD}}</div></span>
+                              <span id="yongliang" class="textdiscript-span3" style="color:#000">用量:<div class="textdiscript textdiscript1" tapmode data-action='changeConsumption' id="changeConsumption">{{listdataLst.YL}}</div></span>
+                              <span id="shijibiaoma" class="textdiscript-span2" style="right:50%;color:#2F80F6">实际表码:<div class="textdiscript textdiscript1" id="SJBM" tapmode data-action='changeSJBM' style="color:rgba(0, 210, 123, 1)">{{listdataLst.SJBM}}</div></span>
+                              <span id="biaohao" class="textdiscript-span2" style="color:#2F80F6">表号:<div class="textdiscript textdiscript1" id="TableNumber" tapmode data-action="TableNumber" style="color:rgba(0, 210, 123, 1)">{{listdataLst.XBBH}}</div>
+                                <div class="CodeScanning" tapmode data-action="CodeScanning">
+                                  <img src="../../image/MeteReading/cbdatiles/saoma.png" alt="">
+                                </div>
+                              </span>
+                            {{else}}
+                              <span id="dushu" class="textdiscript-span1">读数:<div class="textdiscript textdiscript1" id="changeDegrees" tapmode data-action='changeDegrees' style="color:rgba(0, 210, 123, 1)">{{listdataLst.ZD}}</div></span>
+                              <span id="yongliang" class="textdiscript-span3" style="color:#000">用量:<div class="textdiscript textdiscript1" tapmode data-action='changeConsumption' id="changeConsumption">{{listdataLst.YL}}</div></span>
+                              <span id="shijibiaoma" class="textdiscript-span2 hidden" style="color:#2F80F6">实际表码:<div class="textdiscript textdiscript1" id="SJBM" tapmode data-action='changeSJBM' style="color:rgba(0, 210, 123, 1)">{{listdataLst.SJBM}}</div></span>
+                              <span id="biaohao" class="textdiscript-span2 hidden" style="color:#2F80F6">表号:<div class="textdiscript textdiscript1" id="TableNumber" tapmode data-action="TableNumber" style="color:rgba(0, 210, 123, 1)"></div>
+                                <div class="CodeScanning" tapmode data-action="CodeScanning">
+                                  <img src="../../image/MeteReading/cbdatiles/saoma.png" alt="">
+                                </div>
+                              </span>
+                            {{/if}}
+                          {{else}}
+                            <span id="dushu" class="textdiscript-span1">读数:<div class="textdiscript textdiscript1" id="changeDegrees" tapmode data-action='changeDegrees'>{{listdataLst.ZD}}</div></span>
+                            <span id="yongliang" class="textdiscript-span3" style="color:#000">用量:<div class="textdiscript textdiscript1" tapmode data-action='changeConsumption' id="changeConsumption">{{listdataLst.YL}}</div></span>
+                            <span id="shijibiaoma" class="textdiscript-span2 hidden" style="color:#2F80F6">实际表码:<div class="textdiscript textdiscript1" id="SJBM" tapmode data-action='changeSJBM'>{{listdataLst.SJBM}}</div></span>
+                            <span id="biaohao" class="textdiscript-span2 hidden">表号:<div class="textdiscript textdiscript1" id="TableNumber" tapmode data-action="TableNumber"></div>
+                              <div class="CodeScanning" tapmode data-action="CodeScanning">
+                                <img src="../../image/MeteReading/cbdatiles/saoma.png" alt="">
+                              </div>
+                            </span>
+                          {{/if}}
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </section>
+        <section class="section_one section_two section_three section_hidden" style="margin-bottom:2rem;">
+            <div class="aui-card-list section_card_two">
+                <div class="pazhao">
+                    <div>照片:</div>
+                    <div class="ImgOrVideo" id="ImgOrVideo">
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</script>
+
+<script type="text/template" id="orderHistoryTpl">
+    {{each items value i}}
+    <div class="aui-col-xs-2 imgDiv">
+        <img src="{{value.ZPLJ}}" tapmode data-action="fnOpenFile">
+        <div class="close closeHide" data-param="{{value.ZPLJ}}" tapmode data-action="clearImg"></div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var cbch, Id, State, db, UsersDatalis;
+    var UserNumbers = 0
+    var louchaoCode;
+    var ztbh = 1; //状态编号
+    var Usercbzt; //状态编号
+
+    var MRM_NORMAL = 0; //正常抄表拍照数
+    var MRM_UNUSUAL = 0; //异常抄表拍照数
+
+    //图片类型
+    var onlineNameOne,onlineNameOneId;
+    var onlineName = []; //图片类型名称数据。
+    var duanxing = []
+    var onlineId = []; //图片类型值数据。
+    var gpsmodel;
+    apiready = function() {
+        api.parseTapmode();
+        db = api.require("db");
+        gpsmodel = api.require('gpsState');
+        // deviceId = api.deviceId
+        // deviceName = api.deviceName
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        var footer = $api.byId('footer');
+        var Allnumer = $api.byId('Allnumers');
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        // 计算header和tab元素的高度
+        // headerH = $api.offset(header).h;
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        $api.fixTabBar(footer);
+        var body = $api.byId('body');
+        var bodyH = $api.offset(body).h;
+        var bodyW = $api.offset(body).w;
+        var fooderH = $api.offset(footer).h;
+        var AllnumerW = $api.offset(Allnumer).w;
+        //$('.Allnumer').css("left", bodyW / 2 - AllnumerW)
+        $("#flex-vertical").css("margin-bottom", fooderH)
+
+        var close = $api.byId('close');
+        var closeH = $api.offset(close).h;
+        var closeW = $api.offset(close).w;
+        var left = (closeW - 30) / 2;
+        $('#close img').css('margin-left', '' + left + 'px');
+
+        qureyONLINE(); //获取图片类型
+        /*
+                api.openFrame({
+                    name: 'MeterReading_detailsfragment',
+                    url: './MeterReading_detailsfragment.html',
+                    rect: {
+                        x: 0,
+                        y: 100,
+                        w: 'auto',
+                        h: 'auto'
+                    },
+                    pageParam: {
+                        name: 'test'
+                    }
+                });
+        */
+        var statusdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_DEPLOYS_BEAN where CODE in ("MRM_NORMAL","MRM_UNUSUAL")'
+        });
+        if (statusdata.status) {
+            for (var i = 0; i < statusdata.data.length; i++) {
+                if (statusdata.data[i].CODE == "MRM_NORMAL") {
+                    MRM_NORMAL = statusdata.data[i].VALUE;
+                } else {
+                    MRM_UNUSUAL = statusdata.data[i].VALUE;
+                }
+            }
+        }
+
+        cbch = api.pageParam.CBCH;
+        louchaoCode = api.pageParam.chCode
+            //监听物理返回
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            if (api.pageParam.name == "MeterReading_userList") {
+                var jsfun = 'show();';
+                api.execScript({
+                    name: api.pageParam.name,
+                    script: jsfun
+                });
+            }
+            api.closeWin();
+        });
+
+        api.addEventListener({
+            name: 'closeStatse'
+        }, function(ret, err) {
+            if (ret) {
+                $('#stateData').text(ret.value.MC)
+                $('#stateData').attr('params', ret.value.BH)
+                $('#stateData').attr('data-params', ret.value.SLLRFS)
+                ztbh = ret.value.BH;
+                Usercbzt = ret.value.MC;
+                if (ztbh == 1||ztbh == 10040) {
+                  //没有实际标码,水量状态无法录入
+                    readNumer1 = "";
+                    readNumer2 = "";
+                    readNumer3 = "";
+                    readNumer4 = "";
+                    $('#changeDegrees').text(readNumer1);
+                    $('#changeConsumption').text(readNumer2);
+                    $('#SJBM').text(readNumer3);
+                    $('#TableNumber').text(readNumer4);
+                    $('#dushu').removeClass("hidden");
+                    $('#yongliang').removeClass("hidden");
+                    $('#shijibiaoma').addClass("hidden");
+                    $('#biaohao').addClass("hidden");
+                    $('#TableNumber').removeClass("changeDegrees");
+                    // $('#shijibiaoma').css("right","0")
+                    $("#changeDegrees").addClass("changeDegrees")
+                    $("#changeConsumption").removeClass("changeDegrees")
+                    // 修改颜色
+                    $("#changeConsumption").removeClass("MustBeEntered")
+                    $("#SJBM").removeClass("MustBeEntered")
+                    $("#TableNumber").removeClass("MustBeEntered")
+                    $("#changeDegrees").removeClass("MustBeEntered")
+                }else if (ret.value.BH == 10) {//多炒多录
+                  // 录入实际表码，止度自动录入=起度，用量默认为0
+                    $('#dushu').removeClass("hidden");
+                    $('#yongliang').removeClass("hidden");
+                    $('#shijibiaoma').removeClass("hidden");
+                    $('#biaohao').addClass("hidden");
+
+                    readNumer1 = UsersDatalis[UserNumbers].QD;
+                    readNumer2 = "0";
+                    readNumer3 = "";
+                    readNumer4 = "";
+                    $('#TableNumber').text(readNumer4);
+                    $('#SJBM').text(readNumer3);
+                    $('#changeDegrees').text(readNumer1);
+                    $('#changeConsumption').text(readNumer2);
+                    // $('#shijibiaoma').css("right","0")
+                    $("#changeDegrees").removeClass("changeDegrees")
+                    $("#changeConsumption").removeClass("changeDegrees")
+                    $("#SJBM").addClass("changeDegrees")
+
+                    $("#changeConsumption").removeClass("MustBeEntered")
+                    $("#SJBM").removeClass("MustBeEntered")
+                    $("#TableNumber").removeClass("MustBeEntered")
+                    $("#changeDegrees").removeClass("MustBeEntered")
+                    // shijibiaoma
+                } else if (ret.value.BH == 11) {//倒装的情况
+                  // 2.3.录入本次用量和实际表码，止度自动录入=起度
+                    $('#dushu').removeClass("hidden");
+                    $('#yongliang').removeClass("hidden");
+                    $('#shijibiaoma').removeClass("hidden");
+                    $('#biaohao').addClass("hidden");
+                    $('#TableNumber').removeClass("changeDegrees");
+                    // $('#shijibiaoma').css("right","0")
+                    readNumer1 = UsersDatalis[UserNumbers].QD;
+                    readNumer2 = "";
+                    readNumer3 = "";
+                    readNumer4 = "";
+                    $('#TableNumber').text(readNumer4);
+                    $('#SJBM').text(readNumer3);
+                    $('#changeDegrees').text(readNumer1);
+                    $('#changeConsumption').text(readNumer2);
+                    $("#changeDegrees").removeClass("changeDegrees")
+                    $("#SJBM").addClass("changeDegrees")
+                    $("#changeConsumption").removeClass("changeDegrees")
+                    $("#TableNumber").removeClass("changeDegrees")
+
+                    $("#SJBM").removeClass("MustBeEntered")
+                    $("#changeConsumption").addClass("MustBeEntered")
+                    $("#TableNumber").removeClass("MustBeEntered")
+                    $("#changeDegrees").removeClass("MustBeEntered")
+                } else if (ret.value.BH == 12||ret.value.BH ==25||ret.value.BH == 26) {
+                  // 无表、暂停拆表、停水拆表
+                  // 5.2.止度不填写（自动录入起度），用量默认为0，实际表码不填写
+                    $('#dushu').removeClass("hidden");
+                    $('#yongliang').removeClass("hidden");
+                    $('#shijibiaoma').addClass("hidden");
+
+                    readNumer1 = UsersDatalis[UserNumbers].QD;
+                    readNumer2 = "0";
+                    readNumer3 = "";
+                    readNumer4 = "";
+                    $('#TableNumber').text(readNumer4);
+                    $('#changeDegrees').text(readNumer1);
+                    $('#changeConsumption').text(readNumer2);
+                    $('#SJBM').text(readNumer3);
+                    $('#biaohao').addClass("hidden");
+                    $('#TableNumber').removeClass("changeDegrees");
+                    // $('#shijibiaoma').css("right","0")
+                    $("#SJBM").removeClass("changeDegrees")
+                    $("#changeDegrees").removeClass("changeDegrees")
+                    $("#changeConsumption").removeClass("changeDegrees")
+
+                    $("#SJBM").removeClass("MustBeEntered")
+                    $("#changeConsumption").removeClass("MustBeEntered")
+                    $("#TableNumber").removeClass("MustBeEntered")
+                    $("#changeDegrees").removeClass("MustBeEntered")
+                    // $("#changeDegrees").addClass("changeDegrees")
+                } else if (ret.value.BH == 27){//其他5.5.仅录入实际表码
+
+                  $('#dushu').addClass("hidden");
+                  $('#yongliang').addClass("hidden");
+                  $('#shijibiaoma').removeClass("hidden");
+                  $('#biaohao').addClass("hidden");
+                  $('#TableNumber').removeClass("changeDegrees");
+                  $("#SJBM").addClass("changeDegrees")
+                  $("#changeDegrees").removeClass("changeDegrees")
+                  $("#changeConsumption").removeClass("changeDegrees")
+                  // $('#shijibiaoma').css("right","50%")
+                  $("#SJBM").addClass("changeDegrees")
+                  readNumer1 = "";
+                  readNumer2 = "";
+                  readNumer4 = "";
+                  $('#TableNumber').text(readNumer4);
+                  $('#changeDegrees').text(readNumer1);
+                  $('#changeConsumption').text(readNumer2);
+                  readNumer3 = ""
+                  $('#SJBM').text(readNumer3);
+
+                  $("#SJBM").removeClass("MustBeEntered")
+                  $("#changeConsumption").removeClass("MustBeEntered")
+                  $("#TableNumber").removeClass("MustBeEntered")
+                  $("#changeDegrees").removeClass("MustBeEntered")
+                }else if (ret.value.BH == 4){//换标3.录入实际表码，止度和用量默认为0
+                  // $('#shijibiaoma').css("right","0")
+                  $('#dushu').removeClass("hidden");
+                  $('#yongliang').removeClass("hidden");
+                  $('#shijibiaoma').removeClass("hidden");
+                  $('#biaohao').removeClass("hidden");
+                  $('#TableNumber').removeClass("changeDegrees");
+                  $("#SJBM").addClass("changeDegrees")
+                  $("#changeDegrees").removeClass("changeDegrees")
+                  $("#changeConsumption").removeClass("changeDegrees")
+                  // 必输项颜色
+
+                  readNumer3 = ""
+                  readNumer4 = ""
+                  readNumer1 = "0";
+                  readNumer2 = "0";
+                  $('#changeDegrees').text(readNumer1);
+                  $('#changeConsumption').text(readNumer2);
+                  $('#SJBM').text(readNumer3);
+                  $('#TableNumber').text(readNumer4)
+
+                  $('#TableNumber').addClass("MustBeEntered");
+                  $("#SJBM").removeClass("MustBeEntered")
+                  $("#changeConsumption").removeClass("MustBeEntered")
+                  $("#changeDegrees").removeClass("MustBeEntered")
+
+                }else {
+
+                  $('#dushu').removeClass("hidden");
+                  $('#yongliang').removeClass("hidden");
+                  $('#shijibiaoma').addClass("hidden");
+                  $('#biaohao').addClass("hidden");
+                  $('#TableNumber').removeClass("changeDegrees");
+                    readNumer1 = "";
+                    readNumer2 = "";
+                    readNumer3 = "";
+                    readNumer4 = "";
+                    $('#TableNumber').text(readNumer4);
+                    $('#changeDegrees').text(readNumer1);
+                    $('#changeConsumption').text(readNumer2);
+                    $('#SJBM').text(readNumer3);
+                    // $('#shijibiaoma').css("right","0")
+                    $('#changeDegrees').removeClass('changeDegrees');
+                    $('#changeConsumption').addClass('changeDegrees');
+                    $('#shijibiaoma').removeClass('changeDegrees');
+
+                    $('#TableNumber').removeClass("MustBeEntered");
+                    $("#SJBM").removeClass("MustBeEntered")
+                    $("#changeConsumption").removeClass("MustBeEntered")
+                    $("#changeDegrees").removeClass("MustBeEntered")
+                }
+
+
+            } else {
+
+            }
+        });
+        // 监听获取编辑页保存修改过来的类容
+        api.addEventListener({
+            name: 'MeterReadingEdit'
+        }, function(ret, err) {
+            if (ret) {
+
+                var changeAddressYh = "地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 址:" + ret.value.YHDZ
+                var changeAddressSb = "水表位置:" + ret.value.SBWZ
+                $("#changeAddressYh").html(changeAddressYh)
+                $("#changeAddressSb").html(changeAddressSb)
+                var cbch = ret.value.CBCH;
+                var ret1 = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH="' + cbch + '"'
+                });
+                UsersDatalis = ret1.data;
+                for (var i = 0; i < UsersDatalis.length; i++) {
+                    if (ret.value.YHBH == UsersDatalis[i].YHBH) {
+                        UserNumbers = i;
+                        break;
+                    }
+                }
+                UsersDatalis[UserNumbers].YHDZ = ret.value.YHDZ
+                UsersDatalis[UserNumbers].SBWZ = ret.value.SBWZ
+                UsersDatalis[UserNumbers].YDDH = ret.value.YDDH
+                UsersDatalis[UserNumbers].GDDH = ret.value.GDDH
+            } else {
+                console.log(JSON.stringify(err));
+            }
+        });
+
+        api.addEventListener({
+            name: 'swipeleft'
+        }, function(ret, err) {
+          api.openWin({
+              name: 'MeterReading_information2',
+              url: './MeterReading_information2.html',
+              pageParam: UsersDatalis[UserNumbers]
+          });
+        });
+
+        // 判断是否为漏抄打开页面和点击相对应抄表本打开页面
+        // 漏抄打开页面
+        if (api.pageParam.name == 1) {
+            // 漏抄查询全部数据查
+            if (api.pageParam.chCode == "") {
+
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBBZ="0"'
+                });
+                UsersDatalis = ret.data;
+                if (ret.data != '') {
+                    var userdatails = ret.data.length
+                    var dataList = UsersDatalis[UserNumbers]
+                    $("#header .aui-title").text(UsersDatalis[UserNumbers].YHMC)
+                    var showNumer = UserNumbers + 1 + '/' + userdatails
+                    $('#Allnumer').text(showNumer)
+                    handleAnnotData(dataList)
+                    $("#flex-vertical").css("margin-bottom", fooderH)
+                } else {
+                    api.alert({
+                        title: '提示',
+                        msg: '暂无抄表数据请前往下载',
+                    }, function(ret, err) {
+                        if (ret) {
+                            api.closeWin({});
+
+                        } else {}
+                    });
+
+                }
+                // 没有选中抄表本或者选中全部抄表本查询漏抄完
+            } else {
+                var codeList = '' //循环册号格式为1001，1002，1003类似
+                for (var i = 0; i < louchaoCode.length; i++) {
+                    codeList += louchaoCode[i] + ','
+                }
+                var SetupList = codeList.substr(0, codeList.lastIndexOf(','))
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH in (' + SetupList + ') and CBBZ = "0"'
+                });
+
+                UsersDatalis = ret.data;
+                if (ret.data != '') {
+                    var userdatails = ret.data.length
+                    var dataList = UsersDatalis[UserNumbers]
+                    $("#header .aui-title").text(UsersDatalis[UserNumbers].YHMC)
+                    if (UsersDatalis[UserNumbers].CBBZ == '1') {
+                        //$('#Allsave div').text('查看')
+                          $("#Allsave").addClass("looksave");
+                    } else {
+                        //$('#Allsave div').text('保存')
+                        $("#Allsave").removeClass("looksave");
+                    }
+                    var showNumer = UserNumbers + 1 + '/' + userdatails
+                    $('#Allnumer').text(showNumer)
+                    handleAnnotData(dataList)
+                    showimg(UsersDatalis[UserNumbers].YHBH, UsersDatalis[UserNumbers].BYXZT, UsersDatalis[UserNumbers].CBBZ, UsersDatalis[UserNumbers].SBYXZT)
+                } else {
+                    api.alert({
+                        title: '提示',
+                        msg: '暂无抄表数据请前往下载',
+                    }, function(ret, err) {
+                        if (ret) {
+                            api.closeWin({});
+
+                        } else {
+                            //  alert( JSON.stringify( err ) );
+                        }
+                    });
+
+                }
+
+            }
+        } else if (api.pageParam.name == 'cbqueryUser') {
+            // 抄表搜索页面打开
+            var cbch = api.pageParam.userCode;
+            var ret = db.selectSqlSync({
+                name: 'CBtest',
+                sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH="' + cbch + '"'
+            });
+            UsersDatalis = ret.data;
+            for (var i = 0; i < UsersDatalis.length; i++) {
+                if (api.pageParam.useryhbh == UsersDatalis[i].YHBH) {
+                    UserNumbers = i;
+                    break;
+                }
+            }
+            var userdatails = ret.data.length
+            var dataList = UsersDatalis[UserNumbers]
+            $("#header .aui-title").text(UsersDatalis[UserNumbers].YHMC)
+            if (UsersDatalis[UserNumbers].CBBZ == '1') {
+                //$('#Allsave div').text('查看')
+                  $("#Allsave").addClass("looksave");
+            } else {
+                //$('#Allsave div').text('保存')
+                $("#Allsave").removeClass("looksave");
+            }
+            var showNumer = UserNumbers + 1 + '/' + userdatails
+            $('#Allnumer').text(showNumer)
+            handleAnnotData(dataList)
+            showimg(UsersDatalis[UserNumbers].YHBH, UsersDatalis[UserNumbers].BYXZT, UsersDatalis[UserNumbers].CBBZ, UsersDatalis[UserNumbers].SBYXZT)
+        } else if (api.pageParam.name == 'MeterReading_userList') {
+            //判断抄表列表页选中的是什么到抄表页面渲染什么
+            var userState =  api.pageParam.userState;
+            var cbch = api.pageParam.userCode;
+            if(userState=="all"||userState=="Duplicate"){
+              //全部
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH="' + cbch + '"'
+                });
+                UsersDatalis = ret.data;
+                for (var i = 0; i < UsersDatalis.length; i++) {
+                    if (api.pageParam.useryhbh == UsersDatalis[i].YHBH) {
+                        UserNumbers = i;
+                        break;
+                    }
+                }
+                var userdatails = ret.data.length
+                var dataList = UsersDatalis[UserNumbers]
+                $("#header .aui-title").text(UsersDatalis[UserNumbers].YHMC)
+                if (UsersDatalis[UserNumbers].CBBZ == '1') {
+                    //$('#Allsave div').text('查看')
+                      $("#Allsave").addClass("looksave");
+                } else {
+                    //$('#Allsave div').text('保存')
+                    $("#Allsave").removeClass("looksave");
+                }
+                var showNumer = UserNumbers + 1 + '/' + userdatails
+                $('#Allnumer').text(showNumer)
+                handleAnnotData(dataList)
+                showimg(UsersDatalis[UserNumbers].YHBH, UsersDatalis[UserNumbers].BYXZT, UsersDatalis[UserNumbers].CBBZ, UsersDatalis[UserNumbers].SBYXZT)
+
+            }else if (userState=="NotCopied") {
+              //未抄
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_USER_BEAN where CBCH="' + cbch + '" and CBBZ=0'
+                });
+                UsersDatalis = ret.data;
+                for (var i = 0; i < UsersDatalis.length; i++) {
+                    if (api.pageParam.useryhbh == UsersDatalis[i].YHBH) {
+                        UserNumbers = i;
+                        break;
+                    }
+                }
+                var userdatails = ret.data.length
+                var dataList = UsersDatalis[UserNumbers]
+                $("#header .aui-title").text(UsersDatalis[UserNumbers].YHMC)
+                if (UsersDatalis[UserNumbers].CBBZ == '1') {
+                    //$('#Allsave div').text('查看')
+                      $("#Allsave").addClass("looksave");
+                } else {
+                    //$('#Allsave div').text('保存')
+                    $("#Allsave").removeClass("looksave");
+                }
+                var showNumer = UserNumbers + 1 + '/' + userdatails
+                $('#Allnumer').text(showNumer)
+                handleAnnotData(dataList)
+                showimg(UsersDatalis[UserNumbers].YHBH, UsersDatalis[UserNumbers].BYXZT, UsersDatalis[UserNumbers].CBBZ, UsersDatalis[UserNumbers].SBYXZT)
+
+            }else if(userState=="Immeasurable"){
+              //无量
+
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_USER_BEAN where CBCH="' + cbch + '" and CBBZ=1 and YL="0"'
+                });
+                UsersDatalis = ret.data;
+                for (var i = 0; i < UsersDatalis.length; i++) {
+                    if (api.pageParam.useryhbh == UsersDatalis[i].YHBH) {
+                        UserNumbers = i;
+                        break;
+                    }
+                }
+                var userdatails = ret.data.length
+                var dataList = UsersDatalis[UserNumbers]
+                $("#header .aui-title").text(UsersDatalis[UserNumbers].YHMC)
+                if (UsersDatalis[UserNumbers].CBBZ == '1') {
+                    //$('#Allsave div').text('查看')
+                      $("#Allsave").addClass("looksave");
+                } else {
+                    //$('#Allsave div').text('保存')
+                    $("#Allsave").removeClass("looksave");
+                }
+                var showNumer = UserNumbers + 1 + '/' + userdatails
+                $('#Allnumer').text(showNumer)
+                handleAnnotData(dataList)
+                showimg(UsersDatalis[UserNumbers].YHBH, UsersDatalis[UserNumbers].BYXZT, UsersDatalis[UserNumbers].CBBZ, UsersDatalis[UserNumbers].SBYXZT)
+
+
+            }else if(userState=="ContinuedCopy"){//续抄
+              var ret = db.selectSqlSync({
+                  name: 'CBtest',
+                  sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH="' + cbch + '"'
+              });
+              UsersDatalis = ret.data;
+              for (var i = 0; i < UsersDatalis.length; i++) {
+                  if (api.pageParam.useryhbh == UsersDatalis[i].YHBH) {
+                      UserNumbers = i;
+                      break;
+                  }
+              }
+              var userdatails = ret.data.length
+              var dataList = UsersDatalis[UserNumbers]
+              $("#header .aui-title").text(UsersDatalis[UserNumbers].YHMC)
+              if (UsersDatalis[UserNumbers].CBBZ == '1') {
+                  //$('#Allsave div').text('查看')
+                    $("#Allsave").addClass("looksave");
+              } else {
+                  //$('#Allsave div').text('保存')
+                  $("#Allsave").removeClass("looksave");
+              }
+              var showNumer = UserNumbers + 1 + '/' + userdatails
+              $('#Allnumer').text(showNumer)
+              handleAnnotData(dataList)
+              showimg(UsersDatalis[UserNumbers].YHBH, UsersDatalis[UserNumbers].BYXZT, UsersDatalis[UserNumbers].CBBZ, UsersDatalis[UserNumbers].SBYXZT)
+
+            }else {
+
+            }
+
+        } else if (api.pageParam.name == 'tuwendaohang') {
+            // 全部搜索界面打开
+        } else {
+            // 抄表本打开页面
+            var ret = db.selectSqlSync({
+                name: 'CBtest',
+                sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH="' + cbch + '"'
+            });
+            UsersDatalis = ret.data;
+            if (ret.data != '') {
+                var userdatails = ret.data.length
+                var dataList = UsersDatalis[UserNumbers]
+                $("#header .aui-title").text(UsersDatalis[UserNumbers].YHMC)
+                if (UsersDatalis[UserNumbers].CBBZ == '1') {
+                    //$('#Allsave div').text('查看')
+                      $("#Allsave").addClass("looksave");
+                } else {
+                    //$('#Allsave div').text('保存')
+                    $("#Allsave").removeClass("looksave");
+                }
+                var showNumer = UserNumbers + 1 + '/' + userdatails
+                $('#Allnumer').text(showNumer)
+                handleAnnotData(dataList)
+                showimg(UsersDatalis[UserNumbers].YHBH, UsersDatalis[UserNumbers].BYXZT, UsersDatalis[UserNumbers].CBBZ, UsersDatalis[UserNumbers].SBYXZT)
+            } else {
+                api.alert({
+                    title: '提示',
+                    msg: '暂无抄表数据请前往下载',
+                }, function(ret, err) {
+                    if (ret) {
+                        api.closeWin({});
+
+                    } else {
+                        //  alert( JSON.stringify( err ) );
+                    }
+                });
+
+            }
+        }
+        // 监听表位图片删除
+        api.addEventListener({
+            name: 'LocationImg_myEvent'
+        }, function(ret, err){
+            if( ret ){
+                $
+                 UsersDatalis[UserNumbers].PATH = " ";
+                 $('#Location-img').attr("data-param"," ")
+            }else{
+                //  alert( JSON.stringify( err ) );
+            }
+        });
+
+        // 监听上一户和下一户，音量
+        api.addEventListener({
+          name: 'volumeup'
+            }, function(ret, err) {
+                onTheOne();
+            });
+
+          api.addEventListener({
+              name: 'volumedown'
+          }, function(ret, err) {
+              theNextDoor();
+          });
+    };
+
+    //获取图片类型数据
+    function qureyONLINE() {
+        //获取图片类型数据
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_ONLINE_BEAN where TYPEID="GDTPLX"'
+        }, function(ret, err) {
+            if (ret.status) {
+                if (ret.data.length > 0) {
+                    var list = ret.data;
+                    console.log(JSON.stringify(ret.data))
+                    for (var i = 0; i < list.length; i++) {
+                        onlineId.push(list[i].ID);
+                        onlineName.push(list[i].NAME);
+                        if(list[i].ID=='2'){
+                          onlineNameOne=list[i].NAME
+                          onlineNameOneId=list[i].ID
+                        }
+
+                    }
+                }
+            } else {
+
+            }
+        });
+    }
+
+    var readNumer1 = ''
+    var readNumer2 = '';
+    var readNumer3 = '';
+    var readNumer4 = '';
+    var openLightNumer = 0;
+    var readNumerattr2 = 0;
+    var qdNumer;
+    var zcState;
+    var lon;
+    var lat;
+    var yl;
+    var objdata = {}
+    var onlinestatus
+    var actionList = {
+        'back': function() {
+            if (api.pageParam.name == "MeterReading_userList") {
+                var jsfun = 'show();';
+                api.execScript({
+                    name: api.pageParam.name,
+                    script: jsfun
+                });
+            }
+            api.closeWin()
+        },
+        'CodeScanning': function() {
+          readNumer4 = ''
+          gpsmodel.gpsstate(function(ret) {
+              if(ret.gps==true){
+                if(UsersDatalis[UserNumbers].CBBZ!='1'){
+                  var userCode
+                  var FNScanner = api.require('FNScanner');
+                  FNScanner.open({
+                      autorotation: true
+                  }, function(ret, err) {
+                      if (ret) {
+                          if (ret.eventType == 'success') {
+                              userCode = ret.content;
+                              // getCustmerDetail(parme.content);
+                              $('#TableNumber').text(userCode)
+                          }
+                      } else {
+                          console.log(JSON.stringify(err));
+                      }
+                  });
+                }
+              }
+            })
+
+        },
+        'changeDegrees': function() {
+            // 度数和用量选中判断
+            if (ztbh == 1||ztbh == 10040) {
+              // 自抄和正常
+                $("#changeDegrees").addClass("changeDegrees");
+                $("#changeConsumption").removeClass("changeDegrees");
+                $("#SJBM").removeClass("changeDegrees");
+                $("#TableNumber").removeClass("changeDegrees");
+                $("#changeDegrees").removeClass("MustBeEntered");
+
+            }else {
+              $("#changeDegrees").removeClass("changeDegrees");
+            }
+        },
+        'changeConsumption': function() {
+            if (ztbh == 3||ztbh == 5||ztbh == 20||ztbh == 21||ztbh == 6||ztbh == 7||ztbh == 22||ztbh == 23||ztbh == 24){
+              $("#changeDegrees").removeClass("changeDegrees");
+              $("#changeConsumption").addClass("changeDegrees");
+              $("#SJBM").removeClass("changeDegrees");
+              $("#TableNumber").removeClass("changeDegrees");
+              $("#changeConsumption").removeClass("MustBeEntered");
+              // $(changeDegrees
+
+            }else if(ztbh == 11){
+              $("#changeDegrees").removeClass("changeDegrees");
+              $("#changeConsumption").addClass("changeDegrees");
+              $("#SJBM").removeClass("changeDegrees");
+              $("#TableNumber").removeClass("changeDegrees");
+              $("#changeConsumption").removeClass("MustBeEntered");
+              $("#changeConsumption").removeClass("MustBeEntered");
+              $("#SJBM").addClass("MustBeEntered");
+            } else{
+              $("#changeConsumption").removeClass("changeDegrees");
+            }
+        },
+        'changeSJBM': function() {
+            // 实际编码选择判断
+            if(ztbh == 10||ztbh == 27){
+              $("#changeDegrees").removeClass("changeDegrees");
+              $("#changeConsumption").removeClass("changeDegrees");
+              $("#SJBM").addClass("changeDegrees");
+              $("#TableNumber").removeClass("changeDegrees");
+              // $("#changeDegrees").removeClass("MustBeEntered");
+            }else if(ztbh == 4){
+              $("#changeDegrees").removeClass("changeDegrees");
+              $("#changeConsumption").removeClass("changeDegrees");
+              $("#SJBM").addClass("changeDegrees");
+              $("#TableNumber").removeClass("changeDegrees");
+              $("#SJBM").removeClass("MustBeEntered");
+              $("#TableNumber").addClass("MustBeEntered");
+            }else if(ztbh == 11){
+              $("#changeDegrees").removeClass("changeDegrees");
+              $("#changeConsumption").removeClass("changeDegrees");
+              $("#SJBM").addClass("changeDegrees");
+              $("#changeConsumption").removeClass("changeDegrees");
+              $("#SJBM").removeClass("MustBeEntered");
+              $("#changeConsumption").addClass("MustBeEntered");
+            }else {
+              $("#SJBM").removeClass("changeDegrees");
+            }
+        },
+        'TableNumber':function(){
+          if(ztbh == 4){
+            $("#changeDegrees").removeClass("changeDegrees");
+            $("#changeConsumption").removeClass("changeDegrees");
+            $("#TableNumber").addClass("changeDegrees");
+            $("#SJBM").removeClass("changeDegrees");
+            $("#TableNumber").removeClass("MustBeEntered");
+            $("#SJBM").addClass("MustBeEntered");
+          }else {
+            $("#TableNumber").removeClass("changeDegrees");
+          }
+        },
+        'delete': function() {
+            gpsmodel.gpsstate(function(ret) {
+                if(ret.gps==true){
+                  if(UsersDatalis[UserNumbers].CBBZ!='1'){
+                    // 删除通过判断输入框是否被选中删除readNumer1和readNumer1全局变量用于输入框值的变换
+                    if ($("#changeDegrees").hasClass('changeDegrees')) {
+                        readNumer1 = readNumer1.substr(0, readNumer1.length - 1)
+                        $('#changeDegrees').text(readNumer1)
+                        var contentNumers = $('#stateData').attr('data-params')
+                        qdNumer = $("#qdDegree").attr('params')
+                        zcState = readNumer1 - qdNumer
+                        if (readNumer1.length <= 0) {
+                            $('#changeConsumption').text("")
+                        } else {
+                            $('#changeConsumption').text(zcState)
+                        }
+
+
+
+                    }
+                    if ($("#changeConsumption").hasClass('changeDegrees')) {
+                      if (ztbh == 3||ztbh == 5||ztbh == 20||ztbh == 21||ztbh == 6||ztbh == 7||ztbh == 22||ztbh == 23||ztbh == 24) {
+                        readNumer2 = readNumer2.substr(0, readNumer2.length - 1)
+                        $('#changeConsumption').text(readNumer2)
+                        qdNumer = $("#qdDegree").attr('params')
+                        zcState = Number(readNumer2) + Number(qdNumer)
+                        if (readNumer2.length <= 0) {
+                            $('#changeDegrees').text("")
+                        } else {
+                            $('#changeDegrees').text(zcState)
+                        }
+                      }else {
+                        // var changeDegreesNumer = $('#changeConsumption').text()
+                        readNumer2 = readNumer2.substr(0, readNumer2.length - 1)
+                        $('#changeConsumption').text(readNumer2)
+                      }
+
+                    }
+                    if ($("#SJBM").hasClass('changeDegrees')) {
+                        // var changeDegreesNumer = $('#changeConsumption').text()
+                        readNumer3 = readNumer3.substr(0, readNumer3.length - 1)
+                        $('#SJBM').text(readNumer3)
+                    }
+                    if($('#TableNumber').hasClass('changeDegrees')){
+                      readNumer4 = readNumer4.substr(0, readNumer4.length - 1)
+                      $('#TableNumber').text(readNumer4)
+                    }
+                  }else {
+                    api.confirm({
+                        title: '修改提示',
+                        msg: '确认修改将清空抄表录入与图片',
+                        buttons: ['确定', '取消']
+                    }, function(ret, err){
+                        if( ret ){
+                          var index = ret.buttonIndex;
+                          if(index==1){
+                            NotMetering()
+                          }
+                        }else{
+
+                        }
+                    });
+
+                  }
+                }else {
+                  alert("无法进行抄表操作,请打开gps")
+                }
+            });
+
+
+
+        },
+        'openLight': function() {
+            // 打开闪光灯
+            var DVTorch = api.require("DVTorch");
+            if (openLightNumer % 2 == 0) {
+                DVTorch.open({});
+            } else {
+                DVTorch.close({});
+
+            }
+            openLightNumer++;
+        },
+        'statselectr': function() {
+          gpsmodel.gpsstate(function(ret) {
+              if(ret.gps==true){
+                if(UsersDatalis[UserNumbers].CBBZ!='1'){
+                  // 状态选中，打开另外一页，用api.sendEvent发送过来，在监听渲染页面
+                  // 每次点击选择之前移除输入框
+                  var headerH = $api.byId('content');
+                  var contentH = $api.offset(headerH).h;
+                  var body = $api.byId('body');
+                  var bodyW = $api.offset(body).w;
+                  var bodyH = $api.offset(body).h;
+                  api.openFrame({
+                      name: 'statselectr_fram',
+                      url: './statselectr_fram.html',
+                      rect: {
+                          x: 0,
+                          y: 0,
+                          w: 'auto',
+                          h: 'auto'
+                      },
+                      pageParam: {
+                          name: 'test'
+                      },
+                      bounces: false,
+                      bgColor: 'rgba(243,243,243.1)',
+                      vScrollBarEnabled: true,
+                      hScrollBarEnabled: true,
+                  });
+
+                }else {
+
+                }
+              }else {
+                alert("无法进行抄表操作,请打开gps")
+              }
+          });
+
+
+        },
+        'ContactsPhone': function() {
+            // 电话拨打和短信
+            var telponeNumer = $("#telponeNumer").attr('params')
+            var userCode = $("#userCoder").attr('params')
+            var bMap = api.require("bMap");
+            var userCoder = $("#userCoder").attr('params')
+            var userCh = $("#userCoder").attr('data-cbch')
+            api.actionSheet({
+                style: {
+                    fontNormalColor: '#FF5A5A5A',
+                    fontPressColor: '#FF2F81F6'
+                },
+                buttons: ['联系用户', '更新表位', '重新抄表', '备忘录','导航']
+            }, function(ret, err) {
+                if (ret) {
+                    var index = ret.buttonIndex;
+                    if (index == 1) {
+                        api.actionSheet({
+                            style: {
+                                fontNormalColor: '#FF5A5A5A',
+                                fontPressColor: '#FF2F81F6'
+                            },
+                            buttons: ['电话', '短信']
+                        }, function(ret, err) {
+                            var index = ret.buttonIndex;
+                            if (index == 1) {
+                              if(telponeNumer==""||telponeNumer==" "){
+                                api.toast({
+                                    msg: '该用户没有录入联系方式',
+                                    duration: 2000,
+                                    location: 'top'
+                                });
+
+                              }
+                                api.call({
+                                    type: 'tel_prompt',
+                                    number: telponeNumer
+                                });
+
+                            }
+                            if (index == 2) {
+                              db.selectSql({
+                                  name: 'CBtest',
+                                  sql: 'SELECT * FROM MRM_SHORT_MEESSAGE_BEAN'
+                              }, function(ret, err) {
+                                  if (ret.status) {
+                                      console.log(JSON.stringify(ret))
+                                      var dataList = ret.data
+                                      if(dataList.length>0){
+                                        var Massage = []
+                                        var MassageId = []
+                                        for (var i = 0; i < dataList.length; i++) {
+                                            MassageId.push(dataList[i]);
+                                            Massage.push(dataList[i].MBMC);
+                                        }
+                                        api.actionSheet({
+                                            buttons: Massage
+                                        }, function(ret, err) {
+                                            var index = ret.buttonIndex;
+                                            if (index <= Massage.length) {
+                                                var id = MassageId[index - 1];
+                                                var name = Massage[index - 1];
+                                                // UsersDatalis[UserNumbers]
+                                                api.openWin({
+                                                    name: 'Messageing_fram',
+                                                    url: './Messageing_fram.html',
+                                                    pageParam: {
+                                                        StatseValue: id,
+                                                        telpone: UsersDatalis[UserNumbers].YDDH,
+                                                        userCode: UsersDatalis[UserNumbers].YHBH
+                                                    }
+                                                });
+                                            }
+                                        });
+                                      }
+                                      // handleAnnotData(dataList)
+                                  } else {
+                                      // alert( JSON.stringify( err ) +222);
+                                  }
+                              });
+                                // var headerH = $api.byId('content');
+                                // var contentH = $api.offset(headerH).h;
+                                // var content = "1rem"
+                                // api.openFrame({
+                                //     name: 'Message_fram',
+                                //     url: './Message_fram.html',
+                                //     rect: {
+                                //         x: 0,
+                                //         y: 0,
+                                //         w: "auto",
+                                //         h: "auto"
+                                //     },
+                                //     pageParam: {
+                                //         telpone: telponeNumer,
+                                //         userCode: userCode
+                                //     },
+                                //     bounces: false,
+                                //     bgColor: 'rgba(243,243,243.1)',
+                                //     vScrollBarEnabled: true,
+                                //     hScrollBarEnabled: true
+                                // });
+                            }
+                        });
+                    }
+                    if (index == 2) {
+                        // 定位
+
+                      if(api.connectionType != 'none'){
+                        // 定位
+
+                        upLoction(0)
+                      }else {
+                      api.toast({
+                          msg: '网络未开启，请开启网络',
+                          duration: 2000,
+                          location: 'top'
+                      });
+
+                      }
+                    }
+                    if (index == 3) {
+                      // 重新抄表
+                      gpsmodel.gpsstate(function(ret) {
+                          if(ret.gps==true){
+                            NotMetering()
+                          }else {
+                            alert("无法进行抄表操作,请打开gps")
+                          }
+                        });
+
+                    }
+                    if (index == 5) {
+                      api.openWin({
+                          name: 'baiduMap',
+                          url: '../baiduMap/baiduMap.html',
+                          pageParam: {
+                              YHBH: UsersDatalis[UserNumbers].YHBH
+                          }
+                      });
+                    }
+                    if (index == 4) {
+                      api.openWin({
+                          name: 'MeterReading_Note',
+                          url: './MeterReading_Note.html',
+                          pageParam: UsersDatalis[UserNumbers]
+                      });
+
+                    }
+                } else {
+                    //  alert( JSON.stringify( err ) );
+                }
+            });
+
+
+
+
+
+        },
+        'Photograph': function() {
+            // 抄表拍照图片
+            gpsmodel.gpsstate(function(ret) {
+                if(ret.gps==true){
+                  if(UsersDatalis[UserNumbers].CBBZ!='1'){
+                    var list = $api.domAll('.ImgOrVideo img');
+                    $('.section_three').removeClass('section_hidden')
+                    if (list.length >= 5) {
+                        api.toast({
+                            msg: '仅支持五张图片',
+                            duration: 2000,
+                            location: 'top'
+                        });
+                    } else {
+                        var state = 0;//标志是表位图片还是抄表图片
+                        if (list.length >= 1) {
+                            api.actionSheet({
+                                buttons: onlineName
+                            }, function(ret, err) {
+                                var index = ret.buttonIndex;
+                                if (index <= onlineName.length) {
+                                    var id = onlineId[index - 1];
+                                    var name = onlineName[index - 1];
+                                    getCamera(id, name,state);
+                                }
+                            });
+                        } else {
+                            getCamera(onlineNameOneId,onlineNameOne,state);
+                        }
+                    }
+                  }else {
+
+
+                  }
+
+                }else {
+                  alert("无法进行抄表操作,请打开gps")
+                }
+            });
+
+        },
+        'clearImg': function() {
+            // 图片删除
+            var path = $(this).attr('data-param');
+            var parentList = $(this).parent()
+            gpsmodel.gpsstate(function(ret) {
+                if(ret.gps==true){
+                  if(UsersDatalis[UserNumbers].CBBZ!='1'){
+
+                    api.confirm({
+                          title: '提示',
+                          msg: '确认删除照片',
+                          buttons: ['确定', '取消']
+                      }, function(ret, err) {
+                          var index = ret.buttonIndex;
+                          if(index==1){
+
+                            var fs = api.require('fs');
+                            fs.remove({
+                                path: path
+                            }, function(ret, err) {
+                                if (ret.status) {
+
+                                    var db = api.require('db');
+                                    var photos = db.executeSqlSync({
+                                        name: 'CBtest',
+                                        sql: 'delete from MRM_PHOTOS_BEAN where ZPLJ="' + path + '" AND NotLoction="0"'
+                                    });
+                                } else {
+                                    // alert(JSON.stringify(err));
+                                }
+                            });
+
+                            var list = $api.domAll('.ImgOrVideo img');
+                            if (list.length == 1) {
+                                parentList.remove();
+                                // if ($('img').length == 0) {
+                                //     // clearInterval(timer);
+                                // }
+                                $('.section_three').addClass('section_hidden')
+                            } else {
+                                parentList.remove();
+                                // if ($('img').length == 0) {
+                                //     // clearInterval(timer);
+                                // }
+                            }
+
+                          }else {
+
+                          }
+                      });
+                  }else {
+
+                  }
+                }else {
+                  alert("无法进行抄表操作,请打开gps")
+                }
+            });
+
+
+
+
+        },
+        'LocationImg':function(){
+          // 表位图片上传
+          var state = 1;
+          var LocationImg = $("#Location-img").attr("data-param")
+          if(LocationImg=='null'||LocationImg==null||LocationImg==' '){
+            api.confirm({
+                  title: '提示',
+                  msg: '是否上传表位照片',
+                  buttons: ['是', '否']
+              }, function(ret, err) {
+                  var index = ret.buttonIndex;
+                  if(index==1){
+                    getCamera(" ", " ",state);
+                  }
+              });
+          }else {
+            api.openWin({
+                name: 'photoBrowser_fram',
+                url: './photoBrowser_fram.html',
+                pageParam: {
+                    src: LocationImg,
+                    statu:$('#userCoder').attr('params')
+                }
+            });
+          }
+        },
+        'fnOpenFile': function() {
+            // 图片放大阅览功能
+            var path = $(this).attr('src')
+            api.openWin({
+                name: 'photoBrowser_fram',
+                url: './photoBrowser_fram.html',
+                pageParam: {
+                    src: path
+                }
+            });
+        },
+        'Navigation': function() {
+          // 发起工单
+            var yhbh = $('#userCoder').attr('params')
+            var db = api.require('db');
+            var workorderdata = db.selectSqlSync({
+                name: 'CBtest',
+                sql: 'select * from MRM_WORKORDER_BEAN where YHBH="' + yhbh + '"'
+            });
+            if (workorderdata.data) {
+                if (workorderdata.data.length > 0) {
+                    api.openWin({
+                        name: 'workOrder',
+                        url: '../workOrder/workOrder.html',
+                        pageParam: {
+                            YHBH: yhbh,
+                            WinName: 'MeterReading_userList'
+                        }
+                    });
+                } else {
+                    api.openWin({
+                        name: 'workOrder',
+                        url: '../workOrder/workOrder.html',
+                        pageParam: {
+                            YHBH: yhbh,
+                            WinName: 'MeterReading_userList'
+                        }
+                    });
+                }
+            }
+
+
+        },
+        'FirstHousehold': function() {
+            onTheOne();
+        },
+        'LastHousehold': function() {
+
+            theNextDoor();
+        },
+        'search': function() {
+            api.openWin({
+                name: 'queryUser',
+                url: './queryUser.html',
+                pageParam: {
+                    name: 'test'
+                }
+            });
+
+        },
+        'Allsave': function() {
+            $('#textdiscript').removeClass("changeDegrees")
+            $('#textdiscript').removeClass("MustBeEntered")
+            objdata = {};
+            onlinestatus = ''
+            yhbh = $('#userCoder').attr('params')
+            cbch = $('#userCoder').attr('data-cbch')
+            var ylString = $('#changeConsumption').text();
+            var yl = Number(ylString)
+            var list = $api.domAll('.ImgOrVideo img');
+            var slsfyc = $('#stateData').attr('data-params')
+            var qd = $('#qdDegree').attr('params')
+            var zd = $('#changeDegrees').text()
+            var qidu=Number(qd)
+            var zhidu=Number(zd)
+            gpsmodel.gpsstate(function(ret) {
+                if(ret.gps==true){
+                  if (UsersDatalis[UserNumbers].CBBZ=='1') {
+
+                      // alert(UsersDatalis[UserNumbers].CBBZ)
+                  } else {
+
+                      if(ztbh==1||ztbh==10040){
+                        if(zhidu==" "){
+                          api.toast({
+                                  msg: '请填写止度',
+                                  duration: 2000,
+                                  location: 'middle'
+                              });
+                              return false;
+                        }
+                        if(zhidu < qidu){
+
+                          api.toast({
+                                  msg: '水表读数少于起度',
+                                  duration: 2000,
+                                  location: 'middle'
+                              });
+                              return false;
+                        }else {
+
+                          if(slsfyc=="2"||UsersDatalis[UserNumbers].SFQZPZ=="1"){
+                            if(list.length>0){
+                              NoodImg()
+                              // alert(list.length)
+                            }else {
+                              alert('当前抄表用户必须拍照')
+                              return;
+                            }
+
+                          }else {
+
+                            NoodImg()
+                            // return true;
+                          }
+
+                        }
+                      }else if(ztbh == 3||ztbh == 5||ztbh == 20||ztbh == 21||ztbh == 6||ztbh == 7||ztbh == 22||ztbh == 23||ztbh == 24){
+
+                        var yl = $('#changeConsumption').text();
+                        if (yl == null || yl == ""|| yl == " ") {
+                            alert("用量不能为空")
+                            return false;
+                        }else {
+                          if(slsfyc=="2"||UsersDatalis[UserNumbers].SFQZPZ=="1"){
+                            if(list.length>0){
+                              NoodImg()
+                              // alert(list.length)
+                            }else {
+                              alert('当前抄表用户必须拍照')
+                              return false;
+                            }
+
+                          }else {
+                            NoodImg()
+                            // return true;
+                          }
+                        }
+
+
+                      }else if(ztbh == 10||ztbh == 27){
+                        var sjbm = $('#SJBM').text();
+                        if (sjbm == null || sjbm == ""|| sjbm == " ") {
+                            alert("实际表码不能为空");
+                            api.hideProgress();
+                            return false;
+                        }else {
+                          if(slsfyc=="2"||UsersDatalis[UserNumbers].SFQZPZ=="1"){
+                            if(list.length>0){
+                              NoodImg()
+                              // alert(list.length)
+                            }else {
+                              alert('当前抄表用户必须拍照')
+                              return false;
+                            }
+
+                          }else {
+                            NoodImg()
+                            // return true;
+                          }
+                        }
+
+                      }else if(ztbh == 4){
+                        var sjbm = $('#SJBM').text();
+                        var bh = $('#TableNumber').text()
+                        if (sjbm == ""||bh == "") {
+                            alert("实际表码或表号不能为空");
+                            api.hideProgress();
+                            return false;
+                        }else {
+                          if(slsfyc=="2"||UsersDatalis[UserNumbers].SFQZPZ=="1"){
+                            if(list.length>0){
+                              NoodImg()
+                              // alert(list.length)
+                            }else {
+                              alert('当前抄表用户必须拍照')
+                              return false;
+                            }
+
+                          }else {
+                            NoodImg()
+                            // return true;
+                          }
+                        }
+
+                      }else if(ztbh == 11){
+                        var sjbm = $('#SJBM').text();
+                        var yl = $('#changeConsumption').text();
+                        if (sjbm == ""||yl == "") {
+                            alert("实际表码或用量不能为空");
+                            api.hideProgress();
+                            return false;
+                        }else {
+                          if(slsfyc=="2"||UsersDatalis[UserNumbers].SFQZPZ=="1"){
+                            if(list.length>0){
+                              NoodImg()
+                              // alert(list.length)
+                            }else {
+                              alert('当前抄表用户必须拍照')
+                              return false;
+                            }
+
+                          }else {
+                            NoodImg()
+                            // return true;
+                          }
+                        }
+
+                      }else {
+                          if(slsfyc=="2"||UsersDatalis[UserNumbers].SFQZPZ=="1"){
+                            if(list.length>0){
+                              NoodImg()
+                              // alert(list.length)
+                            }else {
+                              alert('当前抄表用户必须拍照')
+                              return false;
+                            }
+
+                          }else {
+                            NoodImg()
+                            // return true;
+                          }
+                        }
+                      }
+
+                }else {
+                  alert("无法进行抄表操作,请打开gps")
+                }
+              });
+
+
+        },
+        'removecb': function() {
+            readNumer1 = ''
+            $('#changeDegrees').text('')
+            $('#changeConsumption').text('')
+                //$('#Allsave div').text('保存')
+            $('#Allsave').text('保存')
+            $('#ImgOrVideo').empty()
+            $('#stateData').text('正常')
+            var yhbh = $('#userCoder').attr('params')
+            db.selectSql({
+                name: 'CBtest',
+                sql: 'DELETE FROM MRM_PHOTOS_BEAN WHERE YHBH ="' + yhbh + '" AND NotLoction="0"'
+            }, function(ret, err) {
+                $('.section_three').addClass('section_hidden')
+            })
+            var ret = db.executeSqlSync({
+                name: 'CBtest',
+                sql: 'UPDATE MRM_USER_BEAN SET CBRQ=" ", ZD="0", YL="0", CBBZ="0",BYXZT=" ", CWXX=" ",ZTSCCG="0", CBYSZJD=" ",CBYSZWD=" ",FY=" ",FYHJ=" ",SBYXZT="正常" WHERE YHBH="' + yhbh + '"'
+            });
+            var retUser = db.selectSqlSync({
+                name: 'CBtest',
+                sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + UsersDatalis[UserNumbers].CBCH + '\' AND CBBZ="1"'
+            });
+            var retUsers = db.selectSqlSync({
+                name: 'CBtest',
+                sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + UsersDatalis[UserNumbers].CBCH + '\''
+            });
+
+            var wcusers = retUsers.data.length - retUser.data.length
+            var retBooks = db.executeSqlSync({
+                name: 'CBtest',
+                sql: 'UPDATE MRM_BOOKS_BEAN SET YC=\'' + retUser.data.length + '\' , WC=\'' + wcusers + '\' WHERE CBCH=\'' + UsersDatalis[UserNumbers].CBCH + '\''
+            });
+            api.sendEvent({
+                name: 'gxMeterRing',
+                extra: {
+                    yc: retUser.data.length,
+                    wc: wcusers,
+                    cbch: UsersDatalis[UserNumbers].CBCH
+                }
+            });
+
+        },
+        'information': function() {
+            api.openWin({
+                name: 'MeterReading_information2',
+                url: './MeterReading_information2.html',
+                pageParam: UsersDatalis[UserNumbers]
+            });
+
+        }
+    }
+    // 是否需要拍照
+    function NoodImg(){
+      var list = $api.domAll('.ImgOrVideo img'); //照片数量
+      if (ztbh == 1||ztbh == 10040) {
+          //正常
+          if (list.length < MRM_NORMAL) {
+              api.toast({
+                  msg: '需要至少' + MRM_NORMAL + '张图片',
+                  duration: 2000,
+                  location: 'middle'
+              });
+          } else {
+              saveAll();
+          }
+      } else {
+          //异常
+          if (list.length < MRM_UNUSUAL) {
+              api.toast({
+                  msg: '需要至少' + MRM_UNUSUAL + '张图片',
+                  duration: 2000,
+                  location: 'middle'
+              });
+          } else {
+              saveAll();
+          }
+      }
+    }
+    function onTheOne() {
+        readNumer1 = " ";
+        readNumer2 = " ";
+        readNumer3 = " ";
+        ztbh = 1;
+        if (UserNumbers < 1) {
+            //UserNumbers==0
+            api.toast({
+                msg: '没有上一户了',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        } else {
+            UserNumbers--;
+            $("#flex-vertical").empty();
+            var dataList = UsersDatalis[UserNumbers]
+            $("#header .aui-title").text(UsersDatalis[UserNumbers].YHMC)
+            if (UsersDatalis[UserNumbers].CBBZ == '1') {
+                //$('#Allsave div').text('查看')
+                  $("#Allsave").addClass("looksave");
+            } else {
+                //$('#Allsave div').text('保存')
+                $("#Allsave").removeClass("looksave");
+            }
+            var showNumer = UserNumbers + 1 + '/' + UsersDatalis.length
+            $('#Allnumer').text(showNumer)
+            handleAnnotData(dataList);
+            showimg(UsersDatalis[UserNumbers].YHBH, UsersDatalis[UserNumbers].BYXZT, UsersDatalis[UserNumbers].CBBZ, UsersDatalis[UserNumbers].SBYXZT)
+        }
+    }
+
+    function theNextDoor() {
+      readNumer1 = " ";
+      readNumer2 = " ";
+      readNumer3 = " ";
+      ztbh = 1;
+        if (UserNumbers == UsersDatalis.length - 1) {
+            api.toast({
+                msg: '没有下一户了',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        } else {
+            UserNumbers++;
+            $("#flex-vertical").empty();
+            var dataList = UsersDatalis[UserNumbers]
+            $("#header .aui-title").text(UsersDatalis[UserNumbers].YHMC)
+            if (UsersDatalis[UserNumbers].CBBZ == '1') {
+                //$('#Allsave div').text('查看')
+                  $("#Allsave").addClass("looksave");
+            } else {
+                //$('#Allsave div').text('保存')
+                $("#Allsave").removeClass("looksave");
+            }
+
+            var showNumer = UserNumbers + 1 + '/' + UsersDatalis.length
+            $('#Allnumer').text(showNumer)
+            handleAnnotData(dataList)
+
+            showimg(UsersDatalis[UserNumbers].YHBH, UsersDatalis[UserNumbers].BYXZT, UsersDatalis[UserNumbers].CBBZ, UsersDatalis[UserNumbers].SBYXZT)
+        }
+    }
+    function upLoction(a){
+      var loctionJWD =a
+      var telponeNumer = $("#telponeNumer").attr('params')
+      var userCode = $("#userCoder").attr('params')
+      var bMap = api.require("bMap");
+      var userCoder = $("#userCoder").attr('params')
+      var userCh = $("#userCoder").attr('data-cbch')
+      if(loctionJWD==0){
+        api.showProgress({
+            style: 'default',
+            animationType: 'fade',
+            title: '加载中...',
+            modal: true
+        });
+
+      }
+      bMap.getLocation({
+          accuracy: '100m',
+          autoStop: true,
+          filter: 1
+      }, function(ret, err) {
+          if (ret.status) {
+              var lon = ret.lon;
+              var lat = ret.lat;
+              var Records = [{
+                  "JD": lon,
+                  "WD": lat,
+                  "YHBH": userCoder
+              }]
+              // 更新经纬度
+              var jwd = lon+','+lat
+              var retdb = db.executeSqlSync({
+                  name: 'CBtest',
+                  sql: 'UPDATE MRM_USER_BEAN SET JWD="'+jwd+'" WHERE YHBH="' + userCoder + '"'
+
+              });
+              UsersDatalis[UserNumbers].JWD = jwd
+              var Parameter = {
+                  "ClientId": api.deviceId,
+                  "ClientName": api.deviceModel,
+                  "OperatorId": $api.getStorage("cbOperatorId"),
+                  "OperatorName": $api.getStorage("cbOperatorName"),
+                  "Required": "",
+                  "Type": '221',
+                  "Records": Records
+              }
+              var body = {
+                  body: JSON.stringify({
+                      "UserName": $api.getStorage("cbOperatorName"),
+                      "Password": $api.getStorage("cbPassword"),
+                      "SerialNo": dataTime(),
+                      "Method": "R999",
+                      "Parameter": JSON.stringify(Parameter)
+                  })
+              }
+              fnPost1('', body, 'application/json', false, function(ret, err) {
+
+                if(loctionJWD==0){
+                  api.hideProgress();
+                }else {
+                  // 保存调用只要上传有一条开启就不隐藏
+                  if($api.getStorage('sendUpload') == "true"||$api.getStorage('sendUploadPicture') == "true"){
+
+                  }else {
+                    api.hideProgress();
+
+                  }
+                }
+                  if (ret) {
+                      if (ret.Status == 0) {
+                          // console.log(JSON.stringify(ret))
+                          if(loctionJWD==0){
+                            api.toast({
+                                msg: '表位上传成功',
+                                duration: 2000,
+                                location: 'top'
+                            });
+                          }else {
+
+                          }
+                          var retdb = db.executeSqlSync({
+                              name: 'CBtest',
+                              sql: 'UPDATE MRM_USER_BEAN SET DWSFSC="1" WHERE YHBH="' + userCoder + '"'
+                          });
+
+                      } else {
+                          alert(ret.Message)
+                      }
+                  } else {
+                      // 上传超时存储到本地
+                      db.selectSql({
+                          name: 'CBtest',
+                          sql: 'SELECT * FROM MRM_METER_LOCATION_BEAN WHERE YHBH= "' + userCoder + '"'
+                      }, function(ret, err) {
+                          if (ret.status) {
+                              db.executeSql({
+                                  name: 'CBtest',
+                                  sql: 'UPDATE MRM_METER_LOCATION_BEAN SET ID=\'' + $api.getStorage("cbOperatorId") + '\',CBCH=\'' + userCh + '\',YHBH=\'' + userCoder + '\',JD=\'' +
+                                      lon + '\',WD=\'' +
+                                      lat + '\',CBSJ=\'' + dataTime() + '\' WHERE YHBH= "' + userCoder + '"'
+                              }, function(ret, err) {
+                                  if (ret.status) {
+                                      // alert("网络错误，已存储本地")
+                                  } else {
+
+                                  }
+                              });
+                          } else {
+                              db.executeSql({
+                                  name: 'CBtest',
+                                  sql: 'INSERT INTO MRM_METER_LOCATION_BEAN(ID,CBCH,YHBH,JD,WD,SFGX,CBSJ) VALUES ("' + $api.getStorage("cbOperatorId") + '","' + userCh + '",' +
+                                      '"' + userCoder + '",' +
+                                      '"' + lon + '",' +
+                                      '"' + lat + '",' +
+                                      '"' + dataTime() + '")'
+                              }, function(ret, err) {
+                                  if (ret.status) {
+                                      alert("网络错误，已存储本地")
+                                  } else {
+                                      // alert( JSON.stringify( err ) );
+                                  }
+                              });
+
+                          }
+                      });
+                      // 存储到本地完成
+                  }
+              })
+
+          } else {
+            if(loctionJWD==0){
+              api.hideProgress();
+            }else {
+              // 保存调用只要上传有一条开启就不隐藏
+              if($api.getStorage('sendUpload') == "true"||$api.getStorage('sendUploadPicture') == "true"){
+
+              }else {
+                api.hideProgress();
+
+              }
+            }
+              alert("未连接网络"+err.code);
+          }
+      });
+    }
+    // 抄表数据渲染
+
+
+    // 度数输入为每一个数组绑定了inputNumer事件readNumer1表示输入的值
+
+    function inputNumer(that) {
+      gpsmodel.gpsstate(function(ret) {
+          if(ret.gps==true){
+            if(UsersDatalis[UserNumbers].CBBZ!='1'){
+              var contentNumers = $('#stateData').attr('data-params')
+
+              qdNumer = $("#qdDegree").attr('params')
+              if ($("#changeDegrees").hasClass('changeDegrees')) {
+                  if (readNumer1.length < 8) {
+                      readNumer1 += $(that).text()
+                      $("#changeDegrees").text(readNumer1)
+                      if (ztbh == 1||ztbh == 10040) {
+                          zcState = readNumer1 - qdNumer;
+                          // zcState = Math.abs(zcState);
+                          $('#changeConsumption').text(zcState);
+
+                      }
+                  } else {
+                      api.toast({
+                          msg: '输入超过限制',
+                          duration: 2000,
+                          location: 'top'
+                      });
+                  }
+
+              } else if ($("#changeConsumption").hasClass('changeDegrees')) {
+                  if (readNumer2.length < 8) {
+                      // readNumerattr2++
+                      // 表糊3
+                      // 表停5
+                      // 表坏20
+                      // 其他21故障
+                      // 堆埋6
+                      // 车压7
+                      // 水淹22
+                      // 门闭围挡23
+                      // 其他 24特殊表位
+                      if (ztbh == 3||ztbh == 5||ztbh == 20||ztbh == 21||ztbh == 6||ztbh == 7||ztbh == 22||ztbh == 23||ztbh == 24) {
+
+                        readNumer2 += $(that).text()
+                        $('#changeConsumption').text(readNumer2)
+                        zcState = Number(readNumer2) + Number(qdNumer)
+                        $("#changeDegrees").text(zcState)
+                      }else {
+                        readNumer2 += $(that).text()
+                        $("#changeConsumption").text(readNumer2)
+                      }
+                  } else {
+                      api.toast({
+                          msg: '输入超过限制',
+                          duration: 2000,
+                          location: 'bottom'
+                      });
+                  }
+              } else if ($("#SJBM").hasClass('changeDegrees')) {
+                  if (readNumer3.length < 8) {
+                      // readNumerattr2++
+
+                      readNumer3 += $(that).text()
+                      $("#SJBM").text(readNumer3)
+                  } else {
+                      api.toast({
+                          msg: '输入超过限制',
+                          duration: 2000,
+                          location: 'bottom'
+                      });
+                  }
+              }else if ($("#TableNumber").hasClass('changeDegrees')) {
+                if (readNumer4.length < 24) {
+                    // readNumerattr2++
+
+                    readNumer4 += $(that).text()
+                    $("#TableNumber").text(readNumer4)
+                } else {
+                    api.toast({
+                        msg: '输入超过限制',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                }
+              }else {
+
+              }
+            }else {
+
+            }
+          }else {
+            alert("无法进行抄表操作,请打开gps")
+          }
+      });
+
+
+
+
+    }
+
+    // 拍照功能
+    function getCamera(id, name,state) {
+        api.getPicture({
+            sourceType: 'camera',
+            encodingType: 'jpg',
+            mediaValue: 'pic',
+            destinationType: 'url',
+            allowEdit: true,
+            quality: 50,
+            targetWidth: 2000,
+            targetHeight: 2000,
+            saveToPhotoAlbum: false,
+            preview: true
+        }, function(ret, err) {
+            if (ret) {
+                //console.log(JSON.stringify(ret));
+                if (ret.data != '') {
+                    var list = ret.data;
+
+                    //var yhbh = $('#userCoder').attr('params');
+                    // 添加图片水印
+                    var text,text2,NotLoction;
+                    if(state==0){
+                      NotLoction = 0
+
+                      text = "用户编号:"+$('#userCoder').attr('params') + "  "+name
+                      text2 = " 拍照时间:" + dataTime();
+                    }else {
+                      NotLoction = 1
+                      text = "用户编号:"+$('#userCoder').attr('params')
+                      text2 = " 拍照时间:" + dataTime()
+                    }
+                    var uzmodulemarkdemo = api.require('waterImageMark');
+                    var param = {
+                        imagePath: ret.data,
+                        savePath: api.fsDir + "/picture/",
+                        compress: 50,
+                        margin: {
+                            x: 100,
+                            y: 100
+                        },
+                        position: {
+                            type: 6,
+                            x: 100,
+                            y: 100
+                        },
+                        markType: 0,
+                        textAttr: {
+                            text: text,
+                            size: 50,
+                            color: "#ff0000",
+                            alpha: 255,
+                            rotation: 0,
+                            font: "",
+                            backgroundColor: "#000000",
+                            backgroundColorAlpha: 255,
+
+                        },
+                    };
+                    uzmodulemarkdemo.addMark(param, function(data2, err) {
+                        var fs = api.require('fs');
+                        fs.remove({
+                            path: ret.data
+                        }, function(ret, err) {
+
+                        });
+
+                        var param2 = {
+                            imagePath: data2.data,
+                            savePath: api.fsDir + "/picture/",
+                            compress: 50,
+                            margin: {
+                                x: 0,
+                                y: 0
+                            },
+                            position: {
+                                type: 0,
+                                x: 100,
+                                y: 0
+                            },
+                            markType: 0,
+                            textAttr: {
+                                text: text2,
+                                size: 40,
+                                color: "#ff0000",
+                                alpha: 255,
+                                rotation: 0,
+                                font: "",
+                                backgroundColor: "#000000",
+                                backgroundColorAlpha: 255,
+
+                            },
+                        };
+                        uzmodulemarkdemo.addMark(param2, function(data, err) {
+                          var fs = api.require('fs');
+                          fs.remove({
+                              path: data2.data
+                          }, function(ret, err) {
+
+                          });
+
+                          var cbch = $('#userCoder').attr('data-cbch');
+                          var yhbh = $('#userCoder').attr('params');
+                          var zplj = data.data;
+                          var zpmc = zplj.substr(zplj.lastIndexOf('/') + 1, zplj.lastIndexOf('.') + 3);
+
+                          var lon = ""; //经度
+                          var lat = ""; //维度
+                          var bMap = api.require('bMap');
+                          bMap.getLocation({
+                              accuracy: '100m',
+                              autoStop: true,
+                              filter: 1
+                          }, function(ret, err) {
+                              if (ret.status) {
+                                  lon = ret.lon;
+                                  lat = ret.lat;
+                              } else {
+
+                              }
+
+                              var photodata = db.executeSqlSync({
+                                  name: 'CBtest',
+                                  sql: 'INSERT INTO MRM_PHOTOS_BEAN(ID,CBCH,YHBH,ZPMC,ZPLJ,ZPLX,ZPLXMC,SFSC,JD,WD,CBRQ,'+
+                                  'NotLoction) VALUES ("' + $api.getStorage('cbOperatorId') + '",' +
+                                      '"' + cbch + '",' +
+                                      '"' + yhbh + '",' +
+                                      '"' + zpmc + '",' +
+                                      '"' + zplj + '",' +
+                                      '"' + id + '",' +
+                                      '"' + name + '",' +
+                                      '"0",' +
+                                      '"' + lon + '",' +
+                                      '"' + lat + '",' +
+                                      '"' + dataTime() + '",' +
+                                      '"' + NotLoction + '")'
+                              });
+
+                              if(state==0){
+                                $api.append($api.domAll('.ImgOrVideo')[0], '<div class="aui-col-xs-2 imgDiv">' +
+                                    '<img src="' + data.data + '" tapmode data-action="fnOpenFile">' +
+                                    '<div class="close closeHide" data-param="' + data.data + '" tapmode data-action="clearImg"></div>' +
+                                    '</div>');
+                                    fnReady();
+                                    // operationDom();
+                                    operationDom();
+                                    api.hideProgress();
+                              }else {
+
+                                UsersDatalis[UserNumbers].PATH = data.data;
+                                var ret = db.executeSqlSync({
+                                    name: 'CBtest',
+                                    sql: 'UPDATE MRM_USER_BEAN SET PATH="' + data.data + '" WHERE YHBH="' + yhbh + '"'
+                                });
+                                // 表位图片
+                                $('#Location-img').attr("data-param",data.data)
+                              }
+
+                          });
+                        })
+                    });
+                }else {
+                  var listimg = $api.domAll('.ImgOrVideo img');
+                  if (listimg.length>0) {
+
+                  }else {
+                    $('.section_three').addClass('section_hidden')
+                  }
+
+                }
+            } else {
+
+            }
+        });
+    }
+    var timer;
+    // 滑动
+    // function hemmerFun(){
+    //   var list = $api.byId('ioformantionList');
+    //   var hammer = new Hammer(list);
+    //   hammer.get('pan').set({ direction: Hammer.DIRECTION_ALL })
+    //   hammer.on("pan", function(e){
+    //     // alert(JSON.stringify(e))
+    //     if(e.direction==2){
+    //       api.openWin({
+    //           name: 'MeterReading_information2',
+    //           url: './MeterReading_information2.html',
+    //           pageParam: UsersDatalis[UserNumbers]
+    //       });
+    //     }
+    //
+    //   })
+    //
+    //
+    // }
+    // 照片删除
+
+    function handleAnnotData(dataList) {
+        var ret = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'UPDATE MRM_BOOKS_BEAN SET XCYH="' + dataList.YHBH + '" WHERE CBCH="' + dataList.CBCH + '"'
+        });
+        var list = {
+            listdataLst: dataList
+        }
+        var str = template('Booksdata', list)
+        $api.append($api.byId('flex-vertical'), str);
+        // 判断抄表字体颜色，判断是否保存颜色，判断是否水量异常颜色
+        var WoterContent = $("#WoterContent").text()
+        if (WoterContent != ""||WoterContent != " "||WoterContent != null||WoterContent != "null") {
+            var JSYYSL = WoterContent;
+            var JSYPJLs = JSYYSL.split("/");
+            var JSYPJL = (parseInt(JSYPJLs[0]) + parseInt(JSYPJLs[1]) + parseInt(JSYPJLs[2])) / 3;
+            $("#WoterAverage").text(parseInt(JSYPJL));
+
+
+        }else {
+          $("#WoterAverage").text("");
+        }
+
+
+        var ylwoter = $('#changeConsumption').text();
+        var zdwoter= $('#changeDegrees').text();
+        var scwoter= UsersDatalis[UserNumbers].SCSL
+        var qdwoter=UsersDatalis[UserNumbers].QD
+
+        var yl = Number(ylwoter)
+        var zd = Number(zdwoter)
+        var scsl = Number(scwoter)
+        var qd = Number(qdwoter)
+        // 水量异常计算
+        var params = {
+            startWater: qd, //起度
+            endWater: zd,  //止度
+            lastWaterAmounts: scsl, //上次水量
+            greaterThan: { //大于30,小于等于100 的量高和量低的倍数
+              highVolume: 1.5, //量高
+              lowVolume: 0.5, //量低
+            },
+            lessThan: { // 大于100 的
+              highVolume: 1.3, //量高
+              lowVolume: 0.7, //量低
+            }
+
+          }
+
+        if(UsersDatalis[UserNumbers].CBBZ!='1'){
+          $('#changeDegrees').addClass("changeDegrees")
+          // $(".textdiscript1").css("color","rgba(0, 210, 123, 1)");
+        }else {
+          $('#changeDegrees').removeClass("changeDegrees")
+          JudgeWaterAbnormal(params, function(ret,err){
+            if(ret!="正常"){
+
+              $(".textdiscript1").css("color","red")
+            }else {
+              $(".textdiscript1").css("color","rgba(0, 210, 123, 1)")
+            }
+          })
+        }
+        // operationDom();
+        fnReady();
+        // operationDom();
+        operationDom();
+        api.hideProgress();
+        // hemmerFun()
+
+        setTimeout("queryTheMemo()", "400");
+    }
+    // 在线加载备忘录
+    function queryTheMemo() {
+
+      openbz()
+
+    }
+
+    // 保存
+    function saveAll() {
+          // 查询系统参数算水量是否异常异常走异提示异常
+          // 判断是否拍照
+
+          var ylwoter = $('#changeConsumption').text();
+          var zdwoter= $('#changeDegrees').text();
+          var scwoter= UsersDatalis[UserNumbers].SCSL
+          var qdwoter=UsersDatalis[UserNumbers].QD
+
+          var yl = Number(ylwoter)
+          var zd = Number(zdwoter)
+          var scsl = Number(scwoter)
+          var qd = Number(qdwoter)
+          // 水量异常计算
+          var params = {
+              startWater: qd, //起度
+              endWater: zd,  //止度
+              lastWaterAmounts: scsl, //上次水量
+              greaterThan: { //大于30,小于等于100 的量高和量低的倍数
+                highVolume: 1.5, //量高
+                lowVolume: 0.5, //量低
+              },
+              lessThan: { // 大于100 的
+                highVolume: 1.3, //量高
+                lowVolume: 0.7, //量低
+              }
+
+            }
+
+            JudgeWaterAbnormal(params, function(ret,err){
+              if(ret!="正常"){
+
+                $(".textdiscript1").css("color","red")
+                var list = $api.domAll('.ImgOrVideo img');
+                if(list.length>0){
+                  api.alert({
+                      title: '提示',
+                      msg: '该用户水量异常，可自行申请工单',
+                  }, function(ret, err){
+                      if( ret ){
+                        var index = ret.buttonIndex;
+                        if(index==1){
+                          api.showProgress({
+                              style: 'default',
+                              animationType: 'fade',
+                              title: '加载中...',
+                              modal: false
+                          });
+                          var bMap = api.require("bMap");
+                          bMap.getLocation({
+                              accuracy: '100m',
+                              autoStop: true,
+                              filter: 1
+                          }, function(ret, err) {
+                              if (ret.status) {
+                                  lon = ret.lon;
+                                  lat = ret.lat;
+                                  saveData()
+                              } else {
+                                  lon = " ";
+                                  lat = " ";
+                                  saveData()
+                                      //  console.log(err.code);
+                              }
+                          });
+                        }
+                      }else{
+                          //  alert( JSON.stringify( err ) );
+                      }
+                  });
+
+                }else {
+                  api.toast({
+                      msg: '该用户水量异常,请拍摄抄表水量照片',
+                      duration: 2000,
+                      location: 'middle'
+                  });
+                }
+
+
+
+
+              }else {
+                $(".textdiscript1").css("color","rgba(0, 210, 123, 1)")
+                // 不异常调用
+                api.showProgress({
+                    style: 'default',
+                    animationType: 'fade',
+                    title: '加载中...',
+                    modal: false
+                });
+                var bMap = api.require("bMap");
+                bMap.getLocation({
+                    accuracy: '100m',
+                    autoStop: true,
+                    filter: 1
+                }, function(ret, err) {
+                    if (ret.status) {
+                        lon = ret.lon;
+                        lat = ret.lat;
+                        saveData()
+                    } else {
+                        lon = " ";
+                        lat = " ";
+                        saveData()
+                            //  console.log(err.code);
+                    }
+                });
+              }
+            })
+
+
+    }
+
+
+    var yhbh, cbch;
+
+    function saveData() {
+        var gc = $('#stateData').attr("data-params");
+        var qd = $("#qdDegree").attr('params')
+        var zd
+        var zd1 = $('#changeDegrees').text();
+        if(ztbh == 27){
+          zd = qd
+        }else {
+          zd = zd1
+        }
+        var sjbm
+        var sjbm1 = $('#SJBM').text();
+        if(sjbm1==" "){
+          if (ztbh == 1||ztbh == 10040){
+            sjbm = zd
+          }else {
+            sjbm  = '';
+          }
+
+        }else {
+          sjbm  = $('#SJBM').text();
+        }
+        var bh
+        if (ztbh == 4){
+          var bh = $('#TableNumber').text()
+        }else {
+          bh = ""
+        }
+
+        var yl1= $('#changeConsumption').text();
+        var yl
+        if(yl1==" "||yl1==""){
+          yl=0
+        }else {
+          yl = $('#changeConsumption').text();
+        }
+
+        var cbrq = dataTime();
+        var cbzttext = $('#stateData').text()
+
+        var sbzt = $('#stateData').attr('params')
+        // var objmoney
+        // if (onlinestatus == 1) {
+        //     if (objdata.Identification !== 1) {
+        //         objmoney = fuContent()
+        //     } else {
+        //         objmoney = objdata
+        //     }
+        // } else {
+        //
+        //     objmoney = fuContent()
+        //
+        // }
+        // var fy = Number(objmoney.money.toFixed(2));
+        // var ljmoneyl = Number(objmoney.ljmoney.toFixed(2))
+        // var qtmoneyq = Number(objmoney.qtmoney.toFixed(2))
+        // var qJFBS = objmoney.Identification
+        var shuifei //欠费金额
+        if ($('#content').attr('paramsmoney') == null||$('#content').attr('paramsmoney') == " ") {
+            shuifei = 0
+        } else {
+            shuifei = $('#content').attr('paramsmoney')
+        }
+        // var sfhej = Number(shuifei)
+        // var fyhjbaoliu = fy + sfhej
+        // var fyhj = Number(fyhjbaoliu.toFixed(2))
+
+        var ret = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'UPDATE MRM_USER_BEAN SET ZD="' + zd + '",SFGC="' + gc + '",YL="' + yl + '",CBRQ="' + cbrq + '",CBBZ="1",BYXZT="' + sbzt + '",CBYSZJD="' + lon + '",CBYSZWD="' + lat + '",SBYXZT="' +
+                cbzttext + '",XBBH="' + bh + '",SJBM="' + sjbm + '" WHERE YHBH="' + yhbh + '"'
+        });
+        // console.log(JSON.stringify(ret))
+
+        var list = $api.domAll('.ImgOrVideo img');
+
+        if (ret.status = true) {
+            // 保存成功修改抄表本已抄和未抄
+            var retUser = db.selectSqlSync({
+                name: 'CBtest',
+                sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + UsersDatalis[UserNumbers].CBCH + '\' AND CBBZ="1"'
+            });
+            var retUsers = db.selectSqlSync({
+                name: 'CBtest',
+                sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + UsersDatalis[UserNumbers].CBCH + '\''
+            });
+
+            var wcusers = retUsers.data.length - retUser.data.length
+            var retBooks = db.executeSqlSync({
+                name: 'CBtest',
+                sql: 'UPDATE MRM_BOOKS_BEAN SET YC=\'' + retUser.data.length + '\' , WC=\'' + wcusers + '\' WHERE CBCH=\'' + UsersDatalis[UserNumbers].CBCH + '\''
+            });
+            api.sendEvent({
+                name: 'gxMeterRing',
+                extra: {
+                    yc: retUser.data.length,
+                    wc: wcusers,
+                    cbch: UsersDatalis[UserNumbers].CBCH
+                }
+            });
+            // 判断是否隐藏加载中.如果没网隐藏，有网判断满足经纬度上传，图片保存，照片保存满足一条就不隐藏
+            // 到经纬度哪里如果上传图片和上传数据有一条开启就不隐藏
+            if(api.connectionType != 'none'){
+              if(UsersDatalis[UserNumbers].JWD==" "||$api.getStorage('sendUpload') == "true"||$api.getStorage('sendUploadPicture') == "true"){
+
+              }else {
+                api.hideProgress();
+              }
+            }else {
+              api.hideProgress();
+            }
+
+            if(UsersDatalis[UserNumbers].JWD==" "){
+              if(api.connectionType != 'none'){
+                // 定位
+
+                upLoction(1)
+              }else {
+
+              }
+            }else {
+            }
+            UsersDatalis[UserNumbers].ZD = zd;
+            UsersDatalis[UserNumbers].SFGC = gc;
+            UsersDatalis[UserNumbers].YL = yl;
+            UsersDatalis[UserNumbers].CBRQ = cbrq
+            UsersDatalis[UserNumbers].CBBZ = '1'
+            UsersDatalis[UserNumbers].BYXZT = sbzt
+            UsersDatalis[UserNumbers].CBYSZJD = lon
+            UsersDatalis[UserNumbers].CBYSZWD = lat
+            // UsersDatalis[UserNumbers].FY = fy
+            // UsersDatalis[UserNumbers].FYHJ = fyhj
+            UsersDatalis[UserNumbers].SBYXZT = cbzttext
+            // UsersDatalis[UserNumbers].WSFJE = ljmoneyl
+            // UsersDatalis[UserNumbers].QTMONEY = qtmoneyq
+            // UsersDatalis[UserNumbers].JFBS = qJFBS
+            UsersDatalis[UserNumbers].SJBM = sjbm
+            UsersDatalis[UserNumbers].BYXZT = sbzt
+            UsersDatalis[UserNumbers].XBBH = bh
+            $("#Allsave").addClass("looksave");
+            api.toast({
+                msg: '保存成功',
+                duration: 2000,
+                location: 'top'
+            });
+            var ylwoter = $('#changeConsumption').text();
+            var zdwoter= $('#changeDegrees').text();
+            var scwoter= UsersDatalis[UserNumbers].SCSL
+            var qdwoter=UsersDatalis[UserNumbers].QD
+
+            var yl = Number(ylwoter)
+            var zd = Number(zdwoter)
+            var scsl = Number(scwoter)
+            var qd = Number(qdwoter)
+
+            // 水量异常计算
+            var params = {
+          			startWater: qd, //起度
+          			endWater: zd,  //止度
+          			lastWaterAmounts: scsl, //上次水量
+          			greaterThan: { //大于30,小于等于100 的量高和量低的倍数
+          				highVolume: 1.5, //量高
+          				lowVolume: 0.5, //量低
+          			},
+          			lessThan: { // 大于100 的
+          				highVolume: 1.3, //量高
+          				lowVolume: 0.7, //量低
+          			}
+
+          		}
+
+
+              JudgeWaterAbnormal(params, function(ret,err){
+                if(ret!="正常"){
+
+                  // if ($api.getStorage('sendNext') == "true") {
+                  //   alert(11)
+                  //   theNextDoor();
+                  //
+                  // }
+                  if(api.connectionType != 'none'){
+                    if($api.getStorage('sendUpload') != "true"&&$api.getStorage('sendUploadPicture') != "true"){
+                      if ($api.getStorage('sendNext') == "true") {
+                        theNextDoor();
+
+                      }
+                    }else {
+                      if($api.getStorage('sendUpload') == "true"&&$api.getStorage('sendUploadPicture') == "true"){
+                        var status = 0//按钮全部打开标志
+                        uploader(UsersDatalis[UserNumbers],status)
+                      }else {
+                        var status = 1//按钮单独打开标志
+                        if ($api.getStorage('sendUpload') == "true") {
+                            // 保存后自动上传数据
+                          uploader(UsersDatalis[UserNumbers],status)
+
+                        }
+                        if ($api.getStorage('sendUploadPicture') == "true") {
+                            // 保存后自动上传照片
+                          uploaderImg(UsersDatalis[UserNumbers].YHBH,status)
+                        }
+
+
+                      }
+                    }
+
+
+
+                  }else {
+                    if ($api.getStorage('sendNext') == "true") {
+                      theNextDoor();
+
+                    }
+                  }
+
+
+
+                }else {
+                  if(api.connectionType != 'none'){
+                    if($api.getStorage('sendUpload') != "true"&&$api.getStorage('sendUploadPicture') != "true"){
+                      if ($api.getStorage('sendNext') == "true") {
+                        theNextDoor();
+
+                      }
+                    }else {
+                      if($api.getStorage('sendUpload') == "true"&&$api.getStorage('sendUploadPicture') == "true"){
+                        var status = 0//按钮全部打开标志
+                        uploader(UsersDatalis[UserNumbers],status)
+                      }else {
+                        var status = 1//按钮单独打开标志
+                        if ($api.getStorage('sendUpload') == "true") {
+                            // 保存后自动上传数据
+                          uploader(UsersDatalis[UserNumbers],status)
+
+                        }
+                        if ($api.getStorage('sendUploadPicture') == "true") {
+                            // 保存后自动上传照片
+                          uploaderImg(UsersDatalis[UserNumbers].YHBH,status)
+                        }
+
+
+                      }
+                    }
+
+                  }else {
+                    if ($api.getStorage('sendNext') == "true") {
+                      theNextDoor();
+
+                    }
+                  }
+
+
+                }
+              })
+
+
+        }
+    }
+
+    // 计算水费
+    var money = 0,
+        sfmoney, ljmoney = 0,
+        qtmoney = 0,
+        dangemoney = 0;
+    var zxmoney = 0,
+        zxsfmoney, zxljmoney = 0,
+        zxqtmoney = 0,
+        zxdangemoney = 0;
+    var Identification = 1 //在线计费是否成功标识1成功0失败，其他null不管
+
+
+    // 照片显示
+    function showimg(yhbh, zt, cbbz, textcbzt) {
+        if (zt == " ") {
+            $('#stateData').text('正常')
+        } else {
+            $('#stateData').text(textcbzt)
+        }
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_PHOTOS_BEAN WHERE YHBH ="' + yhbh + '" AND NotLoction="0"'
+        }, function(ret, err) {
+            if (ret.status) {
+                if (ret.data.length > 0) {
+                    $('.section_three').removeClass('section_hidden')
+                    // console.log(JSON.stringify(ret.data))
+                    var items = {
+                        items: ret.data
+                    }
+                    var str = template('orderHistoryTpl', items)
+                    $api.html($api.byId('ImgOrVideo'), str);
+                    fnReady();
+                    // operationDom();
+                    operationDom();
+                    api.hideProgress();
+                }
+            } else {
+                // console.log(JSON.stringify(err));
+            }
+        });
+    }
+    // 保存后自动上传函数
+    function uploader(UsersDatalis,status) {
+      var statusOne = status
+        var ret1 = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_USER_BEAN WHERE YHBH=\'' + UsersDatalis.YHBH + '\' AND CBBZ="1"'
+        });
+        var retbooks = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_BOOKS_BEAN WHERE CBCH=\'' + UsersDatalis.CBCH + '\''
+        });
+        var UsersDatalisYHBH = UsersDatalis.YHBH
+        var checkCode = retbooks.data[0].YZM
+        var cUsersDatalis = ret1.data[0]
+
+        if (ret1.status) {
+            var records = [];
+            if (cUsersDatalis.SFXG == "1") {
+                var user = {
+                    "YHBH": cUsersDatalis.YHBH,
+                    "CBBZ": cUsersDatalis.CBBZ,
+                    "QD": cUsersDatalis.QD,
+                    "ZD": cUsersDatalis.ZD,
+                    "YL": cUsersDatalis.YL,
+                    "CBRQ": cUsersDatalis.CBRQ,
+                    "BYXZT": cUsersDatalis.BYXZT,
+                    "SJBM": cUsersDatalis.SJBM,
+                    "JD": cUsersDatalis.CBYSZJD,
+                    "WD": cUsersDatalis.CBYSZWD,
+                    "CJDZ": cUsersDatalis.CJDZ,
+                    "SFXG": cUsersDatalis.SFXG,
+                    "YHMC": cUsersDatalis.YHMC,
+                    "YHDZ": cUsersDatalis.YHDZ,
+                    "SBWZ": cUsersDatalis.SBWZ,
+                    "YDDH": cUsersDatalis.YDDH,
+                    "GDDH": cUsersDatalis.GDDH,
+                    "SBBH": cUsersDatalis.SBBH
+                }
+                records.push(user);
+            } else {
+                var user = {
+                    "YHBH": cUsersDatalis.YHBH,
+                    "CBBZ": cUsersDatalis.CBBZ,
+                    "QD": cUsersDatalis.QD,
+                    "ZD": cUsersDatalis.ZD,
+                    "YL": cUsersDatalis.YL,
+                    "CBRQ": cUsersDatalis.CBRQ,
+                    "BYXZT": cUsersDatalis.BYXZT,
+                    "SJBM": cUsersDatalis.SJBM,
+                    "JD": cUsersDatalis.CBYSZJD,
+                    "WD": cUsersDatalis.CBYSZWD,
+                    "CJDZ": cUsersDatalis.CJDZ,
+                    "XBBH": cUsersDatalis.XBBH
+                }
+                records.push(user);
+            }
+            console.log(JSON.stringify(user))
+            var Parameter = {
+                "ClientId": api.deviceId,
+                "ClientName": api.deviceModel,
+                "OperatorId": $api.getStorage('cbOperatorId'),
+                "OperatorName": $api.getStorage('cbOperatorName'),
+                "Required": "BookId=" + cUsersDatalis.CBCH + "&CheckCode=" + checkCode + "&Rewrite=true",
+                "Type": "202",
+                "Records": records
+            };
+            var body = {
+                    body: JSON.stringify({
+                        "UserName": $api.getStorage('cbOperatorName'),
+                        "Password": $api.getStorage('cbPassword'),
+                        "SerialNo": dataTime(),
+                        "Method": "R999",
+                        "Parameter": JSON.stringify(Parameter)
+                    })
+                }
+                //console.log(body.body);
+                // alert(111)
+            fnPost1('', body, 'application/json', false, function(ret, err) {
+              console.log(JSON.stringify(ret))
+                if(statusOne==0){
+                  // 两个同时开启就不隐藏
+                }else {
+                  // 开启一个，开启了数据上传就隐藏
+                  api.hideProgress();
+                }
+
+
+                if (ret) {
+                    if (ret.Status != 0) {
+
+                        if(statusOne==0){
+                          uploaderImg(UsersDatalisYHBH,statusOne)
+                        }else {
+                          if($api.getStorage('sendNext') == "true"){
+                            theNextDoor()
+                          }
+                        }
+
+                    } else {
+                        if(JSON.parse(ret.Data).length>0){
+
+                          if(statusOne==0){
+                            uploaderImg(UsersDatalisYHBH,statusOne)
+                          }else {
+                            api.toast({
+                                msg: '数据上传失败，已保存本地',
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                            if($api.getStorage('sendNext') == "true"){
+                              if($api.getStorage('sendUploadPicture') == "true"){
+
+                              }else {
+                                theNextDoor();//开了下一户没有开上传图片跳转下一户
+                              }
+                            }
+                          }
+                        }else {
+                          var db = api.require('db');
+                          var ret = db.executeSqlSync({
+                              name: 'CBtest',
+                              sql: 'update MRM_USER_BEAN set CWXX=" ", ZTSCCG=1, XGXXSC=1, SFXG=0 where YHBH="' + cUsersDatalis.YHBH + '"'
+                          });
+
+                          if(statusOne==0){
+                            uploaderImg(UsersDatalisYHBH,statusOne)
+                          }else {
+                            api.toast({
+                                msg: '数据上传成功',
+                                duration: 2000,
+                                location: 'middle'
+                            });
+                            if($api.getStorage('sendNext') == "true"){
+                              if($api.getStorage('sendUploadPicture') == "true"){
+
+                              }else {
+                                theNextDoor();//开了下一户没有开上传图片跳转下一户
+                              }
+                            }
+                          }
+                        }
+
+
+                    }
+                } else {
+                    // 0：连接错误、1：超时、2：授权错误、3：数据类型错误、4：不安全的数据
+                    if (err.code == 1) {
+                        api.toast({
+                            msg: '数据已保存，网络连接超时',
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    } else {
+                        api.toast({
+                            msg: '数据已保存，网络连接超时',
+                            duration: 2000,
+                            location: 'middle'
+                        });
+                    }
+                    if($api.getStorage('sendNext') == "true"){
+                      if($api.getStorage('sendUploadPicture') == "true"){
+
+                      }else {
+                        theNextDoor();//开了下一户没有开上传图片跳转下一户
+                      }
+                    }
+                }
+
+            })
+        }
+    }
+    // 上传抄表图片
+    var loader,loaderdata;
+    var loaderImg = 0
+    function uploaderImg(cUsersDatalis,status) {
+      var statusTwo = status
+        var retimage = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_PHOTOS_BEAN WHERE YHBH="' + cUsersDatalis + '" and SFSC="0"'
+        });
+        if (retimage.status) {
+            if (retimage.data.length > 0) {
+              loaderdata = retimage.data;
+              loader=retimage.data.length;
+
+              imguploader(0,statusTwo);
+
+            } else {
+              api.hideProgress();
+              if($api.getStorage('sendNext') == "true"){
+                  theNextDoor();//开了下一户没有开上传图片跳转下一户
+              }
+            }
+        } else {
+
+        }
+        console.log(JSON.stringify(retimage));
+
+    }
+
+    function imguploader(n,statusTwo) {
+      var PhotoType
+      if(loaderdata[n].NotLoction=='0'){
+        PhotoType='1'
+      }else {
+        PhotoType='4'
+      }
+        var photoList = loaderdata[n]
+
+        var trans = api.require('trans');
+        trans.decodeImgToBase64({
+            imgPath: photoList.ZPLJ
+        }, function(ret, err) {
+            if (ret.status) {
+                var PhotoInfo = ret.base64Str
+                var Parameter = {
+                    "ClientId": api.deviceId,
+                    "ClientName": api.deviceModel,
+                    "OperatorId": $api.getStorage('cbOperatorId'),
+                    "OperatorName": $api.getStorage('cbOperatorName'),
+                    "Yhbh": photoList.YHBH,
+                    "PhotoName": photoList.ZPMC,
+                    "PhotoType": PhotoType,
+                    "Longitude": photoList.JD,
+                    "Latitude": photoList.WD,
+                    "OrderNo": "",
+                    "Errtype": "",
+                    "Remark": "",
+                    "Type": "302",
+                    "PhotoInfo": PhotoInfo
+                };
+                var body = {
+                    body: JSON.stringify({
+                        "UserName": $api.getStorage('cbOperatorName'),
+                        "Password": $api.getStorage('cbPassword'),
+                        "SerialNo": dataTime(),
+                        "Method": "R999",
+                        "Parameter": JSON.stringify(Parameter)
+                    })
+                }
+                // console.log(body.body);
+                fnPost1('', body, 'application/json', false, function(ret, err) {
+
+                    if (ret) {
+                        if (ret.Status != 0) {
+                            // alert(ret.Message)
+                        } else {
+                          var db = api.require('db');
+                          var ret = db.executeSqlSync({
+                              name: 'CBtest',
+                              sql: 'update MRM_PHOTOS_BEAN set SFSC=1 where _id="' + photoList._id + '"'
+                          });
+
+                        }
+                    } else {
+
+                    }
+                    if((n+1)<loader){
+                      n++;
+                      imguploader(n);
+                    }else {
+                      api.hideProgress();//直接隐藏到最后一次直接隐藏
+                      api.toast({
+                          msg: '上传成功',
+                          duration: 2000,
+                          location: 'middle'
+                      });
+
+                      //
+                      if($api.getStorage('sendNext') == "true"){
+                          theNextDoor();//开了下一户没有开上传图片跳转下一户
+                      }
+                    }
+
+
+                })
+            } else {
+              // theNextDoor();
+            }
+        });
+    }
+    // 上传表位图片
+    function openbz() {
+        var yhbh = UsersDatalis[UserNumbers].YHBH;
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_THE_MEMO_BEAN2 where YHBH="' + yhbh + '"'
+        });
+        if (ret.data.length > 0) {
+            $("#bwl").show();
+            var text = [];
+            for (var i = 0; i < ret.data.length; i++) {
+                text.push(ret.data[i].REMARK + "\n");
+            }
+            if (text.length > 0) {
+                var msg = "";
+                for (var i = 0; i < text.length; i++) {
+                    msg += (i + 1) + "." + text[i];
+                }
+                api.alert({
+                    title: '备忘录',
+                    msg: msg,
+                }, function(ret, err) {
+
+                });
+            }
+        } else {
+
+        }
+    }
+    // 是否重新抄表
+    function NotMetering(){
+      readNumer1 = "";
+      readNumer2 = "";
+      readNumer3 = "";
+      readNumer3 = "";
+      ztbh = 1;
+      $(".textdiscript").css("color","red")
+      $('#changeDegrees').text('')
+      $('#changeConsumption').text('')
+      $('#shijibiaoma').text('')
+      $('#TableNumber').text('')
+      $("stateData").attr('data-params',"1")
+      $("stateData").attr('params',"1")
+
+
+      // $('#shijibiaoma').addClass("hidden");
+      // $("#changeDegrees").addClass("changeDegrees")
+      // ztbh == 10||ztbh == 27||ztbh == 4||ztbh == 11
+      // if(UsersDatalis[UserNumbers].BYXZT=="10")
+      $("#dunumer").empty()
+      var html = '<span id="dushu" class="textdiscript-span1">读数:<div class="textdiscript textdiscript1" id="changeDegrees" tapmode data-action="changeDegrees"></div></span>'+
+      ' <span id="yongliang" class="textdiscript-span3" style="color:#000">用量:<div class="textdiscript textdiscript1" tapmode data-action="changeConsumption" id="changeConsumption"></div></span>'+
+      '<span id="shijibiaoma" class="textdiscript-span2 hidden" style="color:#2F80F6">实际表码:<div class="textdiscript textdiscript1" id="SJBM" tapmode data-action="changeSJBM"></div></span>'+
+      '<span id="biaohao" class="textdiscript-span2 hidden">表号:<div class="textdiscript textdiscript1" id="TableNumber" tapmode data-action="TableNumber"></div>'+
+      '<div class="CodeScanning" tapmode data-action="CodeScanning">'+
+      '<img src="../../image/MeteReading/cbdatiles/saoma.png" alt="">'+
+      '</div></span>'
+      $('#dunumer').append(html);
+      $("#changeDegrees").addClass("changeDegrees")
+      $("#Allsave").removeClass("looksave");
+      $('#ImgOrVideo').empty()
+      $('#stateData').text('正常')
+      // operationDom();
+      fnReady();
+      // operationDom();
+      operationDom();
+      var yhbh = $('#userCoder').attr('params');
+      var db = api.require("db");
+      var DELETEimg = db.executeSqlSync({
+          name: 'CBtest',
+          sql: 'DELETE FROM MRM_PHOTOS_BEAN WHERE YHBH ="' + yhbh + '" AND NotLoction="0"'
+      });
+      if(DELETEimg.status){
+        $('.section_three').addClass('section_hidden')
+      }
+      var ret = db.executeSqlSync({
+          name: 'CBtest',
+          sql: 'UPDATE MRM_USER_BEAN SET CBRQ=" ", ZD="0", YL="0", CBBZ="0",BYXZT=" ", CWXX=" ",ZTSCCG="0", CBYSZJD=" ",CBYSZWD=" ",FY=" ",FYHJ=" ",SJBM=" ",XBBH=" ",SBYXZT="正常" WHERE YHBH="' + yhbh + '"'
+      });
+      var retUser = db.selectSqlSync({
+          name: 'CBtest',
+          sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + UsersDatalis[UserNumbers].CBCH + '\' AND CBBZ="1"'
+      });
+      var retUsers = db.selectSqlSync({
+          name: 'CBtest',
+          sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + UsersDatalis[UserNumbers].CBCH + '\''
+      });
+
+      var wcusers = retUsers.data.length - retUser.data.length
+      var retBooks = db.executeSqlSync({
+          name: 'CBtest',
+          sql: 'UPDATE MRM_BOOKS_BEAN SET YC=\'' + retUser.data.length + '\' , WC=\'' + wcusers + '\' WHERE CBCH=\'' + UsersDatalis[UserNumbers].CBCH + '\''
+      });
+      api.sendEvent({
+          name: 'gxMeterRing',
+          extra: {
+              yc: retUser.data.length,
+              wc: wcusers,
+              cbch: UsersDatalis[UserNumbers].CBCH
+          }
+      });
+      UsersDatalis[UserNumbers].CBBZ='0'
+      UsersDatalis[UserNumbers].BYXZT='1'
+    }
+</script>
+
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            flex-flow: column;
+            display: flex;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+        }
+
+        #dv {
+            width: 100%;
+            flex: 1;
+            margin-top: 80px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        .dv {
+            width: 100%;
+            height: 60px;
+            background-color: #fff;
+            border-top: 1px solid #E7E7E7;
+            padding-left: 20px;
+            padding-right: 20px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_1 {
+            font-size: 18px;
+            line-height: 60px;
+        }
+
+        .dv_2 {
+            width: 20px;
+            height: 100%;
+        }
+
+        .dv_3 {
+            flex: 1;
+            height: 100%;
+            color: #696969;
+            font-size: 18px;
+            line-height: 60px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">失败原因</div>
+    </header>
+    <div id="dv">
+
+    </div>
+    <div id="footer"></div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id='userList'>
+    <ul>
+        {{each datas value i}}
+        <li>
+            <div class="dv">
+                <div class="dv_1">{{value.YHBH}}</div>
+                <div class="dv_2"></div>
+                <div class="dv_3">{{value.CWXX}}</div>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+</script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+    var userlist = [];
+    var LoginName = "";
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        LoginName = $api.getStorage('loginData').userName;
+        var body = $api.byId('bd');
+        bodyH = $api.offset(body).h;
+        bodyW = $api.offset(body).w;
+        var pageParam = api.pageParam;
+        queryUser(pageParam.CBCH);
+    };
+
+    function queryUser(CBCH) {
+        var db = api.require('db');
+         db.selectSql({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where CBCH="' + CBCH + '" and CWXX!=" " and userName="' + LoginName + '"'
+        },function(ret,err){
+          if (ret.status) {
+              if (ret.data.length > 0) {
+                  for (var i = 0; i < ret.data.length; i++) {
+                      userlist.push({
+                          YHBH: ret.data[i].YHBH,
+                          YHMC: ret.data[i].YHMC,
+                          CWXX: ret.data[i].CWXX
+                      });
+                  }
+                  var datas = {
+                      datas: userlist
+                  }
+                  var str = template('userList', datas);
+                  //console.log(JSON.stringify(str));
+                  $('#dv ul').remove();
+                  $('#dv').append(str);
+                  fnReadyOpenWin();
+              }
+          }
+        });
+
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        }
+    }
+</script>
+
+</html>

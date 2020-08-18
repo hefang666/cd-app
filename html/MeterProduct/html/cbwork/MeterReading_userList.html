@@ -1,0 +1,511 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>已下载抄表本</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #f5f5f5;
+        }
+
+        .flex-wrap-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+            background: #f5f5f5;
+          }
+
+        .header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+            /*background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));*/
+        }
+
+        .header .aui-pull-left {
+            padding-left: 1.2rem;
+        }
+
+        .header .aui-title {
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .flex-wrap {
+            width: 100%;
+            background: #fff;
+            /*height: 5.85rem;*/
+            background: rgba(243, 243, 243.1);
+            padding-bottom: 1rem;
+        }
+
+        .aui-bar-nav .aui-pull-right {
+            padding-right: 0.7rem;
+        }
+
+        .aui-btn>img {
+            max-width: 80%;
+        }
+
+        .content {
+            flex: 1;
+            margin-top: 3.5rem;
+            margin-bottom: 50px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+        }
+        .contentBox{
+          width: 100%;
+          padding-top: 0.6rem;
+          padding-bottom: 0.6rem;
+
+        }
+        .contentBox .dv_right{
+          margin: auto;
+          width: 100%;
+          box-sizing: border-box;
+          padding-left: 3%;
+          padding-right: 3%;
+          display: block;
+          background: #fff;
+          padding-top: 0.5rem;
+          padding-bottom: 0.5rem;
+          margin-bottom: 0.8rem;
+
+        }
+        .contentBox .dv_right:first-child{
+          /*margin-bottom: 0.5rem;*/
+        }
+        .contentBox .dv_right::before{
+          display: table;content: "";
+        }
+        .contentBox .dv_right::after{
+          display: table;content: "";clear: both;
+        }
+        .contentBox .dv_right .dv_1_icon{
+          float:left;
+          width: 12%;
+          /*padding-top: 0.5rem;*/
+        }
+        .contentBox .dv_right .dv_1_icon img{
+          max-width: 73%;
+          margin-top: 0.4rem;
+        }
+        .contentBox .dv_right .dv_1_text{
+          position: relative;
+          overflow: hidden;
+          width: 88%;
+          float: right;
+        }
+        .contentBox .dv_right .dv_1_text .text1{
+          font-size: 0.9rem;
+          overflow: scroll;
+          flex-direction: row;
+          white-space: nowrap;
+          width: 80%;
+
+        }
+        .contentBox .dv_right .dv_1_text .textBox{
+        display: block;
+        }
+        .contentBox .dv_right .dv_1_text .textBox .text2{
+          float: left;
+          padding-right: 0.5rem;
+          color: #666666;
+        }
+        .contentBox .dv_right .dv_1_text .textBox .text2 span{
+          color: #666666;
+        }
+        .contentBox .dv_right .dv_1_text .checkbox{
+          position: absolute;
+          top: 0.8rem;
+          right: 0.8rem;
+          width: 1.5rem;
+          height: 1.5rem;
+
+
+        }
+        .contentBox .dv_right .dv_1_text .checkbox .aui-checkbox{
+          width: 1rem;
+          height: 1rem;
+        }
+        .contentBox .dv_right .dv_1_text .checkbox .aui-checkbox:checked{
+          background: #40aaf8;
+          border: solid 1px #40aaf8;
+        }
+
+
+        /*.contentBox .dv_right .dv_icon{
+          background: red;
+        }*/
+
+        /*底部*/
+        footer {
+            position: flex;
+            bottom: 2rem;
+            width: 100%;
+            border-top: 0.5px solid #9e9e9e;
+            background: #fff;
+
+        }
+        .footer .aui-bar-tab-item img{
+        max-width: 30%;
+        margin: auto auto;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="flex-wrap-box flex-vertical">
+        <header class="aui-bar aui-bar-nav header" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">抄表本</div>
+            <!-- <div class="aui-pull-right aui-btn" tapmode data-action="back">
+                <img src="../../image/MeteReading/cbdatiles/yonghuxiangqing-copy.png" style="width:1.2rem;height:1.2rem" alt="">
+            </div> -->
+        </header>
+
+        <div class="content" id="content">
+            <div class="contentBox" id="contentBox">
+                <!-- <div class="dv_right">
+                    <div class="dv_1 dv_1_icon">
+                      <img src="../../image/MeteReading/drawable-hdpi/loadusers.png" alt="" class="icon">
+                    </div>
+                    <div class="dv_1 dv_1_text">
+                        <div class="text1">文景新村</div>
+                        <div class="textBox">
+                          <div class="text2"><span>已抄</span><span>123</span></div>
+                          <div class="text2"><span>未抄</span><span>123</span></div>
+                          <div class="text2"><span>已上传</span><span>123</span></div>
+                          <div class="text2 checkbox"><input class="aui-checkbox sonCheckBox" type="checkbox" name="demo1" value="{{value.CBCH}}"></div>
+                        </div>
+                      </div>
+
+                </div> -->
+            </div>
+        </div>
+
+        <footer class="footer aui-bar aui-bar-tab" id="footer">
+        <div class="aui-bar-tab-item" tapmode data-action="SequentialCopy">
+            <img src="../../image/MeteReading/drawable-hdpi/sxc2.png" alt="">
+        </div>
+        <div class="aui-bar-tab-item" tapmode data-action="ContinuedCopy">
+            <img src="../../image/MeteReading/drawable-hdpi/scc2.png" alt="">
+        </div>
+        <div class="aui-bar-tab-item" tapmode data-action="MissingCopy">
+            <img src="../../image/MeteReading/drawable-hdpi/lc2.png" alt="">
+        </div>
+        </footer>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/template" id='appList'>
+  {{each list value i}}
+  <div class="dv_right dataList" parse="{{value.CBCH}}" parsexc="{{value.XCYH}}">
+      <div class="dv_1 dv_1_icon">
+        <img src="../../image/MeteReading/drawable-hdpi/loadusers.png" alt="" class="icon">
+      </div>
+      <div class="dv_1 dv_1_text">
+        <div class="text1">{{value.CBCMC}}</div>
+        <div class="textBox">
+          <div class="text2"><span>已抄</span><span class="ycNumer">{{value.YC}}</span></div>
+          <div class="text2"><span>未抄</span><span class="wcNumer">{{value.WC}}</span></div>
+          <div class="text2"><span>已上传</span><span class="yscNumer">{{value.YSC}}</span></div>
+          <div class="text2 checkbox"><input class="aui-checkbox sonCheckBox" type="checkbox" name="demo1" onchange="dianji(this);" value="{{value.CBCH}}" parsexc="{{value.XCYH}}"></div>
+        </div>
+      </div>
+  </div>
+  {{/each}}
+</script>
+<script type="text/javascript">
+var db;
+var MissingCopydata = [] //用于漏抄传值到抄表页面的变量
+    apiready = function() {
+        db = api.require("db");
+        // deviceId = api.deviceId
+        // deviceName = api.deviceName
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        var footer = $api.byId('footer');
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        // 计算header和tab元素的高度
+        // headerH = $api.offset(header).h;
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        $api.fixTabBar(footer);
+        db.selectSql({//用户表没有数据跳转到下载
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN'
+        }, function(ret, err){
+            if( ret.status ){
+                if(ret.data.length>0){
+                  BookData()
+                }else {
+                  api.confirm({
+                      title: '提示',
+                      msg: '请先下载用户',
+                      buttons: ['确定', '取消']
+                  }, function(ret, err){
+                      if( ret ){
+                           var index = ret.buttonIndex;
+                           if(index==1){
+                             api.openWin({
+                                 name: 'userDownLoad',
+                                 url: '../userDownLoad/userDownLoad.html',
+                                 pageParam: {
+                                     name: 'test'
+                                 }
+                             });
+
+                           }
+                      }else{
+                          //  alert( JSON.stringify( err ) );
+                      }
+                  });
+
+                }
+            }else{
+                // alert( JSON.stringify( err ) );
+            }
+        });
+        api.addEventListener({
+            name: 'reflashBook'
+        }, function(ret, err){
+            if( ret ){
+                BookData()
+            }else{
+
+            }
+        });
+
+
+
+      }
+      var actionList = {
+        "back":function(){
+          api.closeWin({
+          });
+        },
+        "MissingCopy":function(){//漏抄
+          // db.selectSql({//用户表没有数据跳转到下载
+          //     name: 'CBtest',
+          //     sql: 'select * from MRM_USER_BEAN WHERE CBCH="10381"'
+          // }, function(ret, err){
+          //     if( ret.status ){
+          //       console.log(JSON.stringify(ret.data))
+          //
+          //     }else{
+          //         // alert( JSON.stringify( err ) );
+          //     }
+          // });
+          var dataBox = $('#contentBox')//寻找contentBox盒子下被选中的多选框
+          var dataList = $('.dataList')
+          var MissingCopydata;
+          var checkedBox = dataBox.find('input[type="checkbox"]:checked');
+          if(dataList.length>0){//有抄表本
+            if(checkedBox.length>0){
+              MissingCopydata=checkedBox.val()
+            }else {
+              MissingCopydata=$(dataList[0]).attr('parse')
+            }
+            api.openWin({
+                name: 'MeterReading_details_New',
+                url: './MeterReading_details_New.html',
+                pageParam: {
+                    name: 'MeterReading_userList',
+                    userCode: MissingCopydata,
+                    userState: "MissingCopy"
+                }
+            });
+          }
+
+
+        },
+        "SequentialCopy":function(){//顺序抄
+          var dataBox = $('#contentBox')//寻找contentBox盒子下被选中的多选框
+          var dataList = $('.dataList')
+          var MissingCopydata;
+          var checkedBox = dataBox.find('input[type="checkbox"]:checked');
+          if(dataList.length>0){//有抄表本
+            if(checkedBox.length>0){
+              MissingCopydata=checkedBox.val()
+            }else {
+              MissingCopydata=$(dataList[0]).attr('parse')
+            }
+            api.openWin({
+                name: 'MeterReading_details_New',
+                url: './MeterReading_details_New.html',
+                pageParam: {
+                    name: 'MeterReading_userList',
+                    userCode: MissingCopydata,
+                    userState: "SequentialCopy"
+                }
+            });
+          }
+        },
+        "ContinuedCopy":function(){//上次抄
+          var dataBox = $('#contentBox')//寻找contentBox盒子下被选中的多选框
+          var dataList = $('.dataList')
+          var MissingCopydata,parsexc;
+          var checkedBox = dataBox.find('input[type="checkbox"]:checked');
+
+
+          if(dataList.length>0){//有抄表本
+            if(checkedBox.length>0){
+              MissingCopydata=checkedBox.val()
+              parsexc = checkedBox.attr("parsexc")
+            }else {
+              MissingCopydata=$(dataList[0]).attr('parse');
+              parsexc = $(dataList[0]).attr("parsexc")
+            }
+            api.openWin({
+                name: 'MeterReading_details_New',
+                url: './MeterReading_details_New.html',
+                pageParam: {
+                    name: 'MeterReading_userList',
+                    userCode: MissingCopydata,
+                    useryhbh: parsexc,
+                    userState: "ContinuedCopy"
+                }
+            });
+          }
+          // api.openWin({
+          //     name: 'MeterReading_details_New',
+          //     url: './MeterReading_details_New.html',
+          //     pageParam: {
+          //         name: 'MeterReading_userList',
+          //         userCode: param.CBCH,
+          //         useryhbh: param.XCYH,
+          //         userState: "ContinuedCopy"
+          //     }
+          // });
+          // $('.c-filter-box').addClass('aui-hide');
+          // var dataBox = $('#contentBox')//寻找contentBox盒子下被选中的多选框
+          // var dataList = $('.dataList')
+          // var MissingCopydata;
+          // var checkedBox = dataBox.find('input[type="checkbox"]:checked');
+          // if(dataList.length>0){//有抄表本
+          //   if(checkedBox.length>0){
+          //     MissingCopydata=checkedBox.attr('value')
+          //   }else {
+          //     MissingCopydata=$(dataList[0]).attr('parse')
+          //   }
+          //   api.openWin({
+          //       name: 'MeterReading_details',
+          //       url: './MeterReading_details.html',
+          //       pageParam: {
+          //           name: 'MeterReading_details',
+          //           userCode: MissingCopydata,
+          //           userState: "ContinuedCopy"
+          //       }
+          //   });
+          // }
+
+        }
+
+      }
+      function show() {
+        var dataBox = $('#contentBox')//寻找contentBox盒子下被选中的多选框
+        var dataList = $('.dataList')
+        var checkedBox = dataBox.find('input[type="checkbox"]:checked');
+        var cbch
+        if(checkedBox.length>0){
+          cbch=checkedBox.val()
+          // checkedBox.parent().find()
+        }else {
+          cbch=$(dataList[0]).attr('parse');
+        }
+        db.selectSql({
+          name: 'CBtest',
+          sql: 'SELECT * FROM MRM_BOOKS_BEAN WHERE CBCH=\'' +cbch + '\''
+        }, function(ret, err){
+            if( ret.status ){
+                if(checkedBox.length>0){
+                  checkedBox.attr('parsexc',ret.data[0].XCYH);
+                  checkedBox.parent().find('.ycNumer').text(ret.data[0].YC)
+                  checkedBox.parent().find('.wcNumer').text(ret.data[0].WC)
+                  checkedBox.parent().find('.yscNumer').text(ret.data[0].YSC)
+                }else {
+                  $(dataList[0]).attr('parsexc',ret.data[0].XCYH);
+                  $(dataList[0]).find('.ycNumer').text(ret.data[0].YC)
+                  $(dataList[0]).find('.wcNumer').text(ret.data[0].WC)
+                  $(dataList[0]).find('.yscNumer').text(ret.data[0].YSC)
+                }
+            }else{
+                // alert( JSON.stringify( err ) );
+            }
+        });
+
+      }
+      function dianji(that) {
+          var dataBox = $('#contentBox')
+          var sonCheckBox = dataBox.find('input[type="checkbox"]');
+           if($(sonCheckBox).length > 1){
+             var index = $(sonCheckBox).index($(that));
+              for(var i=0;i<sonCheckBox.length;i++){
+                if(i==index){
+                  // $(sonCheckBox[i]).prop("checked", true);
+                }else {
+                  $(sonCheckBox[i]).prop("checked", false);
+                }
+              }
+           }
+
+
+      }
+      function BookData(){
+        var bookdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_BOOKS_BEAN WHERE YXZ>0'
+        });
+        if(bookdata.status){
+          if(bookdata.data.length>0){
+            var dataList = bookdata.data
+            handleAnnotData(dataList)
+          }
+
+        }
+      }
+      function handleAnnotData(dataList) {
+          var list = {
+              list: dataList
+          }
+
+          var str = template('appList', list)
+          $api.append($api.byId('contentBox'), str);
+          fnReady();
+          // operationDom();
+          operationDom();
+          api.hideProgress();
+      }
+
+</script>
+
+</html>

@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>近期抄表</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        #center {
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: #ffffff;
+        }
+
+        .top_first {
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            text-align: center;
+        }
+
+        .top_first div {
+            flex: 1;
+            color: #31ACF6;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv {
+            text-align: center;
+            display: flex;
+            border: 1px solid #ECECEC;
+            margin-bottom: 5px;
+        }
+
+        .dv div {
+            flex: 1;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="center">
+        <!-- <div class="top_first">
+            <div class="RQ">日期</div>
+            <div class="QD">起度</div>
+            <div class="ZD">止度</div>
+            <div class="YL">用量</div>
+            <div class="ZT">状态</div>
+        </div>
+        <div class="dv">
+            <div class="RQ">2018041720180417</div>
+            <div class="QD">80</div>
+            <div class="ZD">90</div>
+            <div class="YL">10</div>
+            <div class="ZT">正常</div>
+        </div> -->
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/template" id='recentReaderList'>
+    <div class="top_first">
+        <div class="RQ">日期</div>
+        <div class="QD">起度</div>
+        <div class="ZD">止度</div>
+        <div class="YL">用量</div>
+        <div class="ZT">状态</div>
+    </div>
+    {{each datas value i}}
+    <div class="dv">
+        <div class="RQ">{{value.CBRQ}}</div>
+        <div class="QD">{{value.QD}}</div>
+        <div class="ZD">{{value.ZD}}</div>
+        <div class="YL">{{value.YL}}</div>
+        <div class="ZT">{{value.SBZT}}</div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var YHBH;
+    var recentReaderList = [];
+    apiready = function() {
+        //api.parseTapmode();
+
+        var pageParam = api.pageParam;
+        YHBH = pageParam.YHBH;
+
+        getRecentReader();
+    };
+
+    //获取近期抄表
+    function getRecentReader() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "yhbh=" + YHBH + "",
+            "Type": "121"
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data == null || Data.length == 0) {
+                        $('#center div').remove();
+                        $('#center').append("<div style='text-align: center;'>没有抄表记录</div>");
+                    } else {
+                        recentReaderList = Data;
+                        var datas = {
+                            datas: recentReaderList
+                        }
+
+                        var str = template('recentReaderList', datas);
+                        //console.log(JSON.stringify(str));
+                        //$('#top div').remove();
+                        $('#center').append(str);
+                        fnReadyOpenWin();
+                    }
+                } else {
+                    $('#center div').remove();
+                    $('#center').append("<div style='text-align: center;'>" + ret.Message + "</div>");
+                }
+            } else {
+                $('#top div').remove();
+                $('#top').append("<div style='text-align: center;'>没有抄表记录</div>");
+            }
+            var liset = $('.dv');
+            for (var i = 0; i < liset.length; i += 2) {
+                liset.eq(i).css("background-color", "#D0EBFC");
+            }
+        })
+    }
+</script>
+
+</html>

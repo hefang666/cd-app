@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>口径统计</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            background-color: #F3F3F3;
+        }
+
+        #center {
+            border-radius: 10px;
+            background-color: #ffffff;
+            margin: 20px;
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+            font-size: 15px;
+        }
+
+        .dv1 {
+            height: 50px;
+            font-size: 0.8rem;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .image {
+            float: left;
+            width: 10px;
+            height: 10px;
+            margin-top: 20px;
+        }
+
+        .sp {
+            margin-top: 0.7rem;
+            margin-left: 5px;
+            color: #5389E2;
+        }
+
+        .dv2 {
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        .dv {
+            background-color: #ECECEC;
+            border-radius: 10px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .dv_top {
+            display: flex;
+        }
+
+        .dv_bottom {
+            margin-top: 10px;
+            display: flex;
+        }
+
+        .dv-1 {
+            flex: 1;
+            padding-left: 10px;
+            color: #000000;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv-2 {
+            height: 1px;
+            margin-top: 12px;
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: #F3F3FF;
+        }
+
+        .dv-3 {
+            flex: 3;
+            text-align: left;
+            padding-left: 10px;
+            flex-direction: row;
+            white-space: nowrap;
+            overflow: scroll;
+            color: #6D6D6D;
+        }
+
+        .dv-4 {
+            flex: 3;
+            text-align: left;
+            padding-left: 10px;
+            flex-direction: row;
+            white-space: nowrap;
+            overflow: scroll;
+            color: #6D6D6D;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="center">
+        <div class="dv1">
+            <img src="../../image/MeteReading/tupian/dian.png" class="image" />
+            <span class="sp">时间：2019-9</span>
+        </div>
+        <div class="dv2" id="books">
+            <!--
+            <div class="dv">
+                <div class="dv-1" onclick="details()">
+                    <marquee direction="left" behavior="scroll" loop="infinite" scrollamount="1" scrolldelay="3" height="100%" width="100%" hspace="0" vspace="0" οnmοuseοver=this.stop() οnmοuseοut=this.start()>
+                        <span>抄表本1</span>
+                    </marquee>
+                </div>
+                <div class="dv-2"></div>
+                <div class="dv-3">已抄:80</div>
+                <div class="dv-4">已上传:20/300</div>
+            </div>
+            -->
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id='bookList'>
+    {{each datas value i}}
+    <div class="dv" onclick="details({{value.KJ}})">
+        <div class="dv_top">
+            <div class="dv-1" onclick="details({{value.KJ}})">
+                {{value.KJ}}
+            </div>
+            <div class="dv-2"></div>
+        </div>
+
+        <div class="dv_bottom">
+            <div class="dv-3">已抄:{{value.YC}}</div>
+            <div class="dv-4">已上传:{{value.YSC}}/{{value.ZHS}}</div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var list = [];
+    apiready = function() {
+        var date = new Date();
+        $(".sp").html("时间：" + date.getFullYear() + "-" + (date.getMonth() + 1));
+        queryStatistical();
+    };
+
+    function queryStatistical() {
+        sql = "SELECT Z.*," + "ROUND(Z.已抄/(Z.总户数*0.01),2) AS 抄表率," +
+            "ROUND(Z.正常抄表数/(Z.总户数*0.01),2) AS 抄见率," +
+            "ROUND(Z.正常抄表数/(Z.总户数*0.01),2) AS 正常抄表率," +
+            "ROUND(Z.估抄抄表数/(Z.总户数*0.01),2) AS 估抄抄表率," +
+            "ROUND(Z.正常抄表数/(Z.已抄*0.01),2) AS 已抄正常抄表率," +
+            "ROUND(Z.估抄抄表数/(Z.已抄*0.01),2) AS 已抄估抄抄表率     " +
+            "  FROM (" + "SELECT A.KJ   AS 口径," +
+            "COUNT(1) AS 总户数," +
+            "SUM(CASE WHEN CBBZ='1' THEN 1 ELSE 0 END ) AS 已抄," +
+            "SUM(CASE WHEN CBBZ='0' THEN 1 ELSE 0 END ) AS 未抄," +
+            "SUM(CASE WHEN ZTSCCG='1' THEN 1 ELSE 0 END ) AS 已上传," +
+            "SUM(CASE WHEN BYXZT='1' AND A.BYXZT<>'null' AND A.BYXZT<>'' AND CBBZ='1' THEN 1 ELSE 0 END ) AS 正常抄表数," +
+            "SUM(CASE WHEN BYXZT<>'1' AND A.BYXZT<>'null' AND A.BYXZT<>'' AND CBBZ='1' THEN 1 ELSE 0 END ) AS 估抄抄表数," +
+            "SUM(CASE WHEN CBBZ='1' THEN A.YL ELSE 0 END ) AS 总抄表水量," +
+            "SUM(CASE WHEN BYXZT='1' AND A.BYXZT<>'null' AND A.BYXZT<>'' AND CBBZ='1' THEN A.YL ELSE 0 END ) AS 正常水量," +
+            "SUM(CASE WHEN BYXZT<>'1' AND A.BYXZT<>'null' AND A.BYXZT<>'' AND CBBZ='1' THEN A.YL ELSE 0 END ) AS 估抄水量," +
+            "SUM(CASE WHEN CBBZ='1' THEN A.FY ELSE 0 END ) AS 总水费金额" +
+            "   FROM MRM_USER_BEAN A GROUP BY A.KJ" + ") Z";
+
+        var db = api.require("db");
+        var data = db.selectSqlSync({
+            name: 'CBtest',
+            sql: sql
+        });
+
+        if (data.status) {
+            if (data.data.length > 0) {
+                for (var i = 0; i < data.data.length; i++) {
+                    var num = data.data[i];
+                    var KJ = num["口径"];
+                    var ZHS = num["总户数"];
+                    var YC = num["已抄"];
+                    var WC = num["未抄"];
+                    var YSC = num["已上传"];
+                    var ZCC = num["正常抄表数"];
+                    var GC = num["估抄抄表数"];
+                    var ZSL = num["总抄表水量"];
+                    var ZCSL = num["正常水量"];
+                    var GCSL = num["估抄水量"];
+                    var JE = num["总水费金额"];
+                    var CBL = num["抄表率"] + "%";
+                    var CJL = num["抄见率"] + "%";
+
+                    var map = {};
+                    map["KJ"] = KJ;
+                    map["ZHS"] = ZHS;
+                    map["YC"] = YC;
+                    map["WC"] = WC;
+                    map["YSC"] = YSC;
+                    map["ZCC"] = ZCC;
+                    map["GC"] = GC;
+                    map["ZSL"] = ZSL;
+                    map["ZCSL"] = ZCSL;
+                    map["GCSL"] = GCSL;
+                    map["JE"] = JE;
+                    map["CBL"] = CBL;
+                    map["CJL"] = CJL;
+
+                    list.push(map);
+                }
+                var datas = {
+                    datas: list
+                }
+
+                var str = template('bookList', datas);
+                //console.log(JSON.stringify(str));
+                $('#books div').remove();
+                $('#books').append(str);
+                fnReadyOpenWin();
+            }
+        }
+    }
+
+    function details(kj) {
+        var data;
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].KJ == kj) {
+                data = list[i];
+                break;
+            }
+        }
+        api.openWin({
+            name: 'statistical_details',
+            url: './statistical_details.html',
+            slidBackEnabled: false,
+            animation: {
+                type: "push",
+                subType: "from_left",
+                duration: 300
+            },
+            pageParam: {
+                Data: data,
+                TYPE: "KJ"
+            }
+        });
+    }
+</script>
+
+</html>

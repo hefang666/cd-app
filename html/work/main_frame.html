@@ -1,0 +1,815 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/home.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #f0f0f0;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            /*ios滑动添加此样式*/
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .flex-con {
+            overflow: auto;
+            overflow-x: hidden;
+            /*ios滑动添加此样式*/
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .aui-refresh-pull-arrow {
+            top: 20% !important;
+        }
+
+        .aui-bar-nav {
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn {
+            height: 2.2rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        header .left {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 70%;
+            height: 2.2rem;
+            line-height: 2.2rem;
+            padding: 0 0.75rem;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        header .right {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 30%;
+            height: 2.2rem;
+            line-height: 2.2rem;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: flex-end;
+            justify-content: flex-end;
+            padding: 0 0.73rem 0 0;
+        }
+
+        .left .orgName {
+            width: calc( 100% - 1.5rem);
+            height: 2.2rem;
+            line-height: 2.2rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            text-align: left;
+        }
+
+        .left .orgNameSingle {
+            width: 100%;
+            height: 2.2rem;
+            line-height: 2.2rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            text-align: left;
+        }
+
+        header .left .arrowDiv {
+            position: absolute;
+            bottom: 0;
+            right: 0.75rem;
+            width: 1.5rem;
+            height: 2.2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        header .left .arrow {
+            width: 0.7rem;
+            height: 0.38rem;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+            pointer-events: none;
+        }
+
+        .active {
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+        .active_hide {
+            -webkit-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+        }
+
+        header .right .list {
+            float: right;
+            width: auto;
+            height: 0.83rem;
+            margin-right: 1.13rem;
+        }
+
+        header .right .list:last-child {
+            margin-right: 0;
+        }
+
+        header .right .list img {
+            width: auto;
+            height: 0.83rem;
+        }
+
+        #changeViewImg {
+            width: auto;
+            height: 0.83rem;
+            cursor: pointer;
+        }
+
+        .bannerDiv {
+            /*position: relative;*/
+            width: 100%;
+        }
+
+        .bannerDiv .banner {
+            width: 100%;
+            /*height: 100%;*/
+        }
+        /*section {
+            width: 100%;
+            height: calc( 100% - 227px);
+            overflow-x: hidden;
+            overflow-y: auto;
+            box-sizing: border-box;
+            -webkit-overflow-scrolling: touch;
+        }*/
+
+        .aui-card-list-header {
+            color: #999999;
+            font-size: var(--fontsize8) !important;
+            padding: 0.6rem;
+        }
+
+        .aui-font-size-18 {
+            font-size: var(--fontsize8) !important;
+        }
+
+        .aui-card-list-header:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-bottom: 1px solid #e6e6e6;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 200%;
+            height: 200%;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+            -webkit-transform-origin: left top;
+            transform-origin: left top;
+            pointer-events: none;
+        }
+
+        .aui-card-list-header #ddImg {
+            width: 0.93rem;
+            height: 0.18rem;
+            /*margin: 0 15px 0 7px;*/
+            display: inline-block;
+        }
+
+        .aui-card-list-header .downArrow {
+            width: 0.7rem;
+            height: 0.38rem;
+            display: inline-block;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .aui-card-list-header .imgDiv {
+            min-height: 1.2rem;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+
+        .aui-card-list-header .imgDiv:first-child {
+            margin-right: 1.13rem;
+        }
+
+        .aui-row.aui-row-padded .aui-col-xs-3 img {
+            width: 30px;
+            height: 30px;
+            margin: 0 auto;
+            margin-bottom: 0.5rem
+        }
+
+        .aui-row.aui-row-padded .aui-col-xs-3 {
+            font-size: 0.65rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: -0.02rem;
+            color: #333333;
+            display: flex;
+            justify-content: center;
+            padding: 0 !important;
+            margin-bottom: 1.02rem;
+        }
+
+        .aui-row {
+            padding: 1.02rem 0.83rem 0rem 0.83rem !important;
+        }
+
+        .appRow {
+            display: inline-block;
+            /*max-height: 47px;*/
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .largeRow {
+            display: inline-block;
+            max-height: 55px;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .aui-list {
+            background-image: none !important;
+        }
+
+        .aui-list .aui-list-item:last-child {
+            background-image: none !important;
+        }
+
+        .aui-list .aui-list-item-text {
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        .addApp {
+            color: #4F79E8;
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            border: 1px solid #4F79E8;
+            border-radius: 5rem;
+            padding: 0.3rem 0.7rem;
+            display: inline-block;
+            float: right;
+        }
+
+        .addApp:active {
+            color: #333333;
+            background-color: #bdbdbd;
+        }
+
+        .gray {
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
+            filter: grayscale(100%);
+            filter: gray;
+        }
+
+        #ListView .aui-list:after {
+            border: none !important;
+        }
+        /*消息style开始*/
+
+        .aui-tips {
+            padding: 0.57rem 0.88rem;
+            height: 2rem;
+            line-height: 2rem;
+            background-color: #fff;
+            color: #666;
+            width: 100%;
+            box-sizing: border-box;
+            justify-content: flex-start;
+        }
+
+        .aui-tips span {
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.07rem;
+            color: #4f79e8;
+        }
+
+        .iconBgs {
+            position: relative;
+            z-index: 20;
+            top: -6px;
+            height: 1.4rem;
+            font-size: 1.4rem;
+            line-height: 1.4rem;
+            padding: .5rem;
+            border-radius: 50%;
+            color: #fff;
+            top: -4px!important;
+        }
+
+        .aui-grid .aui-badge {
+            position: absolute;
+            top: 1rem;
+            left: 60%;
+            z-index: 99;
+        }
+
+        #announcement {
+            height: 2em;
+        }
+
+        #announcement a {
+            color: #666;
+            text-decoration: none;
+            display: block;
+            line-height: 2;
+            height: 2em;
+            text-indent: 0.5em;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .aui-tips .aui-tips-title {
+            width: 73%;
+            padding: 0;
+            /*margin-left: -1.5rem;*/
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.07rem;
+            color: #666666;
+        }
+
+        .icon-z {
+            width: 0.7rem;
+            height: 0.7rem;
+            display: inline-block;
+            background: url('../../image/main_frame/tongzhi.jpg')no-repeat;
+            background-size: 100%;
+        }
+
+        .moreDiv {
+            width: calc(27% - 0.7rem);
+            text-align: right;
+        }
+
+        .title_small {
+            height: 2.5rem;
+        }
+
+        .content_borderContent {
+            /*position: absolute;*/
+            width: 100%;
+            /*height: 100%;*/
+            margin-top: -0.8rem;
+        }
+
+        .ICON_Hide {
+            width: 0.8rem;
+            height: 0.8rem;
+            background: url('../../image/main_frame/hide.jpg')no-repeat;
+            background-size: 0.8rem 0.8rem;
+            position: absolute;
+            margin: 0.6rem 0;
+            right: 0
+        }
+
+        .ICON_Show {
+            width: 0.8rem;
+            height: 0.8rem;
+            background: url('../../image/main_frame/show.jpg')no-repeat;
+            background-size: 0.8rem 0.8rem;
+            position: absolute;
+            margin: 0.6rem 0;
+            right: 0
+        }
+
+        .noData {
+            width: 100%;
+            height: 60vw;
+            line-height: 53vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0vw;
+            color: #0c9ff4;
+            text-align: cnt;
+            text-align: center;
+        }
+
+        .headerLine {
+            width: 0.1rem;
+            height: 0.8rem;
+            margin-right: 0.3rem;
+            background-color: #4f79e8;
+            display: inline-block;
+        }
+
+        .headerDiv {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+        }
+
+        .interval {
+            height: 0.75rem;
+            width: 100%;
+            background: #f0f0f0;
+        }
+
+        .content_borderContent .aui-content-padded {
+            margin-top: 0rem !important;
+        }
+
+        .oAfont {
+            font-size: 0.7rem!important;
+        }
+
+        .aui-list .aui-list-item-media {
+            width: 1rem;
+            padding: 0;
+            margin-right: 0.65rem;
+        }
+
+        .aui-media-list .aui-list-item-inner {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            padding-right: 0.75rem;
+        }
+
+        #body ul li:last-child .aui-list-item-inner {
+            justify-content: flex-end;
+        }
+
+        .addAppLi:active {
+            background-color: transparent !important;
+        }
+
+        #changeDiv {
+            width: 1.03rem;
+        }
+
+        .flex-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .noCommentMessage {
+            line-height: 1.4rem;
+            margin-left: 2.75rem;
+        }
+
+        .approve {
+            padding: 0.6rem;
+            background-color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .approve .aui-card-list {
+            border: 1px solid #e5e5e5;
+            margin-bottom: 0;
+        }
+
+        .approve .aui-card-list-header {
+            align-items: flex-start;
+        }
+
+        .pieTitleDiv {
+            width: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .pieTitle {
+            color: #333;
+            font-weight: 600;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .pieTitleBtn {
+            border-radius: 1rem;
+            background: #ed7d31;
+            color: #fff;
+            padding: 0 0.75rem;
+        }
+
+        .aui-btn.pieTitleBtn:active {
+            background: #ed7d31;
+            color: #fff;
+            opacity: 0.8;
+        }
+
+        .pieCharts {
+            width: 60%;
+            height: 9rem;
+        }
+
+        .approve .aui-card-list .aui-card-list-content ul {
+            padding: 0.5rem 0;
+        }
+
+        .approve .aui-card-list .aui-card-list-content ul>li {
+            text-align: center;
+            padding-left: 2rem;
+            background: url() no-repeat center 0;
+            background-size: auto 1.1rem;
+            border-right: 1px solid #e5e5e5;
+        }
+
+        .approve .aui-card-list .aui-card-list-content ul>li:last-child {
+            border-right: none
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <header class="aui-bar aui-bar-nav" id="navHeader">
+            <div class="aui-pull-left aui-btn">
+
+            </div>
+            <div class="left">
+            </div>
+            <div class="right">
+                <div class="list">
+                    <img src="../../image/main_frame/sousuo.png" tapmode onclick="fnOpenSearchApp()" />
+                </div>
+                <!-- <div class="list">
+                <img src="../../image/main_frame/saomiao.png" tapmode onclick="fnScan()" />
+            </div> -->
+                <div class="list" id="changeDiv" tapmode onclick="changeView()">
+                    <img src="../../image/main_frame/changelist.png" id="changeViewImg" />
+                </div>
+            </div>
+        </header>
+        <div class="bannerDiv" id="bannerDiv">
+            <img id="banner" class="banner" src="../../image/main_frame/banner.png">
+        </div>
+        <!-- 消息开始 -->
+        <div class="aui-tips aui-border-b" id="tips-1">
+            <i class="aui-iconfont icon-z"></i>
+            <div class="aui-tips-title" id="messageDemo">
+                <div class="swiper-container swiper-container-vertical announcement">
+                    <div class="swiper-wrapper" id="announcement">
+                        <!-- <div class="swiper-slide" data-swiper-slide-index="0">
+                        <a href="#">这是一个测试消息-3343434234243423423</a>
+                    </div> -->
+                    </div>
+                </div>
+            </div>
+            <div class="moreDiv">
+                <span class="aui-list-item-title open-win" win='../message/NoticeMessage' tapmode>更多</span>
+            </div>
+        </div>
+        <!-- 消息结束 -->
+
+        <div id="main" class="flex-con">
+
+            <!-- 我的审批开始  -->
+            <!-- <div class="approve">
+            <div class="aui-card-list">
+                <div class="aui-card-list-header aui-border-b">
+                    <div class="pieTitleDiv">
+                        <div class="pieTitle">
+                            我的审批
+                        </div>
+                        <div class="aui-btn pieTitleBtn" tapmode data-action="openApprove">
+                            立即查看
+                        </div>
+                    </div>
+                    <div class="pieCharts" id="pie">
+                    </div>
+                </div>
+                <div class="aui-card-list-content">
+                    <ul class="flex-wrap">
+                        <li tapmode="hover" class="flex-con">
+                            待审批
+                            <div>
+                                (10)
+                            </div>
+                        </li>
+                        <li tapmode="hover" class="flex-con">
+                            已超期
+                            <div>
+                                (5)
+                            </div>
+                        </li>
+                        <li tapmode="hover" class="flex-con">
+                            已审批
+                            <div>
+                                (10)
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div> -->
+            <!-- 我的审批结束  -->
+
+            <!-- 应用部分开始 -->
+            <div id="body">
+                <section id="AppView" class="">
+                    <div class="aui-card-list">
+                        <div class="aui-card-list-header"><span class="headerDiv"><div class="headerLine"></div>常用应用</span>
+                            <div class="imgDiv">
+                                <div class="imgDiv" tapmode data-action="alertClassify" data-param="{}"><img src="../../image/main_frame/update.png" id="ddImg" /></div>
+                                <div class="imgDiv" tapmode data-action="hideAppList"><img src="../../image/main_frame/downarrow.png" class="downArrow" /></div>
+                            </div>
+                        </div>
+                        <div class="aui-card-list-content">
+                            <div class="aui-row aui-row-padded">
+                                <div class="aui-col-xs-3" tapmode onclick="MeterReding()">
+                                    <div class="appRow">
+                                        <img src="../../image/main_frame/systemManage.png"  /> 抄表系统(江宁)
+                                    </div>
+                                </div>
+                                <div class="aui-col-xs-3" tapmode onclick="MeterReding_chengdu()">
+                                    <div class="appRow">
+                                        <img src="../../image/main_frame/systemManage.png"  /> 抄表系统(成都)
+                                    </div>
+                                </div>
+                                <div class="aui-col-xs-3" tapmode onclick="MeterProduct()">
+                                    <div class="appRow">
+                                        <img src="../../image/main_frame/systemManage.png"  /> 抄表管家(产品)
+                                    </div>
+                                </div>
+                                <div class="aui-col-xs-3">
+                                    <div class="appRow"><img src="../../image/main_frame/addApp.png" />添加应用</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        </section>
+                <!-- <section id="ListView">
+            <div class='interval'></div>
+            <div class="aui-card-list">
+                <div class="aui-card-list-header"><span class="aui-boder-l">常用应用</span>
+                    <div class="imgDiv">
+                        <div class="imgDiv" tapmode onclick="alertClassify(null)"><img src="../../image/main_frame/update.png" id="ddImg"></div>
+                        <div class="imgDiv"><img src="../../image/main_frame/downarrow.png" class="downArrow"></div>
+                    </div>
+                </div>
+                <div class="aui-card-list-content">
+                    <ul class="aui-list aui-media-list">
+                        <li tapmode data-param={ "productId":10104, "productName": "办公自动化系统", "package": "", "iosPackage": "", "androidPackage": "", "productIcon": "/uploadFile/78764a3168a744bea02cd1f0d8e10516.png", "isValid":true, "openMobile":true, "mobileWebUrl":
+                            "http://220.167.140.225:8082/eoffice10/client/app/mobile/#/home/message/index"} data-action="fnOpenApp" class="aui-list-item aui-list-item-middle">
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-list-item-media imgIcon"><img src="http://192.168.0.43:8889/uploadFile/78764a3168a744bea02cd1f0d8e10516.png"></div>
+                                <div class="aui-list-item-inner">
+                                    <div class="aui-list-item-text">办公自动化系统</div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="aui-list-item aui-list-item-middle addAppLi">
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-list-item-inner">
+                                    <div class="addApp" tapmode onclick="fnAddApp(null)">添加应用</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+            </div>
+            <!-- 应用部分结束 -->
+        </div>
+
+
+    </div>
+
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/fx.js"></script>
+<script type="text/javascript" src="../../script/fx_methods.js"></script>
+<script type="text/javascript" src="../../script/hammer.min.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/javascript" src="../../script/swiper.min.js"></script>
+<script type="text/javascript" src="../../script/aui-collapse.js"></script>
+<script type="text/javascript" src='../../script/aui-scroll.js'></script>
+<script type="text/javascript">
+  var apiready = function(){
+
+    var header = $api.byId('navHeader');
+    $api.fixStatusBar(header);
+    api.setStatusBarStyle({
+        style: 'dark'
+    });
+  }
+  function MeterReding(){
+    api.openWin({
+        name: 'MeterReding',
+        url: '../MeterReading/html/main_frame.html',
+        pageParam: {
+            name: 'test'
+        }
+    });
+
+  }
+  function MeterReding_chengdu(){
+    api.openWin({
+        name: 'MeterReading_chengdu',
+        url: '../MeterReading_chengdu/html/main_frame.html',
+        pageParam: {
+            name: 'test'
+        }
+    });
+  }
+  function MeterProduct(){
+    api.openWin({
+        name: 'MeterProduct',
+        url: '../MeterProduct/html/main_frame.html',
+        pageParam: {
+            name: 'test'
+        }
+    });
+  }
+
+</script>
+
+
+</html>

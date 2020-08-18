@@ -1,0 +1,1093 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>抄表详情</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui.css" />
+    <style media="screen">
+        .line-left-blue {
+            border-left: .2rem solid #03a9f4;
+        }
+
+        .aui-list {
+            border: none;
+        }
+
+        .aui-grid [class*=aui-col-xs-]:active {
+            background-color: #fff;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #000000;
+            box-shadow: 0rem 0.05rem 0.13rem 0rem #c8c8c8;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #000000;
+            font-weight: 900;
+        }
+
+        .icon {
+            padding-top: 1.4rem;
+            margin-top: 0.2rem;
+            margin-bottom: 0.2rem;
+            font-size: 0.6rem;
+            background: url() no-repeat center 0px;
+            background-size: auto 1.2rem;
+            text-align: center;
+            color: #6f95f2;
+        }
+
+        .icon.user {
+            background-image: url(../../image/MeterReading/depict_icon_lxr.png);
+            margin-left: 82%;
+            background-size: auto 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .icon.camera {
+            background-image: url(../../image/MeterReading/Audit_icon_photograph.png);
+            width: 2rem;
+            display: inline-block;
+            background-position: .2rem 0.1rem;
+            margin: 0;
+            margin-right: .1rem;
+        }
+
+        .icon.camera1 {
+            background-image: url(../../image/MeterReading/Audit_icon_photograph_2.png);
+            width: 4rem;
+            height: 4rem;
+            display: inline-block;
+            margin: 0;
+            margin-right: .75rem;
+            background-size: cover;
+        }
+
+        .icon.delete {
+            background-image: url(../../image/MeterReading/Audit_icon_close.png);
+            width: 2rem;
+            display: inline-block;
+            background-position: 0rem 0.1rem;
+            margin: 0;
+            margin-right: 0rem;
+        }
+
+        .icon.caret {
+            background-image: url(../../image/MeterReading/depict_icon_down.png);
+            /* width: 2rem; */
+            display: inline-block;
+            background-position: 91% 0.25rem;
+            /* margin: 0; */
+            margin-right: 0rem;
+            /* position: absolute; */
+            /* top: .25rem; */
+            /* right: .25rem; */
+        }
+
+        .user-title {
+            margin: .3rem auto;
+            width: 96%;
+            line-height: 1.3rem;
+            padding: .2rem 1.5rem;
+            color: white;
+            border-radius: .5rem;
+            background-image: linear-gradient(0deg, #83baff 0%, #6581eb 100%), linear-gradient( #3883f8, #3883f8);
+            box-shadow: 0rem 0rem 0rem 0rem #d7e2ff;
+        }
+
+        .box-line {
+            border: 1px solid #d7e2ff;
+            margin: 1rem auto;
+            width: 92%;
+            border-radius: .6rem;
+            box-shadow: 0.1rem 0.1rem 1.1rem 0.1rem #d7e2ff;
+        }
+
+        .aui-collapse-arrow {
+            font-weight: 900;
+        }
+
+        .aui-info {
+            padding: 0;
+            color: #222222;
+        }
+
+        .aui-card-list-content,
+        .aui-card-list-content-padded {
+            line-height: 1.2rem;
+        }
+
+        @media screen and (-webkit-min-device-pixel-ratio: 1.5) {
+            .aui-list {
+                background-size: 0;
+            }
+            .aui-border-t {
+                border-top: 1px solid #dddddd;
+                background-size: 0;
+            }
+        }
+
+        .getpic {
+            height: 3rem;
+            line-height: 3rem;
+            padding: 0 2rem;
+            display: flex;
+            border-bottom: 1px solid #f3f3f3;
+        }
+
+        .Picture {
+            display: flex;
+            padding: 0.4rem 2rem;
+            flex-wrap: wrap;
+            display: none;
+        }
+
+        .get-img {
+            width: 2rem;
+            position: absolute;
+            right: 2rem;
+            top: 1.2rem
+        }
+
+        .picBox {
+            position: relative;
+            padding: 0.2rem;
+        }
+
+        .delpic {
+            position: absolute;
+            top: -.2rem;
+            right: -0.2rem;
+            width: 1rem;
+        }
+
+        .aui-list [class*=aui-col-xs-] img {
+            height: 4rem;
+            width: 4rem;
+            border-radius: .5rem;
+        }
+
+        .camera_color {
+            display: none;
+        }
+
+        .aui-card-list,
+        .aui-list {
+            border-radius: .4rem;
+        }
+
+        .aui-collapse-header.aui-active {
+            background: #fff;
+            border-radius: .4rem .4rem 0 0;
+        }
+
+        .aui-card-list-header,
+        .aui-card-list-footer {
+            padding: 0.5rem 0.75rem .5rem .5rem;
+        }
+
+        select {
+            width: 100%;
+            height: 1.8rem;
+            border-radius: 0.2rem;
+            border: solid 1px #bfbfbf;
+            color: #bfbfbf;
+        }
+
+        .aui-list-item-input textarea {
+            margin: 0.1rem 0;
+            height: auto;
+            color: #666666;
+        }
+
+        .h-dohomework-lst {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box-line">
+        <div class="user-title" id="user-title">
+
+        </div>
+    </div>
+    <div id="MeterWatterBindListhtml">
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../script/api.js"></script>
+<script type="text/javascript" src="../../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../script/aui-collapse.js"></script>
+<script type="text/javascript" src="../../../script/template.js"></script>
+<script type="text/template" id="meterWatterBindList">
+    {{each MeterWatterBindLists value i}}
+    <div class="h-dohomework-lst" id={{value.CustomerCode}} data-curIndex="{{value.UserNumber-1}}" data-all="{{MeterWatterBindLists}}">
+        <section class="aui-content-padded">
+            <div class="aui-card-list">
+                <div class="aui-card-list-header aui-collapse-header" tapmode>
+                    <div class="aui-info">
+                        <div class="aui-info-item">
+                            <img src="../../image/MeterReading/refer_icon_dot.png" style="width:1rem" class="aui-img-round" />
+                        </div>
+                        <div class="aui-info-item aui-font-size-16 aui-text-black">抄表信息(共{{MeterWatterBindLists.length}}户|第{{i+1}}户)</div>
+                    </div>
+                    <i class="aui-iconfont aui-icon-down aui-collapse-arrow aui-pull-right"></i>
+                </div>
+                <div class="aui-card-list-content-padded aui-collapse-content aui-border-t">
+                    <div class="aui-row aui-row-padded">
+                        <div>用户名称:{{value.UserName}}</div>
+                        <div>用户编号:{{value.CustomerCode}}</div>
+                        <div>联系人:{{value.ContactPerson}}</div>
+                        <div>联系电话:{{value.Tel}}</div>
+                        <div>安装日期:{{value.InstalldTime}}</div>
+                        <div>用户地址:{{value.InstallAddress}}</div>
+                        <div>水表表号:{{value.StampNo}}</div>
+                        <div>口径:{{value.Caliber}}</div>
+                        <div>同期水量:{{value.TQAmount}}</div>
+                        <div>上次抄表:{{value.PeriodTime}}</div>
+                        <div>起度:{{value.LastScale}}</div>
+                        <div>上月水量:{{value.PeriodAmount}}</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="aui-content-padded" style="margin-bottom:4.25rem;">
+            <div class="aui-card-list">
+                <ul class="aui-list aui-form-list">
+                    <li class="aui-list-item">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-label">
+                                <span class="aui-text-danger">*</span>状&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;态:
+                            </div>
+                            <div class="aui-list-item-input StatusType_{{value.CustomerCode}} aui-iconfont icon caret">
+                                <select name="" id="StatusType_{{value.CustomerCode}}" data-value="{{value.StateName}}">
+
+                    </select>
+                            </div>
+                            <!-- <div class="aui-list-item-icon aui-pull-right">
+                      <i></i>
+                  </div> -->
+                        </div>
+                    </li>
+                    <li class="aui-list-item">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-label">
+                                <span class="aui-text-danger">*</span>本次读数:
+                            </div>
+                            <div class="aui-list-item-input">
+                                <input type="number" placeholder="请输入本次读数" data-oninput="thisScale" value="{{value.Thereadno}}" data-id={{value.CustomerCode}} data-LastScale={{value.LastScale}} id="Thereadno_{{value.CustomerCode}}">
+                            </div>
+                        </div>
+                    </li>
+                    <li class="aui-list-item">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-label">
+                                <span class="aui-text-danger">*</span>本次用量:
+                            </div>
+                            <div class="aui-list-item-input">
+                                {{if value.LastScale==0}}
+                                <input type="number" placeholder="请输入本次用量" id="thisScale_{{value.CustomerCode}}" value="{{value.Thewater}}"> {{else}}
+                                <input type="number" placeholder="" readonly="" id="thisScale_{{value.CustomerCode}}" value="{{value.Thewater}}"> {{/if}}
+                            </div>
+                        </div>
+                    </li>
+                    <li class="aui-list-item">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-label aui-col-xs-2">
+                                &nbsp;&nbsp;备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注:
+                            </div>
+                            <div class="aui-col-xs-10 contentText">
+                                <textarea placeholder="请输入备注" id="Remark_{{value.CustomerCode}}" rows="1" value="{{value.Remark}}">{{value.Remark=='null'?'':value.Remark}}</textarea>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="aui-list-item">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-label">
+                                &nbsp;&nbsp;照&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;片:
+                            </div>
+                            <div class="aui-list-item-input camera camera_{{value.CustomerCode}}" data-action="camera" data-id="{{value.CustomerCode}}">
+                                <i class="aui-iconfont icon camera aui-pull-right"></i>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+                <ul class="aui-list aui-media-list">
+                    <li class="aui-list-item">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-row aui-row-padded">
+                                <div id="Picture_{{value.CustomerCode}}">
+                                    {{if value.image!=''}} {{each value.image item j}}
+                                    <div class="aui-col-xs-4 aui-margin-b-15">
+                                        <img src="{{item}}" alt="">
+                                        <i class="delpic icon delete" data-action="delete" data-id={{value.CustomerCode}}></i>
+                                    </div>
+                                    {{/each}} {{/if}}
+                                </div>
+                                <div class="camera_color_{{value.CustomerCode}} camera_color aui-col-xs-4 aui-margin-b-15" data-action="camera" data-id="{{value.CustomerCode}}">
+                                    <i class="aui-iconfont icon camera1 aui-pull-right"></i>
+                                </div>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </section>
+        <footer class="aui-bar aui-bar-tab aui-border-t" id="footer">
+            <secton class="aui-grid">
+                <div class="aui-col-xs-4" data-action="prevUser">
+                    <p class="aui-btn aui-btn-info aui-margin-r-5 aui-btn-outlined" style="border-color: #3883f8!important;color:#3883f8!important;">上一户</p>
+                </div>
+                <div class="aui-col-xs-4" data-action="saveUserRead" data-id={{value.CustomerCode}}>
+                    <p class="aui-btn aui-btn-info aui-margin-r-5" style="background-color: #3883f8!important;">保&nbsp;&nbsp;&nbsp;&nbsp;存</p>
+                </div>
+                <div class="aui-col-xs-4" data-action="nextUser">
+                    <p class="aui-btn aui-btn-info aui-margin-r-5 aui-btn-outlined" style="border-color: #3883f8!important;color:#3883f8!important;">下一户</p>
+                </div>
+                </section>
+        </footer>
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id="GetWaterMeterUsageList">
+    <!-- <option value='' disabled selected style='display:none;'>请选择</option> -->
+    {{each GetWaterMeterUsageList value i}} {{if value.LocationTypeSelect=='true'}}
+    <option value="{{value.Value}}" selected="selected">{{value.Name}}</option>
+    {{else}}
+    <option value="{{value.Value}}">{{value.Name}}</option>
+    {{/if}} {{/each}}
+</script>
+<script type="text/javascript">
+    var ReqCode, curUser, Id, State, db;
+    apiready = function() {
+        //api.parseTapmode();
+        fnReady();
+        fnReadyOpenWin();
+        //console.log(JSON.stringify(api.pageParam));
+        ReqCode = api.pageParam.ReqCode;
+        State = api.pageParam.State;
+        db = api.require('db');
+        $api.html($api.byId('user-title'), '  <div>项目名称：' + api.pageParam.Name + '</div>' +
+            '<div>报装编号：' + api.pageParam.ReqCode + '</div>');
+
+        // alert(api.pageParam.style);
+        if (api.pageParam.style == 0) {
+            if ($api.getStorage('curUser') == undefined || $api.getStorage('curUser') == null) {
+                curUser = 0;
+            } else {
+                curUser = $api.getStorage('curUser');
+            }
+        } else {
+            curUser = 0;
+        }
+        if (api.pageParam.modalStyle == 1) {
+            //在线模式
+            MeterWatterBindList(ReqCode, State);
+            //在线 模式完
+        } else if (api.pageParam.modalStyle == 2) {
+            //离线模式
+            db.selectSql({
+                name: 'user',
+                sql: 'SELECT * FROM MeterReadingBindTable WHERE ReqCode="' + ReqCode + '"'
+            }, function(ret, err) {
+                if (ret.status) {
+                    //console.log(JSON.stringify(ret));
+                    if (ret.data != '') {
+                        for (var i in ret.data) {
+                            ret.data[i].CountAll = ret.data.length;
+                            try {
+                                ret.data[i].image = ret.data[0].image.split(',');
+                            } catch (e) {
+
+                            }
+                        }
+                        Id = ret.data[curUser].CustomerCode;
+                        $api.setStorage('Id', Id);
+                        $api.setStorage('curUser', curUser);
+                        var MeterWatterBindLists = {
+                            MeterWatterBindLists: ret.data
+                        };
+                        var str = template('meterWatterBindList', MeterWatterBindLists);
+                        $api.html($api.byId('MeterWatterBindListhtml'), str);
+                        Array.prototype.indexVf = function(arr) {            
+                            for (var i = 0; i < this.length; i++) {                
+                                if (this[i].Id == arr) {                    
+                                    return i;                
+                                }                         
+                            }        
+                        };
+                        // //console.log(ret.result.indexVf($api.getStorage('Id')));
+                        $api.css($api.domAll('.h-dohomework-lst')[curUser], 'display:block');
+                        var collapse = new auiCollapse({
+                            autoHide: true //是否自动隐藏已经展开的容器
+                        });
+                        operationDom();
+                        operatOninput();
+                        //离线模式option
+                        offNetOption(Id);
+                    } else {
+                        $api.html($api.byId('MeterWatterBindListhtml'), '<div class="noUploadList">' +
+                            '<img src="../../image/MeterReading/upload_img_2.png" alt="">' +
+                            '<div class="aui-text-center">当前报装暂无离线的抄表用户。</div></div>');
+                    }
+                } else {
+                    //console.log(JSON.stringify(err));
+                    $api.html($api.byId('MeterWatterBindListhtml'), '<div class="noUploadList">' +
+                        '<img src="../../image/MeterReading/upload_img_2.png" alt="">' +
+                        '<div class="aui-text-center">当前没有离线的抄表用户,请前往下载数据。</div></div>');
+                }
+            });
+            //离线模式完
+        }
+    }
+    var collapse = new auiCollapse({
+        autoHide: true //是否自动隐藏已经展开的容器
+    });
+
+    function closeWin() {
+        api.closeWin({});
+    }
+
+    function getPictures(Id) {
+        api.getPicture({
+            sourceType: 'album',
+            allowEdit: true,
+            quality: 50,
+            targetWidth: 750,
+            targetHeight: 750,
+            destinationType: 'url',
+            saveToPhotoAlbum: true
+        }, function(ret, err) {
+            // var UIAlbumBrowser = api.require('UIAlbumBrowser');
+            // UIAlbumBrowser.imagePicker({
+            //     max: 9,
+            //     showCamera:false,
+            //     styles: {
+            //     bg: '#333',
+            //     mark: {
+            //         icon: '',
+            //         position: 'bottom_left',
+            //         size: 20
+            //     },
+            //     nav: {
+            //         bg: '#666',
+            //         cancelColor: '#fff',
+            //         cancelSize: 16,
+            //         nextStepColor: '#fff',
+            //         nextStepSize: 16
+            //     }
+            //     },
+            //     animation:true,
+            // }, function(ret,err) {
+            //console.log(JSON.stringify(ret));
+            //console.log(JSON.stringify(err));
+            if (ret.eventType == 'nextStep') {
+                var UIAlbumBrowser = api.require('UIAlbumBrowser');
+                UIAlbumBrowser.closePicker();
+            }
+            if (ret) {
+                if (ret.data != '') {
+                    // for(var i=0;i<ret.list.length;i++){
+                    $api.append($api.byId('Picture_' + Id), '<div class="aui-col-xs-4 aui-margin-b-15" data-id="' + Id + '">' +
+                        '<img src="' + ret.data + '" alt="">' +
+                        '<i class="delpic icon delete" data-action="delete" data-id="' + Id + '"></i>' +
+                        '</div>');
+                    // }
+                }
+                api.hideProgress();
+                operationDom();
+                if ($api.domAll($api.byId('Picture_' + Id), 'img').length == 0) {
+                    $('.camera_' + Id).show();
+                    $('.camera_color_' + Id).hide();
+                } else {
+                    $('.camera_' + Id).hide();
+                    $('.camera_color_' + Id).show();
+                }
+            }
+        });
+    }
+
+    function getCamera(type, Id) {
+        api.getPicture({
+            sourceType: type,
+            encodingType: 'jpg',
+            mediaValue: 'pic',
+            destinationType: 'url',
+            allowEdit: true,
+            quality: 60,
+            targetWidth: 750,
+            targetHeight: 750,
+            saveToPhotoAlbum: false
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.data != '') {
+                    var imgUrl = ret.base64Data;
+                    $api.append($api.byId('Picture_' + Id), '<div class="aui-col-xs-4 aui-margin-b-15" data-id="' + Id + '">' +
+                        '<img src="' + ret.data + '" alt="">' +
+                        '<i class="delpic icon delete" data-action="delete" data-id="' + Id + '"></i>' +
+                        '</div>');
+                    operationDom();
+                    $('.camera_' + Id).hide();
+                    $('.camera_color_' + Id).show();
+                }
+            } else {
+                //console.log(JSON.stringify(err));
+            }
+        });
+    }
+
+    function getUrlBase64(url, callback) {
+        var canvas = document.createElement("canvas"); //创建canvas DOM元素
+        var ctx = canvas.getContext("2d");
+        var img = new Image;
+        img.crossOrigin = 'Anonymous';
+        img.src = url;
+        img.onload = function() {
+            canvas.height = img.height; //指定画板的高度,自定义
+            canvas.width = img.width; //指定画板的宽度，自定义
+            ctx.drawImage(img, 0, 0, img.width, img.height); //参数可自定义
+            var ext = img.src.substring(img.src.lastIndexOf(".") + 1).toLowerCase();
+            var dataURL = canvas.toDataURL("image/" + ext);
+            callback.call(this, dataURL); //回掉函数获取Base64编码
+            canvas = null;
+        };
+    }
+    var actionList = {
+        'camera': function() {
+            var Id = $api.attr(this, 'data-id');
+            api.actionSheet({
+                buttons: ['拍照', '相册选择']
+            }, function(ret, err) {
+                var index = ret.buttonIndex;
+                if (index == 1) {
+
+                    getCamera('camera', Id);
+                }
+                if (index == 2) {
+                    getPictures(Id);
+                }
+            });
+        },
+        'delete': function(Id) {
+            var Id = $api.attr(this, 'data-id');
+            $api.domAll($api.byId('Picture_' + Id), 'img');
+            $api.remove($api.closest(this, '.aui-col-xs-4'));
+            // alert($api.domAll($api.byId('Picture'), 'img').length)
+            if ($api.domAll($api.byId('Picture_' + Id), 'img').length == 0) {
+                $('.camera_' + Id).show();
+                $('.camera_color_' + Id).hide();
+            }
+        },
+        'nextUser': function() {
+            var that = this,
+                cur = $api.closest(that, ".h-dohomework-lst"),
+                nextHome = $api.next(cur),
+                curUser,
+                allUser;
+            if ($api.attr(nextHome, 'id') !== undefined) {
+                allUser = JSON.parse($api.attr(nextHome, 'data-all'));
+                Id = $api.attr(nextHome, 'id');
+                //console.log(typeof allUser)
+                Array.prototype.indexVf = function(arr) {            
+                    for (var i = 0; i < this.length; i++) {                
+                        if (this[i].CustomerCode == arr) {                    
+                            return i;                
+                        }                         
+                    }        
+                };
+                curUser = allUser.indexVf(Id);
+                $api.setStorage('Id', Id);
+                $api.setStorage('curUser', curUser);
+                $api.css(cur, 'display:none');
+                $api.css(nextHome, 'display:block');
+                if (api.pageParam.modalStyle == 1) {
+                    //在线模式option
+                    GetInstallationMode(Id);
+                } else if (api.pageParam.modalStyle == 2) {
+                    //离线模式option
+                    offNetOption(Id);
+                }
+
+            } else {
+                api.toast({
+                    msg: '没有下一户啦',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+        },
+        'prevUser': function() {
+            var that = this,
+                cur = $api.closest(that, ".h-dohomework-lst"),
+                prevHome = $api.prev(cur),
+                curUser,
+                allUser;
+            //console.log(prevHome)
+            if ($api.attr(prevHome, 'id') !== undefined) {
+                allUser = JSON.parse($api.attr(prevHome, 'data-all'));
+                Id = $api.attr(prevHome, 'id');
+                Array.prototype.indexVf = function(arr) {            
+                    for (var i = 0; i < this.length; i++) {                
+                        if (this[i].CustomerCode == arr) {                    
+                            return i;                
+                        }                         
+                    }        
+                };
+                curUser = allUser.indexVf(Id);
+                $api.setStorage('Id', Id);
+                $api.setStorage('curUser', curUser);
+                $api.css(cur, 'display:none');
+                $api.css(prevHome, 'display:block');
+                if (api.pageParam.modalStyle == 1) {
+                    //在线模式option
+                    GetInstallationMode(Id);
+                } else if (api.pageParam.modalStyle == 2) {
+                    //离线模式option
+                    offNetOption(Id);
+                }
+            } else {
+                api.toast({
+                    msg: '没有上一户啦',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+        },
+        'saveUserRead': function() {
+            var that = this,
+                cur = $api.closest(that, ".h-dohomework-lst"),
+                nextHome = $api.next(cur);
+            // if($api.attr(nextHome, 'id')!==undefined){
+            // }
+            //console.log(JSON.stringify($api.getStorage('loginData')));
+            //console.log(JSON.stringify($api.getStorage('loginInfo').UserId));
+            var Id = $api.attr(this, 'data-id'),
+                Thereadno = $api.val($api.domAll($api.byId('MeterWatterBindListhtml'), '#Thereadno_' + Id)[0]),
+                Thewater = $api.val($api.domAll($api.byId('MeterWatterBindListhtml'), '#thisScale_' + Id)[0]),
+
+                Remark = $api.val($api.domAll($api.byId('MeterWatterBindListhtml'), '#Remark_' + Id)[0]),
+                //  StampNo=$api.val($api.domAll($api.byId('MeterWatterBindListhtml'), '#StampNo_'+Id)[0]),
+                //  Valve=$api.val($api.domAll($api.byId('MeterWatterBindListhtml'), '#Valve_'+Id)[0]),
+                //  Aftervalve= $api.val($api.domAll($api.byId('MeterWatterBindListhtml'), '#Aftervalve_'+Id)[0]),
+                select = $api.domAll($api.byId('MeterWatterBindListhtml'), '#StatusType_' + Id)[0],
+                StatusType = $api.val(select),
+                StateName = $api.text($api.domAll($api.byId('StatusType_' + Id), 'option[value="' + StatusType + '"]')[0]);
+            // alert(Thewater);
+            //  alert(StateName);
+            if (emptyempty(StatusType) || emptyempty(Thereadno) || emptyempty(Thewater)) {
+                api.toast({
+                    msg: '*信息为必填信息，请完善',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                return;
+            }
+            if (Thewater < 0) {
+                api.alert({
+                    title: '提示消息',
+                    msg: '您的抄表结果止度小于起度，请修改!',
+                });
+                return;
+            }
+            var photoarray = $api.domAll('#Picture_' + Id + '  img');
+            var picarrayList = new Array();
+            var Images = [];
+            for (var i = 0; i < photoarray.length; i++) {
+                picarrayList.push($api.attr(photoarray[i], 'src'));
+            }
+            for (var i in picarrayList) {
+                getUrlBase64(picarrayList[i], function(base64) {
+                    //console.log(base64);//base64编码值
+                    Images.push(base64)
+                });
+            }
+            var test = JSON.stringify(picarrayList);
+            var IMAGES = JSON.parse(test);
+            setTimeout(function() {
+                //console.log(Images)
+            }, 1000);
+            if (api.pageParam.modalStyle == 1) {
+                //  在线模式
+                setTimeout(function() {
+                    //console.log(JSON.stringify({
+                    ImageId: '', //图片 ID
+                    CBYF: '', //抄表月份
+                    Name: '', //图片名称
+                    URL: JSON.stringify(Images), //图片存放地址(Base64)
+                    CBYMC: $api.getStorage('loginInfo').userName, // 抄表员名称
+                    Id: '', //抄表ID
+                    UserNumber: '', // 序号
+                    ReqCode: ReqCode, //报装编码
+                    CustomerCode: Id, //客户编码
+                    OperatorId: $api.getStorage('loginInfo').UserId, // 操作人
+                    OperatedTime: getFormatDate(), //操作时间
+                    Isvalid: '', // 是否有效
+                    UserName: '', //用户名称
+                    ContactPerson: '', //联系人
+                    Tel: '', //联系电话
+                    InstalldTime: '', //安装时间
+                    InstallAddress: '', //用户地址
+                    StampNo: '', // 水表钢印号
+                    Caliber: '', //口径
+                    LastScale: '', //水表起度
+                    TQAmount: '', //同期水量
+                    PeriodTime: '', //上次抄表时间
+                    PeriodAmount: '', //上次用量
+                    State: StatusType, //状态
+                    Remark: Remark, //备注
+                    Thereadno: Thereadno, //本次读数
+                    Thewater: Thewater, //本次用量
+                    StateName: StateName, //状态名字
+                    TypeId: '', //抄表类型 4，换表抄表 7.销户抄表
+                    MeterState: '', //0/1 未绑定/已绑定
+                }));
+            fnPost('MeterRead/Save', {
+                body: {
+                    ImageId: '', //图片 ID
+                    CBYF: '', //抄表月份
+                    Name: '', //图片名称
+                    URL: JSON.stringify(Images), //图片存放地址(Base64)
+                    CBYMC: $api.getStorage('loginInfo').userName, // 抄表员名称
+                    Id: '', //抄表ID
+                    UserNumber: '', // 序号
+                    ReqCode: ReqCode, //报装编码
+                    CustomerCode: Id, //客户编码
+                    OperatorId: $api.getStorage('loginInfo').UserId, // 操作人
+                    OperatedTime: getFormatDate(), //操作时间
+                    Isvalid: '', // 是否有效
+                    UserName: '', //用户名称
+                    ContactPerson: '', //联系人
+                    Tel: '', //联系电话
+                    InstalldTime: '', //安装时间
+                    InstallAddress: '', //用户地址
+                    StampNo: '', // 水表钢印号
+                    Caliber: '', //口径
+                    LastScale: '', //水表起度
+                    TQAmount: '', //同期水量
+                    PeriodTime: '', //上次抄表时间
+                    PeriodAmount: '', //上次用量
+                    State: StatusType, //状态
+                    Remark: Remark, //备注
+                    Thereadno: Thereadno, //本次读数
+                    Thewater: Thewater, //本次用量
+                    StateName: StateName, //状态名字
+                    TypeId: '', //抄表类型 4，换表抄表 7.销户抄表
+                    MeterState: '', //0/1 未绑定/已绑定
+                }
+            }, 'application/json', false, false, function(ret, err) {
+                //console.log(JSON.stringify(ret))
+                if (ret) {
+                    if (ret.code == 1) {
+                        if (ret.result != '') {
+                            api.toast({
+                                msg: '保存成功',
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+                            db.selectSql({
+                                name: 'user',
+                                sql: 'DELETE FROM MeterReadingBindTable WHERE CustomerCode = "' + Id + '"'
+                            }, function(ret, err) {
+                                //  alert(111);
+                                // ////console.log(JSON.stringify(ret.data));
+                                if (ret.status) {
+                                    //console.log('删除成功');
+                                } else {}
+                            });
+                            db.selectSql({
+                                name: 'user',
+                                sql: 'UPDATE ReqCodeTable SET TotalNumber = "' + ret.result.TotalNumber + '",' +
+                                    'BoundNumber ="' + ret.result.BoundNumber + '",' +
+                                    'UnboundNumber ="' + ret.result.UnboundNumber + '",' +
+                                    'UploadedNumber ="' + ret.result.UploadedNumber + '"' +
+                                    'WHERE ReqCode = "' + ret.result.ReqCode + '"'
+                            }, function(ret, err) {
+                                if (ret.status) {
+                                    //console.log(JSON.stringify('更新成功'));
+                                    //  alert('更新成功');
+                                } else {
+                                    //console.log(JSON.stringify(err));
+                                }
+                            });
+                            if ($api.attr(nextHome, 'id') == undefined) {
+                                if (api.pageParam.value) {
+                                    if (api.pageParam.value == 1) {
+                                        setTimeout(function() {
+                                            api.closeWin({});
+                                        }, 3000);
+                                        api.closeWin({
+                                            name: 'MeterReading'
+                                        });
+                                        api.sendEvent({
+                                            name: 'mycb',
+                                            extra: {
+                                                key1: 'value1',
+                                                key2: 'value2'
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    api.toast({
+                        msg: err.msg + ',保存失败',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                }
+
+                //console.log(JSON.stringify(err))
+                api.hideProgress();
+            })
+        },
+        1000)
+    }
+    else if (api.pageParam.modalStyle == 2) {
+        //离线模式保存
+        db = api.require('db');
+        db.selectSql({
+            name: 'user',
+            sql: 'UPDATE MeterReadingBindTable SET Thereadno = "' + Thereadno + '",' +
+                'Thewater ="' + Thewater + '",' +
+                'Remark ="' + Remark + '",' +
+                'State ="' + StatusType + '",' +
+                'StateName ="' + StateName + '",' +
+                'image ="' + IMAGES + '",' +
+                'MeterState ="1"' +
+                'WHERE CustomerCode = "' + Id + '"'
+        }, function(ret, err) {
+            if (ret.status) {
+                //console.log(JSON.stringify('更新成功'));
+                api.toast({
+                    msg: '离线保存成功',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+
+                db.selectSql({
+                    name: 'user',
+                    sql: 'SELECT * FROM MeterReadingBindTable WHERE  ReqCode = "' + ReqCode + '" AND MeterState  = "0"'
+                }, function(ret, err) {
+                    if (ret.status) {
+                        // alert(JSON.stringify(ret.data.length));
+                        db.selectSql({
+                            name: 'user',
+                            sql: 'UPDATE ReqCodeTable SET UnboundNumber  = "' + ret.data.length + '"' +
+                                'WHERE ReqCode = "' + ReqCode + '"'
+                        }, function(ret, err) {
+                            if (ret.status) {
+                                //console.log(JSON.stringify('更新成功'));
+                                api.execScript({
+                                    name: 'MeterReading',
+                                    frameName: 'MeterReading_frm',
+                                    script: 'refresh();'
+                                });
+                                db.selectSql({
+                                    name: 'user',
+                                    sql: 'SELECT * FROM ReqCodeTable WHERE  ReqCode = "' + ReqCode + '"'
+                                }, function(ret, err) {
+                                    if (ret.status) {
+                                        //  alert(JSON.stringify(ret.data[0].TotalNumber -ret.data[0].UnboundNumber));
+                                        var BoundNumber = ret.data[0].TotalNumber - ret.data[0].UnboundNumber;
+                                        db.selectSql({
+                                            name: 'user',
+                                            sql: 'UPDATE ReqCodeTable SET BoundNumber = "' + BoundNumber + '"' +
+                                                'WHERE ReqCode = "' + ReqCode + '"'
+                                        }, function(ret, err) {
+                                            if (ret.status) {
+                                                //console.log(JSON.stringify('更新成功'));
+                                                api.execScript({
+                                                    name: 'MeterReading',
+                                                    frameName: 'MeterReading_frm',
+                                                    script: 'refresh();'
+                                                });
+                                            } else {
+                                                //console.log(JSON.stringify(err));
+                                            }
+                                        });
+                                    } else {
+                                        //console.log(JSON.stringify(err));
+                                    }
+                                });
+
+                            } else {
+                                //console.log(JSON.stringify(err));
+                            }
+                        });
+                    } else {
+                        //console.log(JSON.stringify(err));
+                    }
+                });
+            } else {
+                //console.log(JSON.stringify(err));
+            }
+        });
+
+
+    }
+
+    },
+    }
+    var oninputList = {
+        'thisScale': function() {
+            var Id = $api.attr(this, 'data-id');
+            var thisValue = $api.val(this);
+            var lastScale = $api.attr(this, 'data-lastScale')
+            var thisScaleValue = $api.domAll($api.byId('MeterWatterBindListhtml'), '#thisScale_' + Id)[0];
+            if (thisScaleValue == 0 || thisScaleValue == '') {
+                $api.val(thisScaleValue, -lastScale);
+            } else {
+                $api.val(thisScaleValue, thisValue - lastScale);
+            }
+        },
+    }
+
+    function MeterWatterBindList(ReqCode, State) {
+        fnPost('MeterRead/GetMeterReadEntityList', {
+            body: {
+                "State": State,
+                "ReqCode": ReqCode
+            }
+        }, 'application/json', false, false, function(ret, err) {
+            //console.log(JSON.stringify(ret));
+            //console.log(JSON.stringify(err));
+            if (ret) {
+                if (ret.code == 1) {
+                    if (ret.result != '') {
+                        var server = $api.getStorage('server');
+                        if ($api.getStorage('net') == 'networks') {
+                            apipath = 'http://' + server.networks + '/';
+                        } else if ($api.getStorage('net') == 'areaNetwork') {
+                            apipath = 'http://' + server.areaNetwork + '/';
+                        }
+                        for (var i in ret.result) {
+                            ret.result[i].CountAll = ret.result.length;
+                            if (ret.result[i].image != "") {
+                                ret.result[i].image = ret.result[i].image.split('★');
+                                //  //console.log(typeof ret.result[i].image);
+                                //  var imgurl=ret.result[i].image;
+                                //  for(var i in imgurl){
+                                //    imgurl[i]=apipath+imgurl[i];
+                                //  }
+                                //  //console.log(JSON.stringify(imgurl));
+                            }
+                        }
+                        var MeterWatterBindLists = {
+                            MeterWatterBindLists: ret.result
+                        };
+                        Id = ret.result[curUser].CustomerCode;
+                        $api.setStorage('Id', Id);
+                        $api.setStorage('curUser', curUser);
+                        var str = template('meterWatterBindList', MeterWatterBindLists);
+                        $api.html($api.byId('MeterWatterBindListhtml'), str);
+                        autoTextarea($api.domAll($api.byId('MeterWatterBindListhtml'), '#Remark_' + Id)[0]);
+                        //         Array.prototype.indexVf=function(arr){
+                        //             for(var i=0;i<this.length;i++){
+                        //                 if(this[i].CustomerCode==arr){
+                        //                     return i;
+                        //                 }                   
+                        //              }
+                        //           };
+                        //           //console.log(ret.result.indexVf($api.getStorage('Id')));
+                        $api.css($api.domAll('.h-dohomework-lst')[curUser], 'display:block');
+                        var collapse = new auiCollapse({
+                            autoHide: true //是否自动隐藏已经展开的容器
+                        });
+                        operationDom();
+                        operatOninput();
+                    } else {
+
+                        $api.html($api.byId('MeterWatterBindListhtml'), '<div class="noUploadList" id="noUploadList">' +
+                            '<img src="../../image/MeterReading/upload_img_3.png" alt="">' +
+                            '<div class="aui-text-center">暂无数据</div>' +
+                            '</div>');
+                    }
+                }
+            }
+            //console.log(JSON.stringify(ret));
+            GetInstallationMode(Id);
+            api.hideProgress();
+        })
+    }
+    //获取水表状态
+    function GetInstallationMode(Id) {
+        fnPost('ArrearsViolation/OptionGet', {
+            body: {
+                "TypeId": "RIM_SBZTCL",
+                "nullAble": "",
+                "isNumber": ""
+            }
+        }, 'application/json', false, false, function(ret, err) {
+            // //console.log(JSON.stringify(ret.result));
+            if (ret) {
+                if (ret.code == 1) {
+                    if (ret.result != '') {
+                        for (var i in ret.result) {
+                            var dataUser = $api.attr($api.domAll($api.byId('MeterWatterBindListhtml'), '#StatusType_' + Id)[0], 'data-value');
+                            if (ret.result[i].Name == dataUser) {
+                                ret.result[i].LocationTypeSelect = 'true';
+                            } else {
+                                ret.result[i].LocationTypeSelect = 'false';
+                            }
+                        }
+                        var GetWaterMeterUsageList = {
+                            GetWaterMeterUsageList: ret.result
+                        };
+                        var str = template('GetWaterMeterUsageList', GetWaterMeterUsageList);
+                        var select = $api.domAll($api.byId('MeterWatterBindListhtml'), '#StatusType_' + Id)[0];
+                        $api.html(select, str);
+                    }
+                }
+            }
+            api.hideProgress();
+        })
+    }
+    //离线模式option
+    function offNetOption(Id) {
+        //水表状态
+        db.selectSql({
+            name: 'user',
+            sql: 'SELECT * FROM MeterStatus'
+        }, function(ret, err) {
+            if (ret.status) {
+                //console.log(JSON.stringify(ret));
+                if (ret.data != '') {
+                    for (var i in ret.data) {
+                        var dataUser = $api.attr($api.domAll($api.byId('MeterWatterBindListhtml'), '#StatusType_' + Id)[0], 'data-value');
+                        //console.log(dataUser)
+                        if (ret.data[i].Name == dataUser) {
+                            ret.data[i].LocationTypeSelect = 'true';
+                        } else {
+                            ret.data[i].LocationTypeSelect = 'false';
+                        }
+                    }
+                    var GetWaterMeterUsageList = {
+                        GetWaterMeterUsageList: ret.data
+                    };
+                    var str = template('GetWaterMeterUsageList', GetWaterMeterUsageList);
+                    var select = $api.domAll($api.byId('MeterWatterBindListhtml'), '#StatusType_' + Id)[0];
+                    $api.html(select, str);
+                }
+            } else {
+                //console.log(JSON.stringify(err));
+            }
+        });
+        //水表状态完
+    }
+</script>
+
+</html>

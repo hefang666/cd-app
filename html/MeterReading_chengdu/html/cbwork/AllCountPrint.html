@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            flex-flow: column;
+            display: flex;
+            background-color: #fff;
+        }
+
+        #header {
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #center {
+            flex: 1;
+            margin-bottom: 75px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        #footer_text {
+            width: 100%;
+            height: 30px;
+            text-align: center;
+        }
+
+        .shenbao {
+            margin-left: 1.5rem;
+            margin-right: 1.5rem;
+            margin-top: 0.5rem;
+            text-align: center;
+            height: 40px;
+            line-height: 40px;
+            background-color: #2F87F8;
+            color: #fff;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        .dv {
+            margin-top: 0.1rem;
+            margin-left: 1.5rem;
+            margin-right: 1.5rem;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">批量打印</div>
+    </header>
+    <div>
+        <div class="shenbao" onclick="queryLY()">搜索蓝牙设备</div>
+        <div class="shenbao" onclick="show()">打印通知单</div>
+    </div>
+    <div id="center">
+
+    </div>
+
+    <div id="footer">
+        <div id="footer_text"></div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/bzremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/template" id='userList'>
+    {{each datas value i}}
+    <div class="dv">
+        {{value.name}}
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+
+    var db;
+    var bool = false;
+    var LoginName = "";
+
+    var CBCHS = []; //抄表册id数组
+    var bookIdIndex = 0; //当前打印的抄表册的下标
+    var userlist = []; //当前打印的抄表册中的用户
+    var userIndex = 0; //当前打印的用户的下标。
+    var user; //当前打印的用户
+
+    var printUserList = []; //打印的数据信息
+    apiready = function() {
+        db = api.require('db');
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        // $('#book').css('margin-top', '' + headerH + 'px');
+        db = api.require('db');
+        LoginName = $api.getStorage('loginData').userName;
+
+        CBCHS = (api.pageParam.CBCHS).split(",");
+    };
+
+    function show() {
+        if (!bool) {
+            api.toast({
+                msg: '请搜索并连接蓝牙设备',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        }
+        api.showProgress({
+            title: '连接打印中...',
+            text: '先稍后...',
+            modal: true
+        });
+        bookIdIndex = 0;
+        userIndex = 0;
+        $('#center div').remove();
+        queryData()
+    }
+
+    function queryData() {
+        if (bookIdIndex < CBCHS.length) {
+            var sql = 'SELECT * FROM MRM_USER_BEAN where CBCH="' + CBCHS[bookIdIndex] + '" and CBBZ="1" and SFDY="0" and userName="' + LoginName + '"';
+            var ret = db.selectSqlSync({
+                name: 'CBtest',
+                sql: sql
+            });
+            if (ret.status) {
+                if (ret.data.length > 0) {
+                    //选中的抄表册中有未打印的数据。
+                    userlist = ret.data;
+                    queryUser();
+                } else {
+                    bookIdIndex++;
+                    queryData();
+                }
+            }
+        } else {
+            api.hideProgress();
+            api.toast({
+                msg: '打印完成',
+                duration: 2000,
+                location: 'bottom'
+            });
+        }
+    }
+
+    function queryUser() {
+        if (userIndex < userlist.length) { //当前抄表册还有数据，继续打印。
+            user = userlist[userIndex];
+            printUserList.push({
+                "name": "============================="
+            });
+            printUserList.push({
+                "name": "区段号：" + user.CBCH
+            });
+            printUserList.push({
+                "name": "档案号：" + user.YHBH
+            });
+            printUserList.push({
+                "name": "用水性质：" + user.YSXZ
+            });
+            printUserList.push({
+                "name": "户名：" + user.YHMC
+            });
+            printUserList.push({
+                "name": "地址：" + user.YHDZ
+            });
+            printUserList.push({
+                "name": "口径：" + user.KJ
+            });
+            printUserList.push({
+                "name": "预存余额：" + user.YCYE
+            });
+            printUserList.push({
+                "name": "欠费金额：" + user.QFJE
+            });
+            printUserList.push({
+                "name": "============================="
+            });
+            if (user.SBYXZT == "正常") {
+                printUserList.push({
+                    "name": "本月查表情况：" + user.SBYXZT
+                });
+            } else {
+                if (user.SLLRFS == "1") {
+                    printUserList.push({
+                        "name": "本月查表情况：正常(" + user.SBYXZT + ")"
+                    });
+                } else if (user.SLLRFS == "2") {
+                    printUserList.push({
+                        "name": "本月查表情况：估水(" + user.SBYXZT + ")"
+                    });
+                } else if (user.SLLRFS == "3") {
+                    printUserList.push({
+                        "name": "本月查表情况：翻表(" + user.SBYXZT + ")"
+                    });
+                }
+            }
+
+            printUserList.push({
+                "name": "      起度    止度    水量"
+            });
+            if (user.CLFS == "3") {
+                printUserList.push({
+                    "name": "水表  " + user.XBQD + "    " + user.XBZD + "    " + user.YL
+                });
+            } else {
+                printUserList.push({
+                    "name": "水表  " + user.QD + "    " + user.ZD + "    " + user.YL
+                });
+            }
+            printUserList.push({
+                "name": "      水量    单价    金额"
+            });
+            count();
+            printUserList.push({
+                "name": "============================="
+            });
+            printUserList.push({
+                "name": "查表员：" + $api.getStorage('cbOperatorMC')
+            });
+            printUserList.push({
+                "name": "查表日期：" + (user.CBRQ).substring(0, 11)
+            });
+            printUserList.push({
+                "name": "温馨提示："
+            });
+            if (user.YLZT != "正常") {
+                printUserList.push({
+                    "name": "1.你本月" + user.YLZT
+                });
+                printUserList.push({
+                    "name": "2.请于缴费日期内结清水费，逾期未交，我公司将按相关约定收取违约金，感谢你的合作"
+                });
+                printUserList.push({
+                    "name": "3.本次查表后本年累计用水量" + (parseInt(user.YL) + parseInt(user.NZYSL))
+                });
+            } else {
+                printUserList.push({
+                    "name": "1.请于缴费日期内结清水费，逾期未交，我公司将按相关约定收取违约金，感谢你的合作"
+                });
+                printUserList.push({
+                    "name": "2.本次查表后本年累计用水量" + (parseInt(user.YL) + parseInt(user.NZYSL))
+                });
+            }
+            printUserList.push({
+                "name": "============================="
+            });
+            printUserList.push({
+                "name": "供水服务热线：962965"
+            });
+
+            Print();
+        } else { //当前抄表册打印完成了，改变抄表册下标，打印下一个抄表册。
+            bookIdIndex++;
+            queryData();
+        }
+    }
+
+    function count() {
+        var money = 0; //总费用
+        var lastBl = 0; //
+        var waterBl = 0;
+
+        var consumption = user.YL;
+        var countModelStr = user.DJC;
+        //var countModelStr = "{10000~10000~.4~0~[01@(0^29^2.5)(1^100^3)(2^-1^3.5)][05@(0^29^.8)(1^100^.8)(2^-1^.8)]}{10020~10021~.6~0~[01@(0^-1^4)][05@(0^-1^.8)]}"
+        var temp = [];
+        if (countModelStr != null && countModelStr != "") {
+            countModelStr = countModelStr.slice(1);
+            countModelStr = countModelStr.slice(0, (countModelStr.length - 1));
+            if (countModelStr.indexOf("}{") != -1) {
+                //存在
+                temp = countModelStr.split("}{");
+            } else {
+                //不存在
+                temp.push(countModelStr);
+            }
+        } else {
+            return;
+        }
+
+        //alert(JSON.stringify(temp));
+        for (var i = 0; i < temp.length; i++) {
+            var tempArray = temp[i].split("~");
+            //alert(JSON.stringify(tempArray));
+            var YSXZId = tempArray[0];
+            var YSXZXFId = tempArray[1];
+            var BL = parseFloat(tempArray[2]);
+            //alert("BL" + BL);
+            if (BL == 0) {
+                //至少用水
+                var SL = tempArray[3];
+                if (consumption <= SL) {
+                    // 实际用水小于固定水量
+                    money = countMoney(consumption, tempArray[4]);
+                } else {
+                    // 实际用水大于固定水量
+                    consumption = consumption - SL;
+                    money += countMoney(SL, tempArray[4]);
+                }
+            } else if (BL == 1) {
+                //无比例
+                money += countMoney(consumption, tempArray[4]);
+            } else {
+                //混合用水
+                lastBl += BL;
+                if (lastBl != 1) {
+                    waterCount = consumption * BL;
+                    waterCount = Math.floor(waterCount);
+                    var curMoney = countMoney(waterCount, tempArray[4]);
+                    money += curMoney;
+                    waterBl += waterCount;
+                } else {
+                    consumption = consumption - waterBl;
+                    var curMoney = countMoney(consumption, tempArray[4]);
+                    money += curMoney;
+                }
+            }
+        }
+        money = money.toFixed(2)
+        printUserList.push({
+            "name": "合计金额：" + money
+        });
+    }
+
+    function countMoney(water, countModel) {
+        var money = 0.0;
+        var stepWater = 0;
+        var currentWater = water;
+        var lastBM = "";
+        var lastNumber = "";
+
+        var countMethod = [];
+        //alert("水量:" + water);
+
+        countModel = countModel.slice(1);
+        countModel = countModel.slice(0, (countModel.length - 1));
+        if (countModel.indexOf("][") != -1) {
+            //存在
+            countMethod = countModel.split("][");
+        } else {
+            //不存在
+            countMethod.push(countModel)
+        }
+
+        //alert("countMethod" + JSON.stringify(countMethod));
+        for (var i = 0; i < countMethod.length; i++) {
+            var countType = countMethod[i].split("@");
+            var FYBM = countType[0]; // 费用编码
+
+            lastNumber = FYBM;
+
+            var step = countType[1];
+            var stepModer = [];
+
+            step = step.slice(1);
+            step = step.slice(0, (step.length - 1));
+            if (step.indexOf(")(") != -1) {
+                //存在
+                stepModer = step.split(")(");
+            } else {
+                //不存在
+                stepModer.push(step)
+            }
+            var SFDJ = 0;
+            var SFJE = 0;
+            var privilege = 0; // 优惠单价
+            if (lastBM == "" || lastBM != FYBM) {
+                //alert(JSON.stringify(stepModer));
+                for (var j = 0; j < stepModer.length; j++) {
+                    //alert(stepModer[j]);
+                    var computeType = stepModer[j].split("^");
+                    //alert("computeType:" + JSON.stringify(computeType));
+                    var JTXH = parseInt(computeType[0]); // 序号
+                    var SLBL = parseInt(computeType[1]); // 比列（水量）
+                    var DJ = parseFloat(computeType[2]); // 单价
+                    try {
+                        privilege = parseFloat(computeType[3]); // 优惠单价
+                    } catch (e) {
+                        privilege = 0;
+                    }
+
+                    SFDJ = DJ;
+                    if (JTXH == 0 && SLBL == -1) {
+                        // 无阶梯
+                        //alert("water:" + water + ",DJ:" + DJ);
+                        SFJE = water * DJ;
+                        money += water * DJ;
+                        SFJE = SFJE.toFixed(2);
+                        printUserList.push({
+                            "name": JTXH + "阶    " + water + "    " + DJ + "    " + SFJE
+                        });
+                        //alert("水费金额：" + SFJE);
+                    } else {
+                        // 存在阶梯
+                        if (SLBL != -1) {
+                            stepWater = SLBL;
+                            if (currentWater - stepWater > 0) {
+                                //alert("SLBL:" + SLBL + ",DJ:" + DJ);
+                                money += SLBL * DJ;
+                                var current = SLBL * DJ;
+                                current = current.toFixed(2);
+                                printUserList.push({
+                                    "name": JTXH + "阶    " + SLBL + "    " + DJ + "    " + current
+                                });
+                                currentWater -= stepWater;
+
+                                SFJE += SLBL * DJ;
+
+                                //alert("水费金额：" + current);
+                            } else {
+                                //alert("currentWater:" + currentWater + ",DJ:" + DJ);
+                                money += currentWater * DJ;
+                                var current = currentWater * DJ;
+                                current = current.toFixed(2);
+                                printUserList.push({
+                                    "name": JTXH + "阶    " + currentWater + "    " + DJ + "    " + current
+                                });
+                                lastBM = FYBM;
+                                currentWater = water;
+
+                                SFJE += currentWater * DJ;
+
+                                //alert("水费金额：" + current);
+                                break;
+                            }
+                        } else {
+                            //alert("currentWater:" + currentWater + ",DJ:" + DJ);
+                            money += (currentWater) * DJ;
+                            var current = (currentWater) * DJ;
+                            current = current.toFixed(2);
+                            printUserList.push({
+                                "name": JTXH + "阶    " + currentWater + "    " + DJ + "    " + current
+                            });
+                            lastBM = FYBM;
+                            currentWater = water;
+
+                            SFJE += (currentWater) * DJ;
+
+                            //alert("水费金额：" + current);
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        return money;
+    }
+
+    var LYNAME = [];
+    var LYADDRESS = [];
+    var address
+
+    function queryLY() {
+        var printModule = api.require('posPrinter');
+        var param = {
+            'status': 'bonded'
+        };
+        printModule.getBluetoothPrinters(param, function(ret, err) {
+            LYNAME = [];
+            if (ret.length > 0) {
+                for (var i = 0; i < ret.length; i++) {
+                    LYNAME.push(ret[i].name);
+                    LYADDRESS.push(ret[i].address);
+                }
+                api.actionSheet({
+                    buttons: LYNAME
+                }, function(ret, err) {
+                    var index = ret.buttonIndex;
+                    address = LYADDRESS[index - 1];
+                    $('#footer_text').html(LYNAME[index - 1] + "连接成功");
+                    bool = true;
+                })
+
+            } else {
+                $('#footer_text').html("未连接蓝牙设备");
+                bool = false;
+            }
+        });
+    }
+
+    function Print() {
+        var orderInfo;
+        orderInfo = "<CA>成都市自来水有限责任公司</CA><BR>";
+        orderInfo += "<CA>水费备款通知单</CA><BR>";
+        for (var i = 0; i < printUserList.length; i++) {
+            orderInfo += printUserList[i].name + "<BR>";
+        }
+        // orderInfo += "--------------------------------<BR>";
+        // orderInfo += "番　　　　　　 1.0    1   1.0<BR>";
+        // orderInfo += "番茄　　　　　 10.0   10  10.0<BR>";
+        // orderInfo += "番茄炒　　　　 10.0   100 100.0<BR>";
+        // orderInfo += "番茄炒粉　　　 100.0  100 100.0<BR>";
+        // orderInfo += "番茄炒粉粉　　 1000.0 1   100.0<BR>";
+        // orderInfo += "番茄炒粉粉粉粉 100.0  100 100.0<BR>";
+        // orderInfo += "番茄炒粉粉粉粉 15.0   1   15.0<BR>";
+        // orderInfo += "备注：快点送到<BR>";
+        // orderInfo += "--------------------------------<BR>";
+        // orderInfo += "合计：xx.0元<BR>";
+        // orderInfo += "送货地点：xxxxxxxxxxxxxxxxx<BR>";
+        // orderInfo += "联系电话：138000000000<BR>";
+        // orderInfo += "订餐时间：2011-01-06 19:30:10<BR>";
+        // orderInfo += "<QR>(300)http://www.baidu.com</QR><BR>";
+        // orderInfo += " <CUT>";
+        var printModule = api.require('posPrinter');
+        var param = {
+            taskList: [{
+                printerAddr: address,
+                content: orderInfo,
+                keepAlive: true, //蓝牙打印机，建议把keepAlive设为true
+                copyNum: 1
+            }]
+        };
+        //printModule.printOnSpecifiedPrinters(param);
+        printModule.print(param, function(ret, err) {
+            if (ret) {
+                var ret = db.executeSqlSync({
+                    name: 'CBtest',
+                    sql: 'update MRM_USER_BEAN set SFDY="1" where YHBH="' + user.YHBH + '" and userName="' + LoginName + '"'
+                });
+                $('#center').append('<div class="dv">' + user.YHBH + '打印成功</div>');
+                userIndex++;
+                queryUser();
+            } else {
+                api.hideProgress();
+                alert(err.msg);
+            }
+        });
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        }
+    }
+</script>
+
+</html>

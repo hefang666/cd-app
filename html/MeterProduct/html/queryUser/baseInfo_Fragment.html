@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>基本信息</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        #center {
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: #ffffff;
+        }
+
+        .dv {
+            text-align: center;
+            display: flex;
+            border: 1px solid #ECECEC;
+            margin-bottom: 5px;
+        }
+
+        .dv_1 {
+            width: 84px;
+            border-right: 1px solid #ECECEC;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv_2 {
+            flex: 1;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="center">
+        <div class="dv">
+            <div class="dv_1">表号</div>
+            <div class="dv_2" id="SBBH"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">户号</div>
+            <div class="dv_2" id="YHBH"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">户名</div>
+            <div class="dv_2" id="YHMC"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">地址</div>
+            <div class="dv_2" id="YHDZ"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">固话</div>
+            <div class="dv_2" id="GDDH"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">手机</div>
+            <div class="dv_2" id="YDDH"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">水表位置</div>
+            <div class="dv_2" id="SBWZ"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">用水性质</div>
+            <div class="dv_2" id="YSXZ"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">性质细分</div>
+            <div class="dv_2" id="XZXF"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">抄表序号</div>
+            <div class="dv_2" id="CBXH"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">抄表日期</div>
+            <div class="dv_2" id="CBRQ"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">历史欠费</div>
+            <div class="dv_2" id="QFJE"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">余额</div>
+            <div class="dv_2" id="YCYE"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">水表口径</div>
+            <div class="dv_2" id="KJ"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">上次抄表日期</div>
+            <div class="dv_2" id="SCCBRQ"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">上次水量</div>
+            <div class="dv_2" id="SCSL"></div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/bzremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript">
+    var userbean;
+    apiready = function() {
+        userbean = api.pageParam;
+
+        var liset = $('.dv');
+        for (var i = 0; i < liset.length; i += 2) {
+            liset.eq(i).css("background-color", "#D0EBFC");
+        }
+
+        queryUser();
+    };
+
+    function queryUser() {
+        $('#SBBH').html(userbean.SBBH);
+        $('#YHBH').html(userbean.YHBH);
+        $('#YHMC').html(userbean.YHMC);
+        $('#YHDZ').html(userbean.YHDZ);
+        $('#GDDH').html(userbean.GDDH);
+        $('#YDDH').html(userbean.YDDH);
+        $('#SBWZ').html(userbean.SBWZ);
+        $('#YSXZ').html(userbean.YSXZ);
+        $('#XZXF').html(userbean.XZXF);
+        $('#CBXH').html(userbean.CBXH);
+        $('#CBRQ').html(userbean.CBRQ);
+        $('#QFJE').html(userbean.QFJE);
+        $('#YCYE').html(userbean.YCYE);
+        $('#KJ').html(userbean.KJ);
+        $('#SCCBRQ').html(userbean.SCCBRQ);
+        $('#SCSL').html(userbean.SCSL);
+    }
+</script>
+
+</html>

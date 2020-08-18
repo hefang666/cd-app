@@ -1,0 +1,88 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>修改性别页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+            /*overflow: hidden;*/
+        }
+
+        header {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            background-color: #fff;
+            z-index: 3;
+        }
+
+        header .back {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 50px;
+            background: url(../../image/addApp_frame/leftArrow.png);
+            background-position: 12px 16px;
+            background-size: 11px 18px;
+            background-repeat: no-repeat;
+        }
+
+        header h1 {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 400;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="back" tapmode onclick="fnReturnMyInfo();"></div>
+        <h1>选择照片</h1>
+    </header>
+    <section>
+    </section>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+
+    };
+
+
+
+    //返回我的资料页面
+    function fnReturnMyInfo() {
+        api.closeWin({});
+    }
+</script>
+
+</html>

@@ -1,0 +1,2743 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>报装系统首页</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(243, 243, 243.1);
+        }
+
+        .flex-wrap-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        .header .aui-pull-left {
+            padding-left: 1.2rem;
+        }
+
+        .aui-bar-nav .aui-pull-right {
+            padding-right: 0.7rem;
+        }
+
+        .aui-btn>img {
+            max-width: 80%;
+        }
+
+        .header .aui-title {
+            font-size: 1.14rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .flex-wrap {
+            display: flex;
+            flex-flow: row;
+            width: 100%;
+            background: #fff;
+            /*height: 5.85rem;*/
+            background: rgba(243, 243, 243.1);
+            /*padding-bottom: 0.3rem;*/
+        }
+
+        .header .flex-wrap li {
+            background: #fff;
+            flex: 1;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header .flex-wrap li p:nth-child(1) {
+            /*padding-left: 2.01rem;*/
+            /*text-align: left;*/
+            padding-top: 0.56rem;
+            font-size: 1.125rem;
+            font-family: Arial;
+            font-weight: 400;
+            color: rgba(71, 71, 71, 1);
+            line-height: 1rem;
+        }
+
+        .header .flex-wrap li p:nth-child(2) {
+            /*font-size:1.83rem;*/
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(134, 134, 134, 1);
+        }
+
+        .header .flex-wrap li:nth-child(2) {
+            flex: none;
+            width: 0.2rem;
+            padding-top: 0.38rem;
+        }
+
+        .header .flex-wrap li:nth-child(4) div {
+            margin-top: 0.38rem;
+            margin-left: 0.5rem;
+        }
+
+        .header .flex-wrap li:nth-child(2) .layers_item {
+            /*width: 0.2rem;*/
+            width: 0.683px;
+            height: 3rem;
+            background: #c2c2c2;
+        }
+
+        .header .aui-list .item {
+            margin-left: 1.2rem;
+            margin-right: 1.2rem;
+            border-bottom: 0.6px solid #dddddd;
+        }
+
+        .header .aui-list .item label {
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(58, 58, 58, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .aui-list .aui-checkbox {
+            margin-right: 0.4rem;
+        }
+
+        .header .aui-list .aui-checkbox:checked {
+            /*background: #4f78fc;*/
+            background-color: #4f78fc;
+            border: solid 1px #4f78fc;
+        }
+
+        .All_download_btn {
+            background: #c2c2c2;
+            border-radius: 20px;
+            width: 80%;
+            text-align: center;
+            /*line-height:1rem;*/
+            font-size: 1rem;
+            margin-top: 0.5rem;
+            color: #fff;
+        }
+
+        .All_download_active {
+            background: rgb(36, 208, 137);
+        }
+
+        .aui-icon-menu:before {
+            color: white;
+            width: 1.83rem;
+            height: 1.17rem;
+            padding-left: 2rem;
+        }
+
+        .content {
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+            /*margin-top: 13.9rem;*/
+            padding-bottom: 5rem;
+        }
+
+        .content .aui-list .item {
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            margin-left: 1.2rem;
+            margin-right: 1.2rem;
+            border-bottom: 0.6px solid #dddddd;
+        }
+
+        .content .aui-list .item:active {
+            background: #eeeeee;
+        }
+
+        .content .aui-list .item:last-child {
+            border-bottom: none;
+        }
+
+        .content .clear-boder .item {
+            border-bottom: none;
+        }
+
+        .content .aui-list .item .aui-list-item-inner .aui-list-item-title {
+            width: 100%;
+        }
+
+        .content .aui-list label {
+            width: 100%;
+            font-size: 0.98rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(79, 120, 252, 1);
+        }
+
+        .content .aui-list label span {
+            padding-left: 0.2rem;
+        }
+
+        .content .aui-list .aui-checkbox {
+            margin-right: 0.2rem;
+        }
+
+        .content .aui-list .aui-checkbox:checked {
+            /*background: #4f78fc;*/
+            background-color: #4f78fc;
+            border: solid 1px #4f78fc;
+        }
+
+        .title {
+            min-height: 1rem;
+        }
+
+        .title div {
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(76, 76, 76, 1);
+        }
+
+        .title span {
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(76, 76, 76, 1);
+            padding-left: 0.4rem;
+        }
+
+        .title-li-one .li-one {
+            text-align: right;
+            font-size: 0.98rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: red;
+        }
+
+        .title-li-one .li-one-active {
+            color: rgba(9, 185, 112, 1);
+        }
+
+        .content .aui-list .item .title .title-left {
+            margin-left: 1.2rem;
+        }
+
+        .content .aui-list .item .title .title-right {
+            /*padding-left: */
+            text-align: right;
+        }
+
+        .title .redio_download_btn {
+            /*position: relative;
+      left: 65%;*/
+            background: rgb(36, 208, 137);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            line-height: 1rem;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .title .redio_download_btn_position {
+            position: relative;
+        }
+
+        .title .redio_download_btn-right {
+            position: absolute;
+            right: 0;
+            top: -1.1rem;
+            background: rgba(79, 120, 252, 1);
+            border-radius: 20px;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            line-height: 1.2rem;
+            font-size: 1.2rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .footer {
+            background: rgba(255, 255, 255, 1);
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 -5px 5px rgba(000, 000, 000, 0.1);
+        }
+
+        .flex-con {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .yesdownload {
+            color: rgb(36, 208, 137)!important;
+        }
+
+        .footer>.Allsave {
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .footer>.Allsave>div {
+            margin: 1rem auto;
+            background: rgb(255, 65, 65);
+            width: 70%;
+            border-radius: 0.5rem;
+            line-height: 2rem;
+            text-align: center;
+            padding-top: 0.3rem;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: #FFF;
+        }
+
+        .title-cbc {
+            width: 100%;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(58, 58, 58, 1);
+        }
+
+        .CBCMC {
+            font-size: 0.98rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(79, 120, 252, 1);
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .title-li-one {
+            display: flex;
+        }
+
+        .title-li-dv {
+            display: flex;
+        }
+
+        .title-li-dv1 {
+            flex: 1;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .uploadCBC {
+            display: flex;
+        }
+
+        .uploadCBC {
+            flex: 1;
+        }
+
+        .gxbc {
+            border-radius: 15px;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin-bottom: 1px;
+            font-size: 1rem;
+            background-color: rgb(36, 208, 137);
+            color: #ffffff;
+        }
+
+        .flex-wrap2 {
+            display: flex;
+            flex-flow: row;
+            width: 100%;
+            background: #fff;
+        }
+
+        .flex-con2 {
+            flex: 1;
+            text-align: center;
+            font-size: 18px;
+            overflow: hidden;
+        }
+
+        .flex-con2 div:nth-child(1) {}
+
+        .flex-con2 div:nth-child(2) {
+            color: rgba(134, 134, 134, 1);
+        }
+
+        #Num {
+            width: 100%;
+            background: #fff;
+            margin-top: 0.25rem;
+        }
+
+        .NumShow {
+            height: 2.5rem;
+            display: flex;
+            flex-flow: row;
+            margin-left: 1.2rem;
+            margin-right: 1.2rem;
+            border-bottom: 0.6px solid #dddddd;
+        }
+
+        .label1 {
+            margin-top: 0.6rem;
+        }
+
+        .label1 input {
+            margin-right: 0.25rem;
+        }
+
+        .gxbc2 {
+            padding-left: 20px;
+            padding-right: 20px;
+            margin-top: 0.6rem;
+            margin-bottom: 1px;
+            font-size: 1rem;
+            border-radius: 15px;
+            background-color: rgb(36, 208, 137);
+            color: #ffffff;
+        }
+
+        .layers_item {
+            width: 0.683px;
+            height: 80%;
+            margin-top: 0.25rem;
+            background: #c2c2c2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap-box flex-vertical">
+        <header class="aui-bar aui-bar-nav header" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">我的表册</div>
+            <div class="aui-pull-right aui-btn" tapmode data-action="search">
+                <img src="../../image/MeteReading/cbdatiles/sousuo.png" alt="">
+            </div>
+            <!-- <ul class="flex-wrap">
+                <li class="flex-con">
+                    <p id="ycbooks">27</p>
+                    <p>应抄册数</p>
+                </li>
+                <li class="flex-con">
+                    <div class="layers_item"></div>
+                </li>
+                <li class="flex-con">
+                    <p id="yctable">500</p>
+                    <p>应抄表数</p>
+                </li>
+                <li class="flex-con">
+
+                </li>
+            </ul>
+            <ul class="flex-wrap">
+                <li class="flex-con">
+                    <p id="yczs">27</p>
+                    <p>已抄表数</p>
+                </li>
+                <li class="flex-con">
+                    <div class="layers_item"></div>
+                </li>
+                <li class="flex-con">
+                    <p id="wczs">500</p>
+                    <p>未抄表数</p>
+                </li>
+                <li class="flex-con">
+                  <div class="All_download_btn" tapmode data-action='AllDownload'>
+                      下载
+                  </div>
+                </li>
+            </ul> -->
+
+            <!-- <div class="aui-list aui-list-in clear-boder">
+                <div class="item">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-title uploadCBC">
+                            <div>
+                                <label><input class="aui-checkbox" type="checkbox" name="demo1" id="parantChexbox">全部</label>
+                            </div>
+                            <div style="flex:1;"></div>
+                            <div class="gxbc" onclick="updateBCB();">更新表册</div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </header>
+
+        <div id="title" style="margin-top:45px;">
+            <div class="flex-wrap2">
+                <div class="flex-con2">
+                    <div id="ycbooks">27</div>
+                    <div>应抄册数</div>
+                </div>
+                <div class="flex-con3">
+                    <div class="layers_item"></div>
+                </div>
+                <div class="flex-con2">
+                    <div id="yctable">500</div>
+                    <div>应抄表数</div>
+                </div>
+                <div class="flex-con3">
+                    <div class="layers_item"></div>
+                </div>
+                <div class="flex-con2">
+                    <div id="yczs">27</div>
+                    <div>已抄表数</div>
+                </div>
+            </div>
+            <div class="flex-wrap2">
+                <div class="flex-con2">
+                    <div id="wczs">500</div>
+                    <div>未抄表数</div>
+                </div>
+                <div class="flex-con3">
+                    <div class="layers_item"></div>
+                </div>
+                <div class="flex-con2">
+
+                </div>
+                <div class="flex-con2">
+                    <div class="All_download_btn" tapmode data-action='AllDownload'>
+                        下载
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="Num">
+            <div class="NumShow">
+                <div>
+                    <label class="label1"><input class="aui-checkbox" type="checkbox" name="demo1" id="parantChexbox">全部</label>
+                </div>
+                <div style="flex:1;"></div>
+                <div>
+                    <div class="gxbc2" onclick="updateBCB();">更新表册</div>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="content" id="content">
+            <ul class="aui-list aui-list-in" id="dataListUser">
+                <li class="item parantChexbox one" id="dataListUserOne">
+
+                </li>
+            </ul>
+        </div>
+        <div class="footer" id="footer">
+            <div class="Allsave" tapmode data-action="MissingCopy">
+                <div>漏抄</div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/template" id="Booksdata">
+    {{each list value i}}
+    <li class="item parantChexbox two" id="parantChexboxTwo">
+        <div class="aui-list-item-inner title-li-one">
+            <div>
+                <input class="aui-checkbox sonCheckBox" type="checkbox" name="demo1" onchange="dianji(this);" value="{{value.CBCH}}"></input>
+            </div>
+            <div class="title-li-dv1" onclick="openMeterReading(this)" param="{{value}}">
+                <div class="CBCMC datasapn" data="{{value.CBCH}}">
+                    {{value.CBCMC}}
+                </div>
+            </div>
+            <div onclick="openMeterReading(this)" param="{{value}}">
+                <div class="aui-list-item-title SFXZ_{{value.CBCH}}">
+                    {{if value.NOTDOWNLOAD!=1}}
+                    <div class="li-one notdownload">未下载</div>
+                    {{else}}
+                    <div class="li-one yesdownload">已下载</div>
+                    {{/if}}
+                </div>
+            </div>
+
+            <!-- <div class="aui-list-item-title title-li-dv1" id="{{value.CBCH}}">
+              <input class="aui-checkbox sonCheckBox" type="checkbox" name="demo1" onchange="dianji(this);" value="{{value.CBCH}}"></input>
+              <div class="CBCMC">
+                {{value.CBCMC}}
+              </div>
+                <label>
+                  <input class="aui-checkbox sonCheckBox" type="checkbox" name="demo1" onchange="dianji(this);" value="{{value.CBCH}}"></input>
+                    <span>
+                      <marquee class="datasapn" data="{{value.CBCH}}" direction="left" behavior="scroll" align="left" loop="infinite" scrollamount="1" scrolldelay="3" hspace="0" vspace="0" οnmοuseοver=this.stop() οnmοuseοut=this.start()>
+                          <span style="margin-left:-5.5rem"></span>
+                      </marquee>
+                    </span>
+                  </label>
+            </div>
+
+            <div class="aui-list-item-title SFXZ_{{value.CBCH}}">
+                {{if value.NOTDOWNLOAD!=1}}
+                <div class="li-one notdownload">未下载</div>
+                {{else}}
+                <div class="li-one yesdownload">已下载</div>
+                {{/if}}
+            </div> -->
+        </div>
+        <div class="list-item-innerbox" onclick="openMeterReading(this)" param="{{value}}">
+            <div class="aui-list-item-inner title" style="min-height: 1.2rem;">
+                <div class="aui-list-item-title title-left">
+                    <div>应抄<span class="ZS_{{value.CBCH}}">{{value.BBCYHZS}}</span></div>
+                </div>
+
+                <div class="aui-list-item-title title-right">
+                    <div>下载<span class="XZ_{{value.CBCH}}">{{value.CBNUMER}}</span></div>
+                </div>
+            </div>
+            <div class="aui-list-item-inner title" style="min-height: 1.2rem;">
+                <div class="aui-list-item-title title-left">
+                    <div>已抄<span class="YC_{{value.CBCH}}">{{value.YC}}</span></div>
+                </div>
+
+                <div class="aui-list-item-title title-right">
+                    <div>未抄<span class="WC_{{value.CBCH}}">{{value.WC}}</span></div>
+                </div>
+            </div>
+        </div>
+        <div class="aui-list-item-inner title downloadbox">
+            <div>
+                {{if value.NOTDOWNLOAD!=1}}
+                <span class="redio_download_btn title-left btnXZ_{{value.CBCH}}" tapmode data-action='appendDownload'>下载</span> {{else}}
+                <span class="redio_download_btn title-left btnXZ_{{value.CBCH}}" tapmode data-action='appendDownload' style="background:rgba(79,120,252,1)">追加下载</span> {{/if}}
+            </div>
+            <div onclick="openMeterReading(this)" param="{{value}}" style="height:44px;flex:1;"></div>
+        </div>
+    </li>
+    {{/each}}
+</script>
+
+<script type="text/template" id="newBooksdata">
+    <div class="title-cbc">当前抄表本</div>
+    <div class="aui-list-item-inner title-li-one" onclick="openMeterReading(this)" id="DQCBC" param="{{value}}">
+        <div class="title-li-dv1">
+            <div class="CBCMC datasapn" data="{{value.CBCH}}">
+                {{value.CBCMC}}
+            </div>
+        </div>
+        <div>
+            <div class="aui-list-item-title SFXZ_{{value.CBCH}}">
+                {{if value.NOTDOWNLOAD!=1}}
+                <div class="li-one notdownload">未下载</div>
+                {{else}}
+                <div class="li-one yesdownload">已下载</div>
+                {{/if}}
+            </div>
+        </div>
+        <!-- <div class="aui-list-item-title">
+            <div class="CBCMC">
+                {{value.CBCMC}}
+            </div>
+        </div>
+
+        <div class="aui-list-item-title SFXZ_{{value.CBCH}}">
+            {{if value.NOTDOWNLOAD!=1}}
+            <div class="li-one notdownload">未下载</div>
+            {{else}}
+            <div class="li-one yesdownload">已下载</div>
+            {{/if}}
+        </div> -->
+    </div>
+    <div class="list-item-innerbox" onclick="openMeterReading(this)" id="DQCBC" param="{{value}}">
+        <div class="aui-list-item-inner title" style="min-height: 1.2rem;">
+            <div class="aui-list-item-title title-left">
+                <div>应抄<span class="ZS_{{value.CBCH}}">{{value.BBCYHZS}}</span></div>
+            </div>
+
+            <div class="aui-list-item-title title-right">
+                <div>下载<span class="XZ_{{value.CBCH}}">{{value.CBNUMER}}</span></div>
+            </div>
+        </div>
+        <div class="aui-list-item-inner title" style="min-height: 1.2rem;">
+            <div class="aui-list-item-title title-left">
+                <div>已抄<span class="YC_{{value.CBCH}}">{{value.YC}}</span></div>
+            </div>
+
+            <div class="aui-list-item-title title-right">
+                <div>未抄<span class="WC_{{value.CBCH}}">{{value.WC}}</span></div>
+            </div>
+        </div>
+    </div>
+    <div class="aui-list-item-inner title downloadbox">
+        <div>
+            {{if value.NOTDOWNLOAD!=1}}
+            <span class="redio_download_btn title-left btnXZ_{{value.CBCH}}" tapmode data-action='appendDownload'>下载</span> {{else}}
+            <span class="redio_download_btn title-left btnXZ_{{value.CBCH}}" tapmode data-action='appendDownload' style="background:rgba(79,120,252,1)">追加下载</span> {{/if}}
+        </div>
+        <div onclick="openMeterReading(this)" id="DQCBC" param="{{value}}" style="height:44px;flex:1;"></div>
+    </div>
+</script>
+<script type="text/javascript">
+    var headerH;
+    var Booksdata, db;
+    var All_download_btn = $('.All_download_btn');
+    var MissingCopydata = [] //用于漏抄传值到抄表页面的变量
+    var day; //计划日
+    var LoginName = "";
+    apiready = function() {
+        //api.parseTapmode();
+        db = api.require("db");
+
+        var header = $api.byId('header');
+        var footer = $api.byId('footer');
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        $api.fixTabBar(footer);
+
+        headerH = $api.offset(header).h;
+        $('#title').css('margin-top', '' + headerH + 'px');
+        LoginName = $api.getStorage('loginData').userName;
+        day = Time("day");
+        downloadBooks();
+        stopTouchendPropagationAfterScroll();
+        // 监听改变当前抄表
+        api.addEventListener({
+            name: 'newMeterReading'
+        }, function(ret, err) {
+            if (ret) {
+                var value = JSON.stringify(ret.value);
+                var data = JSON.parse(value);
+                $('#dataListUserOne').show();
+                $('#dataListUserOne').empty();
+
+                var cbch = data.CBCH;
+                var ret1 = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_BOOKS_BEAN WHERE (JHR+0)<=' + day + ' and CBCH = \'' + cbch + '\' and userName="' + LoginName + '"'
+                });
+                var dataList = ret1.data[0];
+                dataListUserOne(dataList);
+            } else {
+                var dataList = {};
+                dataListUserOne(dataList);
+            }
+        });
+
+        //判断是否有当前抄表册，有就渲染出来
+        if ($api.getStorage('newMeterReading') != undefined) {
+            db.selectSql({
+                name: 'CBtest',
+                sql: 'SELECT * FROM MRM_BOOKS_BEAN where (JHR+0)<=' + day + ' and userName="' + LoginName + '"'
+            }, function(ret, err) {
+                if (ret.status) {
+                    if (ret.data.length > 0) {
+                        $('#dataListUserOne').show();
+                        var List = JSON.parse($api.getStorage('newMeterReading'));
+                        var cbch = List.CBCH;
+                        var ret1 = db.selectSqlSync({
+                            name: 'CBtest',
+                            sql: 'SELECT * FROM MRM_BOOKS_BEAN WHERE (JHR+0)<=' + day + ' and CBCH = \'' + cbch + '\' and userName="' + LoginName + '"'
+                        });
+                        var dataList = ret1.data[0];
+                        dataListUserOne(dataList);
+                    } else {
+                        $('#dataListUserOne').hide();
+                    }
+                } else {
+                    $('#dataListUserOne').hide();
+                }
+            });
+        } else {
+            $('#dataListUserOne').hide();
+        }
+
+        // 监听改变已抄和未抄
+        api.addEventListener({
+            name: 'gxMeterRing'
+        }, function(ret, err) {
+            if (ret) {
+                var cbch = ret.value.cbch;
+                $(".YC_" + cbch + "").html(ret.value.yc);
+                $(".WC_" + cbch + "").html(ret.value.wc);
+            } else {
+                //  console.log( JSON.stringify( err ) );
+            }
+        });
+
+    };
+
+    function stopTouchendPropagationAfterScroll() {
+        var locked = false;
+
+        window.addEventListener('touchmove', function(ev) {
+            locked || (locked = true, window.addEventListener('touchend', stopTouchendPropagation, true));
+        }, true);
+
+        function stopTouchendPropagation(ev) {
+            ev.stopPropagation();
+            window.removeEventListener('touchend', stopTouchendPropagation, true);
+            locked = false;
+        }
+    }
+
+    function updateBCB() {
+        var connectionType = api.connectionType;
+        if (connectionType == "none") {
+            api.toast({
+                msg: '当前处于无网状态，无法下载数据。',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        }
+        adilog("正在下载抄表册数据", "正在下载抄表册数据,请稍后...");
+        //更新抄表册数据
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage("cbOperatorId"),
+            "OperatorName": $api.getStorage("cbOperatorName"),
+            "Required": '',
+            "Type": '103'
+        }
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage("cbOperatorName"),
+                "Password": $api.getStorage("cbPassword"),
+                "SerialNo": "20191212112600",
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost1('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    if (ret.Data != '') {
+                        Booksdata = [];
+                        if (ret.Data != "" && ret.Data != " ") {
+                            Booksdata = JSON.parse(ret.Data);
+                        }
+                        for (var i in Booksdata) {
+                            var bookdata = db.selectSqlSync({
+                                name: 'CBtest',
+                                sql: 'select * from MRM_BOOKS_BEAN where CBCH="' + Booksdata[i].CBCH + '" and userName="' + LoginName + '"'
+                            });
+                            var sql = "";
+                            if (bookdata.data.length > 0) {
+                                sql = 'update MRM_BOOKS_BEAN set ' +
+                                    'userName="' + LoginName + '" ' +
+                                    ',ID="' + Booksdata[i].ID + '" ' +
+                                    ',CBCMC="' + Booksdata[i].CBCMC + '" ' +
+                                    ',DQCBXH="' + Booksdata[i].DQCBXH + '" ' +
+                                    ',YCSM="' + Booksdata[i].YCSM + '" ' +
+                                    ',JHR="' + Booksdata[i].JHR + '" ' +
+                                    'where CBCH="' + Booksdata[i].CBCH + '"';
+                            } else {
+                                sql = 'INSERT INTO MRM_BOOKS_BEAN(userName, ID, CBCH, CBCMC, BBCYHZS, DQCBXH,YCSM,JHR,GDSBS,XCYH,YC,WC,YSC,CBNUMER) VALUES ("' + LoginName + '",' +
+                                    '"' + Booksdata[i].ID + '",' +
+                                    '"' + Booksdata[i].CBCH + '",' +
+                                    '"' + Booksdata[i].CBCMC + '",' +
+                                    '"' + Booksdata[i].BBCYHZS + '",' +
+                                    '"' + Booksdata[i].DQCBXH + '",' +
+                                    '"' + Booksdata[i].YCSM + '",' +
+                                    '"' + Booksdata[i].JHR + '",' +
+                                    '"0","0","0","0","0","0")';
+                            }
+
+                            var ret = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: sql
+                            });
+
+                            var bookdata = db.selectSqlSync({
+                                name: 'CBtest',
+                                sql: 'select * from MRM_BOOKS_BEAN where userName="' + LoginName + '"'
+                            });
+                            var value = GetPercent(bookdata.data.length, Booksdata.length);
+                            updateAdilogData("正在下载用户数据 " + bookdata.data.length + "/" + Booksdata.length,
+                                "正在下载用户数据,请稍后...", value);
+                        }
+
+                        insertHome();
+                        if ($api.getStorage('newMeterReading') != undefined) {
+                            api.sendEvent({
+                                name: 'newMeterReading',
+                                extra: $('#DQCBC').attr('param')
+                            });
+                        }
+                        $('#parantChexbox').prop("checked", false);
+                    }
+                } else {
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                alert(JSON.stringify(err.msg));
+            }
+            var UIActionProgress = api.require('UIActionProgress');
+            UIActionProgress.close();
+        })
+    }
+
+    //判断是否有抄表册数据，没有的话就下载抄表册数据。
+    function downloadBooks() {
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_BOOKS_BEAN where userName="' + LoginName + '"'
+        }, function(ret, err) {
+            //alert(ret.data.length);
+            if (ret.data.length > 0) {
+                insertHome();
+            } else {
+                adilog("正在下载抄表册数据", "正在下载抄表册数据,请稍后...");
+                var Parameter = {
+                    "ClientId": api.deviceId,
+                    "ClientName": api.deviceModel,
+                    "OperatorId": $api.getStorage("cbOperatorId"),
+                    "OperatorName": $api.getStorage("cbOperatorName"),
+                    "Required": '',
+                    "Type": '103'
+                }
+                var body = {
+                    body: JSON.stringify({
+                        "UserName": $api.getStorage("cbOperatorName"),
+                        "Password": $api.getStorage("cbPassword"),
+                        "SerialNo": "20191212112600",
+                        "Method": "R999",
+                        "Parameter": JSON.stringify(Parameter)
+                    })
+                }
+                fnPost1('', body, 'application/json', false, function(ret, err) {
+                    if (ret) {
+                        if (ret.Status == 0) {
+                            if (ret.Data != '') {
+                                Booksdata = [];
+                                if (ret.Data != "" && ret.Data != " ") {
+                                    Booksdata = JSON.parse(ret.Data);
+                                }
+
+                                for (var i in Booksdata) {
+                                    var sql = 'INSERT INTO MRM_BOOKS_BEAN(userName, ID, CBCH, CBCMC, BBCYHZS, DQCBXH,YCSM,JHR,GDSBS,XCYH,YC,WC,YSC,CBNUMER) VALUES ("' + LoginName + '",' +
+                                        '"' + Booksdata[i].ID + '",' +
+                                        '"' + Booksdata[i].CBCH + '",' +
+                                        '"' + Booksdata[i].CBCMC + '",' +
+                                        '"' + Booksdata[i].BBCYHZS + '",' +
+                                        '"' + Booksdata[i].DQCBXH + '",' +
+                                        '"' + Booksdata[i].YCSM + '",' +
+                                        '"' + Booksdata[i].JHR + '",' +
+                                        '"0","0","0","0","0","0")';
+                                    var ret = db.executeSqlSync({
+                                        name: 'CBtest',
+                                        sql: sql
+                                    });
+
+                                    var bookdata = db.selectSqlSync({
+                                        name: 'CBtest',
+                                        sql: 'select * from MRM_BOOKS_BEAN where userName="' + LoginName + '"'
+                                    });
+                                    var value = GetPercent(bookdata.data.length, Booksdata.length);
+                                    updateAdilogData("正在下载用户数据 " + bookdata.data.length + "/" + Booksdata.length,
+                                        "正在下载用户数据,请稍后...", value);
+                                }
+
+                                insertHome();
+                            }
+                        } else {
+                            api.toast({
+                                msg: ret.Message,
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+                        }
+                    } else {
+                        alert(JSON.stringify(err));
+                    }
+                    var UIActionProgress = api.require('UIActionProgress');
+                    UIActionProgress.close();
+                })
+            }
+        });
+    }
+
+    //获取用于渲染页面的抄表册数据
+    function insertHome() {
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_BOOKS_BEAN where (JHR+0)<=' + day + ' and userName="' + LoginName + '"'
+        }, function(ret, err) {
+            if (ret.status) {
+                var dataList = ret.data;
+
+                $('#ycbooks').text(ret.data.length)
+                var contentNumer = 0;
+                for (var i = 0; i < dataList.length; i++) {
+                    var a = Number(dataList[i].BBCYHZS)
+                    contentNumer += a
+                }
+                $('#yctable').text(contentNumer)
+
+                var yscusersdata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_USER_BEAN where CBBZ=1 and userName="' + LoginName + '" and YHBH!=" "'
+                });
+                var wcusersdata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_USER_BEAN where CBBZ=0 and userName="' + LoginName + '" and YHBH!=" "'
+                });
+                $('#yczs').text(yscusersdata.data.length);
+                $('#wczs').text(wcusersdata.data.length);
+                handleAnnotData(dataList)
+            } else {
+
+            }
+        });
+    }
+
+    //渲染抄表册数据
+    function handleAnnotData(dataList) {
+        var list = {
+            list: dataList
+        }
+        var str = template('Booksdata', list)
+        $('.two').remove();
+        $api.append($api.byId('dataListUser'), str);
+        fnReady();
+        operationDom();
+    }
+
+    //渲染当前抄表册
+    function dataListUserOne(dataList) {
+        if (dataList == null || dataList == "") {
+            return;
+        }
+        var value = {
+            value: dataList
+        }
+        var str = template('newBooksdata', value)
+        $('#dataListUserOne div').remove();
+        $api.append($api.byId('dataListUserOne'), str);
+        fnReady();
+        operationDom();
+    }
+
+    //全选与单选
+    // 全选
+    var parantChexbox = $('#parantChexbox'); //获取全选id
+    var dataBox = $('#content');
+    var sonCheckBox = dataBox.find('input[type="checkbox"]');
+    // 全选与单个之间的关系
+    parantChexbox.click(function() {
+        var checkboxs = dataBox.find('input[type="checkbox"]');
+
+        if ($(this).is(':checked')) {
+            checkboxs.prop("checked", true);
+            All_download_btn.addClass('All_download_active');
+            MissingCopydata = [];
+            for (var i = 0; i < checkboxs.length; i++) {
+                var isCheckedTrue = checkboxs[i].value
+                MissingCopydata.push(isCheckedTrue);
+            }
+        } else {
+            checkboxs.prop("checked", false);
+            All_download_btn.removeClass('All_download_active');
+            MissingCopydata = [];
+        }
+    });
+
+    // 单个与全部的关系变量取全局变量
+    function dianji(that) {
+        var sonCheckBox = dataBox.find('input[type="checkbox"]');
+        var checkedBox = dataBox.find('input[type="checkbox"]:checked');
+        var allLen = sonCheckBox.length;
+        var checkedLen = checkedBox.length;
+        if (that.checked) {
+            var isCheckedTrue = that.value;
+            MissingCopydata.push(isCheckedTrue);
+        } else {
+            // 构造的remove()函数：移除数组中指定的值构造好后数组.remove('指定的值')
+            Array.prototype.indexOf = function(val) {
+                for (var i = 0; i < this.length; i++) {
+                    if (this[i] == val) return i;
+                }
+                return -1;
+            };
+            Array.prototype.remove = function(val) {
+                var index = this.indexOf(val);
+                if (index > -1) {
+                    this.splice(index, 1);
+                }
+            };
+            MissingCopydata.remove(that.value);
+        }
+
+        if (allLen == checkedLen) {
+            parantChexbox.prop("checked", true);
+        } else {
+            parantChexbox.prop("checked", false);
+        }
+        if (checkedLen > 0) {
+            All_download_btn.addClass('All_download_active');
+        } else {
+            All_download_btn.removeClass('All_download_active');
+        }
+    }
+
+    //查询界面的回调方法
+    function show(userCode) {
+        var numer = userCode
+        seachInserHome(numer)
+    }
+
+    //通过抄表册号查询抄表册
+    function seachInserHome(numer) {
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_BOOKS_BEAN WHERE (JHR+0)<=' + day + ' and CBCH = \'' + numer + '\' and userName="' + LoginName + '"'
+        }, function(ret, err) {
+            if (ret.status) {
+                if (ret.data != "") {
+                    $("#dataListUser").empty();
+                    dataList = ret.data
+                    handleAnnotData(dataList)
+                } else {
+
+                }
+            } else {
+
+            }
+        });
+    }
+
+    var PageIndexSingle = 1; //页码
+    var RecordCountSingle; //下标
+    var PageIndexSingleNumer = 100 //一页100条
+    var UsersDataSingle;
+    var UsersDataSingleNumer = 0;
+    var book;
+    //下载单个抄表册数据
+    function downloadUsersingle(cbch, singleBox) {
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + cbch + '\' and userName="' + LoginName + '"'
+        }, function(ret, err) {
+            if (ret.status) {
+                var nowDataLength = ret.data.length / PageIndexSingleNumer;
+                var nowDataLengthPage = Math.ceil(nowDataLength); //向下取整
+                if (nowDataLengthPage * PageIndexSingleNumer <= ret.data.length) {
+                    PageIndexSingle = nowDataLengthPage + 1;
+                } else {
+                    PageIndexSingle = nowDataLengthPage;
+                }
+                //alert("当前抄表册已有数据量：" + ret.data.length);
+                //alert("当前抄表册页数：" + PageIndexSingle);
+
+                var bookdata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_BOOKS_BEAN WHERE CBCH = \'' + cbch + '\' and userName="' + LoginName + '"'
+                });
+                book = bookdata.data[0];
+                var userdata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH = \'' + cbch + '\' and userName="' + LoginName + '"'
+                });
+
+                var value = GetPercent(userdata.data.length, book.BBCYHZS);
+                updateAdilogData("正在下载用户数据 " + userdata.data.length + "/" + book.BBCYHZS,
+                    "正在下载用户数据,请稍后...", value);
+
+                var Parameter = {
+                    "ClientId": api.deviceId,
+                    "ClientName": api.deviceModel,
+                    "OperatorId": $api.getStorage('cbOperatorId'),
+                    "OperatorName": $api.getStorage('cbOperatorName'),
+                    "Required": "PageCode=" + PageIndexSingle + "&BookId=" + cbch + "",
+                    "Type": '102'
+                }
+                var body = {
+                    body: JSON.stringify({
+                        "UserName": $api.getStorage('cbOperatorName'),
+                        "Password": $api.getStorage('cbPassword'),
+                        "SerialNo": dataTime(),
+                        "Method": "R999",
+                        "Parameter": JSON.stringify(Parameter)
+                    })
+                }
+                fnPost1('', body, 'application/json', false, function(ret, err) {
+                    //alert("用户数据下载：" + JSON.stringify(ret));
+                    if (ret.Status == 0) {
+                        UsersDataSingle = [];
+                        if (ret.Data != "" && ret.Data != " ") {
+                            UsersDataSingle = JSON.parse(ret.Data);
+                        }
+
+                        // 返回数据数量
+                        var Summarydata = ret.Summary.split('&')
+                        var Summarydataone = Summarydata[2].split('=')
+                        RecordCountSingle = Summarydataone[1];
+                        // 获取CheckedCode状态码需要存储books表，上传需要
+                        var CheckedCode = Summarydata[4].split('=')
+                        var CheckedCodeNumer = CheckedCode[1]
+                        var db = api.require("db");
+                        // 判断下载抄表数据返回的用户数据为0的情况和不为0的情况
+                        if (RecordCountSingle != 0) {
+                            var ret1 = db.selectSqlSync({
+                                name: 'CBtest',
+                                sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + cbch + '\' and userName="' + LoginName + '"'
+                            });
+                            if (ret1.status) {
+                                var datalistUsers = ret1.data;
+                                // 判断表中数据是否大于返回总数，如果小于继续下载
+                                if (datalistUsers.length < RecordCountSingle) {
+                                    var sqlvalue = ""
+                                    var retbooks1 = db.selectSqlSync({
+                                        name: 'CBtest',
+                                        sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + cbch + '\' and userName="' + LoginName + '"'
+                                    });
+                                    var num = 0;
+                                    for (var i in UsersDataSingle) {
+                                        if (UsersDataSingle[i].YHBH == null || UsersDataSingle[i].YHBH == "" || UsersDataSingle[i].YHBH == " ") {
+                                            continue;
+                                        }
+                                        //判断用户数据是否已经存在，不存在才新增
+                                        var ret = db.selectSqlSync({
+                                            name: 'CBtest',
+                                            sql: 'SELECT * FROM MRM_USER_BEAN WHERE YHBH="' + UsersDataSingle[i].YHBH + '" and userName="' + LoginName + '"'
+                                        });
+                                        //alert(JSON.stringify(ret));
+                                        if (ret.status) {
+                                            if (ret.data.length < 1) {
+                                                if (i == 0 || sqlvalue == '') {
+
+                                                } else {
+                                                    sqlvalue += 'UNION ';
+                                                }
+                                                sqlvalue += 'SELECT "' + (UsersDataSingle[i].ZHBH == null ? " " : UsersDataSingle[i].ZHBH) + '",' +
+                                                    '"' + (UsersDataSingle[i].YHBH == null ? " " : UsersDataSingle[i].YHBH) + '",' +
+                                                    '"' + (UsersDataSingle[i].BWTP == null ? " " : UsersDataSingle[i].BWTP) + '",' +
+                                                    '"' + (UsersDataSingle[i].JSYYSL == null ? " " : UsersDataSingle[i].JSYYSL) + '",' +
+                                                    '"0",' +
+                                                    '" ",' +
+                                                    '"0",' +
+                                                    '"' + (UsersDataSingle[i].CBZTTEXT == null ? " " : UsersDataSingle[i].CBZTTEXT) + '",' +
+                                                    '"' + (UsersDataSingle[i].YHMC == null ? " " : UsersDataSingle[i].YHMC) + '",' +
+                                                    '"' + (UsersDataSingle[i].YHDZ == null ? " " : UsersDataSingle[i].YHDZ) + '",' +
+                                                    '"' + (UsersDataSingle[i].SBWZ == null ? " " : UsersDataSingle[i].SBWZ) + '",' +
+                                                    '"' + (UsersDataSingle[i].SBBH == null ? " " : UsersDataSingle[i].SBBH) + '",' +
+                                                    '"' + (UsersDataSingle[i].GDDH == null ? " " : UsersDataSingle[i].GDDH) + '",' +
+                                                    '"' + (UsersDataSingle[i].YDDH == null ? " " : UsersDataSingle[i].YDDH) + '",' +
+                                                    '"' + (UsersDataSingle[i].CBCH == null ? " " : UsersDataSingle[i].CBCH) + '",' +
+                                                    '"' + (UsersDataSingle[i].CBXH == null ? " " : UsersDataSingle[i].CBXH) + '",' +
+                                                    '"' + (UsersDataSingle[i].YSXZ == null ? " " : UsersDataSingle[i].YSXZ) + '",' +
+                                                    '"' + (UsersDataSingle[i].XZXF == null ? " " : UsersDataSingle[i].XZXF) + '",' +
+                                                    '"' + (UsersDataSingle[i].KJ == null ? " " : UsersDataSingle[i].KJ) + '",' +
+                                                    '"' + (UsersDataSingle[i].QD == null ? " " : UsersDataSingle[i].QD) + '",' +
+                                                    '"' + (UsersDataSingle[i].ZD == null ? " " : UsersDataSingle[i].ZD) + '",' +
+                                                    '"' + (UsersDataSingle[i].YL == null ? " " : UsersDataSingle[i].YL) + '",' +
+                                                    '"' + (UsersDataSingle[i].BJYL == null ? " " : UsersDataSingle[i].BJYL) + '",' +
+                                                    '"' + (UsersDataSingle[i].CBRQ == null ? " " : UsersDataSingle[i].CBRQ) + '",' +
+                                                    '"' + (UsersDataSingle[i].SFGC == null ? " " : UsersDataSingle[i].SFGC) + '",' +
+                                                    '" ",' +
+                                                    '"0",' +
+                                                    '"' + (UsersDataSingle[i].QYL == null ? " " : UsersDataSingle[i].QYL) + '",' +
+                                                    '"' + (UsersDataSingle[i].QFJE == null ? " " : UsersDataSingle[i].QFJE) + '",' +
+                                                    '"' + (UsersDataSingle[i].SCCBRQ == null ? " " : UsersDataSingle[i].SCCBRQ) + '",' +
+                                                    '"' + (UsersDataSingle[i].SCSL == null ? " " : UsersDataSingle[i].SCSL) + '",' +
+                                                    '"' + (UsersDataSingle[i].TQSL == null ? " " : UsersDataSingle[i].TQSL) + '",' +
+                                                    '"' + (UsersDataSingle[i].PJSL == null ? " " : UsersDataSingle[i].PJSL) + '",' +
+                                                    '"' + (UsersDataSingle[i].SFXG == null ? "0" : UsersDataSingle[i].SFXG) + '",' +
+                                                    '"' + (UsersDataSingle[i].CBYBH == null ? " " : UsersDataSingle[i].CBYBH) + '",' +
+                                                    '"' + (UsersDataSingle[i].YCYE == null ? " " : UsersDataSingle[i].YCYE) + '",' +
+                                                    '"' + (UsersDataSingle[i].DJC == null ? " " : UsersDataSingle[i].DJC) + '",' +
+                                                    '"' + (UsersDataSingle[i].DZXFPRICE == null ? " " : UsersDataSingle[i].DZXFPRICE) + '",' +
+                                                    '"' + (UsersDataSingle[i].YYQY == null ? " " : UsersDataSingle[i].YYQY) + '",' +
+                                                    '"' + (UsersDataSingle[i].GSPQ == null ? " " : UsersDataSingle[i].GSPQ) + '",' +
+                                                    '"' + (UsersDataSingle[i].CBZQ == null ? " " : UsersDataSingle[i].CBZQ) + '",' +
+                                                    '"' + (UsersDataSingle[i].SBYT == null ? " " : UsersDataSingle[i].SBYT) + '",' +
+                                                    '"' + (UsersDataSingle[i].BEGINTIME == null ? " " : UsersDataSingle[i].BEGINTIME) + '",' +
+                                                    '"' + (UsersDataSingle[i].ENDTIME == null ? " " : UsersDataSingle[i].ENDTIME) + '",' +
+                                                    '"' + (UsersDataSingle[i].JWD == null ? " " : UsersDataSingle[i].JWD) + '",' +
+                                                    '"' + (UsersDataSingle[i].DWSFSC == null ? "0" : "1") + '",' +
+                                                    '"' + (UsersDataSingle[i].SFQZPZ == null ? " " : UsersDataSingle[i].SFQZPZ) + '",' +
+                                                    '"' + (UsersDataSingle[i].PATH == null ? " " : 'http://' + $api.getStorage('apiUrl') + UsersDataSingle[i].PATH) + '",' +
+                                                    '"",' +
+                                                    '"",' +
+                                                    '"' + (UsersDataSingle[i].YCBZ == null ? "0" : UsersDataSingle[i].YCBZ) + '",' +
+                                                    '"' + LoginName + '",' +
+                                                    '"' + (UsersDataSingle[i].RFID == null ? " " : UsersDataSingle[i].RFID) + '" ';
+                                                num++;
+                                                if (retbooks1.status) {
+                                                    var value = GetPercent(retbooks1.data.length + num, book.BBCYHZS);
+                                                    updateAdilogData("正在下载用户数据 " + (retbooks1.data.length + num) + "/" + book.BBCYHZS,
+                                                        "正在下载用户数据,请稍后...", value);
+                                                }
+
+
+                                            }
+                                        }
+                                    }
+                                    num = 0
+                                    var insertRet = db.executeSqlSync({
+                                        name: 'CBtest',
+                                        sql: 'INSERT INTO MRM_USER_BEAN (ZHBH,' +
+                                            'YHBH,' +
+                                            'BWTP,' +
+                                            'JSYYSL,' +
+                                            'SFSC,' +
+                                            'CWXX,' +
+                                            'ZTSCCG,' +
+                                            'CBZTTEXT,' +
+                                            'YHMC,' +
+                                            'YHDZ,' +
+                                            'SBWZ,' +
+                                            'SBBH,' +
+                                            'GDDH,' +
+                                            'YDDH,' +
+                                            'CBCH,' +
+                                            'CBXH,' +
+                                            'YSXZ,' +
+                                            'XZXF,' +
+                                            'KJ,' +
+                                            'QD,' +
+                                            'ZD,' +
+                                            'YL,' +
+                                            'BJYL,' +
+                                            'CBRQ,' +
+                                            'SFGC,' +
+                                            'BYXZT,' +
+                                            'CBBZ,' +
+                                            'QYL,' +
+                                            'QFJE,' +
+                                            'SCCBRQ,' +
+                                            'SCSL,' +
+                                            'TQSL,' +
+                                            'PJSL,' +
+                                            'SFXG,' +
+                                            'CBYBH,' +
+                                            'YCYE,' +
+                                            'DJC,' +
+                                            'DZXFPRICE,' +
+                                            'YYQY,' +
+                                            'GSPQ,' +
+                                            'CBZQ,' +
+                                            'SBYT,' +
+                                            'BEGINTIME,' +
+                                            'ENDTIME,' +
+                                            'JWD,' +
+                                            'DWSFSC,' +
+                                            'SFQZPZ,' +
+                                            'PATH,' +
+                                            'XBBH,' +
+                                            'SLZT,' +
+                                            'YCBZ,' +
+                                            'userName,' +
+                                            'RFID) ' + sqlvalue
+                                    });
+                                    if (insertRet.status) {
+
+                                    }
+                                    // 循环插入完之后，更新渲染页面
+                                    var retbooks1 = db.selectSqlSync({
+                                        name: 'CBtest',
+                                        sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + cbch + '\' and userName="' + LoginName + '"'
+                                    });
+                                    if (retbooks1.status) {
+                                        var contentNumer = retbooks1.data.length
+                                        if (PageIndexSingle == 1) {
+                                            var retbook2 = db.executeSqlSync({
+                                                name: 'CBtest',
+                                                sql: 'UPDATE MRM_BOOKS_BEAN SET CBNUMER=\'' + contentNumer + '\', YZM=\'' + CheckedCodeNumer + '\' , NOTDOWNLOAD=1 WHERE CBCH=\'' + cbch + '\' and userName="' + LoginName + '"'
+                                            });
+                                        } else {
+                                            var retbook2 = db.executeSqlSync({
+                                                name: 'CBtest',
+                                                sql: 'UPDATE MRM_BOOKS_BEAN SET CBNUMER=\'' + contentNumer + '\', NOTDOWNLOAD=1 WHERE CBCH=\'' + cbch + '\' and userName="' + LoginName + '"'
+                                            });
+                                        }
+                                        $(".XZ_" + cbch + "").html(contentNumer);
+                                    }
+                                } else {
+                                    api.toast({
+                                        msg: '已经下载过了',
+                                        duration: 2000,
+                                        location: 'middle'
+                                    });
+
+                                    // 下载完成清除全部下载颜色
+                                    All_download_btn.removeClass('All_download_active');
+                                    // All_download_btn.removeAttr('data-action')
+                                    singleBox.prop("checked", false);
+                                    $('#parantChexbox').prop("checked", false);
+                                }
+                            }
+
+                            // 判断页数加加
+                            if ((PageIndexSingle - 1) * 100 + UsersDataSingle.length < RecordCountSingle) {
+                                PageIndexSingle++;
+                                downloadUsersingle(cbch, singleBox);
+                            } else {
+                                var UIActionProgress = api.require('UIActionProgress');
+                                UIActionProgress.close();
+
+
+                                // 下载完成后未下载字体变成绿色字变成已下载
+                                //notdownload.css("color", "rgb(36, 208, 137)")
+                                //notdownload.html('已下载')
+                                singleBox.prop("checked", false)
+                                $(".btnXZ_" + cbch + "").css("background", "rgba(79,120,252,1)");
+                                $(".btnXZ_" + cbch + "").html('追加下载');
+
+                                // 判断有当前抄表情况
+                                if ($api.getStorage('newMeterReading') != undefined) {
+                                    var List = JSON.parse($api.getStorage('newMeterReading'))
+                                    if (List.CBCH == cbch) {
+                                        $(".SFXZ_" + cbch + "").css("color", "rgb(36, 208, 137)");
+                                        $(".SFXZ_" + cbch + "").html('<div class="li-one yesdownload">已下载</div>')
+                                    }
+                                }
+
+                                // .redio_download_btn
+                                // 有抄表本但是没有抄表数据情况下提示
+                                UsersDataSingleNumer = 0
+                                api.toast({
+                                    msg: '下载完成',
+                                    duration: 2000,
+                                    location: 'middle'
+                                });
+                                insertRecords("用户数据下载", "抄表册" + cbch + "下载用户数据完成");
+                                $(".SFXZ_" + cbch + "").css("color", "rgb(36, 208, 137)");
+                                $(".SFXZ_" + cbch + "").html('<div class="li-one yesdownload">已下载</div>')
+                                    //alert("下载完了");
+
+                                var Parameter = {
+                                    "ClientId": api.deviceId,
+                                    "ClientName": api.deviceModel,
+                                    "OperatorId": $api.getStorage('cbOperatorId'),
+                                    "OperatorName": $api.getStorage('cbOperatorName'),
+                                    "Required": 'YHBH=&CBBH=' + cbch,
+                                    "Type": '152'
+                                }
+                                var body = {
+                                    body: JSON.stringify({
+                                        "UserName": $api.getStorage('cbOperatorName'),
+                                        "Password": $api.getStorage('cbPassword'),
+                                        "SerialNo": dataTime(),
+                                        "Method": "R999",
+                                        "Parameter": JSON.stringify(Parameter)
+                                    })
+                                }
+                                fnPost1('', body, 'application/json', false, function(ret, err) {
+                                    //alert("备忘录下载：" + JSON.stringify(ret));
+                                    if (ret) {
+                                        if (ret.Status == 0) {
+                                            var Data = JSON.parse(ret.Data);
+                                            if (Data.length > 0) {
+                                                var memo = db.executeSqlSync({
+                                                    name: 'CBtest',
+                                                    sql: "delete from MRM_THE_MEMO_BEAN2 where CBCH='" + cbch + "' and userName='" + LoginName + "'"
+                                                });
+
+                                                for (var i = 0; i < Data.length; i++) {
+                                                    var ret = db.executeSqlSync({
+                                                        name: 'CBtest',
+                                                        sql: "INSERT INTO MRM_THE_MEMO_BEAN2 " +
+                                                            "(userName, CBCH, YHBH, REMARK, TXSJ, TXLX) VALUES " +
+                                                            "('" + LoginName + "','" + cbch + "', '" + Data[i].CUSTOMER_CODE + "', '" + Data[i].CONTENT + "', '" + Data[i].REMIND_TIME + "', '" + Data[i].REMIND_FREQUENCY +
+                                                            "')"
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    //更新抄表册数据
+                                    var Parameter = {
+                                        "ClientId": api.deviceId,
+                                        "ClientName": api.deviceModel,
+                                        "OperatorId": $api.getStorage("cbOperatorId"),
+                                        "OperatorName": $api.getStorage("cbOperatorName"),
+                                        "Required": 'CBCH=' + cbch,
+                                        "Type": '103'
+                                    }
+                                    var body = {
+                                        body: JSON.stringify({
+                                            "UserName": $api.getStorage("cbOperatorName"),
+                                            "Password": $api.getStorage("cbPassword"),
+                                            "SerialNo": dataTime(),
+                                            "Method": "R999",
+                                            "Parameter": JSON.stringify(Parameter)
+                                        })
+                                    }
+                                    fnPost1('', body, 'application/json', false, function(ret, err) {
+                                        //alert("抄表册下载：" + JSON.stringify(ret));
+                                        if (ret) {
+                                            if (ret.Status == 0) {
+                                                if (ret.Data != '') {
+                                                    var Books = [];
+                                                    if (ret.Data != "" && ret.Data != " ") {
+                                                        Books = JSON.parse(ret.Data);
+                                                    }
+
+                                                    var sql = 'update MRM_BOOKS_BEAN set ' +
+                                                        'userName="' + LoginName + '" ' +
+                                                        'ID="' + Books[0].ID + '" ' +
+                                                        ',CBCMC="' + Books[0].CBCMC + '" ' +
+                                                        ',DQCBXH="' + Books[0].DQCBXH + '" ' +
+                                                        ',YCSM="' + Books[0].YCSM + '" ' +
+                                                        ',JHR="' + Books[0].JHR + '" ' +
+                                                        'where CBCH="' + Books[0].CBCH + '"';
+
+                                                    var ret = db.executeSqlSync({
+                                                        name: 'CBtest',
+                                                        sql: sql
+                                                    });
+                                                }
+                                            } else {
+                                                // api.toast({
+                                                //     msg: ret.Message,
+                                                //     duration: 2000,
+                                                //     location: 'bottom'
+                                                // });
+                                            }
+                                        } else {
+                                            //alert(JSON.stringify(err));
+                                        }
+
+                                        var Parameter = {
+                                            "ClientId": api.deviceId,
+                                            "ClientName": api.deviceModel,
+                                            "OperatorId": $api.getStorage("cbOperatorId"),
+                                            "OperatorName": $api.getStorage("cbOperatorName"),
+                                            "Required": 'CBCH=' + cbch,
+                                            "Type": '153'
+                                        }
+                                        var body = {
+                                            body: JSON.stringify({
+                                                "UserName": $api.getStorage("cbOperatorName"),
+                                                "Password": $api.getStorage("cbPassword"),
+                                                "SerialNo": dataTime(),
+                                                "Method": "R999",
+                                                "Parameter": JSON.stringify(Parameter)
+                                            })
+                                        }
+                                        fnPost1('', body, 'application/json', false, function(ret, err) {
+                                            //alert("追加数据下载：" + JSON.stringify(ret));
+                                            if (ret.Status == 0) {
+                                                var userlist = [];
+                                                if (ret.Data != "" && ret.Data != " ") {
+                                                    userlist = JSON.parse(ret.Data);
+                                                }
+                                                //alert("追加数据下载条数：" + userlist.length);
+
+                                                for (var i = 0; i < userlist.length; i++) {
+                                                    if (userlist[i].CZBZ == "1") {
+                                                        //增加
+                                                        insertUser(userlist[i]);
+                                                    } else if (userlist[i].CZBZ == "2") {
+                                                        //移除
+                                                        //alert("删除" + userlist[i].CBCH + "本里面的" + userlist[i].YHBH + "用户");
+
+                                                        var retbooks1 = db.selectSqlSync({
+                                                            name: 'CBtest',
+                                                            sql: 'SELECT * FROM MRM_USER_BEAN WHERE YHBH="' + userlist[i].YHBH + '" and CBCH=\'' + cbch + '\' and userName="' + LoginName + '"'
+                                                        });
+                                                        if (retbooks1.status) {
+                                                            if (retbooks1.data.length > 0) {
+                                                                var userremove = db.executeSqlSync({
+                                                                    name: 'CBtest',
+                                                                    sql: 'delete from MRM_USER_BEAN where YHBH="' + userlist[i].YHBH + '" and CBCH="' + cbch + '" and userName="' + LoginName + '"'
+                                                                });
+                                                                //alert(JSON.stringify(userremove));
+                                                            } else {
+                                                                //alert("当前抄表册没有这条数据");
+                                                            }
+                                                        }
+                                                    } else if (userlist[i].CZBZ == "3") {
+                                                        //修改表序
+                                                        //alert("修改用户：" + userlist[i].YHBH);
+                                                        var userupdate = db.executeSqlSync({
+                                                            name: 'CBtest',
+                                                            sql: 'update MRM_USER_BEAN set CBXH="' + userlist[i].CBXH + '" where YHBH="' + cbch + '" and userName="' + LoginName + '"'
+                                                        });
+                                                        //alert(JSON.stringify(userupdate));
+                                                    }
+                                                }
+                                                // 循环插入完之后，更新渲染页面
+                                                var retbooks1 = db.selectSqlSync({
+                                                    name: 'CBtest',
+                                                    sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + cbch + '\' and userName="' + LoginName + '"'
+                                                });
+                                                if (retbooks1.status) {
+                                                    var contentNumer = retbooks1.data.length
+                                                    var retbook2 = db.executeSqlSync({
+                                                        name: 'CBtest',
+                                                        sql: 'UPDATE MRM_BOOKS_BEAN SET BBCYHZS=\'' + contentNumer + '\', CBNUMER=\'' + contentNumer + '\', NOTDOWNLOAD=1 WHERE CBCH=\'' + cbch +
+                                                            '\' and userName="' + LoginName + '"'
+                                                    });
+                                                    $(".XZ_" + cbch + "").html(contentNumer);
+                                                    $(".ZS_" + cbch + "").html(contentNumer);
+                                                }
+
+                                                db.selectSql({
+                                                    name: 'CBtest',
+                                                    sql: 'SELECT * FROM MRM_BOOKS_BEAN where (JHR+0)<=' + day + ' and userName="' + LoginName + '"'
+                                                }, function(ret, err) {
+                                                    if (ret.status) {
+                                                        var dataList = ret.data;
+
+                                                        $('#ycbooks').text(ret.data.length)
+                                                        var contentNumer = 0;
+                                                        for (var i = 0; i < dataList.length; i++) {
+                                                            var a = Number(dataList[i].BBCYHZS)
+                                                            contentNumer += a
+                                                        }
+                                                        $('#yctable').text(contentNumer)
+                                                    } else {
+
+                                                    }
+                                                });
+                                                var yscusersdata = db.selectSqlSync({
+                                                    name: 'CBtest',
+                                                    sql: 'select * from MRM_USER_BEAN where CBBZ=1 and userName="' + LoginName + '"'
+                                                });
+                                                var wcusersdata = db.selectSqlSync({
+                                                    name: 'CBtest',
+                                                    sql: 'select * from MRM_USER_BEAN where CBBZ=0 and userName="' + LoginName + '"'
+                                                });
+                                                $('#yczs').text(yscusersdata.data.length);
+                                                $('#wczs').text(wcusersdata.data.length);
+                                            }
+                                        });
+                                    });
+                                });
+                            }
+                        } else {
+                            var UIActionProgress = api.require('UIActionProgress');
+                            UIActionProgress.close();
+                            api.toast({
+                                msg: '操作成功暂无抄表数据',
+                                duration: 2000,
+                                location: 'middle'
+                            });
+
+                            $(".SFXZ_" + cbch + "").css("color", "rgb(36, 208, 137)");
+                            $(".SFXZ_" + cbch + "").html('<div class="li-one yesdownload">已下载</div>');
+                            $(".btnXZ_" + cbch + "").css("background", "rgba(79,120,252,1)");
+                            $(".btnXZ_" + cbch + "").html('追加下载');
+
+                            //判断有当前抄表情况
+                            if ($api.getStorage('newMeterReading') != undefined) {
+                                var List = JSON.parse($api.getStorage('newMeterReading'))
+                                if (List.CBCH == cbch) {
+                                    $(".SFXZ_" + cbch + "").css("color", "rgb(36, 208, 137)");
+                                    $(".SFXZ_" + cbch + "").html('<div class="li-one yesdownload">已下载</div>');
+                                    $(".btnXZ_" + cbch + "").css("background", "rgba(79,120,252,1)");
+                                    $(".btnXZ_" + cbch + "").html('追加下载');
+                                }
+                            }
+
+                            singleBox.prop("checked", false) //当前复选框取消选中
+                            $('#parantChexbox').prop("checked", false) //全部复选框取消选中
+
+                            if (PageIndex == 1) {
+                                var retbook3 = db.executeSqlSync({
+                                    name: 'CBtest',
+                                    sql: 'UPDATE MRM_BOOKS_BEAN SET CBNUMER="0" , YZM=\'' + CheckedCodeNumer + '\' , NOTDOWNLOAD=1 WHERE CBCH=\'' + cbch + '\' and userName="' + LoginName + '"'
+                                });
+                            } else {
+                                var retbook3 = db.executeSqlSync({
+                                    name: 'CBtest',
+                                    sql: 'UPDATE MRM_BOOKS_BEAN SET CBNUMER="0" , NOTDOWNLOAD=1 WHERE CBCH=\'' + cbch + '\' and userName="' + LoginName + '"'
+                                });
+                            }
+                        }
+                    } else {
+                        var UIActionProgress = api.require('UIActionProgress');
+                        UIActionProgress.close();
+                        alert(JSON.stringify(err));
+                    }
+                });
+            } else {
+                var UIActionProgress = api.require('UIActionProgress');
+                UIActionProgress.close();
+            }
+        });
+    }
+
+    function insertUser(user) {
+        if (user.YHBH == null || user.YHBH == "" || user.YHBH == " ") {
+            return;
+        }
+        //alert("新增用户：" + 'SELECT * FROM MRM_USER_BEAN WHERE YHBH="' + user.YHBH + '"');
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_USER_BEAN WHERE YHBH="' + user.YHBH + '" and userName="' + LoginName + '"'
+        });
+        //alert(JSON.stringify(ret));
+        if (ret.status) {
+            if (ret.data.length > 0) {
+                //这条用户数据已经存在。
+                if (ret.data[0].CBCH == user.CBCH) {
+                    //alert("这条用户数据已经存在。");
+                    return;
+                } else {
+                    var userremove = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'delete from MRM_USER_BEAN where YHBH="' + user.YHBH + '" and userName="' + LoginName + '"'
+                    });
+                    var alongAllret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'INSERT INTO MRM_USER_BEAN (ZHBH,' +
+                            'YHBH,' +
+                            'BWTP,' +
+                            'JSYYSL,' +
+                            'SFSC,' +
+                            'CWXX,' +
+                            'ZTSCCG,' +
+                            'CBZTTEXT,' +
+                            'YHMC,' +
+                            'YHDZ,' +
+                            'SBWZ,' +
+                            'SBBH,' +
+                            'GDDH,' +
+                            'YDDH,' +
+                            'CBCH,' +
+                            'CBXH,' +
+                            'YSXZ,' +
+                            'XZXF,' +
+                            'KJ,' +
+                            'QD,' +
+                            'ZD,' +
+                            'YL,' +
+                            'BJYL,' +
+                            'CBRQ,' +
+                            'SFGC,' +
+                            'BYXZT,' +
+                            'CBBZ,' +
+                            'QYL,' +
+                            'QFJE,' +
+                            'SCCBRQ,' +
+                            'SCSL,' +
+                            'TQSL,' +
+                            'PJSL,' +
+                            'SFXG,' +
+                            'CBYBH,' +
+                            'YCYE,' +
+                            'DJC,' +
+                            'DZXFPRICE,' +
+                            'YYQY,' +
+                            'GSPQ,' +
+                            'CBZQ,' +
+                            'SBYT,' +
+                            'BEGINTIME,' +
+                            'ENDTIME,' +
+                            'JWD,' +
+                            'DWSFSC,' +
+                            'SFQZPZ,' +
+                            'PATH,' +
+                            'XBBH,' +
+                            'SLZT,' +
+                            'YCBZ,' +
+                            'userName,' +
+                            'RFID) VALUES ("' + (user.ZHBH == null ? " " : user.ZHBH) + '",' +
+                            '"' + (user.YHBH == null ? " " : user.YHBH) + '",' +
+                            '"' + (user.BWTP == null ? " " : user.BWTP) + '",' +
+                            '"' + (user.JSYYSL == null ? " " : user.JSYYSL) + '",' +
+                            '"0",' +
+                            '" ",' +
+                            '"0",' +
+                            '"' + (user.CBZTTEXT == null ? " " : user.CBZTTEXT) + '",' +
+                            '"' + (user.YHMC == null ? " " : user.YHMC) + '",' +
+                            '"' + (user.YHDZ == null ? " " : user.YHDZ) + '",' +
+                            '"' + (user.SBWZ == null ? " " : user.SBWZ) + '",' +
+                            '"' + (user.SBBH == null ? " " : user.SBBH) + '",' +
+                            '"' + (user.GDDH == null ? " " : user.GDDH) + '",' +
+                            '"' + (user.YDDH == null ? " " : user.YDDH) + '",' +
+                            '"' + (user.CBCH == null ? " " : user.CBCH) + '",' +
+                            '"' + (user.CBXH == null ? " " : user.CBXH) + '",' +
+                            '"' + (user.YSXZ == null ? " " : user.YSXZ) + '",' +
+                            '"' + (user.XZXF == null ? " " : user.XZXF) + '",' +
+                            '"' + (user.KJ == null ? " " : user.KJ) + '",' +
+                            '"' + (user.QD == null ? " " : user.QD) + '",' +
+                            '"' + (user.ZD == null ? " " : user.ZD) + '",' +
+                            '"' + (user.YL == null ? " " : user.YL) + '",' +
+                            '"' + (user.BJYL == null ? " " : user.BJYL) + '",' +
+                            '"' + (user.CBRQ == null ? " " : user.CBRQ) + '",' +
+                            '"' + (user.SFGC == null ? " " : user.SFGC) + '",' +
+                            '" ",' +
+                            '"0",' +
+                            '"' + (user.QYL == null ? " " : user.QYL) + '",' +
+                            '"' + (user.QFJE == null ? " " : user.QFJE) + '",' +
+                            '"' + (user.SCCBRQ == null ? " " : user.SCCBRQ) + '",' +
+                            '"' + (user.SCSL == null ? " " : user.SCSL) + '",' +
+                            '"' + (user.TQSL == null ? " " : user.TQSL) + '",' +
+                            '"' + (user.PJSL == null ? " " : user.PJSL) + '",' +
+                            '"' + (user.SFXG == null ? "0" : user.SFXG) + '",' +
+                            '"' + (user.CBYBH == null ? " " : user.CBYBH) + '",' +
+                            '"' + (user.YCYE == null ? " " : user.YCYE) + '",' +
+                            '"' + (user.DJC == null ? " " : user.DJC) + '",' +
+                            '"' + (user.DZXFPRICE == null ? " " : user.DZXFPRICE) + '",' +
+                            '"' + (user.YYQY == null ? " " : user.YYQY) + '",' +
+                            '"' + (user.GSPQ == null ? " " : user.GSPQ) + '",' +
+                            '"' + (user.CBZQ == null ? " " : user.CBZQ) + '",' +
+                            '"' + (user.SBYT == null ? " " : user.SBYT) + '",' +
+                            '"' + (user.BEGINTIME == null ? " " : user.BEGINTIME) + '",' +
+                            '"' + (user.ENDTIME == null ? " " : user.ENDTIME) + '",' +
+                            '"' + (user.JWD == null ? " " : user.JWD) + '",' +
+                            '"' + (user.DWSFSC == null ? "0" : "1") + '",' +
+                            '"' + (user.SFQZPZ == null ? " " : user.SFQZPZ) + '",' +
+                            '"' + (user.PATH == null ? " " : 'http://' + $api.getStorage('apiUrl') + user.PATH) + '",' +
+                            '"",' +
+                            '"",' +
+                            '"' + (user.YCBZ == null ? "0" : user.YCBZ) + '",' +
+                            '"' + LoginName + '",' +
+                            '"' + (user.RFID == null ? " " : user.RFID) + '")'
+                    });
+                    //alert(JSON.stringify(alongAllret));
+                }
+            } else {
+                var alongAllret = db.executeSqlSync({
+                    name: 'CBtest',
+                    sql: 'INSERT INTO MRM_USER_BEAN (ZHBH,' +
+                        'YHBH,' +
+                        'BWTP,' +
+                        'JSYYSL,' +
+                        'SFSC,' +
+                        'CWXX,' +
+                        'ZTSCCG,' +
+                        'CBZTTEXT,' +
+                        'YHMC,' +
+                        'YHDZ,' +
+                        'SBWZ,' +
+                        'SBBH,' +
+                        'GDDH,' +
+                        'YDDH,' +
+                        'CBCH,' +
+                        'CBXH,' +
+                        'YSXZ,' +
+                        'XZXF,' +
+                        'KJ,' +
+                        'QD,' +
+                        'ZD,' +
+                        'YL,' +
+                        'BJYL,' +
+                        'CBRQ,' +
+                        'SFGC,' +
+                        'BYXZT,' +
+                        'CBBZ,' +
+                        'QYL,' +
+                        'QFJE,' +
+                        'SCCBRQ,' +
+                        'SCSL,' +
+                        'TQSL,' +
+                        'PJSL,' +
+                        'SFXG,' +
+                        'CBYBH,' +
+                        'YCYE,' +
+                        'DJC,' +
+                        'DZXFPRICE,' +
+                        'YYQY,' +
+                        'GSPQ,' +
+                        'CBZQ,' +
+                        'SBYT,' +
+                        'BEGINTIME,' +
+                        'ENDTIME,' +
+                        'JWD,' +
+                        'DWSFSC,' +
+                        'SFQZPZ,' +
+                        'PATH,' +
+                        'XBBH,' +
+                        'SLZT,' +
+                        'YCBZ,' +
+                        'userName,' +
+                        'RFID) VALUES ("' + (user.ZHBH == null ? " " : user.ZHBH) + '",' +
+                        '"' + (user.YHBH == null ? " " : user.YHBH) + '",' +
+                        '"' + (user.BWTP == null ? " " : user.BWTP) + '",' +
+                        '"' + (user.JSYYSL == null ? " " : user.JSYYSL) + '",' +
+                        '"0",' +
+                        '" ",' +
+                        '"0",' +
+                        '"' + (user.CBZTTEXT == null ? " " : user.CBZTTEXT) + '",' +
+                        '"' + (user.YHMC == null ? " " : user.YHMC) + '",' +
+                        '"' + (user.YHDZ == null ? " " : user.YHDZ) + '",' +
+                        '"' + (user.SBWZ == null ? " " : user.SBWZ) + '",' +
+                        '"' + (user.SBBH == null ? " " : user.SBBH) + '",' +
+                        '"' + (user.GDDH == null ? " " : user.GDDH) + '",' +
+                        '"' + (user.YDDH == null ? " " : user.YDDH) + '",' +
+                        '"' + (user.CBCH == null ? " " : user.CBCH) + '",' +
+                        '"' + (user.CBXH == null ? " " : user.CBXH) + '",' +
+                        '"' + (user.YSXZ == null ? " " : user.YSXZ) + '",' +
+                        '"' + (user.XZXF == null ? " " : user.XZXF) + '",' +
+                        '"' + (user.KJ == null ? " " : user.KJ) + '",' +
+                        '"' + (user.QD == null ? " " : user.QD) + '",' +
+                        '"' + (user.ZD == null ? " " : user.ZD) + '",' +
+                        '"' + (user.YL == null ? " " : user.YL) + '",' +
+                        '"' + (user.BJYL == null ? " " : user.BJYL) + '",' +
+                        '"' + (user.CBRQ == null ? " " : user.CBRQ) + '",' +
+                        '"' + (user.SFGC == null ? " " : user.SFGC) + '",' +
+                        '" ",' +
+                        '"0",' +
+                        '"' + (user.QYL == null ? " " : user.QYL) + '",' +
+                        '"' + (user.QFJE == null ? " " : user.QFJE) + '",' +
+                        '"' + (user.SCCBRQ == null ? " " : user.SCCBRQ) + '",' +
+                        '"' + (user.SCSL == null ? " " : user.SCSL) + '",' +
+                        '"' + (user.TQSL == null ? " " : user.TQSL) + '",' +
+                        '"' + (user.PJSL == null ? " " : user.PJSL) + '",' +
+                        '"' + (user.SFXG == null ? "0" : user.SFXG) + '",' +
+                        '"' + (user.CBYBH == null ? " " : user.CBYBH) + '",' +
+                        '"' + (user.YCYE == null ? " " : user.YCYE) + '",' +
+                        '"' + (user.DJC == null ? " " : user.DJC) + '",' +
+                        '"' + (user.DZXFPRICE == null ? " " : user.DZXFPRICE) + '",' +
+                        '"' + (user.YYQY == null ? " " : user.YYQY) + '",' +
+                        '"' + (user.GSPQ == null ? " " : user.GSPQ) + '",' +
+                        '"' + (user.CBZQ == null ? " " : user.CBZQ) + '",' +
+                        '"' + (user.SBYT == null ? " " : user.SBYT) + '",' +
+                        '"' + (user.BEGINTIME == null ? " " : user.BEGINTIME) + '",' +
+                        '"' + (user.ENDTIME == null ? " " : user.ENDTIME) + '",' +
+                        '"' + (user.JWD == null ? " " : user.JWD) + '",' +
+                        '"' + (user.DWSFSC == null ? "0" : "1") + '",' +
+                        '"' + (user.SFQZPZ == null ? " " : user.SFQZPZ) + '",' +
+                        '"' + (user.PATH == null ? " " : 'http://' + $api.getStorage('apiUrl') + user.PATH) + '",' +
+                        '"",' +
+                        '"",' +
+                        '"' + (user.YCBZ == null ? "0" : user.YCBZ) + '",' +
+                        '"' + LoginName + '",' +
+                        '"' + (user.RFID == null ? " " : user.RFID) + '")'
+                });
+                //alert(JSON.stringify(alongAllret));
+            }
+        }
+    }
+
+    var dataxcaq = [];
+    var PageIndex = 1; //要上传页码
+    var dataxcaqIndex = 0; //要上传的抄表本下标
+    var Summarydata = []; //第一次数据请求成功获取到的结果参数追加到数组
+    var RecordCount;
+    var UsersData;
+    var downloadNumer = 0; //下载进度
+    var PageIndexNumer = 100 //一页100条
+        //多个抄表册下载
+    function Usersdownload() {
+        var checked = false;
+        var dataBox = $("#content input[name='demo1']");
+        var isNotchecked = $("#content input[name='demo1']");
+
+        // 判断是否被选择被选择获取值
+        for (var i = 0; i < isNotchecked.length; i++) {
+            if (isNotchecked[i].checked) {
+                checked = true;
+                var isCheckedTrue = isNotchecked[i].value;
+                dataxcaq.push(isCheckedTrue);
+            }
+        }
+
+        if (!checked) {
+            alert('请先选择要下载的抄表本')
+            return false;
+        } else {
+            db.selectSql({
+                name: 'CBtest',
+                sql: 'SELECT * FROM MRM_USER_BEAN where userName="' + LoginName + '"'
+            }, function(ret, err) {
+                if (ret.status) {
+                    adilog("正在下载用户数据", "正在下载用户数据,请稍后...");
+
+                    downloadUserAll();
+                } else {
+                    // console.log(JSON.stringify(err))
+                }
+            });
+        }
+    }
+
+    // 批量下载用户数据函数
+    function downloadUserAll() {
+        if (dataxcaqIndex < dataxcaq.length) {
+            var UsersDataSingleNumer1 = 0
+            db.selectSql({
+                name: 'CBtest',
+                sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + dataxcaq[dataxcaqIndex] + '\' and userName="' + LoginName + '"'
+            }, function(ret, err) {
+                if (ret.status) {
+                    var nowDataLength = ret.data.length / PageIndexNumer
+                    var nowDataLengthPage = Math.ceil(nowDataLength) //向下取整
+                    if (nowDataLengthPage * PageIndexSingleNumer <= ret.data.length) {
+                        PageIndex = nowDataLengthPage + 1
+                    } else {
+                        PageIndex = nowDataLengthPage;
+                    }
+                    //alert("当前抄表册已有数据量：" + ret.data.length);
+                    //alert("当前抄表册页数：" + PageIndex);
+
+                    var bookdata = db.selectSqlSync({
+                        name: 'CBtest',
+                        sql: 'SELECT * FROM MRM_BOOKS_BEAN WHERE CBCH = \'' + dataxcaq[dataxcaqIndex] + '\' and userName="' + LoginName + '"'
+                    });
+                    book = bookdata.data[0];
+                    var userdata = db.selectSqlSync({
+                        name: 'CBtest',
+                        sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH = \'' + dataxcaq[dataxcaqIndex] + '\' and userName="' + LoginName + '"'
+                    });
+
+                    var value = GetPercent(userdata.data.length, book.BBCYHZS);
+                    updateAdilogData("正在下载用户数据 " + userdata.data.length + "/" + book.BBCYHZS,
+                        "正在下载用户数据,请稍后...", value);
+
+                    var Parameter = {
+                        "ClientId": api.deviceId,
+                        "ClientName": api.deviceModel,
+                        "OperatorId": $api.getStorage('cbOperatorId'),
+                        "OperatorName": $api.getStorage('cbOperatorName'),
+                        "Required": "PageCode=" + PageIndex + "&BookId=" + dataxcaq[dataxcaqIndex] + "",
+                        "Type": '102'
+                    }
+                    var body = {
+                        body: JSON.stringify({
+                            "UserName": $api.getStorage('cbOperatorName'),
+                            "Password": $api.getStorage('cbPassword'),
+                            "SerialNo": "20191212112600",
+                            "Method": "R999",
+                            "Parameter": JSON.stringify(Parameter)
+                        })
+                    }
+                    fnPost1('', body, 'application/json', false, function(ret, err) {
+                        //alert("用户数据下载：" + JSON.stringify(ret));
+                        if (ret.Status == 0) {
+                            UsersData = [];
+                            if (ret.Data != "" && ret.Data != " ") {
+                                UsersData = JSON.parse(ret.Data);
+                            }
+                            //UsersData = JSON.parse(ret.Data)
+                            var Summarydata = ret.Summary.split('&');
+                            var Summarydataone = Summarydata[2].split('=');
+                            RecordCount = Summarydataone[1];
+                            // 获取CheckedCode状态码需要存储books表，上传需要
+                            var CheckedCode = Summarydata[4].split('=');
+                            var CheckedCodeNumer = CheckedCode[1];
+                            if (UsersData.length != 0) {
+                                var allret = db.selectSqlSync({
+                                    name: 'CBtest',
+                                    sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + dataxcaq[dataxcaqIndex] + '\' and userName="' + LoginName + '"'
+                                });
+                                var datalistUsers = allret.data
+                                if (allret.status) {
+                                    // 查询得到id为这个的数据长度小于数据接口得到的数据长度则将数据插入
+                                    // 循环用户详情数据插入表中，
+                                    if (datalistUsers.length < RecordCount) {
+                                        var sqlvalue = ""
+                                        var retbooks1 = db.selectSqlSync({
+                                            name: 'CBtest',
+                                            sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + dataxcaq[dataxcaqIndex] + '\' and userName="' + LoginName + '"'
+                                        });
+                                        var num = 0;
+                                        for (var i in UsersData) {
+                                            if (UsersData[i].YHBH == null || UsersData[i].YHBH == "" || UsersData[i].YHBH == " ") {
+                                                continue;
+                                            }
+                                            //判断用户数据是否已经存在，不存在才新增
+                                            var ret = db.selectSqlSync({
+                                                name: 'CBtest',
+                                                sql: 'SELECT * FROM MRM_USER_BEAN WHERE YHBH="' + UsersData[i].YHBH + '" and userName="' + LoginName + '"'
+                                            });
+                                            //alert(JSON.stringify(ret));
+                                            if (ret.status) {
+                                                if (ret.data.length < 1) {
+                                                    if (i == 0) {
+
+                                                    } else {
+                                                        sqlvalue += 'UNION '
+                                                    }
+                                                    sqlvalue += 'SELECT "' + (UsersData[i].ZHBH == null ? " " : UsersData[i].ZHBH) + '",' +
+                                                        '"' + (UsersData[i].YHBH == null ? " " : UsersData[i].YHBH) + '",' +
+                                                        '"' + (UsersData[i].BWTP == null ? " " : UsersData[i].BWTP) + '",' +
+                                                        '"' + (UsersData[i].JSYYSL == null ? " " : UsersData[i].JSYYSL) + '",' +
+                                                        '"0",' +
+                                                        '" ",' +
+                                                        '"0",' +
+                                                        '"' + (UsersData[i].CBZTTEXT == null ? " " : UsersData[i].CBZTTEXT) + '",' +
+                                                        '"' + (UsersData[i].YHMC == null ? " " : UsersData[i].YHMC) + '",' +
+                                                        '"' + (UsersData[i].YHDZ == null ? " " : UsersData[i].YHDZ) + '",' +
+                                                        '"' + (UsersData[i].SBWZ == null ? " " : UsersData[i].SBWZ) + '",' +
+                                                        '"' + (UsersData[i].SBBH == null ? " " : UsersData[i].SBBH) + '",' +
+                                                        '"' + (UsersData[i].GDDH == null ? " " : UsersData[i].GDDH) + '",' +
+                                                        '"' + (UsersData[i].YDDH == null ? " " : UsersData[i].YDDH) + '",' +
+                                                        '"' + (UsersData[i].CBCH == null ? " " : UsersData[i].CBCH) + '",' +
+                                                        '"' + (UsersData[i].CBXH == null ? " " : UsersData[i].CBXH) + '",' +
+                                                        '"' + (UsersData[i].YSXZ == null ? " " : UsersData[i].YSXZ) + '",' +
+                                                        '"' + (UsersData[i].XZXF == null ? " " : UsersData[i].XZXF) + '",' +
+                                                        '"' + (UsersData[i].KJ == null ? " " : UsersData[i].KJ) + '",' +
+                                                        '"' + (UsersData[i].QD == null ? " " : UsersData[i].QD) + '",' +
+                                                        '"' + (UsersData[i].ZD == null ? " " : UsersData[i].ZD) + '",' +
+                                                        '"' + (UsersData[i].YL == null ? " " : UsersData[i].YL) + '",' +
+                                                        '"' + (UsersData[i].BJYL == null ? " " : UsersData[i].BJYL) + '",' +
+                                                        '"' + (UsersData[i].CBRQ == null ? " " : UsersData[i].CBRQ) + '",' +
+                                                        '"' + (UsersData[i].SFGC == null ? " " : UsersData[i].SFGC) + '",' +
+                                                        '" ",' +
+                                                        '"0",' +
+                                                        '"' + (UsersData[i].QYL == null ? " " : UsersData[i].QYL) + '",' +
+                                                        '"' + (UsersData[i].QFJE == null ? " " : UsersData[i].QFJE) + '",' +
+                                                        '"' + (UsersData[i].SCCBRQ == null ? " " : UsersData[i].SCCBRQ) + '",' +
+                                                        '"' + (UsersData[i].SCSL == null ? " " : UsersData[i].SCSL) + '",' +
+                                                        '"' + (UsersData[i].TQSL == null ? " " : UsersData[i].TQSL) + '",' +
+                                                        '"' + (UsersData[i].PJSL == null ? " " : UsersData[i].PJSL) + '",' +
+                                                        '"' + (UsersData[i].SFXG == null ? "0" : UsersData[i].SFXG) + '",' +
+                                                        '"' + (UsersData[i].CBYBH == null ? " " : UsersData[i].CBYBH) + '",' +
+                                                        '"' + (UsersData[i].YCYE == null ? " " : UsersData[i].YCYE) + '",' +
+                                                        '"' + (UsersData[i].DJC == null ? " " : UsersData[i].DJC) + '",' +
+                                                        '"' + (UsersData[i].DZXFPRICE == null ? " " : UsersData[i].DZXFPRICE) + '",' +
+                                                        '"' + (UsersData[i].YYQY == null ? " " : UsersData[i].YYQY) + '",' +
+                                                        '"' + (UsersData[i].GSPQ == null ? " " : UsersData[i].GSPQ) + '",' +
+                                                        '"' + (UsersData[i].CBZQ == null ? " " : UsersData[i].CBZQ) + '",' +
+                                                        '"' + (UsersData[i].SBYT == null ? " " : UsersData[i].SBYT) + '",' +
+                                                        '"' + (UsersData[i].BEGINTIME == null ? " " : UsersData[i].BEGINTIME) + '",' +
+                                                        '"' + (UsersData[i].ENDTIME == null ? " " : UsersData[i].ENDTIME) + '",' +
+                                                        '"' + (UsersData[i].JWD == null ? " " : UsersData[i].JWD) + '",' +
+                                                        '"' + (UsersData[i].DWSFSC == null ? "0" : "1") + '",' +
+                                                        '"' + (UsersData[i].SFQZPZ == null ? " " : UsersData[i].SFQZPZ) + '",' +
+                                                        '"' + (UsersData[i].PATH == null ? " " : 'http://' + $api.getStorage('apiUrl') + UsersData[i].PATH) + '",' +
+                                                        '"",' +
+                                                        '"",' +
+                                                        '"' + (UsersData[i].YCBZ == null ? "0" : UsersData[i].YCBZ) + '",' +
+                                                        '"' + LoginName + '",' +
+                                                        '"' + (UsersData[i].RFID == null ? " " : UsersData[i].RFID) + '" ';
+                                                    num++;
+                                                    if (retbooks1.status) {
+                                                        var value = GetPercent(retbooks1.data.length + num, book.BBCYHZS);
+                                                        updateAdilogData("正在下载用户数据 " + (retbooks1.data.length + num) + "/" + book.BBCYHZS,
+                                                            "正在下载用户数据,请稍后...", value);
+                                                    }
+
+
+                                                }
+                                            }
+                                        }
+                                        num = 0;
+
+                                        // 插入数据
+                                        var alongAllret = db.executeSqlSync({
+                                            name: 'CBtest',
+                                            sql: 'INSERT INTO MRM_USER_BEAN (ZHBH,' +
+                                                'YHBH,' +
+                                                'BWTP,' +
+                                                'JSYYSL,' +
+                                                'SFSC,' +
+                                                'CWXX,' +
+                                                'ZTSCCG,' +
+                                                'CBZTTEXT,' +
+                                                'YHMC,' +
+                                                'YHDZ,' +
+                                                'SBWZ,' +
+                                                'SBBH,' +
+                                                'GDDH,' +
+                                                'YDDH,' +
+                                                'CBCH,' +
+                                                'CBXH,' +
+                                                'YSXZ,' +
+                                                'XZXF,' +
+                                                'KJ,' +
+                                                'QD,' +
+                                                'ZD,' +
+                                                'YL,' +
+                                                'BJYL,' +
+                                                'CBRQ,' +
+                                                'SFGC,' +
+                                                'BYXZT,' +
+                                                'CBBZ,' +
+                                                'QYL,' +
+                                                'QFJE,' +
+                                                'SCCBRQ,' +
+                                                'SCSL,' +
+                                                'TQSL,' +
+                                                'PJSL,' +
+                                                'SFXG,' +
+                                                'CBYBH,' +
+                                                'YCYE,' +
+                                                'DJC,' +
+                                                'DZXFPRICE,' +
+                                                'YYQY,' +
+                                                'GSPQ,' +
+                                                'CBZQ,' +
+                                                'SBYT,' +
+                                                'BEGINTIME,' +
+                                                'ENDTIME,' +
+                                                'JWD,' +
+                                                'DWSFSC,' +
+                                                'SFQZPZ,' +
+                                                'PATH,' +
+                                                'XBBH,' +
+                                                'SLZT,' +
+                                                'YCBZ,' +
+                                                'userName,' +
+                                                'RFID) ' + sqlvalue
+                                        });
+                                        if (alongAllret.status) {
+                                            //更新下载进度条
+
+                                        }
+                                        //下载数据循环添加完成之后，对页面和抄表册数据进行渲染
+                                        var retbooks1 = db.selectSqlSync({
+                                            name: 'CBtest',
+                                            sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + dataxcaq[dataxcaqIndex] + '\' and userName="' + LoginName + '"'
+                                        });
+                                        if (retbooks1.status) {
+                                            var contentNumer = retbooks1.data.length
+                                            if (PageIndex == 1) {
+                                                var retbook2 = db.executeSqlSync({
+                                                    name: 'CBtest',
+                                                    sql: 'UPDATE MRM_BOOKS_BEAN SET CBNUMER=\'' + contentNumer + '\' , YZM=\'' + CheckedCodeNumer + '\' , NOTDOWNLOAD=1 WHERE CBCH=\'' + dataxcaq[dataxcaqIndex] +
+                                                        '\' and userName="' + LoginName + '"'
+                                                });
+                                            } else {
+                                                var retbook2 = db.executeSqlSync({
+                                                    name: 'CBtest',
+                                                    sql: 'UPDATE MRM_BOOKS_BEAN SET CBNUMER=\'' + contentNumer + '\' , NOTDOWNLOAD=1 WHERE CBCH=\'' + dataxcaq[dataxcaqIndex] + '\' and userName="' + LoginName + '"'
+                                                });
+                                            }
+
+                                            $(".XZ_" + dataxcaq[dataxcaqIndex] + "").html(contentNumer);
+                                            $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").css("background", "rgba(79,120,252,1)");
+                                            $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").html('追加下载');
+                                            $(".SFXZ_" + dataxcaq[dataxcaqIndex] + "").css("color", "rgb(36, 208, 137)");
+                                            $(".SFXZ_" + dataxcaq[dataxcaqIndex] + "").html('<div class="li-one yesdownload">已下载</div>');
+                                            // 判断是否有当前抄表
+                                            if ($api.getStorage('newMeterReading') != undefined) {
+                                                var List = JSON.parse($api.getStorage('newMeterReading'))
+                                                if (List.CBCH == dataxcaq[dataxcaqIndex]) {
+                                                    $(".XZ_" + dataxcaq[dataxcaqIndex] + "").html(contentNumer);
+                                                    $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").css("background", "rgba(79,120,252,1)");
+                                                    $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").html('追加下载');
+                                                    $(".SFXZ_" + dataxcaq[dataxcaqIndex] + "").css("color", "rgb(36, 208, 137)");
+                                                    $(".SFXZ_" + dataxcaq[dataxcaqIndex] + "").html('<div class="li-one yesdownload">已下载</div>')
+                                                }
+                                            }
+                                        }
+                                    } else {
+
+                                    }
+                                }
+                            } else {
+                                //下载数据循环添加完成之后，对页面和抄表册数据进行渲染
+                                var retbooks1 = db.selectSqlSync({
+                                    name: 'CBtest',
+                                    sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + dataxcaq[dataxcaqIndex] + '\' and userName="' + LoginName + '"'
+                                });
+                                if (retbooks1.status) {
+                                    var contentNumer = retbooks1.data.length
+                                    if (PageIndex == 1) {
+                                        var retbook2 = db.executeSqlSync({
+                                            name: 'CBtest',
+                                            sql: 'UPDATE MRM_BOOKS_BEAN SET CBNUMER=\'' + contentNumer + '\' , YZM=\'' + CheckedCodeNumer + '\' , NOTDOWNLOAD=1 WHERE CBCH=\'' + dataxcaq[dataxcaqIndex] + '\' and userName="' +
+                                                LoginName + '"'
+                                        });
+                                    } else {
+                                        var retbook2 = db.executeSqlSync({
+                                            name: 'CBtest',
+                                            sql: 'UPDATE MRM_BOOKS_BEAN SET CBNUMER=\'' + contentNumer + '\' , NOTDOWNLOAD=1 WHERE CBCH=\'' + dataxcaq[dataxcaqIndex] + '\' and userName="' + LoginName + '"'
+                                        });
+                                    }
+
+                                    $(".XZ_" + dataxcaq[dataxcaqIndex] + "").html(contentNumer);
+                                    $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").css("background", "rgba(79,120,252,1)");
+                                    $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").html('追加下载');
+                                    $(".SFXZ_" + dataxcaq[dataxcaqIndex] + "").css("color", "rgb(36, 208, 137)");
+                                    $(".SFXZ_" + dataxcaq[dataxcaqIndex] + "").html('<div class="li-one yesdownload">已下载</div>');
+                                    // 判断是否有当前抄表
+                                    if ($api.getStorage('newMeterReading') != undefined) {
+                                        var List = JSON.parse($api.getStorage('newMeterReading'))
+                                        if (List.CBCH == dataxcaq[dataxcaqIndex]) {
+                                            $(".XZ_" + dataxcaq[dataxcaqIndex] + "").html(contentNumer);
+                                            $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").css("background", "rgba(79,120,252,1)");
+                                            $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").html('追加下载');
+                                            $(".SFXZ_" + dataxcaq[dataxcaqIndex] + "").css("color", "rgb(36, 208, 137)");
+                                            $(".SFXZ_" + dataxcaq[dataxcaqIndex] + "").html('<div class="li-one yesdownload">已下载</div>')
+                                        }
+                                    }
+                                }
+                            }
+
+                            //本次下载数据完成，页面渲染完成之后
+                            // $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").css("background", "rgba(79,120,252,1)");
+                            // $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").html('追加下载');
+                            // (PageIndex-1)*100;表示上一次下载这里加上ret.Data.length（本次下载）就是已经下载的总数量
+                            if ((PageIndex - 1) * 100 + UsersData.length < RecordCount) {
+                                PageIndex++;
+                                downloadUserAll()
+                            } else {
+                                // 如果下标小于循环出来全部抄表本的长度，继续下载。
+                                insertRecords("用户数据下载", "抄表册" + dataxcaq[dataxcaqIndex] + "下载用户数据完成");
+                                var Parameter = {
+                                    "ClientId": api.deviceId,
+                                    "ClientName": api.deviceModel,
+                                    "OperatorId": $api.getStorage('cbOperatorId'),
+                                    "OperatorName": $api.getStorage('cbOperatorName'),
+                                    "Required": 'YHBH=&CBBH=' + dataxcaq[dataxcaqIndex],
+                                    "Type": '152'
+                                }
+                                var body = {
+                                    body: JSON.stringify({
+                                        "UserName": $api.getStorage('cbOperatorName'),
+                                        "Password": $api.getStorage('cbPassword'),
+                                        "SerialNo": dataTime(),
+                                        "Method": "R999",
+                                        "Parameter": JSON.stringify(Parameter)
+                                    })
+                                }
+                                fnPost1('', body, 'application/json', false, function(ret, err) {
+                                    //alert("备忘录下载：" + JSON.stringify(ret));
+                                    if (ret) {
+                                        if (ret.Status == 0) {
+                                            var Data = JSON.parse(ret.Data);
+                                            if (Data.length > 0) {
+                                                var memo = db.executeSqlSync({
+                                                    name: 'CBtest',
+                                                    sql: "delete from MRM_THE_MEMO_BEAN2 where CBCH='" + dataxcaq[dataxcaqIndex] + "' and userName='" + LoginName + "'"
+                                                });
+
+                                                for (var i = 0; i < Data.length; i++) {
+                                                    var ret = db.executeSqlSync({
+                                                        name: 'CBtest',
+                                                        sql: "INSERT INTO MRM_THE_MEMO_BEAN2 " +
+                                                            "(userName, CBCH, YHBH, REMARK, TXSJ, TXLX) VALUES " +
+                                                            "('" + LoginName +
+                                                            "', '" + dataxcaq[dataxcaqIndex] +
+                                                            "', '" + Data[i].CUSTOMER_CODE +
+                                                            "', '" + Data[i].CONTENT +
+                                                            "', '" + Data[i].REMIND_TIME +
+                                                            "', '" + Data[i].REMIND_FREQUENCY + "')"
+                                                    });
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    var Parameter = {
+                                        "ClientId": api.deviceId,
+                                        "ClientName": api.deviceModel,
+                                        "OperatorId": $api.getStorage("cbOperatorId"),
+                                        "OperatorName": $api.getStorage("cbOperatorName"),
+                                        "Required": 'CBCH=' + dataxcaq[dataxcaqIndex],
+                                        "Type": '103'
+                                    }
+                                    var body = {
+                                        body: JSON.stringify({
+                                            "UserName": $api.getStorage("cbOperatorName"),
+                                            "Password": $api.getStorage("cbPassword"),
+                                            "SerialNo": dataTime(),
+                                            "Method": "R999",
+                                            "Parameter": JSON.stringify(Parameter)
+                                        })
+                                    }
+                                    fnPost1('', body, 'application/json', false, function(ret, err) {
+                                        //alert("抄表册下载：" + JSON.stringify(ret));
+                                        if (ret) {
+                                            if (ret.Status == 0) {
+                                                if (ret.Data != '') {
+                                                    var Books = [];
+                                                    if (ret.Data != "" && ret.Data != " ") {
+                                                        Books = JSON.parse(ret.Data);
+                                                    }
+
+                                                    var sql = 'update MRM_BOOKS_BEAN set ' +
+                                                        'userName="' + LoginName + '" ' +
+                                                        'ID="' + Books[0].ID + '" ' +
+                                                        ',CBCMC="' + Books[0].CBCMC + '" ' +
+                                                        ',DQCBXH="' + Books[0].DQCBXH + '" ' +
+                                                        ',YCSM="' + Books[0].YCSM + '" ' +
+                                                        ',JHR="' + Books[0].JHR + '" ' +
+                                                        'where CBCH="' + Books[0].CBCH + '"';
+
+                                                    var ret = db.executeSqlSync({
+                                                        name: 'CBtest',
+                                                        sql: sql
+                                                    });
+                                                }
+                                            } else {
+                                                // api.toast({
+                                                //     msg: ret.Message,
+                                                //     duration: 2000,
+                                                //     location: 'bottom'
+                                                // });
+                                            }
+                                        } else {
+                                            //alert(JSON.stringify(err));
+                                        }
+
+                                        var Parameter = {
+                                            "ClientId": api.deviceId,
+                                            "ClientName": api.deviceModel,
+                                            "OperatorId": $api.getStorage("cbOperatorId"),
+                                            "OperatorName": $api.getStorage("cbOperatorName"),
+                                            "Required": 'CBCH=' + dataxcaq[dataxcaqIndex],
+                                            "Type": '153'
+                                        }
+                                        var body = {
+                                            body: JSON.stringify({
+                                                "UserName": $api.getStorage("cbOperatorName"),
+                                                "Password": $api.getStorage("cbPassword"),
+                                                "SerialNo": dataTime(),
+                                                "Method": "R999",
+                                                "Parameter": JSON.stringify(Parameter)
+                                            })
+                                        }
+                                        fnPost1('', body, 'application/json', false, function(ret, err) {
+                                            //alert("追加数据下载：" + JSON.stringify(ret));
+                                            if (ret.Status == 0) {
+                                                var userlist = [];
+                                                if (ret.Data != "" && ret.Data != " ") {
+                                                    userlist = JSON.parse(ret.Data);
+                                                }
+
+                                                for (var i = 0; i < userlist.length; i++) {
+                                                    if (userlist[i].CZBZ == "1") {
+                                                        //增加
+                                                        insertUser(userlist[i]);
+                                                    } else if (userlist[i].CZBZ == "2") {
+                                                        //移除
+                                                        //alert("删除" + userlist[i].CBCH + "本里面的" + userlist[i].YHBH + "用户");
+                                                        var userremove = db.executeSqlSync({
+                                                            name: 'CBtest',
+                                                            sql: 'delete from MRM_USER_BEAN where YHBH="' + userlist[i].YHBH + '" and CBCH="' + dataxcaq[dataxcaqIndex] + '" and userName="' + LoginName +
+                                                                '"'
+                                                        });
+                                                        //alert(JSON.stringify(userremove));
+                                                    } else if (userlist[i].CZBZ == "3") {
+                                                        //修改表序
+                                                        //alert("修改用户：" + userlist[i].YHBH);
+                                                        var userupdate = db.executeSqlSync({
+                                                            name: 'CBtest',
+                                                            sql: 'update MRM_USER_BEAN set CBXH="' + userlist[i].CBXH + '" where YHBH="' + userlist[i].YHBH + '" and userName="' + LoginName +
+                                                                '"'
+                                                        });
+                                                        //alert(JSON.stringify(userupdate));
+                                                    }
+                                                }
+                                                var retbooks1 = db.selectSqlSync({
+                                                    name: 'CBtest',
+                                                    sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH=\'' + dataxcaq[dataxcaqIndex] + '\' and userName="' + LoginName + '"'
+                                                });
+                                                if (retbooks1.status) {
+                                                    var contentNumer = retbooks1.data.length
+                                                    var retbook2 = db.executeSqlSync({
+                                                        name: 'CBtest',
+                                                        sql: 'UPDATE MRM_BOOKS_BEAN SET BBCYHZS=\'' + contentNumer + '\' , CBNUMER=\'' + contentNumer + '\' , NOTDOWNLOAD=1 WHERE CBCH=\'' + dataxcaq[
+                                                            dataxcaqIndex] + '\' and userName="' + LoginName + '"'
+                                                    });
+
+                                                    $(".ZS_" + dataxcaq[dataxcaqIndex] + "").html(contentNumer);
+                                                    $(".XZ_" + dataxcaq[dataxcaqIndex] + "").html(contentNumer);
+                                                    $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").css("background", "rgba(79,120,252,1)");
+                                                    $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").html('追加下载');
+                                                    $(".SFXZ_" + dataxcaq[dataxcaqIndex] + "").css("color", "rgb(36, 208, 137)");
+                                                    $(".SFXZ_" + dataxcaq[dataxcaqIndex] + "").html('<div class="li-one yesdownload">已下载</div>');
+                                                    // 判断是否有当前抄表
+                                                    if ($api.getStorage('newMeterReading') != undefined) {
+                                                        var List = JSON.parse($api.getStorage('newMeterReading'))
+                                                        if (List.CBCH == dataxcaq[dataxcaqIndex]) {
+                                                            $(".ZS_" + dataxcaq[dataxcaqIndex] + "").html(contentNumer);
+                                                            $(".XZ_" + dataxcaq[dataxcaqIndex] + "").html(contentNumer);
+                                                            $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").css("background", "rgba(79,120,252,1)");
+                                                            $(".btnXZ_" + dataxcaq[dataxcaqIndex] + "").html('追加下载');
+                                                            $(".SFXZ_" + dataxcaq[dataxcaqIndex] + "").css("color", "rgb(36, 208, 137)");
+                                                            $(".SFXZ_" + dataxcaq[dataxcaqIndex] + "").html('<div class="li-one yesdownload">已下载</div>')
+                                                        }
+                                                    }
+                                                }
+                                            }
+
+                                            dataxcaqIndex++;
+                                            if (dataxcaqIndex < dataxcaq.length) {
+                                                // downloadNumer = 0
+                                                PageIndex = 1;
+                                                //alert("下载完了");
+                                                downloadUserAll();
+                                            } else {
+                                                var UIActionProgress = api.require('UIActionProgress');
+                                                UIActionProgress.close();
+                                                // 下标小于或者等于抄表本册号长度后下载完成
+                                                api.toast({
+                                                    msg: '下载完成',
+                                                    duration: 2000,
+                                                    location: 'middle'
+                                                });
+                                                // 下载完成后未下载字体变成绿色字变成已下载
+                                                $('#dataListUser').find('input[type="checkbox"]:checked').prop("checked", false)
+                                                $('#parantChexbox').prop("checked", false)
+                                                    //alert("下载完了");
+
+                                                //所有勾选中的抄表册下载完成之后，更新顶部的应抄册数和应抄表数
+                                                db.selectSql({
+                                                    name: 'CBtest',
+                                                    sql: 'SELECT * FROM MRM_BOOKS_BEAN where (JHR+0)<=' + day + ' and userName="' + LoginName + '"'
+                                                }, function(ret, err) {
+                                                    if (ret.status) {
+                                                        var dataList = ret.data;
+
+                                                        $('#ycbooks').text(ret.data.length)
+                                                        var contentNumer = 0;
+                                                        for (var i = 0; i < dataList.length; i++) {
+                                                            var a = Number(dataList[i].BBCYHZS)
+                                                            contentNumer += a
+                                                        }
+                                                        $('#yctable').text(contentNumer)
+                                                    } else {
+
+                                                    }
+                                                });
+                                                var yscusersdata = db.selectSqlSync({
+                                                    name: 'CBtest',
+                                                    sql: 'select * from MRM_USER_BEAN where CBBZ=1 and userName="' + LoginName + '"'
+                                                });
+                                                var wcusersdata = db.selectSqlSync({
+                                                    name: 'CBtest',
+                                                    sql: 'select * from MRM_USER_BEAN where CBBZ=0 and userName="' + LoginName + '"'
+                                                });
+                                                $('#yczs').text(yscusersdata.data.length);
+                                                $('#wczs').text(wcusersdata.data.length);
+                                            }
+                                        });
+                                    });
+                                });
+                            }
+                        } else {
+                            var UIActionProgress = api.require('UIActionProgress');
+                            UIActionProgress.close();
+                            alert(JSON.stringify(err));
+                        }
+                    })
+                } else {
+                    // console.log( JSON.stringify( err ) );
+                }
+            })
+        } else {
+            var UIActionProgress = api.require('UIActionProgress');
+            UIActionProgress.close();
+        }
+    }
+
+    function getSum(total, num) {
+        return total + num;
+    }
+
+    function openMeterReading(el) {
+        $api.setStorage("newMeterReading", $(el).attr('param'));
+        api.sendEvent({
+            name: 'newMeterReading',
+            extra: $(el).attr('param')
+        });
+
+        var pageParam = JSON.stringify($(el).attr('param'));
+
+        api.openWin({
+            name: 'MeterReading_userList',
+            url: './MeterReading_userList.html',
+            pageParam: JSON.parse(pageParam)
+        });
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'search': function() {
+            //window.location.reload();
+            api.openWin({
+                name: 'queryUserCode',
+                url: './queryUserCode.html',
+                pageParam: {
+                    name: 'test'
+                }
+            });
+        },
+        'openMeterReading': function() {
+            $api.setStorage("newMeterReading", $(this).attr('param'));
+            api.sendEvent({
+                name: 'newMeterReading',
+                extra: $(this).attr('param')
+            });
+
+            var pageParam = JSON.stringify($(this).attr('param'));
+
+            api.openWin({
+                name: 'MeterReading_userList',
+                url: './MeterReading_userList.html',
+                pageParam: JSON.parse(pageParam)
+            });
+        },
+        'appendDownload': function() {
+            var connectionType = api.connectionType;
+            if (connectionType == "none") {
+                api.toast({
+                    msg: '当前处于无网状态，无法下载数据。',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                return;
+            }
+
+            $(this).parents(".parantChexbox").find('input[type="checkbox"]').prop("checked", true);
+            var cbch = $(this).parents(".parantChexbox").find('.datasapn').attr("data")
+            var singleBox = $(this).parents(".parantChexbox").find('input[type="checkbox"]')
+
+            db.selectSql({
+                name: 'CBtest',
+                sql: 'SELECT * FROM MRM_USER_BEAN where userName="' + LoginName + '"'
+            }, function(ret, err) {
+                if (ret.status) {
+                    adilog("正在下载用户数据", "正在下载用户数据,请稍后...");
+
+                    UsersDataSingleNumer = 0
+                    downloadUsersingle(cbch, singleBox);
+                } else {
+
+                }
+            });
+        },
+        'AllDownload': function() {
+            var connectionType = api.connectionType;
+            if (connectionType == "none") {
+                api.toast({
+                    msg: '当前处于无网状态，无法下载数据。',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                return;
+            }
+            Usersdownload();
+        },
+        'MissingCopy': function() {
+            // 用获取值长度MissingCopydata.length和单选框长度比较相等或者等于0 就页面chcode值传空；不等于是多少传多少
+            var isNotchecked = $("#content input[name='demo1']")
+            if (MissingCopydata.length == isNotchecked.length || MissingCopydata.length == 0) {
+                // MissingCopydata = []
+                api.openWin({
+                    name: 'MeterReading_details_New',
+                    url: './MeterReading_details_New.html',
+                    pageParam: {
+                        name: 1,
+                        chCode: ''
+                    }
+                });
+            } else {
+                api.openWin({
+                    name: 'MeterReading_details_New',
+                    url: './MeterReading_details_New.html',
+                    pageParam: {
+                        name: 1,
+                        chCode: MissingCopydata
+                    }
+                });
+            }
+        }
+    }
+
+    function adilog(title, msg) {
+        var UIActionProgress = api.require('UIActionProgress');
+        UIActionProgress.open({
+            maskBg: 'rgba(0,0,0,0.5)',
+            styles: {
+                h: 150,
+                bg: '#fff',
+                title: {
+                    size: 18,
+                    color: '#000',
+                    marginT: 10
+                },
+                msg: {
+                    size: 15,
+                    color: '#000',
+                    marginT: 10
+                },
+                lable: {
+                    size: 15,
+                    color: '#696969',
+                    marginB: 5
+                },
+                progressBar: {
+                    size: 2,
+                    normal: '#000',
+                    active: '#4876FF',
+                    marginB: 35,
+                    margin: 5
+                }
+            },
+            data: {
+                title: title,
+                msg: msg,
+                value: 0
+            }
+        }, function(ret) {
+            // api.alert({
+            //     msg: JSON.stringify(ret)
+            // });
+        });
+    }
+
+    //进度条
+    function updateAdilogData(title, msg, value) {
+        var UIActionProgress = api.require('UIActionProgress');
+        UIActionProgress.setData({
+            data: {
+                title: title,
+                msg: msg,
+                value: value * 100
+            }
+        });
+    }
+
+    //获取百分比
+    function GetPercent(num, total) {
+        num = parseFloat(num);
+        total = parseFloat(total);
+        if (isNaN(num) || isNaN(total)) {
+            return "-";
+        }
+
+        return total <= 0 ? "0" : (Math.round(num / total * 100) / 100.00);
+    }
+
+    function insertRecords(event, information) {
+        var db = api.require('db');
+        var ret = db.executeSqlSync({
+            name: 'CBtest',
+            sql: "INSERT INTO MRM_LOGS_BEAN " +
+                "(userName, ID, EVENT, INFORMATION, TIME) VALUES " +
+                "('" + LoginName +
+                "', '" + $api.getStorage('cbOperatorId') +
+                "', '" + event +
+                "', '" + information +
+                "', '" + dataTime() + "')"
+        });
+    }
+</script>
+
+</html>

@@ -1,0 +1,1589 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>上传数据</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            background-color: #f5f5f5;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+        }
+
+        #center {
+            flex: 1;
+            margin-bottom: 80px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        #footer {
+            width: 100%;
+            height: 60px;
+            position: fixed;
+            bottom: 0;
+            border-top: 0.5px solid #9e9e9e;
+            background: #fff;
+        }
+
+        .footer_img {
+            max-width: 45%;
+            margin: auto auto;
+        }
+
+        .footer_img2 {
+            max-width: 55%;
+            margin: auto auto;
+        }
+
+        .flex-wrap-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        .header .aui-pull-left {
+            padding-left: 1.2rem;
+        }
+
+        .header .aui-title {
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .flex-wrap {
+            width: 100%;
+            background: #fff;
+            /*height: 5.85rem;*/
+            background: rgba(243, 243, 243.1);
+            padding-bottom: 1rem;
+        }
+
+        .aui-bar-nav .aui-pull-right {
+            padding-right: 0.7rem;
+        }
+
+        .aui-btn>img {
+            max-width: 80%;
+        }
+
+        .content {
+            flex: 1;
+            margin-top: 3.5rem;
+            margin-bottom: 50px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+        }
+
+        .contentBox {
+            margin-top: 10px;
+            margin-left: 15px;
+            margin-right: 15px;
+        }
+
+        .contentBox .dv_right {
+            margin: auto;
+            width: 100%;
+            box-sizing: border-box;
+            padding-left: 3%;
+            padding-right: 3%;
+            display: block;
+            background: #fff;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .contentBox .dv_right::before {
+            display: table;
+            content: "";
+        }
+
+        .contentBox .dv_right::after {
+            display: table;
+            content: "";
+            clear: both;
+        }
+
+        .contentBox .dv_right .dv_1_icon {
+            float: left;
+            width: 15%;
+            /*padding-top: 0.5rem;*/
+        }
+
+        .contentBox .dv_right .dv_1_icon img {
+            max-width: 80%;
+            margin-top: 0.4rem;
+        }
+
+        .contentBox .dv_right .dv_1_text {
+            position: relative;
+            overflow: hidden;
+            width: 85%;
+            float: right;
+        }
+
+        .contentBox .dv_right .dv_1_text .text1 {
+            font-size: 1rem;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .contentBox .dv_right .dv_1_text .textBox {
+            display: block;
+        }
+
+        .contentBox .dv_right .dv_1_text .textBox .text2 {
+            float: left;
+            padding-right: 0.5rem;
+            color: #666666;
+        }
+
+        .contentBox .dv_right .dv_1_text .textBox .text2 span {
+            font-size: 15px;
+            color: #666666;
+        }
+
+        .contentBox .dv_right .dv_1_text .checkbox {
+            position: absolute;
+            top: 1rem;
+            right: 0rem;
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        #books {
+            margin-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .title {
+            font-weight: 800;
+            margin-top: 10px;
+            margin-left: 10px;
+        }
+
+        .dv_top {
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            background-color: #ffffff;
+            margin-left: 15px;
+            margin-right: 15px;
+            margin-top: 10px;
+        }
+
+        .dv_top_dv1 {
+            margin-left: 3%;
+            color: #666666;
+            flex: 1;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv_top_dv2 {
+            margin-top: 8px;
+            margin-right: 3%;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">上传数据</div>
+        <div class="aui-pull-right aui-btn" onclick="openError()">
+            上传失败列表
+        </div>
+    </header>
+
+    <div id="center">
+        <div class="title">抄表数据上传</div>
+        <div id="books">
+            <div style="width:100%;height:200px;text-align:center;line-height:200px;color: #666666;">已抄数据已全部上传</div>
+            <!-- <div class="contentBox">
+                <div class="dv_right">
+                    <div class="dv_1 dv_1_icon">
+                        <img src="../../image/MeteReading/drawable-hdpi/loadusers.png" alt="" class="icon">
+                    </div>
+                    <div class="dv_1 dv_1_text">
+                        <div class="text1">文景新村</div>
+                        <div class="textBox">
+                            <div class="text2"><span>已超</span><span>123</span></div>
+                            <div class="text2"><span>已上传</span><span>123</span></div>
+                            <div class="text2"><span>已下载</span><span>123</span></div>
+                            <div class="text2 checkbox"><input class="aui-checkbox sonCheckBox" type="checkbox" name="Fruit" value="{{value.CBCH}}"></div>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+        <div class="title">其它数据上传</div>
+        <div id="other">
+            <!-- <div class="dv_top">
+              <div class="dv_top_dv1">
+                  照片上传
+              </div>
+              <div class="dv_top_dv2">
+                  <input class="aui-checkbox sonCheckBox" type="checkbox" name="Fruit2" value="{{value.CBCH}}">
+              </div>
+          </div>
+          <div class="dv_top">
+              <div class="dv_top_dv1">
+                  水表位置上传
+              </div>
+              <div class="dv_top_dv2">
+                  <input class="aui-checkbox sonCheckBox" type="checkbox" name="Fruit2" value="{{value.CBCH}}">
+              </div>
+          </div>
+          <div class="dv_top">
+              <div class="dv_top_dv1">
+                  定位数据上传
+              </div>
+              <div class="dv_top_dv2">
+                  <input class="aui-checkbox sonCheckBox" type="checkbox" name="Fruit2" value="{{value.CBCH}}">
+              </div>
+          </div>
+          <div class="dv_top">
+              <div class="dv_top_dv1">
+                  导航图片上传
+              </div>
+              <div class="dv_top_dv2">
+                  <input class="aui-checkbox sonCheckBox" type="checkbox" name="Fruit2" value="{{value.CBCH}}">
+              </div>
+          </div>
+          <div class="dv_top">
+              <div class="dv_top_dv1">
+                  日志上传
+              </div>
+              <div class="dv_top_dv2">
+                  <input class="aui-checkbox sonCheckBox" type="checkbox" name="Fruit2" value="{{value.CBCH}}">
+              </div>
+          </div> -->
+        </div>
+    </div>
+
+    <footer class="footer aui-bar aui-bar-tab" id="footer">
+        <div class="aui-bar-tab-item" onclick="checkAll(this)">
+            <img src="../../image/MeteReading/drawable-hdpi/allload1.png" class="footer_img2">
+        </div>
+        <div class="aui-bar-tab-item" onclick="upload(1)">
+            <img src="../../image/MeteReading/drawable-hdpi/addupload.png" class="footer_img">
+        </div>
+        <div class="aui-bar-tab-item" onclick="upload(2)">
+            <img src="../../image/MeteReading/drawable-hdpi/coverupload1.png" class="footer_img">
+        </div>
+    </footer>
+</body>
+
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/template" id="bookList">
+    {{each list value i}}
+    <div class="contentBox">
+        <div class="dv_right">
+            <div class="dv_1 dv_1_icon">
+                <img src="../../image/MeteReading/drawable-hdpi/loadusers.png" alt="" class="icon">
+            </div>
+            <div class="dv_1 dv_1_text">
+                {{if value.YXZ > 0}}
+                <div class="text1 orange">{{value.CBCMC}}({{value.BBCYHZS}})</div>
+                {{else}}
+                <div class="text1">{{value.CBCMC}}({{value.BBCYHZS}})</div>
+                {{/if}}
+
+                <div class="textBox">
+                    <div class="text2"><span>已抄</span><span>{{value.YC}}</span></div>
+                    <div class="text2"><span>已上传</span><span>{{value.YSC}}</span></div>
+                    <div class="text2"><span>已下载</span><span>{{value.YXZ}}</span></div>
+                    <div class="text2 checkbox"><input class="aui-checkbox sonCheckBox" type="checkbox" name="Fruit" value="{{value.CBCH}}"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id='otherlist'>
+    {{each datas value i}} {{if value == 51}}
+    <div class="dv_top">
+        <div class="dv_top_dv1">
+            照片上传
+        </div>
+        <div class="dv_top_dv2">
+            <input class="aui-checkbox sonCheckBox" type="checkbox" name="Fruit2" value="{{value}}">
+        </div>
+    </div>
+    {{else if value == 52}}
+    <div class="dv_top">
+        <div class="dv_top_dv1">
+            水表位置上传
+        </div>
+        <div class="dv_top_dv2">
+            <input class="aui-checkbox sonCheckBox" type="checkbox" name="Fruit2" value="{{value}}">
+        </div>
+    </div>
+    {{else if value == 53}}
+    <div class="dv_top">
+        <div class="dv_top_dv1">
+            定位数据上传
+        </div>
+        <div class="dv_top_dv2">
+            <input class="aui-checkbox sonCheckBox" type="checkbox" name="Fruit2" value="{{value}}">
+        </div>
+    </div>
+    {{else if value == 54}}
+    <div class="dv_top">
+        <div class="dv_top_dv1">
+            导航图片上传
+        </div>
+        <div class="dv_top_dv2">
+            <input class="aui-checkbox sonCheckBox" type="checkbox" name="Fruit2" value="{{value}}">
+        </div>
+    </div>
+    {{else if value == 59}}
+    <div class="dv_top">
+        <div class="dv_top_dv1">
+            日志上传
+        </div>
+        <div class="dv_top_dv2">
+            <input class="aui-checkbox sonCheckBox" type="checkbox" name="Fruit2" value="{{value}}">
+        </div>
+    </div>
+    {{/if}} {{/each}}
+</script>
+<script type="text/javascript">
+    var list = []; //可以上传的抄表册。
+    var checkBooksID = []; //勾选中的抄表册。
+
+    var currentBookIndex = 0; //checkBooksID勾选中的需要上传的数据，currentBookIndex代表正在上传的抄表册的下标，
+    var mPageSize = 100; //分页数。
+    var mPageNo = 1; //页码。
+    var errorCount = 0; //上传失败的抄表数据的条数。
+
+    var qbUser = []; //当前要上传的抄表册里面的所有抄表数据。
+    var qbJWD = []; //水表位置
+    var qbPhoto = []; //当前要上传的所有抄表照片。
+    var qbLocation = []; //抄表员轨迹
+    var qbNavi = []; //导航图片
+    var qbLog = []; //日志
+    var qbmemo = []; //备忘录
+
+    var newqbUser = []; //当前要上传的抄表册里面的所有抄表数据。
+    var newqbJWD = []; //水表位置
+    var newqbPhoto = []; //当前要上传的所有抄表照片。
+    var newqbLocation = []; //抄表员轨迹
+    var newqbNavi = []; //导航图片
+    var newqbLog = []; //日志
+    var newqbmemo = []; //备忘录
+
+    var currentList = []; //当前上传的list.
+    var jwdList = []; //当前上传的JWDlist
+    var photoList = []; //当前上传的抄表图片。
+    var locationList = []; //当前上传的locationList
+    var naviList = []; //当前上传的naviList
+    var logList = []; //当前上传的logList
+
+    var otherList = []; //其他上传勾选项
+    var PHOTO = 51;
+    var JWD = 52;
+    var LOCATION = 53;
+    var NAVIPHOTO = 54;
+    var LOG = 59;
+    var MEMO = 60;
+    var step = 0;
+    var OperateID = "";
+    var currentCBCMC = "";
+    var currentYZM = "";
+
+    var db;
+    var ischeck = 0; //是否全选
+    var Rewrite = false; //是否覆盖上传
+    apiready = function() {
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+
+        $('#center').css('margin-top', '' + headerH + 'px');
+        OperateID = $api.getStorage('cbOperatorId');
+
+        resetOtherQueryBuilder();
+        initListView();
+    }
+
+    //获取所有可以上传的经纬度，抄表图片，导航图片，日志等数据。
+    function resetOtherQueryBuilder() {
+        var db = api.require('db');
+
+        var jwddata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_METER_LOCATION_BEAN where ID=' + $api.getStorage('cbOperatorId') + ' and SFGX=0'
+        });
+        qbJWD = jwddata.data;
+        newqbJWD = jwddata.data;
+
+        var photodata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_PHOTOS_BEAN where SFSC=0 and YHBH in (select YHBH from MRM_USER_BEAN where CBBZ=1 and ZTSCCG=1)'
+        });
+        qbPhoto = photodata.data;
+        newqbPhoto = photodata.data;
+
+        var locationdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_LOCATIONS_BEAN where CBY=' + $api.getStorage('cbOperatorId') + ' and SFSC=0'
+        });
+        qbLocation = locationdata.data;
+        newqbLocation = locationdata.data;
+
+        var navidata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_NAVIPHOTOS_BEAN where ID=' + $api.getStorage('cbOperatorId') + ' and SFSC=0'
+        });
+        qbNavi = navidata.data;
+        newqbNavi = navidata.data;
+
+        var logdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_LOGS_BEAN where ID=' + $api.getStorage('cbOperatorId') + ''
+        });
+        qbLog = logdata.data;
+        newqbLog = logdata.data;
+
+        var memodata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_THE_MEMO_BEAN where SFSC="0"'
+        });
+        qbmemo = memodata.data;
+        newqbmemo = memodata.data;
+
+        initOther();
+    }
+
+    //判断是否有其它可上传的数据，并展示。
+    function initOther() {
+        var data = [];
+        if (newqbPhoto != null && newqbPhoto.length > 0) {
+            data.push(51);
+        }
+        if (newqbJWD != null && newqbJWD.length > 0) {
+            data.push(52);
+        }
+        if (newqbLocation != null && newqbLocation.length > 0) {
+            data.push(53);
+        }
+        if (newqbNavi != null && newqbNavi.length > 0) {
+            data.push(54);
+        }
+        if (newqbLog != null && newqbLog.length > 0) {
+            data.push(59);
+        }
+        if (newqbmemo != null && newqbmemo.length > 0) {
+            data.push(60);
+        }
+        var datas = {
+            datas: data
+        }
+
+        var str = template('otherlist', datas);
+        $('#other div').remove();
+        $('#other').append(str);
+        fnReadyOpenWin();
+    }
+
+    //查询有上传数据的抄表册并展示
+    function initListView() {
+        list = [];
+        var db = api.require('db');
+        var bookdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_BOOKS_BEAN'
+        });
+        //console.log(JSON.stringify(bookdata));
+        if (bookdata.status) {
+            if (bookdata.data.length > 0) {
+                for (var i = 0; i < bookdata.data.length; i++) {
+                    var userdata_YC = db.selectSqlSync({
+                        name: 'CBtest',
+                        sql: "select count(*) as YC from MRM_USER_BEAN where CBCH='" + bookdata.data[i].CBCH + "' and CBBZ=1 and CWXX=' '"
+                    });
+                    var userdata_YSC = db.selectSqlSync({
+                        name: 'CBtest',
+                        sql: "select count(*) as YSC from MRM_USER_BEAN where CBCH='" + bookdata.data[i].CBCH + "' and ZTSCCG=1 and CWXX=' '"
+                    });
+                    if (userdata_YC.data[0].YC > 0 && userdata_YC.data[0].YC > userdata_YSC.data[0].YSC) {
+                        list.push({
+                            NAME: bookdata.data[i].CBCH + "_" + bookdata.data[i].CBCMC + "(" + bookdata.data[i].BBCYHZS + ")",
+                            CBCH: bookdata.data[i].CBCH,
+                            CBCMC: bookdata.data[i].CBCMC,
+                            BBCYHZS: bookdata.data[i].BBCYHZS,
+                            YZM: bookdata.data[i].YZM,
+                            YC: userdata_YC.data[0].YC,
+                            YSC: userdata_YSC.data[0].YSC,
+                            YXZ: bookdata.data[i].YXZ
+                        });
+                    } else {
+
+                    }
+                }
+                if (list.length > 0) {
+                    var datas = {
+                        datas: list
+                    }
+
+                    var str = template('bookList', datas);
+                    $('#books div').remove();
+                    $('#books').append(str);
+                    fnReadyOpenWin();
+                } else {
+                    $('#books div').remove();
+                    $('#books').append('<div style="width:100%;height:200px;text-align:center;line-height:200px;color: #666666;">已抄数据已全部上传</div>');
+                    fnReadyOpenWin();
+                }
+
+            } else {
+                $('#books div').remove();
+                $('#books').append('<div style="width:100%;height:200px;text-align:center;line-height:200px;color: #666666;">已抄数据已全部上传</div>');
+                fnReadyOpenWin();
+            }
+        }
+    }
+
+    //全选
+    function checkAll(el) {
+        if (ischeck == 0) {
+            $("input[name='Fruit']").prop("checked", true);
+            $("input[name='Fruit2']").prop("checked", true);
+            ischeck = 1;
+        } else {
+            $("input[name='Fruit']").prop("checked", false);
+            $("input[name='Fruit2']").prop("checked", false);
+            ischeck = 0;
+        }
+    }
+
+    //上传抄表数据。
+    function upload(type) {
+        if (type == 1) {
+            Rewrite = false;
+        } else {
+            Rewrite = true;
+        }
+
+        checkBooksID = [];
+        otherList = [];
+        var loves = document.getElementsByName("Fruit"); //获取抄表数据
+        var loves2 = document.getElementsByName("Fruit2"); //获取日志数据
+
+        for (var i = 0; i < loves.length; i++) {
+            if (loves[i].checked == true) {
+                checkBooksID.push(loves[i].value);
+            }
+        }
+
+        for (var i = 0; i < loves2.length; i++) {
+            if (loves2[i].checked == true) {
+                otherList.push(new Number(loves2[i].value));
+            }
+        }
+
+        if (checkBooksID != null && checkBooksID.length > 0) {
+            adilog("正在上传基础数据 " + (currentBookIndex + 1) + "/" + checkBooksID.length,
+                "正在上传基础数据,请稍后...");
+            resetQueryBuilder(); //获取当前抄表册所有要上传的用户数据。
+            continueUpdateData(); //获取当前上传的抄表数据。
+        } else {
+            if (otherList != null && otherList.length > 0) {
+                adilog("正在上传其它数据",
+                    "正在上传其它数据,请稍后...");
+                uploadOthers();
+            } else {
+                api.toast({
+                    msg: '请选择要上传的数据',
+                    duration: 3000,
+                    location: 'bottom'
+                });
+            }
+        }
+
+    }
+
+    //获取当前抄表册所有要上传的用户数据。
+    function resetQueryBuilder() {
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].CBCH == checkBooksID[currentBookIndex]) {
+                currentCBCMC = list[i].CBCMC;
+                currentYZM = list[i].YZM;
+                break;
+            }
+        }
+        mPageNo = 1;
+        var db = api.require('db');
+
+        //获取当前抄表册所有要上传的用户数据。
+        var userdataAll = db.selectSqlSync({
+            name: 'CBtest',
+            sql: "select * from MRM_USER_BEAN where CBCH=" + checkBooksID[currentBookIndex] + " and CBBZ=1 and ZTSCCG=0"
+        });
+        qbUser = userdataAll.data;
+        newqbUser = chunkArrayInGroups(userdataAll.data, mPageSize);
+    }
+
+    //获取当前上传的抄表数据。
+    function continueUpdateData() {
+        //获取当前上传的抄表数据。
+        currentList = newqbUser[mPageNo - 1];
+        var records = [];
+        for (var i = 0; i < currentList.length; i++) {
+            if (currentList[i].SFXG == "1") {
+                var user = {
+                    "YHBH": currentList[i].YHBH,
+                    "CBBZ": currentList[i].CBBZ,
+                    "QD": currentList[i].QD,
+                    "ZD": currentList[i].ZD,
+                    "YL": currentList[i].YL,
+                    "CBRQ": currentList[i].CBRQ,
+                    "BYXZT": currentList[i].BYXZT,
+                    "SJBM": currentList[i].SJBM,
+                    "JD": currentList[i].CBYSZJD,
+                    "WD": currentList[i].CBYSZWD,
+                    "CJDZ": currentList[i].CJDZ,
+                    "SFXG": currentList[i].SFXG,
+                    "YHMC": currentList[i].YHMC,
+                    "YHDZ": currentList[i].YHDZ,
+                    "SBWZ": currentList[i].SBWZ,
+                    "YDDH": currentList[i].YDDH,
+                    "GDDH": currentList[i].GDDH,
+                    "SBBH": currentList[i].SBBH
+                }
+                records.push(user);
+            } else {
+                var user = {
+                    "YHBH": currentList[i].YHBH,
+                    "CBBZ": currentList[i].CBBZ,
+                    "QD": currentList[i].QD,
+                    "ZD": currentList[i].ZD,
+                    "YL": currentList[i].YL,
+                    "CBRQ": currentList[i].CBRQ,
+                    "BYXZT": currentList[i].BYXZT,
+                    "SJBM": currentList[i].SJBM,
+                    "JD": currentList[i].CBYSZJD,
+                    "WD": currentList[i].CBYSZWD,
+                    "CJDZ": currentList[i].CJDZ,
+                    "SBBH": currentList[i].SBBH
+                }
+                records.push(user);
+            }
+        }
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "BookId=" + checkBooksID[currentBookIndex] + "&CheckCode=" + currentYZM + "&Rewrite=" + Rewrite,
+            "Type": "202",
+            "Records": records
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        console.log(body.body);
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                console.log(JSON.stringify(ret));
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+
+                    if (Data.length == 0) {
+                        //没有错误信息
+                    } else {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var ret = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: "update MRM_USER_BEAN set CWXX='" + Data[i].SCSB_MESSAGE + "' where YHBH='" + Data[i].YHBH + "'"
+                            });
+                        }
+                    }
+
+                    setSuccessData(currentList, Data); //修改上传标识
+
+                    if (mPageNo == newqbUser.length) {
+                        //当前本上传完
+                        currentBookIndex++;
+                        if (currentBookIndex + 1 <= checkBooksID.length) {
+                            updateAdilogData("正在上传基础数据 " + (currentBookIndex + 1) + "/" + checkBooksID.length,
+                                "正在上传基础数据,请稍后...", 0);
+                            //上传其它抄表册
+                            resetQueryBuilder(); //获取当前抄表册所有要上传的用户数据。
+                            continueUpdateData(); //获取当前上传的抄表数据。
+                        } else {
+                            //抄表册上传完毕
+                            uploadOthers();
+                        }
+                    } else {
+                        var value = GetPercent((mPageNo - 1) * mPageSize + currentList.length, qbUser.length);
+                        updateAdilogData("正在上传基础数据 " + (currentBookIndex + 1) + "/" + checkBooksID.length,
+                            "正在上传基础数据,请稍后...", value);
+                        mPageNo++;
+                        continueUpdateData(); //获取当前上传的抄表数据。
+                    }
+                    insertRecords(OperateID, "上传用户数据", "上传用户数据" + currentCBCMC + "成功");
+                } else {
+                    insertRecords(OperateID, "上传用户数据", "上传用户数据" + currentCBCMC + "失败");
+                    insertRecords(OperateID, "msg", ret.Message);
+                    //关闭进度条
+                    var UIActionProgress = api.require('UIActionProgress');
+                    UIActionProgress.close();
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                //关闭进度条
+                var UIActionProgress = api.require('UIActionProgress');
+                UIActionProgress.close();
+                api.alert({
+                    msg: JSON.stringify(err.msg)
+                });
+            }
+        })
+    }
+
+    //修改上传标识
+    function setSuccessData(currentList, Data) {
+        var db = api.require('db');
+        for (var i = 0; i < currentList.length; i++) {
+            var type = false;
+            for (var j = 0; j < Data.length; j++) {
+                if (currentList[i].YHBH == Data[j].YHBH) {
+                    type = true;
+                    continue;
+                }
+            }
+            if (!type) {
+                var ret = db.executeSqlSync({
+                    name: 'CBtest',
+                    sql: 'update MRM_USER_BEAN set CWXX=" ", ZTSCCG=1, XGXXSC=1, SFXG=0 where YHBH="' + currentList[i].YHBH + '"'
+                });
+            }
+        }
+        updateBookInfo(); //更新抄表册数据
+    }
+
+    //更新抄表册数据
+    function updateBookInfo() {
+        var db = api.require('db');
+        var userdata_YC = db.selectSqlSync({
+            name: 'CBtest',
+            sql: "select count(*) as YC from MRM_USER_BEAN where CBCH='" + checkBooksID[currentBookIndex] + "' and CBBZ=1"
+        });
+        var userdata_WC = db.selectSqlSync({
+            name: 'CBtest',
+            sql: "select count(*) as WC from MRM_USER_BEAN where CBCH='" + checkBooksID[currentBookIndex] + "' and CBBZ=0"
+        });
+        var userdata_YSC = db.selectSqlSync({
+            name: 'CBtest',
+            sql: "select count(*) as YSC from MRM_USER_BEAN where CBCH='" + checkBooksID[currentBookIndex] + "' and ZTSCCG=1"
+        });
+        var ret = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'update MRM_BOOKS_BEAN set YC="' + userdata_YC.data[0].YC + '", WC="' + userdata_WC.data[0].WC + '", YSC="' + userdata_YSC.data[0].YSC + '" where CBCH="' + checkBooksID[currentBookIndex] + '"'
+        });
+    }
+
+    //上传其它数据
+    function uploadOthers() {
+        mPageNo = 1;
+        for (var i = 0; i < otherList.length; i++) {
+            if (otherList[i] == JWD) {
+                if (step < JWD) {
+                    updateAdilogData("正在上传水表位置", "正在上传水表位置,请稍后...", 0);
+                    newqbJWD = chunkArrayInGroups(newqbJWD, mPageSize);
+                    uploadJWD();
+                    return;
+                }
+            } else if (otherList[i] == PHOTO) {
+                if (step < PHOTO) {
+                    updateAdilogData("正在上传照片", "正在上传照片,请稍后...", 0);
+                    //qbPhoto = chunkArrayInGroups(qbPhoto, mPageSize);
+                    uploadPhoto();
+                    return;
+                }
+            } else if (otherList[i] == LOCATION) {
+                if (step < LOCATION) {
+                    updateAdilogData("正在上传抄表员轨迹", "正在上传抄表员轨迹,请稍后...", 0);
+                    newqbLocation = chunkArrayInGroups(newqbLocation, mPageSize);
+                    uploadLocation();
+                    return;
+                }
+            } else if (otherList[i] == NAVIPHOTO) {
+                if (step < NAVIPHOTO) {
+                    updateAdilogData("正在上传导航图片", "正在上传导航图片,请稍后...", 0);
+                    //qbNavi = chunkArrayInGroups(qbNavi, mPageSize);
+                    uploadNaviPhoto();
+                    return;
+                }
+            } else if (otherList[i] == LOG) {
+                if (step < LOG) {
+                    updateAdilogData("正在上传日志", "正在上传日志,请稍后...", 0);
+                    newqbLog = chunkArrayInGroups(newqbLog, mPageSize);
+                    uploadLog();
+                    return;
+                }
+            } else if (otherList[i] == MEMO) {
+                if (step < MEMO) {
+                    updateAdilogData("正在上传备忘录", "正在上传备忘录,请稍后...", 0);
+                    newqbmemo = chunkArrayInGroups(newqbmemo, mPageSize);
+                    uploadMemo();
+                    return;
+                }
+            }
+        }
+
+        currentBookIndex = 0;
+        //关闭进度条
+        var UIActionProgress = api.require('UIActionProgress');
+        UIActionProgress.close();
+
+        //重新刷新页面
+        resetOtherQueryBuilder();
+        initListView();
+    }
+
+    //上传水表经纬度
+    function uploadJWD() {
+        //获取当前上传的抄表数据。
+        jwdList = newqbJWD[mPageNo - 1];
+        var records = [];
+        for (var i = 0; i < jwdList.length; i++) {
+            var user = {
+                "JD": jwdList[i].JD,
+                "WD": jwdList[i].WD,
+                "YHBH": jwdList[i].YHBH
+            }
+            records.push(user);
+        }
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "",
+            "Type": "221",
+            "Records": records
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    //上传成功
+                    var db = api.require('db');
+                    for (var i = 0; i < jwdList.length; i++) {
+                        var ret = db.executeSqlSync({
+                            name: 'CBtest',
+                            sql: 'update MRM_METER_LOCATION_BEAN set SFGX=1 where _id="' + jwdList[i]._id + '"'
+                        });
+                    }
+
+                    if (mPageNo == newqbJWD.length) {
+                        //已上传完
+                        step = JWD;
+                        insertRecords(OperateID, "抄表定位", "上传定位数据成功");
+                        uploadOthers();
+                    } else {
+                        var value = GetPercent((mPageNo - 1) * mPageSize + jwdList.length, qbJWD.length);
+                        updateAdilogData("正在上传水表位置", "正在上传水表位置,请稍后...", value);
+                        //未上传完
+                        mPageNo++;
+                        uploadJWD();
+                    }
+                } else {
+                    //上传失败
+                    insertRecords(OperateID, "抄表定位", "上传定位数据失败");
+                    insertRecords(OperateID, "msg", ret.Message);
+                    if (mPageNo == newqbJWD.length) {
+                        //已上传完
+                        step = JWD;
+                        uploadOthers();
+                    } else {
+                        var value = GetPercent((mPageNo - 1) * mPageSize + jwdList.length, qbJWD.length);
+                        updateAdilogData("正在上传水表位置", "正在上传水表位置,请稍后...", value);
+                        //未上传完
+                        mPageNo++;
+                        uploadJWD();
+                    }
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err.msg)
+                });
+            }
+        })
+    }
+
+    //上传照片
+    function uploadPhoto() {
+        //获取当前上传的抄表数据。
+        photoList = newqbPhoto[mPageNo - 1];
+        var PhotoInfo = "";
+        var trans = api.require('trans');
+        trans.decodeImgToBase64({
+            imgPath: photoList.ZPLJ
+        }, function(ret, err) {
+            if (ret.status) {
+                PhotoInfo = ret.base64Str;
+                var Parameter;
+                if (photoList.NotLoction == 0) {
+                    Parameter = {
+                        "ClientId": api.deviceId,
+                        "ClientName": api.deviceModel,
+                        "OperatorId": $api.getStorage('cbOperatorId'),
+                        "OperatorName": $api.getStorage('cbOperatorName'),
+                        "Yhbh": photoList.YHBH,
+                        "PhotoName": photoList.ZPMC,
+                        "PhotoType": "1",
+                        "Longitude": photoList.JD,
+                        "Latitude": photoList.WD,
+                        "OrderNo": "",
+                        "Errtype": "",
+                        "Remark": "",
+                        "Type": "302",
+                        "PhotoInfo": PhotoInfo
+                    };
+                } else if (photoList.NotLoction == 1) {
+                    Parameter = {
+                        "ClientId": api.deviceId,
+                        "ClientName": api.deviceModel,
+                        "OperatorId": $api.getStorage('cbOperatorId'),
+                        "OperatorName": $api.getStorage('cbOperatorName'),
+                        "Yhbh": photoList.YHBH,
+                        "PhotoName": photoList.ZPMC,
+                        "PhotoType": "4",
+                        "Longitude": photoList.JD,
+                        "Latitude": photoList.WD,
+                        "OrderNo": "",
+                        "Errtype": "",
+                        "Remark": "",
+                        "Type": "302",
+                        "PhotoInfo": PhotoInfo
+                    };
+                }
+
+                var body = {
+                    body: JSON.stringify({
+                        "UserName": $api.getStorage('cbOperatorName'),
+                        "Password": $api.getStorage('cbPassword'),
+                        "SerialNo": dataTime(),
+                        "Method": "R999",
+                        "Parameter": JSON.stringify(Parameter)
+                    })
+                }
+                console.log(body.body);
+                fnPost('', body, 'application/json', false, function(ret, err) {
+                    if (ret) {
+                        if (ret.Status == 0) {
+                            //上传成功
+                            var db = api.require('db');
+                            /*
+                            for (var i = 0; i < photoList.length; i++) {
+                                var ret = db.executeSqlSync({
+                                    name: 'mrm',
+                                    sql: 'update MRM_PHOTOS_BEAN set SFSC=1 where _id="' + photoList._id + '"'
+                                });
+                            }
+                            */
+                            var ret = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: 'update MRM_PHOTOS_BEAN set SFSC=1 where _id="' + photoList._id + '"'
+                            });
+
+                            if (mPageNo == newqbPhoto.length) {
+                                //已上传完
+                                step = PHOTO;
+                                insertRecords(OperateID, "抄表照片", "上传抄表照片成功");
+                                uploadOthers();
+                            } else {
+                                var value = GetPercent((mPageNo - 1) + 1, qbPhoto.length);
+                                updateAdilogData("正在上传照片", "正在上传照片,请稍后...", value);
+                                //未上传完
+                                mPageNo++;
+                                uploadPhoto();
+                            }
+                        } else {
+                            //上传失败
+                            insertRecords(OperateID, "抄表照片", "上传抄表照片失败");
+                            insertRecords(OperateID, "msg", ret.Message);
+                            if (mPageNo == newqbPhoto.length) {
+                                //已上传完
+                                step = PHOTO;
+                                uploadOthers();
+                            } else {
+                                var value = GetPercent((mPageNo - 1) + 1, qbPhoto.length);
+                                updateAdilogData("正在上传照片", "正在上传照片,请稍后...", value);
+                                //未上传完
+                                mPageNo++;
+                                uploadPhoto();
+                            }
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err.msg)
+                        });
+                    }
+                })
+            } else {
+                alert(JSON.stringify(err.msg));
+            }
+        });
+    }
+
+    //上传抄表员轨迹
+    function uploadLocation() {
+        //获取当前上传的抄表数据。
+        locationList = newqbLocation[mPageNo - 1];
+        var records = [];
+        for (var i = 0; i < locationList.length; i++) {
+            var user = {
+                "CBY": locationList[i].CBY,
+                "JD": locationList[i].JD,
+                "WD": locationList[i].WD,
+                "DZ": locationList[i].DZ,
+                "CJSJ": locationList[i].CJSJ,
+                "CBCH": "",
+                "YHBH": ""
+            }
+            records.push(user);
+        }
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "",
+            "Type": "205",
+            "Records": records
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    //上传成功
+                    var db = api.require('db');
+                    for (var i = 0; i < locationList.length; i++) {
+                        var ret = db.executeSqlSync({
+                            name: 'CBtest',
+                            sql: 'delete from MRM_LOCATIONS_BEAN where _id="' + locationList[i]._id + '"'
+                        });
+                    }
+
+                    if (mPageNo == newqbLocation.length) {
+                        //已上传完
+                        step = LOCATION;
+                        uploadOthers();
+                    } else {
+                        var value = GetPercent((mPageNo - 1) * mPageSize + locationList.length, qbLocation.length);
+                        updateAdilogData("正在上传抄表员轨迹", "正在上传抄表员轨迹,请稍后...", value);
+                        //未上传完
+                        mPageNo++;
+                        uploadLocation();
+                    }
+                } else {
+                    //上传失败
+                    insertRecords(OperateID, "抄表员轨迹", "上传抄表员轨迹失败");
+                    insertRecords(OperateID, "msg", ret.Message);
+                    if (mPageNo == newqbLocation.length) {
+                        //已上传完
+                        step = LOCATION;
+                        uploadOthers();
+                    } else {
+                        var value = GetPercent((mPageNo - 1) * mPageSize + locationList.length, qbLocation.length);
+                        updateAdilogData("正在上传抄表员轨迹", "正在上传抄表员轨迹,请稍后...", value);
+                        //未上传完
+                        mPageNo++;
+                        uploadLocation();
+                    }
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err.msg)
+                });
+            }
+        })
+    }
+
+    //上传导航图片
+    function uploadNaviPhoto() {
+        //获取当前上传的抄表数据。
+        naviList = newqbNavi[mPageNo - 1];
+        var PhotoInfo = "";
+        var trans = api.require('trans');
+        trans.decodeImgToBase64({
+            imgPath: naviList.ZPLJ
+        }, function(ret, err) {
+            if (ret.status) {
+                PhotoInfo = ret.base64Str;
+                var Parameter = {
+                    "ClientId": api.deviceId,
+                    "ClientName": api.deviceModel,
+                    "OperatorId": $api.getStorage('cbOperatorId'),
+                    "OperatorName": $api.getStorage('cbOperatorName'),
+                    "Yhbh": naviList.YHBH,
+                    "PhotoName": naviList.ZPMC,
+                    "PhotoType": naviList.ZPLX,
+                    "Longitude": naviList.ZPJD,
+                    "Latitude": naviList.ZPWD,
+                    "OrderNo": naviList.ORDERNO,
+                    "Errtype": "",
+                    "Remark": naviList.REMARK,
+                    "Type": "302",
+                    "PhotoInfo": PhotoInfo
+                };
+                var body = {
+                    body: JSON.stringify({
+                        "UserName": $api.getStorage('cbOperatorName'),
+                        "Password": $api.getStorage('cbPassword'),
+                        "SerialNo": dataTime(),
+                        "Method": "R999",
+                        "Parameter": JSON.stringify(Parameter)
+                    })
+                }
+                fnPost('', body, 'application/json', false, function(ret, err) {
+                    if (ret) {
+                        if (ret.Status == 0) {
+                            //上传成功
+                            var db = api.require('db');
+                            /*
+                            for (var i = 0; i < naviList.length; i++) {
+                                var ret = db.executeSqlSync({
+                                    name: 'mrm',
+                                    sql: 'update MRM_NAVIPHOTOS_BEAN set SFSC=1 where _id="' + naviList[i]._id + '"'
+                                });
+                            }
+                            */
+                            var ret = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: 'update MRM_NAVIPHOTOS_BEAN set SFSC=1 where _id="' + naviList._id + '"'
+                            });
+
+                            if (mPageNo == newqbNavi.length) {
+                                //已上传完
+                                step = NAVIPHOTO;
+                                insertRecords(OperateID, "导航图片", "上传导航图片成功");
+                                uploadOthers();
+                            } else {
+                                var value = GetPercent((mPageNo - 1) + 1, qbNavi.length);
+                                updateAdilogData("正在上传导航图片", "正在上传导航图片,请稍后...", value);
+                                //未上传完
+                                mPageNo++;
+                                uploadNaviPhoto();
+                            }
+                        } else {
+                            //上传失败
+                            insertRecords(OperateID, "导航图片", "上传导航图片失败");
+                            insertRecords(OperateID, "msg", ret.Message);
+                            if (mPageNo == newqbNavi.length) {
+                                //已上传完
+                                step = NAVIPHOTO;
+                                uploadOthers();
+                            } else {
+                                var value = GetPercent((mPageNo - 1) + 1, qbNavi.length);
+                                updateAdilogData("正在上传导航图片", "正在上传导航图片,请稍后...", value);
+                                //未上传完
+                                mPageNo++;
+                                uploadNaviPhoto();
+                            }
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err.msg)
+                        });
+                    }
+                })
+            }
+        });
+    }
+
+    //上传日志
+    function uploadLog() {
+        //获取当前上传的抄表数据。
+        logList = newqbLog[mPageNo - 1];
+        var records = [];
+        for (var i = 0; i < logList.length; i++) {
+            var user = {
+                "CBY": logList[i].ID,
+                "EVENT": logList[i].EVENT,
+                "TIME": logList[i].TIME,
+                "INFO": logList[i].INFORMATION
+            }
+            records.push(user);
+        }
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "CheckCode=12345",
+            "Type": "203",
+            "Records": records
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    //上传成功
+                    var db = api.require('db');
+                    for (var i = 0; i < logList.length; i++) {
+                        var ret = db.executeSqlSync({
+                            name: 'CBtest',
+                            sql: 'delete from MRM_LOGS_BEAN where _id="' + logList[i]._id + '"'
+                        });
+                    }
+
+                    if (mPageNo == newqbLog.length) {
+                        //已上传完
+                        step = LOG;
+                        uploadOthers();
+                        //insertRecords(OperateID, "正常上传日志", "成功");
+                    } else {
+                        var value = GetPercent((mPageNo - 1) * mPageSize + logList.length, qbLog.length);
+                        updateAdilogData("正在上传日志", "正在上传日志,请稍后...", value);
+                        //未上传完
+                        mPageNo++;
+                        uploadLog();
+                    }
+                } else {
+                    //上传失败
+                    insertRecords(OperateID, "正常上传日志", "失败");
+                    insertRecords(OperateID, "msg", ret.Message);
+                    if (mPageNo == newqbLog.length) {
+                        //已上传完
+                        step = LOG;
+                        uploadOthers();
+                    } else {
+                        var value = GetPercent((mPageNo - 1) * mPageSize + logList.length, qbLog.length);
+
+                        updateAdilogData("正在上传日志", "正在上传日志,请稍后...", value);
+                        //未上传完
+                        mPageNo++;
+                        uploadLog();
+                    }
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err.msg)
+                });
+            }
+        })
+    }
+
+    //上传备忘录
+    function uploadMemo() {
+        //获取当前上传的抄表数据。
+        memoList = newqbmemo[mPageNo - 1];
+        var records = [];
+        for (var i = 0; i < memoList.length; i++) {
+            var user = {
+                "YHBH": memoList[i].YHBH,
+                "CONTENT": memoList[i].REMARK,
+                "TYPE": "3",
+                "REQUENCY": memoList[i].TXLX,
+                "TIME": memoList[i].TXSJ
+            }
+            records.push(user);
+        }
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "CheckCode=12345",
+            "Type": "237",
+            "Records": records
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    //上传成功
+                    var db = api.require('db');
+                    for (var i = 0; i < memoList.length; i++) {
+                        var ret = db.executeSqlSync({
+                            name: 'CBtest',
+                            sql: "update MRM_THE_MEMO_BEAN set SFSC='1' where _id='" + memoList[i]._id + "'"
+                        });
+                    }
+
+                    if (mPageNo == newqbmemo.length) {
+                        //已上传完
+                        step = MEMO;
+                        uploadOthers();
+                        //insertRecords(OperateID, "正常上传日志", "成功");
+                    } else {
+                        var value = GetPercent((mPageNo - 1) * mPageSize + memoList.length, qbmemo.length);
+                        updateAdilogData("正在上传备忘录", "正在上传备忘录,请稍后...", value);
+                        //未上传完
+                        mPageNo++;
+                        uploadMemo();
+                    }
+                } else {
+                    //上传失败
+                    insertRecords(OperateID, "正常上传备忘录", "失败");
+                    insertRecords(OperateID, "msg", ret.Message);
+                    if (mPageNo == newqbmemo.length) {
+                        //已上传完
+                        step = MEMO;
+                        uploadOthers();
+                    } else {
+                        var value = GetPercent((mPageNo - 1) * mPageSize + memoList.length, qbmemo.length);
+
+                        updateAdilogData("正常上传备忘录", "正常上传备忘录,请稍后...", value);
+                        //未上传完
+                        mPageNo++;
+                        uploadLog();
+                    }
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(err.msg)
+                });
+            }
+        })
+    }
+
+    //将数据分页arr代表数组，size代表每页条数
+    function chunkArrayInGroups(arr, size) {
+        // Break it up.
+        var length = arr.length;
+        var newArr = [];
+        var i = Math.ceil(length / size * 1.0);
+        var j = 0;
+        while (j < i) {
+            var spare = length - j * size >= size ? size : length - j * size;
+            var temp = arr.slice(j * size, j * size + spare);
+            newArr.push(temp);
+            j++;
+        }
+        return newArr;
+    }
+
+    //获取百分比
+    function GetPercent(num, total) {
+        num = parseFloat(num);
+        total = parseFloat(total);
+        if (isNaN(num) || isNaN(total)) {
+            return "-";
+        }
+
+        return total <= 0 ? "0" : (Math.round(num / total * 100) / 100.00);
+    }
+
+    function adilog(title, msg) {
+        var UIActionProgress = api.require('UIActionProgress');
+        UIActionProgress.open({
+            maskBg: 'rgba(0,0,0,0.5)',
+            styles: {
+                h: 150,
+                bg: '#fff',
+                title: {
+                    size: 18,
+                    color: '#000',
+                    marginT: 10
+                },
+                msg: {
+                    size: 15,
+                    color: '#000',
+                    marginT: 10
+                },
+                lable: {
+                    size: 15,
+                    color: '#696969',
+                    marginB: 5
+                },
+                progressBar: {
+                    size: 2,
+                    normal: '#000',
+                    active: '#4876FF',
+                    marginB: 35,
+                    margin: 5
+                }
+            },
+            data: {
+                title: title,
+                msg: msg,
+                value: 0
+            }
+        }, function(ret) {
+
+        });
+    }
+
+    function updateAdilogData(title, msg, value) {
+        var UIActionProgress = api.require('UIActionProgress');
+        UIActionProgress.setData({
+            data: {
+                title: title,
+                msg: msg,
+                value: value * 100
+            }
+        });
+    }
+
+    function insertRecords(id, event, information) {
+        var date = new Date(); //实例一个时间对象；
+        var year = getTime("year"); //获取系统的年；
+        var month = getTime("month"); //获取系统月份，由于月份是从0开始计算，所以要加1
+        var day = getTime("day"); //获取系统日
+        var hour = getTime("hour"); //获取系统时间
+        var minute = getTime("minute"); //分
+        var second = getTime("second"); //秒
+        var time = year + "-" + month + "-" + day + " " + hour + ":" + minute;
+        var db = api.require('db');
+        var ret = db.executeSqlSync({
+            name: 'CBtest',
+            sql: "INSERT INTO MRM_LOGS_BEAN " +
+                "(ID, EVENT, INFORMATION, TIME) VALUES " +
+                "('" + id +
+                "', '" + event +
+                "', '" + information +
+                "', '" + time + "')"
+        });
+    }
+
+    function getTime(type) {
+        var date = new Date()
+        var time = null
+        switch (type) {
+            case 'year':
+                time = date.getFullYear().toString()
+                break
+            case 'month':
+                time = date.getMonth() + 1
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+            case 'day':
+                time = date.getDate()
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+            case 'hour':
+                time = date.getHours()
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+            case 'minute':
+                time = date.getMinutes()
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+            case 'second':
+                time = date.getSeconds()
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+        }
+        return time
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'select': function() {
+            api.openWin({
+                name: 'userUploadError',
+                url: './userUploadError.html',
+                slidBackEnabled: false,
+                animation: {
+                    type: "push",
+                    subType: "from_left",
+                    duration: 300
+                }
+            });
+        }
+    }
+
+    function openError() {
+        api.openWin({
+            name: 'userErrorList',
+            url: './userErrorList.html'
+        });
+    }
+</script>
+
+</html>

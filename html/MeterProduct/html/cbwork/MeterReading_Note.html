@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>备忘录</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/rolldate.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(243, 243, 243.1);
+        }
+
+        .flex-wrap-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+            /*background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));*/
+        }
+
+        .header .aui-pull-left {
+            padding-left: 1.2rem;
+        }
+
+        .header .aui-title {
+            /*font-size: 1.14rem;*/
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .flex-wrap {
+            width: 100%;
+            background: #fff;
+            /*height: 5.85rem;*/
+            background: rgba(243, 243, 243.1);
+            padding-bottom: 1rem;
+        }
+
+        .aui-bar-nav .aui-pull-right {
+            padding-right: 0.7rem;
+        }
+
+        .aui-btn>img {
+            max-width: 80%;
+        }
+
+        .content {
+            flex: 1;
+            margin-top: 3.5rem;
+            margin-bottom: 50px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .content .aui-list {
+            width: 100%;
+            background-image: none;
+            width: 92vw;
+            background: #fff;
+            /*box-shadow: 0rem 0.3rem 0.5rem 0rem rgba(227, 227, 227, 0.68);*/
+            /*border-radius: 0.6rem;*/
+            margin: 0.55rem 0.7rem 0.5rem 0.75rem;
+        }
+        /*.content .aui-list.aui-list-in .aui-list-item {
+      background-image: linear-gradient(0, #eee, #eee 50%, transparent 50%);
+      background-image: -webkit-linear-gradient(90deg, #eee, #eee 50%, transparent 50%);
+  }*/
+
+        .content .aui-list .aui-list-header {
+            height: 2.1rem;
+            font-size: 0.9rem;
+            font-family: PingFangSC-Medium;
+            font-weight: 500;
+            color: #333;
+            background: #fff;
+            border-radius: 0.6rem 0.6rem 0 0;
+        }
+
+        .list-item {
+            padding-left: 1rem;
+        }
+
+        .aui-list-item-input {
+            border-bottom: 1px solid rgba(210, 210, 210, 1);
+        }
+
+        .content .list-item .aui-list-item-inner .aui-list-item-input input {
+            font-size: 1rem;
+            color: #999;
+            font-family: PingFangSC-Regular;
+            font-weight: 400;
+            padding: none!important;
+            display: block;
+            padding-left: 0.6rem;
+        }
+
+        .CodeScanningpostion {
+            position: relative;
+        }
+
+        .CodeScanning {
+            position: absolute;
+            right: 0.5rem;
+            top: 0.38rem;
+        }
+
+        .content .aui-list .aui-list-item-label {
+            width: 28%;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(35, 35, 35, 1);
+            line-height: 2rem;
+        }
+
+        .content .aui-list-header:before {
+            content: '';
+            width: 0.2rem;
+            height: 1rem;
+            background: #574DF2;
+            display: inline-block;
+            position: absolute;
+            top: 1.1rem;
+        }
+
+        .content .content-title {
+            margin-left: 0.5rem;
+            width: 5.5rem;
+            height: 1.25rem;
+        }
+
+        .AddMemoBox {
+            width: auto;
+            height: auto;
+        }
+
+        .AddMemoBox>.AddMemo {
+            position: relative;
+            left: 2.4rem;
+        }
+
+        .AddMemoBox>.AddMemo img {
+            max-width: 45%;
+            display: block;
+        }
+
+        .beiwanglu {
+            width: 92%;
+            margin: 0rem 0.7rem 0.5rem 0.9rem;
+            border: 1px solid rgba(217, 217, 217, 1);
+            overflow: hidden;
+            height: 30vh;
+        }
+
+        .beiwanglu>ul {
+            width: 90%;
+            height: auto;
+            overflow: hidden;
+            box-sizing: border-box;
+            margin: 0 auto;
+            margin-top: 0.5rem;
+        }
+
+        .beiwanglu>ul>.list-item {
+            padding-left: 0rem!important;
+            width: 100%;
+        }
+
+        .content .aui-list .Remarktext-content .Remarktext-box {
+            border: 1px solid rgba(217, 217, 217, 1);
+            /*margin-right: 0.75rem;*/
+        }
+
+        .content .beiwanglu img {
+            max-width: 20%;
+        }
+
+        .content .beiwanglu .Remarktext-box label {
+            margin-bottom: 0.6rem;
+        }
+
+        .content .beiwanglu .Remarktext-box .dataTime {
+            width: 65%!important;
+            /*visibility: hidden;*/
+            /*background: pink;*/
+            border-bottom: 1px solid rgba(217, 217, 217, 1);
+            height: 2rem;
+            position: relative;
+        }
+
+        .content .beiwanglu .Remarktext-box .dataTime .dianji:before {
+            content: '';
+            width: 0.6rem;
+            height: 0.6rem;
+            position: absolute;
+            top: 40%;
+            right: 0;
+            background: transparent;
+            border: 1px solid rgba(55, 126, 255, 1);
+            border-top: none;
+            border-right: none;
+            z-index: 2;
+            -webkit-border-radius: 0;
+            border-radius: 0;
+            -webkit-transform: rotate(315deg);
+            transform: rotate(315deg);
+        }
+
+        footer {
+            position: flex;
+            bottom: 2rem;
+        }
+
+        .footer .Allsave {
+            width: 100%;
+            margin: 0 0.25rem;
+        }
+
+        .footer .Allsave>div:active {
+            background: rgba(55, 126, 255, 0.4);
+        }
+
+        .footer .Allsave>div {
+            margin: 0 auto;
+            width: 70%;
+            border-radius: 0.5rem;
+            line-height: 2rem;
+            text-align: center;
+            padding-top: 0.3rem;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            background: #40aaf8;
+            border-radius: 1rem;
+            color: #fff;
+        }
+
+        .bwl {
+            margin-left: 1.75rem;
+            margin-right: 1.75rem;
+            font-size: 1rem;
+            display: flex;
+        }
+
+        .bwl_dv1 {
+            flex: 1px;
+        }
+
+        .bwl_dv2 img {
+            width: 25px;
+            height: 25px;
+        }
+
+        .bwl2 {
+            margin-top: 10px;
+            border: 1px solid #D9D9D9;
+            border-radius: 15px;
+        }
+
+        .bwl3 {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .bwl_text {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .deleteImg {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            right: 15px;
+            bottom: 15px;
+        }
+
+        .bwl3 div {
+            flex: 1;
+        }
+
+        .textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+        }
+
+        .dv {
+            margin-left: 1.75rem;
+            margin-right: 1.75rem;
+        }
+
+        .dv2 {
+            border: 1px solid #D9D9D9;
+            border-radius: 15px;
+            margin-left: 1.75rem;
+            margin-right: 1.75rem;
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #F5F5F5;
+            font-size: 18px;
+        }
+
+        .bwl3 {
+            color: #555555;
+        }
+
+        .bwl4 {
+            color: #B7B7B7;
+            display: flex;
+        }
+
+        .bw4_dv1 {
+            flex: 1px;
+        }
+
+        .bw4_dv2 img {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap-box flex-vertical">
+        <header class="aui-bar aui-bar-nav header" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">备忘录</div>
+        </header>
+
+        <div class="content" id="content">
+            <div class="bwl" style="padding-top:1rem;">
+                <div class="bwl_dv1">备忘录</div>
+                <div class="bwl_dv2"><img src="../../image/MeteReading/tupian/zengjia.png" onclick="openpath()"></img>
+                </div>
+            </div>
+
+            <div id="center_bottom">
+
+            </div>
+        </div>
+
+        <footer class="footer">
+            <div class="Allsave" tapmode data-action="saveNoteData">
+                <div>保存</div>
+            </div>
+        </footer>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../script/rolldateMin.js"></script>
+<script type="text/template" id='bookList'>
+    {{each datas value i}}
+    <div class="dv2" id="dv2_id{{value._id}}">
+        <div class="bwl3">
+            {{value.REMARK}}
+        </div>
+        <div class="bwl4">
+            {{if value.TXLX == 3}}
+            <div class="bw4_dv1">{{value.TXLXMC}}：{{value.TXSJ}}</div>
+            {{else}}
+            <div class="bw4_dv1">{{value.TXLXMC}}</div>
+            {{/if}}
+            <div class="bw4_dv2"><img src="../../image/MeteReading/tupian/shanchu.png" onclick="deletepath({{value._id}})"></img>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var dataList, db, headerH, LoginName;
+    var TheMemos = []; //手机数据库中的备忘录的数量
+    var TXLX = 1;
+    var bwls = 1; //代表页面上备忘录的数量
+    var TXLXS = ["0"]; //选择的备忘录提示方式
+    var TXLXMCS = [""]; //选择的备忘录提示方式的名称
+    var datetimes = ["0"];
+    var onlinebeans = [];
+    apiready = function() {
+        db = api.require("db");
+        LoginName = $api.getStorage('loginData').userName;
+        var header = $api.byId('header');
+        var footer = $api.byId('footer');
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        // 计算header和tab元素的高度
+        headerH = $api.offset(header).h;
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        $api.fixTabBar(footer);
+
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_ONLINE_BEAN where TYPEID="BWLTX"'
+        });
+        console.log(JSON.stringify(ret))
+        onlinebeans = ret.data;
+        queryTheMemo();
+    }
+
+    var actionList = {
+            'back': function() {
+                api.closeWin()
+            },
+            'saveNoteData': function() {
+                update();
+            }
+        }
+        // TimeIni('SurveyTime');
+        // function TimeIni(inputId) {
+        //     new rolldate.Date({
+        //         el: '#' + inputId,
+        //         format: 'YYYY-MM-DD',
+        //         beginYear: 2000,
+        //         endYear: 2100,
+        //         tapBefore: function(el) {
+        //             //console.log('插件开始触发');
+        //         },
+        //         moveEnd: function(el, iscroll) {
+        //             //console.log('滚动结束');
+        //         },
+        //         confirmBefore: function(el, date) {
+        //             //console.log('确定按钮触发');
+        //         },
+        //         confirmEnd: function(el, date) {
+        //
+        //         }
+        //     })
+        // }
+    function queryTheMemo() {
+        var db = api.require('db');
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_THE_MEMO_BEAN where YHBH="' + api.pageParam.YHBH + '"'
+        });
+        console.log(JSON.stringify(ret))
+        if (ret.data.length > 0) {
+            TheMemos = ret.data;
+
+            var datas = {
+                datas: ret.data
+            }
+
+            var str = template('bookList', datas);
+            //console.log(JSON.stringify(str));
+            $('#center_bottom div').remove();
+            $('#center_bottom').append(str);
+            fnReadyOpenWin();
+            bwls = 0;
+        } else {
+            var div = "";
+            for (var i = 0; i < onlinebeans.length; i++) {
+                var ID = onlinebeans[i].ID;
+                var NAME = onlinebeans[i].NAME;
+                div += '<div class="dv3_lx"><input type="checkbox" class="aui-checkbox aui-checkbox-1" id="dv1_checkbox-' + ID + '" onclick="setAllNo(1,' + ID + ')" value="' + NAME + '" />' + NAME + '</div>'
+            }
+            var html = '<div class="dv" id="dv' + bwls + '">' +
+                '<div class="bwl2">' +
+                '<textarea class="textarea" placeholder="请输入内容" id="dv' + bwls + '_BWL"></textarea>' +
+                '<div style="display:flex;">' +
+                '<div style="flex:1;"></div>' +
+                '<img style="width:20px;height:20px;margin-right:10px;margin-bottom:5px;" src="../../image/MeteReading/tupian/shanchu.png" onclick="deletebwl(' + bwls + ')"></img>' +
+                '</div>' +
+                '</div>' +
+                '<div class="bwl3">' +
+                div +
+                '</div>' +
+                '</div>';
+            $('#center_bottom div').remove();
+            $('#center_bottom').append(html);
+            fnReadyOpenWin();
+        }
+    }
+
+    //修改或添加备忘录
+    function update() {
+        console.log(123);
+        for (var i = 0; i < bwls; i++) {
+            var bwl = $("#dv" + (i + 1) + "_BWL").val();
+            if (bwl == null || bwl == "") {
+                api.toast({
+                    msg: '请输入内容',
+                    duration: 2000,
+                    location: 'middle'
+                });
+                continue;
+            }
+            if (TXLXS[i] == 0) {
+                api.toast({
+                    msg: '请选择提醒方式',
+                    duration: 2000,
+                    location: 'middle'
+                });
+                continue;
+            }
+            //新增操作
+            var ret = db.executeSqlSync({
+                name: 'CBtest',
+                sql: "INSERT INTO MRM_THE_MEMO_BEAN " +
+                    "(userName, YHBH, REMARK, TXLX, TXLXMC, TXSJ, SFTX, SFSC) VALUES " +
+                    "('" + LoginName +
+                    "', '" + api.pageParam.YHBH +
+                    "', '" + bwl +
+                    "', '" + TXLXS[i] +
+                    "', '" + TXLXMCS[i] +
+                    "', '" + datetimes[i] + "', '0', '0')"
+            });
+        }
+
+        var theMemoBeans = [];
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_THE_MEMO_BEAN where YHBH="' + api.pageParam.YHBH + '" and SFSC="0"'
+        });
+        if (ret.data.length > 0) {
+            theMemoBeans = ret.data;
+            var records = [];
+            for (var i = 0; i < theMemoBeans.length; i++) {
+                var user = {
+                    "YHBH": theMemoBeans[i].YHBH,
+                    "CONTENT": theMemoBeans[i].REMARK,
+                    "TYPE": "3",
+                    "REQUENCY": theMemoBeans[i].TXLX,
+                    "TIME": theMemoBeans[i].TXSJ
+                }
+                records.push(user);
+            }
+            var Parameter = {
+                "ClientId": api.deviceId,
+                "ClientName": api.deviceModel,
+                "OperatorId": $api.getStorage('cbOperatorId'),
+                "OperatorName": $api.getStorage('cbOperatorName'),
+                "Required": "CheckCode=12345",
+                "Type": "237",
+                "Records": records
+            };
+            var body = {
+                body: JSON.stringify({
+                    "UserName": $api.getStorage('cbOperatorName'),
+                    "Password": $api.getStorage('cbPassword'),
+                    "SerialNo": dataTime(),
+                    "Method": "R999",
+                    "Parameter": JSON.stringify(Parameter)
+                })
+            }
+            fnPost('', body, 'application/json', false, function(ret, err) {
+                if (ret) {
+                    if (ret.Status == 0) {
+                        //上传成功
+                        for (var i = 0; i < theMemoBeans.length; i++) {
+                            var ret = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: "update MRM_THE_MEMO_BEAN set SFSC='1' where _id='" + theMemoBeans[i]._id + "' AND userName='" + LoginName + "'"
+                            });
+                            var ret = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: "INSERT INTO MRM_THE_MEMO_BEAN2 " +
+                                    "(CBCH, YHBH, REMARK, TXSJ,userName, TXLX) VALUES " +
+                                    "('" + api.pageParam.CBCH + "', '" + theMemoBeans[i].YHBH + "', '" + theMemoBeans[i].REMARK + "', '" + theMemoBeans[i].TXSJ + "', '" + LoginName + "', '" + theMemoBeans[i].TXLX + "')"
+                            });
+                        }
+                        api.sendEvent({
+                            name: 'refreshMemorandum'
+                        });
+                    } else {
+                        //上传失败
+
+                    }
+                } else {
+
+                }
+                queryTheMemo();
+            })
+        }
+    }
+
+    //选择提醒类型
+    function setAllNo(type, index) {
+        if (index == 3) {
+            TXLXS[type - 1] = 0;
+            var myDate = new Date();
+            var nowTime = myDate.getFullYear() + "-" + ((myDate.getMonth() + 1) < 10 ? "0" + (myDate.getMonth() + 1) : (myDate.getMonth() + 1)) + "-" + (myDate.getDate() < 10 ? "0" + (myDate.getDate()) : (myDate.getDate()));
+            var selectTime = '';
+            if (datetimes[type - 1] == '0') {
+                selectTime = nowTime;
+            } else {
+                selectTime = datetimes[type - 1];
+            }
+            api.openPicker({
+                type: 'date_time',
+                date: selectTime,
+                title: '选择时间'
+            }, function(ret, err) {
+                if (ret) {
+
+                    var month = "";
+                    if (ret.month < 10) {
+                        month = "0" + ret.month
+                    } else {
+                        month = ret.month
+                    }
+                    var day = "";
+                    if (ret.day < 10) {
+                        day = "0" + ret.day
+                    } else {
+                        day = ret.day
+                    }
+                    var datetime = ret.year + "-" + month + "-" + day
+
+                    for (var i = 0; i < onlinebeans.length; i++) {
+                        if (onlinebeans[i].ID == index) {
+                            $('#dv' + type + '_checkbox-' + onlinebeans[i].ID).prop("checked", true);
+                        } else {
+                            $('#dv' + type + '_checkbox-' + onlinebeans[i].ID).prop("checked", false);
+                        }
+                    }
+
+                    TXLX = index;
+                    TXLXS[type - 1] = index;
+                    TXLXMCS[type - 1] = $('#dv' + type + '_checkbox-' + index).val();
+                    datetimes[type - 1] = datetime;
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+        } else {
+            for (var i = 0; i < onlinebeans.length; i++) {
+                if (onlinebeans[i].ID == index) {
+                    $('#dv' + type + '_checkbox-' + onlinebeans[i].ID).prop("checked", true);
+                } else {
+                    $('#dv' + type + '_checkbox-' + onlinebeans[i].ID).prop("checked", false);
+                }
+            }
+            TXLX = index;
+            TXLXS[type - 1] = index;
+            TXLXMCS[type - 1] = $('#dv' + type + '_checkbox-' + index).val();
+            datetimes[type - 1] = "";
+        }
+    }
+
+    function openpath() {
+        bwls++;
+        var div = "";
+        for (var i = 0; i < onlinebeans.length; i++) {
+            var ID = onlinebeans[i].ID;
+            var NAME = onlinebeans[i].NAME;
+            div += '<div class="dv3_lx"><input type="checkbox" class="aui-checkbox aui-checkbox-1" id="dv' + bwls + '_checkbox-' + ID + '" onclick="setAllNo(' + bwls + ',' + ID + ')" value="' + NAME + '" />' + NAME + '</div>';
+        }
+        var html = '<div class="dv" id="dv' + bwls + '">' +
+            '<div class="bwl2">' +
+            '<textarea class="textarea" placeholder="请输入内容" id="dv' + bwls + '_BWL"></textarea>' +
+            '<div style="display:flex;">' +
+            '<div style="flex:1;"></div>' +
+            '<img style="width:20px;height:20px;margin-right:10px;margin-bottom:5px;" src="../../image/MeteReading/tupian/shanchu.png" onclick="deletebwl(' + bwls + ')"></img>' +
+            '</div>' +
+            '</div>' +
+            '<div class="bwl3">' +
+            div +
+            '</div>' +
+            '</div>';
+
+        $('#center_bottom').append(html);
+        fnReadyOpenWin();
+        TXLXS.push("0");
+    }
+
+    function deletebwl(divId) {
+        api.confirm({
+            title: '提示',
+            msg: '确定删除这条备忘录?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index == 1) {
+                $('#dv' + divId).remove();
+                fnReadyOpenWin();
+            }
+        });
+    }
+
+    function deletepath(id) {
+        api.confirm({
+            title: '提示',
+            msg: '确定删除这条备忘录?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index == 1) {
+                var thedata = db.executeSqlSync({
+                    name: 'CBtest',
+                    sql: 'delete from MRM_THE_MEMO_BEAN where _id="' + id + '"'
+                });
+                if (thedata.status) {
+                    $('#dv2_id' + id + '').remove();
+                    fnReadyOpenWin();
+                }
+            }
+        });
+
+    }
+</script>
+
+</html>

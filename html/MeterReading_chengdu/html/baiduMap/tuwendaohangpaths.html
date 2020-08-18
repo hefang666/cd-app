@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui-slide.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #F3F3FF;
+        }
+
+        #header {
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">图文导航</div>
+    </header>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+    var pathH;
+
+    var pageParam;
+    var paths = [];
+    var captions = [];
+    var LoginName = "";
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        LoginName = $api.getStorage('loginData').userName;
+        var body = $api.byId('bd');
+        bodyH = $api.offset(body).h;
+        bodyW = $api.offset(body).w;
+        pathH = bodyH / 3;
+
+        pageParam = api.pageParam;
+        paths = pageParam.paths;
+        captions = pageParam.captions;
+        show();
+    };
+
+    function show() {
+        var UIScrollPicture = api.require('UIScrollPicture');
+        UIScrollPicture.open({
+            rect: {
+                x: 0,
+                y: headerH,
+                w: bodyW,
+                h: bodyH - headerH
+            },
+            data: {
+                paths: paths,
+                captions: captions
+            },
+            styles: {
+                caption: {
+                    height: 35,
+                    color: '#E0FFFF',
+                    size: 15,
+                    bgColor: '#696969',
+                    position: 'overlay',
+                    alignment: 'center'
+                },
+                indicator: {
+
+                    align: 'center',
+                    color: '#FFFFFF',
+                    activeColor: '#DA70D6'
+                }
+            },
+            placeholderImg: '../../image/MeteReading/tupian/zhaopian.png',
+            auto: false,
+            contentMode: 'scaleToFill',
+            interval: 3,
+            fixedOn: api.frameName,
+            loop: true,
+            fixed: false
+        }, function(ret, err) {
+            if (ret) {
+                //alert(JSON.stringify(ret));
+            } else {
+                //alert(JSON.stringify(err));
+            }
+        });
+    }
+
+    var actionList = {
+        'back': function() {
+            var UIScrollPicture = api.require('UIScrollPicture');
+            UIScrollPicture.close();
+            api.closeWin();
+        }
+    }
+</script>
+
+</html>

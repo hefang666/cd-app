@@ -1,0 +1,813 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>下载用户</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            background-color: #f5f5f5;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+        }
+
+        #center {
+            flex: 1;
+            margin-bottom: 80px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        #footer {
+            width: 100%;
+            height: 60px;
+            position: fixed;
+            bottom: 0;
+            border-top: 0.5px solid #9e9e9e;
+            background: #fff;
+        }
+
+        .footer_img {
+            max-width: 45%;
+            margin: auto auto;
+        }
+
+        .footer_img2 {
+            max-width: 55%;
+            margin: auto auto;
+        }
+
+        .flex-wrap-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+            background: #f5f5f5;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        .header .aui-pull-left {
+            padding-left: 1.2rem;
+        }
+
+        .header .aui-title {
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .flex-wrap {
+            width: 100%;
+            background: #fff;
+            /*height: 5.85rem;*/
+            background: rgba(243, 243, 243.1);
+            padding-bottom: 1rem;
+        }
+
+        .aui-bar-nav .aui-pull-right {
+            padding-right: 0.7rem;
+        }
+
+        .aui-btn>img {
+            max-width: 80%;
+        }
+
+        .content {
+            flex: 1;
+            margin-top: 3.5rem;
+            margin-bottom: 50px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+        }
+
+        .contentBox {
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .contentBox .dv_right {
+            margin: auto;
+            width: 100%;
+            box-sizing: border-box;
+            padding-left: 3%;
+            padding-right: 3%;
+            display: block;
+            background: #fff;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .contentBox .dv_right::before {
+            display: table;
+            content: "";
+        }
+
+        .contentBox .dv_right::after {
+            display: table;
+            content: "";
+            clear: both;
+        }
+
+        .contentBox .dv_right .dv_1_icon {
+            float: left;
+            width: 15%;
+            /*padding-top: 0.5rem;*/
+        }
+
+        .contentBox .dv_right .dv_1_icon img {
+            max-width: 80%;
+            margin-top: 0.4rem;
+        }
+
+        .contentBox .dv_right .dv_1_text {
+            position: relative;
+            overflow: hidden;
+            width: 85%;
+            float: right;
+        }
+
+        .contentBox .dv_right .dv_1_text .text1 {
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .contentBox .dv_right .dv_1_text .textBox {
+            display: block;
+        }
+
+        .contentBox .dv_right .dv_1_text .textBox .text2 {
+            float: left;
+            padding-right: 0.5rem;
+            color: #666666;
+        }
+
+        .contentBox .dv_right .dv_1_text .textBox .text2 span {
+            font-size: 15px;
+            color: #666666;
+        }
+
+        .contentBox .dv_right .dv_1_text .checkbox {
+            position: absolute;
+            top: 1rem;
+            right: 0rem;
+            width: 1.2rem;
+            height: 1.2rem;
+        }
+
+        .orange {
+            color: orange;
+        }
+
+        .dv {
+            margin-left: 0.5rem;
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
+            height: 3.5rem;
+            display: flex;
+            background-color: #ffffff;
+        }
+
+        .dv_left {
+            height: 100%;
+            width: 2.6rem;
+        }
+
+        .dv_left img {
+            max-width: 80%;
+            margin-left: 10%;
+            margin-top: 30%;
+        }
+
+        .dv_center {
+            height: 100%;
+            flex: 1;
+            margin-right: 0.5rem;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv_center1 {
+            height: 1.3rem;
+            margin-top: 0.5rem;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv_center2 {
+            display: flex;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv_center2_text {
+            color: #666666;
+        }
+
+        .textleft {
+            margin-left: 0.25rem;
+        }
+
+        .dv_right {
+            height: 100%;
+            width: 1.75rem;
+        }
+
+        .aui-checkbox {
+            margin-top: 1.15rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">下载用户</div>
+        <!-- <div class="aui-pull-right aui-btn" tapmode data-action="back">
+            <img src="../../image/MeteReading/cbdatiles/yonghuxiangqing-copy.png" style="width:1.2rem;height:1.2rem" alt="">
+        </div> -->
+    </header>
+
+    <div id="center">
+        <!-- <div class="contentBox">
+            <div class="dv_right">
+                <div class="dv_1 dv_1_icon">
+                    <img src="../../image/MeteReading/drawable-hdpi/loadusers.png" alt="" class="icon">
+                </div>
+                <div class="dv_1 dv_1_text">
+                    <div class="text1">文景新村</div>
+                    <div class="textBox">
+                        <div class="text2"><span>已超</span><span>123</span></div>
+                        <div class="text2"><span>未抄</span><span>123</span></div>
+                        <div class="text2"><span>已上传</span><span>123</span></div>
+                        <div class="text2 checkbox"><input class="aui-checkbox sonCheckBox" type="checkbox" name="demo1" value="{{value.CBCH}}"></div>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+        <!-- <div class="dv">
+            <div class="dv_left">
+                <img src="../../image/MeteReading/drawable-hdpi/loadusers.png" alt="" class="icon">
+            </div>
+            <div class="dv_center">
+                <div class="dv_center1">文景新村</div>
+                <div class="dv_center2">
+                    <div class="dv_center2_text">
+                      已超123
+                    </div>
+                    <div class="dv_center2_text textleft">
+                      未抄123
+                    </div>
+                    <div class="dv_center2_text textleft">
+                      已上传123
+                    </div>
+                </div>
+            </div>
+            <div class="dv_right">
+                <input class="aui-checkbox" type="checkbox" name="demo1" value="{{value.CBCH}}">
+            </div>
+        </div> -->
+    </div>
+
+    <footer class="footer aui-bar aui-bar-tab" id="footer">
+        <div class="aui-bar-tab-item" onclick="checkAll(this)">
+            <img src="../../image/MeteReading/drawable-hdpi/allload1.png" class="footer_img2">
+        </div>
+        <div class="aui-bar-tab-item" onclick="userDownLoad(1)">
+            <img src="../../image/MeteReading/drawable-hdpi/addload.png" class="footer_img">
+        </div>
+        <div class="aui-bar-tab-item" onclick="userDownLoad(2)">
+            <img src="../../image/MeteReading/drawable-hdpi/overload.png" class="footer_img">
+        </div>
+    </footer>
+</body>
+
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/template" id="bookList">
+    {{each list value i}}
+    <!-- <div class="contentBox">
+        <div class="dv_right">
+            <div class="dv_1 dv_1_icon">
+                <img src="../../image/MeteReading/drawable-hdpi/loadusers.png" alt="" class="icon">
+            </div>
+            <div class="dv_1 dv_1_text">
+                {{if value.YXZ > 0}}
+                <div class="text1 orange">{{value.CBCMC}}({{value.BBCYHZS}})</div>
+                {{else}}
+                <div class="text1">{{value.CBCMC}}({{value.BBCYHZS}})</div>
+                {{/if}}
+
+                <div class="textBox">
+                    <div class="text2"><span>已抄</span><span>{{value.YC}}</span></div>
+                    <div class="text2"><span>已上传</span><span>{{value.YSC}}</span></div>
+                    <div class="text2"><span>已下载</span><span>{{value.YXZ}}</span></div>
+                    <div class="text2 checkbox"><input class="aui-checkbox sonCheckBox" type="checkbox" name="demo1" value="{{value.CBCH}}"></div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="dv">
+        <div class="dv_left">
+            <img src="../../image/MeteReading/drawable-hdpi/loadusers.png" alt="" class="icon">
+        </div>
+        <div class="dv_center">
+            {{if value.YXZ > 0}}
+            <div class="dv_center1 orange">{{value.CBCMC}}({{value.BBCYHZS}})</div>
+            {{else}}
+            <div class="dv_center1">{{value.CBCMC}}({{value.BBCYHZS}})</div>
+            {{/if}}
+            <div class="dv_center2">
+                <div class="dv_center2_text">
+                    已超{{value.YC}}
+                </div>
+                <div class="dv_center2_text textleft">
+                    已上传{{value.YSC}}
+                </div>
+                <div class="dv_center2_text textleft">
+                    已下载{{value.YXZ}}
+                </div>
+            </div>
+        </div>
+        <div class="dv_right">
+            <input class="aui-checkbox" type="checkbox" name="demo1" value="{{value.CBCH}}">
+        </div>
+    </div>
+    {{/each}}
+
+</script>
+<script type="text/javascript">
+    var db;
+    var day; //计划日
+    var bookList = []; //抄表册列表
+    var ischeck = 0;
+    var checkBooksID = []; //选中的抄表册的抄表册编号数组
+    var currentBookIndex = 0; //正在上传的抄表册的下标
+    var page = 1; //页码
+    var pagesize = 100; //页码数
+    var PageIndex = 1;
+    apiready = function() {
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+
+        $('#center').css('margin-top', '' + headerH + 'px');
+
+        day = Time("day");
+        db = api.require('db');
+        queryBooks();
+
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            api.sendEvent({
+                name: 'reflashBook'
+            });
+            api.closeWin();
+        });
+    }
+
+    function userDownLoad(type) {
+        checkBooksID = [];
+        currentBookIndex = 0;
+        var loves = $('input[name=demo1]:checked'); //获取抄表数据
+        if (loves.length < 1) {
+            api.toast({
+                msg: '请勾选要下载的抄表册',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        }
+        for (var i = 0; i < loves.length; i++) {
+            checkBooksID.push(loves[i].value);
+        }
+        if (type == 2) {
+            api.confirm({
+                title: '提示',
+                msg: '覆盖下载会清除已有的抄表册数据，是否确定',
+                buttons: ['确定', '取消']
+            }, function(ret, err) {
+                var index = ret.buttonIndex;
+                if (index == 1) {
+                    adilog("正在下载用户数据", "正在下载用户数据,请稍后...");
+                    for (var i = 0; i < checkBooksID.length; i++) {
+                        var user = db.executeSqlSync({
+                            name: 'CBtest',
+                            sql: 'delete from MRM_USER_BEAN where CBCH="' + checkBooksID[i] + '"'
+                        });
+                    }
+
+                    download(2);
+                }
+            });
+        } else {
+            adilog("正在下载用户数据", "正在下载用户数据,请稍后...");
+            download(1);
+        }
+    }
+
+    var book;
+
+    function download(type) {
+        if (currentBookIndex < checkBooksID.length) {
+            db.selectSql({
+                name: 'CBtest',
+                sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH="' + checkBooksID[currentBookIndex] + '"'
+            }, function(ret, err) {
+                if (ret.status) {
+                    //计算页码
+                    var nowDataLength = ret.data.length / pagesize;
+                    var nowDataLengthPage = Math.ceil(nowDataLength); //向下取整
+                    if (nowDataLengthPage * pagesize <= ret.data.length) {
+                        PageIndex = nowDataLengthPage + 1
+                    } else {
+                        PageIndex = nowDataLengthPage;
+                    }
+
+                    //获取单个抄表册数据
+                    var bookdata = db.selectSqlSync({
+                        name: 'CBtest',
+                        sql: 'SELECT * FROM MRM_BOOKS_BEAN WHERE CBCH="' + checkBooksID[currentBookIndex] + '"'
+                    });
+                    book = bookdata.data[0];
+                    var userdata = db.selectSqlSync({
+                        name: 'CBtest',
+                        sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH="' + checkBooksID[currentBookIndex] + '"'
+                    });
+
+                    var value = GetPercent(userdata.data.length, book.BBCYHZS);
+                    updateAdilogData("正在下载抄表册" + book.CBCMC + " " + userdata.data.length + "/" + book.BBCYHZS,
+                        "正在下载用户数据,请稍后...", value);
+
+                    var Parameter = {
+                        "ClientId": api.deviceId,
+                        "ClientName": api.deviceModel,
+                        "OperatorId": $api.getStorage('cbOperatorId'),
+                        "OperatorName": $api.getStorage('cbOperatorName'),
+                        "Required": "PageCode=" + PageIndex + "&BookId=" + checkBooksID[currentBookIndex] + "",
+                        "Type": '102'
+                    }
+                    var body = {
+                        body: JSON.stringify({
+                            "UserName": $api.getStorage('cbOperatorName'),
+                            "Password": $api.getStorage('cbPassword'),
+                            "SerialNo": dataTime(),
+                            "Method": "R999",
+                            "Parameter": JSON.stringify(Parameter)
+                        })
+                    }
+                    fnPost1('', body, 'application/json', false, function(ret, err) {
+                        if (ret.Status == 0) {
+                            var UsersData = [];
+                            if (ret.Data != "" && ret.Data != " ") {
+                                UsersData = JSON.parse(ret.Data);
+                            }
+                            var Summarydata = ret.Summary.split('&');
+                            var Summarydataone = Summarydata[2].split('=');
+                            var RecordCount = Summarydataone[1]; //当前抄表册的总表数
+
+                            var CheckedCode = Summarydata[4].split('=');
+                            var CheckedCodeNumer = CheckedCode[1]; //验证码
+
+                            var values = ""
+                            var retbooks1 = db.selectSqlSync({
+                                name: 'CBtest',
+                                sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH="' + checkBooksID[currentBookIndex] + '"'
+                            });
+                            var num = 0;
+                            for (var i in UsersData) {
+                                //判断用户数据是否已经存在，不存在才新增
+                                var ret = db.selectSqlSync({
+                                    name: 'CBtest',
+                                    sql: 'SELECT * FROM MRM_USER_BEAN WHERE YHBH="' + UsersData[i].YHBH + '"'
+                                });
+                                if (ret.status) {
+                                    if (ret.data.length < 1) {
+                                        if (i == 0) {
+
+                                        } else {
+                                            values += 'UNION '
+                                        }
+                                        values += 'SELECT "' + (UsersData[i].ZHBH == null ? " " : UsersData[i].ZHBH) + '",' +
+                                            '"' + (UsersData[i].YHBH == null ? " " : UsersData[i].YHBH) + '",' +
+                                            '"' + (UsersData[i].BWTP == null ? " " : UsersData[i].BWTP) + '",' +
+                                            '"' + (UsersData[i].JSYYSL == null ? " " : UsersData[i].JSYYSL) + '",' +
+                                            '"0",' +
+                                            '" ",' +
+                                            '"0",' +
+                                            '"' + (UsersData[i].CBZTTEXT == null ? " " : UsersData[i].CBZTTEXT) + '",' +
+                                            '"' + (UsersData[i].YHMC == null ? " " : UsersData[i].YHMC) + '",' +
+                                            '"' + (UsersData[i].YHDZ == null ? " " : UsersData[i].YHDZ) + '",' +
+                                            '"' + (UsersData[i].SBWZ == null ? " " : UsersData[i].SBWZ) + '",' +
+                                            '"' + (UsersData[i].SBBH == null ? " " : UsersData[i].SBBH) + '",' +
+                                            '"' + (UsersData[i].GDDH == null ? " " : UsersData[i].GDDH) + '",' +
+                                            '"' + (UsersData[i].YDDH == null ? " " : UsersData[i].YDDH) + '",' +
+                                            '"' + (UsersData[i].CBCH == null ? " " : UsersData[i].CBCH) + '",' +
+                                            '"' + (UsersData[i].CBXH == null ? " " : UsersData[i].CBXH) + '",' +
+                                            '"' + (UsersData[i].YSXZ == null ? " " : UsersData[i].YSXZ) + '",' +
+                                            '"' + (UsersData[i].XZXF == null ? " " : UsersData[i].XZXF) + '",' +
+                                            '"' + (UsersData[i].KJ == null ? " " : UsersData[i].KJ) + '",' +
+                                            '"' + (UsersData[i].QD == null ? " " : UsersData[i].QD) + '",' +
+                                            '"' + (UsersData[i].ZD == null ? " " : UsersData[i].ZD) + '",' +
+                                            '"' + (UsersData[i].YL == null ? " " : UsersData[i].YL) + '",' +
+                                            '"' + (UsersData[i].BJYL == null ? " " : UsersData[i].BJYL) + '",' +
+                                            '"' + (UsersData[i].CBRQ == null ? " " : UsersData[i].CBRQ) + '",' +
+                                            '"' + (UsersData[i].SFGC == null ? " " : UsersData[i].SFGC) + '",' +
+                                            '" ",' +
+                                            '"0",' +
+                                            '"' + (UsersData[i].QYL == null ? " " : UsersData[i].QYL) + '",' +
+                                            '"' + (UsersData[i].QFJE == null ? " " : UsersData[i].QFJE) + '",' +
+                                            '"' + (UsersData[i].SCCBRQ == null ? " " : UsersData[i].SCCBRQ) + '",' +
+                                            '"' + (UsersData[i].SCSL == null ? " " : UsersData[i].SCSL) + '",' +
+                                            '"' + (UsersData[i].TQSL == null ? " " : UsersData[i].TQSL) + '",' +
+                                            '"' + (UsersData[i].PJSL == null ? " " : UsersData[i].PJSL) + '",' +
+                                            '"' + (UsersData[i].SFXG == null ? "0" : UsersData[i].SFXG) + '",' +
+                                            '"' + (UsersData[i].CBYBH == null ? " " : UsersData[i].CBYBH) + '",' +
+                                            '"' + (UsersData[i].YCYE == null ? " " : UsersData[i].YCYE) + '",' +
+                                            '"' + (UsersData[i].DJC == null ? " " : UsersData[i].DJC) + '",' +
+                                            '"' + (UsersData[i].DZXFPRICE == null ? " " : UsersData[i].DZXFPRICE) + '",' +
+                                            '"' + (UsersData[i].YYQY == null ? " " : UsersData[i].YYQY) + '",' +
+                                            '"' + (UsersData[i].GSPQ == null ? " " : UsersData[i].GSPQ) + '",' +
+                                            '"' + (UsersData[i].CBZQ == null ? " " : UsersData[i].CBZQ) + '",' +
+                                            '"' + (UsersData[i].SBYT == null ? " " : UsersData[i].SBYT) + '",' +
+                                            '"' + (UsersData[i].BEGINTIME == null ? " " : UsersData[i].BEGINTIME) + '",' +
+                                            '"' + (UsersData[i].ENDTIME == null ? " " : UsersData[i].ENDTIME) + '",' +
+                                            '"' + (UsersData[i].JWD == null ? " " : UsersData[i].JWD) + '",' +
+                                            '"' + (UsersData[i].JWD == null ? "0" : "1") + '",' +
+                                            '"' + (UsersData[i].SFQZPZ == null ? " " : UsersData[i].SFQZPZ) + '",' +
+                                            '"' + (UsersData[i].PATH == null ? " " : 'http://' + $api.getStorage('apiUrl') + UsersData[i].PATH) + '",' +
+                                            '"",' +
+                                            '"",' +
+                                            '"' + (UsersData[i].RFID == null ? " " : UsersData[i].RFID) + '" ';
+                                        num++;
+                                        if (retbooks1.status) {
+                                            var value = GetPercent(retbooks1.data.length + num, book.BBCYHZS);
+                                            updateAdilogData("正在下载抄表册" + book.CBCMC + " " + (retbooks1.data.length + num) + "/" + book.BBCYHZS,
+                                                "正在下载用户数据,请稍后...", value);
+                                        }
+                                    }
+                                }
+                            }
+                            num = 0;
+                            // 插入数据
+                            var alongAllret = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: 'INSERT INTO MRM_USER_BEAN (ZHBH,' +
+                                    'YHBH,' +
+                                    'BWTP,' +
+                                    'JSYYSL,' +
+                                    'SFSC,' +
+                                    'CWXX,' +
+                                    'ZTSCCG,' +
+                                    'CBZTTEXT,' +
+                                    'YHMC,' +
+                                    'YHDZ,' +
+                                    'SBWZ,' +
+                                    'SBBH,' +
+                                    'GDDH,' +
+                                    'YDDH,' +
+                                    'CBCH,' +
+                                    'CBXH,' +
+                                    'YSXZ,' +
+                                    'XZXF,' +
+                                    'KJ,' +
+                                    'QD,' +
+                                    'ZD,' +
+                                    'YL,' +
+                                    'BJYL,' +
+                                    'CBRQ,' +
+                                    'SFGC,' +
+                                    'BYXZT,' +
+                                    'CBBZ,' +
+                                    'QYL,' +
+                                    'QFJE,' +
+                                    'SCCBRQ,' +
+                                    'SCSL,' +
+                                    'TQSL,' +
+                                    'PJSL,' +
+                                    'SFXG,' +
+                                    'CBYBH,' +
+                                    'YCYE,' +
+                                    'DJC,' +
+                                    'DZXFPRICE,' +
+                                    'YYQY,' +
+                                    'GSPQ,' +
+                                    'CBZQ,' +
+                                    'SBYT,' +
+                                    'BEGINTIME,' +
+                                    'ENDTIME,' +
+                                    'JWD,' +
+                                    'DWSFSC,' +
+                                    'SFQZPZ,' +
+                                    'PATH,' +
+                                    'XBBH,' +
+                                    'SLZT,' +
+                                    'RFID) ' + values
+                            });
+                            if (alongAllret.status) {
+                                //下载数据循环添加完成之后，对页面和抄表册数据进行渲染
+                                var retbooks1 = db.selectSqlSync({
+                                    name: 'CBtest',
+                                    sql: 'SELECT * FROM MRM_USER_BEAN WHERE CBCH="' + checkBooksID[currentBookIndex] + '"'
+                                });
+                                if (retbooks1.status) {
+                                    var contentNumer = retbooks1.data.length
+                                    if (PageIndex == 1) {
+                                        var retbook2 = db.executeSqlSync({
+                                            name: 'CBtest',
+                                            sql: 'UPDATE MRM_BOOKS_BEAN SET BBCYHZS="' + RecordCount + '" , YZM="' + CheckedCodeNumer + '" , YXZ="' + contentNumer + '" WHERE CBCH="' + checkBooksID[currentBookIndex] + '"'
+                                        });
+                                    } else {
+                                        var retbook2 = db.executeSqlSync({
+                                            name: 'CBtest',
+                                            sql: 'UPDATE MRM_BOOKS_BEAN SET YXZ="' + contentNumer + '" WHERE CBCH="' + checkBooksID[currentBookIndex] + '"'
+                                        });
+                                    }
+                                }
+                            }
+
+                            //本次下载数据完成，判断是否需要继续下载
+                            if ((PageIndex - 1) * pagesize + UsersData.length < RecordCount) {
+                                PageIndex++;
+                                download(type);
+                            } else {
+                                currentBookIndex++;
+                                if (currentBookIndex < checkBooksID.length) {
+                                    //当前这个本下载完成
+                                    PageIndex = 1;
+                                    //继续下载下一个本的数据
+                                    download(type);
+                                } else {
+                                    var UIActionProgress = api.require('UIActionProgress');
+                                    UIActionProgress.close();
+                                    // 下标小于或者等于抄表本册号长度后下载完成
+                                    api.toast({
+                                        msg: '下载完成',
+                                        duration: 2000,
+                                        location: 'middle'
+                                    });
+                                    queryBooks();
+                                }
+                            }
+                        } else {
+                            var UIActionProgress = api.require('UIActionProgress');
+                            UIActionProgress.close();
+                            api.toast({
+                                msg: ret.Message,
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+                        }
+                    });
+                } else {
+                    var UIActionProgress = api.require('UIActionProgress');
+                    UIActionProgress.close();
+                }
+            })
+        } else {
+            var UIActionProgress = api.require('UIActionProgress');
+            UIActionProgress.close();
+        }
+    }
+
+    function checkAll(el) {
+        if (ischeck == 0) {
+            $("input[name='demo1']").prop("checked", true);
+            ischeck = 1;
+        } else {
+            $("input[name='demo1']").prop("checked", false);
+            ischeck = 0;
+        }
+    }
+
+    function queryBooks() {
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_BOOKS_BEAN WHERE JHR<=' + day
+        });
+        if (ret.status) {
+            if (ret.data.length > 0) {
+                bookList = ret.data;
+
+                var list = {
+                    list: bookList
+                }
+                var str = template('bookList', list)
+                $('#center div').remove();
+                $('#center').append(str);
+                fnReady();
+                operationDom();
+            }
+        }
+    }
+
+    function adilog(title, msg) {
+        var UIActionProgress = api.require('UIActionProgress');
+        UIActionProgress.open({
+            maskBg: 'rgba(0,0,0,0.5)',
+            styles: {
+                h: 150,
+                bg: '#fff',
+                title: {
+                    size: 18,
+                    color: '#000',
+                    marginT: 10
+                },
+                msg: {
+                    size: 15,
+                    color: '#000',
+                    marginT: 10
+                },
+                lable: {
+                    size: 15,
+                    color: '#696969',
+                    marginB: 5
+                },
+                progressBar: {
+                    size: 2,
+                    normal: '#000',
+                    active: '#4876FF',
+                    marginB: 35,
+                    margin: 5
+                }
+            },
+            data: {
+                title: title,
+                msg: msg,
+                value: 0
+            }
+        }, function(ret) {
+
+        });
+    }
+
+    //获取百分比
+    function GetPercent(num, total) {
+        num = parseFloat(num);
+        total = parseFloat(total);
+        if (isNaN(num) || isNaN(total)) {
+            return "-";
+        }
+
+        return total <= 0 ? "0" : (Math.round(num / total * 100) / 100.00);
+    }
+
+    //进度条
+    function updateAdilogData(title, msg, value) {
+        var UIActionProgress = api.require('UIActionProgress');
+        UIActionProgress.setData({
+            data: {
+                title: title,
+                msg: msg,
+                value: value * 100
+            }
+        });
+    }
+
+    var actionList = {
+        "back": function() {
+            api.sendEvent({
+                name: 'reflashBook'
+            });
+            api.closeWin();
+        }
+    }
+</script>
+
+</html>

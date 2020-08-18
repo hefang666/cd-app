@@ -1,0 +1,259 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>短信发送</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/vant.css" />
+    <style media="screen">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(243, 243, 243.1);
+        }
+
+        .flex-wrap-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        .header .aui-pull-left {
+            padding-left: 1.2rem;
+        }
+
+        .header .aui-title {
+            font-size: 1.14rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .flex-wrap {
+            /*display: flex;*/
+            /*flex-flow: row;*/
+            width: 100%;
+            background: #fff;
+            /*height: 5.85rem;*/
+            background: rgba(243, 243, 243.1);
+            padding-bottom: 1rem;
+        }
+
+        .content {
+            margin-top: 7.5rem;
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+            margin-bottom: 5rem;
+        }
+
+        .content .aui-margin-b-15 {
+            width: 100%;
+        }
+
+        .content .aui-margin-b-15 .aui-list {
+            width: 85%;
+            margin: 0 auto;
+            background: transparent;
+        }
+
+        .content .aui-margin-b-15 .aui-list .aui-list-item-label {
+            width: 30%;
+            font-size: 1rem;
+        }
+
+        .aui-list-item-input input {
+          font-size: 1rem;
+          margin-left: 0.5rem;
+        }
+
+        #creatContacts {
+            position: absolute;
+            top: 4rem;
+            background: #f3f3f3;
+            z-index: 1000;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(206, 206, 206, 1);
+        }
+
+        .footer>ul {
+            border-top: 1px solid #ccc;
+            border-bottom: 1px solid #ccc;
+            padding: 1rem;
+        }
+
+        .footer>ul>li {}
+
+        .footer>ul>li textarea {
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            box-sizing: border-box;
+            padding: 0.3rem;
+        }
+
+        .footer>ul>li .aui-list-item-label-icon {
+            border: 1px solid #ccc;
+            border-radius: 12px;
+            text-align: center;
+            padding: 0 1rem;
+        }
+
+        .aui-iconfont,
+        .aui-icon-info,
+        .aui-text-danger:before {}
+
+        .aui-icon-info:before {
+            font-size: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap-box flex-vertical" id="flex-wrap-box">
+        <header class="aui-bar aui-bar-nav header" id="header">
+            <div class="aui-pull-left aui-btn">
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">短信发送</div>
+        </header>
+        <div class="content" id="content">
+            <div class=" aui-margin-b-15" id="creatContacts">
+                <ul class="aui-list aui-list-in aui-padded-b-10">
+                    <li class="list-item">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-label">
+                                收件人：
+                            </div>
+                            <div class="aui-list-item-input">
+                                <input type="number" placeholder="" id="telponeNumer">
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+            <div class="MessageCapacity" id="MessageCapacity">
+                <section class="aui-chat" id="sectionone">
+                  <div class="aui-chat-header">2015</div>
+                  <div class="aui-chat-item aui-chat-right">
+                      <div class="aui-chat-inner">
+                          <div class="aui-chat-content">
+                              <div class="aui-chat-arrow"></div>
+                              {{value.CONTENT}}
+                          </div>
+                          <div class="aui-chat-status" style="display:none">
+                              <i class="aui-iconfont aui-icon-info aui-text-danger"></i>
+                          </div>
+                          <!-- <div class="aui-chat-status" tapmode data-action="sendEventNumer" style="display:block">
+                              <i class="aui-iconfont aui-icon-info aui-text-danger"></i>
+                          </div> -->
+                      </div>
+                  </div>
+                </section>
+            </div>
+        </div>
+        <footer class="aui-bar aui-bar-tab aui-border-t footer" id="footer">
+            <ul class="aui-list aui-form-list">
+                <li class="">
+                    <div class="aui-list-item-inner" id="MessageBox">
+                        <div class="aui-list-item-input">
+                            <!-- <textarea id="MessageData" rows="8" cols="80"></textarea> -->
+                            <textarea id="MessageData" style="overflow:hidden"></textarea>
+                        </div>
+                        <div class="aui-list-item-label-icon" tapmode data-action="sendMessage">
+                            发送
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </footer>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/vue/fastclick.min.js"></script>
+<script type="text/javascript" src="../../../public/script/vue/vue.min.js"></script>
+<script type="text/javascript" src="../../../public/script/vue/vant.min.js"></script>
+<script type="text/javascript" src="../../../public/script/vue/vueTouch.js"></script>
+
+<script type="text/javascript">
+    var sendMessageId, db, StatseValue;
+    var MeaasgeData
+    apiready = function() {
+        db = api.require("db");
+
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        var footer = $api.byId('footer');
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        // 计算header和tab元素的高度
+        headerH = $api.offset(header).h;
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        $api.fixTabBar(footer);
+
+        StatseValue = api.pageParam.StatseValue;
+        // 移动端300豪秒延迟,（300毫秒延迟原因是看你是否是要单机还是双击）
+        // 引入插件fastclick.min.js,
+        Origami.fastclick(document.body);//vue处理300秒延迟问题
+
+
+    };
+    function MeaasgeFram(){
+      MeaasgeData = new Vue({
+        el:"#flex-wrap-box",
+        data:{
+          baseData:StatseValue,
+          sendData:StatseValue
+        },
+        methods:{
+          baseData(){//短信历史数据
+            db.selectSql({
+              name: 'CBtest',
+              sql: 'SELECT * FROM MRM_MEESSAGE_STORANG_BEAN WHERE USERCODE="' + api.pageParam.userCode + '"'
+            }, function(ret, err){
+                if( ret.status ){
+                    console.log( JSON.stringify( ret ) );
+                }else{
+                    console.log( JSON.stringify( err ) );
+                }
+            });
+
+
+          }
+        }
+      })
+    }
+
+</script>
+
+</html>

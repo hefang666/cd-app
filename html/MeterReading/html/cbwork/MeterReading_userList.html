@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            flex-flow: column;
+            display: flex;
+            background-color: #fff;
+        }
+
+        #header {
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #center {
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+        }
+
+        #book {
+            border-bottom: 5px solid #F3F3F3;
+        }
+
+        #book_top {
+            margin-top: 15px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        #book_top div {
+            float: left;
+            margin-right: 10px;
+            color: #9899A3;
+        }
+
+        #book_center {
+            width: 100%;
+            height: 15px;
+        }
+
+        #book_bottom {
+            width: 100%;
+            height: 40px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        #book_bottom div {
+            float: left;
+            flex: 1;
+            text-align: center;
+        }
+
+        #xuchao {
+            width: 100px;
+            height: 40px;
+            background-color: #FFA414;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 18px;
+            line-height: 40px;
+        }
+
+        #chongchao {
+            width: 100px;
+            height: 40px;
+            background-color: #FC5959;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 18px;
+            line-height: 40px;
+        }
+
+        #shaixuan {
+            width: 100%;
+            height: 40px;
+            font-size: 18px;
+            color: #3A3A3A;
+            line-height: 40px;
+            border-bottom: 2px solid #F3F3F3;
+        }
+
+        .aui-checkbox2 {
+            margin-top: 8px;
+        }
+
+        #dv {
+            width: 100%;
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        .dv {
+            width: 100%;
+            border-bottom: 2px solid #F3F3F3;
+            display: flex;
+            flex-direction: row;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #dv_left {
+            width: 35px;
+            height: 100%;
+            font-size: 18px;
+            margin-top: 5px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        #dv_right {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 5px;
+        }
+
+        .dv_1 {
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .dv_1_dv1 {
+            flex: 1;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+            /*white-space: nowrap;
+            text-overflow: ellipsis;*/
+            font-size: 18px;
+        }
+
+        .dv_1_dv2 {
+            color: #2F87F8;
+        }
+
+        .dv_1_dv3 {
+            color: #F64A4A;
+        }
+
+        .dv_2 {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_2_dv1 {
+            flex: 1;
+            white-space: nowrap;
+            overflow: scroll;
+        }
+
+        .dv_2_dv2 {
+            color: #F64A4A;
+            text-align: right;
+            white-space: nowrap;
+            overflow: scroll;
+            font-size: 1rem;
+        }
+
+        .dv_2_dv3 {
+            color: #02C05B;
+            text-align: right;
+            white-space: nowrap;
+            overflow: scroll;
+            font-size: 1rem;
+        }
+
+        .dv_3 {
+            margin-top: 10px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+            margin-bottom: 10px;
+        }
+
+        #book_dv1 {
+            margin-top: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+        }
+
+        .dv1_one {
+            flex: 1;
+        }
+
+        .shuzi {
+            font-weight: 400;
+            font-size: 25px;
+        }
+
+        .wenzi {
+            color: #868686;
+        }
+
+        .dv1_two {
+            width: 1px;
+            height: 30px;
+            margin-top: 17px;
+            background-color: #000000;
+        }
+
+        #book_dv2 {
+            margin-left: 20px;
+            margin-right: 20px;
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+        }
+
+        #book_dv2 div {
+            flex: 1;
+            background-color: #2E87F8;
+            color: #ffffff;
+            height: 40px;
+            line-height: 40px;
+        }
+
+        #YSC {
+            border-top-left-radius: 20px;
+            border-bottom-left-radius: 20px;
+            margin-right: 2px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        #GDS {
+            border-top-right-radius: 20px;
+            border-bottom-right-radius: 20px;
+            margin-right: 2px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        #book_dv3 {
+            margin: 20px;
+            height: 4px;
+            background-color: #F3F3F3;
+        }
+
+        .image {
+            float: left;
+            width: 15px;
+            height: 25px;
+            margin-left: 20px;
+        }
+
+        .aui-checkbox {
+            width: 0.9rem;
+            height: 0.9rem;
+            margin-top: 0.45rem;
+            margin-right: 0.2rem;
+        }
+
+        .aui-checkbox:checked,
+        .aui-checkbox.aui-checked {
+            background-color: #2E87F8;
+            border: solid 1px #2E87F8;
+            text-align: center;
+            background-clip: padding-box;
+        }
+
+        #shaixuan .aui-row {
+            width: 100%;
+        }
+
+        #shaixuan .aui-row .aui-col-xs-6:first-child {
+            padding-left: 1.3rem;
+            border-right: 1px solid #eee;
+        }
+
+        #shaixuan .aui-row .aui-col-xs-6:last-child {
+            text-align: center;
+        }
+
+        #shaixuan .aui-row .aui-col-xs-6 .aui-iconfont {
+            position: absolute;
+            top: 0rem;
+            right: 1rem;
+        }
+
+        .c-filter-box {
+            width: 100%;
+            height: 22rem;
+            overflow: hidden;
+            overflow-y: scroll;
+            -webkit-overflow-scrolling: touch;
+            position: fixed;
+            bottom: 0;
+            background: #fff;
+            padding: 0rem;
+            border-top: 2px solid #eee;
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+
+        .c-filter-box ul {
+            width: 100%;
+            height: auto;
+        }
+
+        .c-filter-box ul li {
+            width: 100%;
+            height: 2rem;
+            line-height: 2rem;
+            border-bottom: 1px solid #eee;
+            background-color: #fff;
+            color: #333;
+            font-size: 0.9rem;
+            text-align: center;
+        }
+
+        .c-filter-box ul li:last-child {
+            border-bottom: none;
+        }
+
+        .c-filter-box ul li:first-child {
+            border-radius: 0.5rem 0.5rem 0 0;
+        }
+
+        .c-filter-box ul li.li_active {
+            background: #eee;
+            color: #2E87F8;
+            font-size: 0.95rem;
+        }
+
+        .c-aui-row .aui-col-xs-12 {
+            width: 100%;
+            font-size: 0.8rem;
+            color: #A1A1A1;
+            text-align: center;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">抄表列表</div>
+        <div class="aui-pull-right aui-btn" data-action='search'>
+            <span class="aui-iconfont aui-icon-search"></span>
+        </div>
+    </header>
+    <div id="book">
+        <div id="book_dv1">
+            <div class="dv1_one">
+                <div id="ZBS" class="shuzi">0</div>
+                <div class="wenzi">应抄表数</div>
+            </div>
+            <div class="dv1_two"></div>
+            <div class="dv1_one">
+                <div id="YC" class="shuzi">0</div>
+                <div class="wenzi">已&nbsp;&nbsp;抄</div>
+            </div>
+            <div class="dv1_two"></div>
+            <div class="dv1_one">
+                <div id="WC" class="shuzi">0</div>
+                <div class="wenzi">未&nbsp;&nbsp;抄</div>
+            </div>
+        </div>
+
+        <div id="book_dv2">
+            <div id="YSC">0</div>
+            <div id="GDS">0</div>
+        </div>
+
+        <div id="book_dv3"></div>
+
+        <div id="book_bottom">
+            <div><button id="xuchao" onclick="xuchao()">续抄</button></div>
+            <div><button id="chongchao" onclick="chongchao()">重抄</button></div>
+        </div>
+    </div>
+
+    <div id="shaixuan">
+        <div class="aui-row">
+            <!--onclick="onClickThree(1)"  -->
+            <div class="aui-col-xs-6" onclick="filterOpen()">
+                <div id='fliterName'>全部任务</div>
+                <div class="aui-iconfont aui-icon-down"></div>
+            </div>
+            <div class="aui-col-xs-6">
+                <div><input type="checkbox" class="aui-checkbox aui-checkbox2" id="checkbox-2" onclick="onClickThree(2)" />未抄</div>
+            </div>
+        </div>
+    </div>
+
+    <div id="center">
+        <div id="dv">
+
+        </div>
+    </div>
+    <div id="footer">
+
+    </div>
+    <div class="c-filter-box aui-hide">
+
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/bzremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/template" id='userList'>
+    {{if datas.length >0}} {{each datas value i}}
+    <div onclick="openuser(this)" data-id="{{value.YHBH}}">
+        <div class="dv">
+            <div id="dv_left">
+                {{sum + i+1}}
+            </div>
+            <div id="dv_right">
+                <div class="dv_1">
+                    <div class="dv_1_dv1">{{value.YHMC}}</div>
+                </div>
+                <div class="dv_2">
+                    <div class="dv_2_dv1">{{value.YHBH}}</div>
+                    {{if value.CBBZ == 0}}
+                    <div class="dv_2_dv2">未抄</div>
+                    {{else if value.ZTSCCG == 1}}
+                    <div class="dv_2_dv3">已上传</div>
+                    {{else}}
+                    <div class="dv_2_dv3">已抄</div>
+                    {{/if}}
+
+
+                </div>
+                <div class="dv_3">{{value.YHDZ}}</div>
+            </div>
+        </div>
+    </div>
+    {{/each}} {{else}}
+    <div class="c-aui-row">
+        <div class="aui-col-xs-12">暂无数据!</div>
+    </div>
+    {{/if}}
+
+</script>
+<script type="text/template" id='filterDemo'>
+    <ul>
+        {{each list value i}} {{if value.MC == '全部任务'}}
+        <li class="li_active" params="{{value}}" onclick="filterCondition(this)">{{value.MC}}</li>
+        {{else}} {{if value.MC == '其他'}}
+        <li params="{{value}}" onclick="filterCondition(this)">{{value.CBZT}} - {{value.MC}}</li>
+        {{else}}
+        <li params="{{value}}" onclick="filterCondition(this)">{{value.MC}}</li>
+        {{/if}} {{/if}} {{/each}}
+    </ul>
+</script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+
+    var userlist = [];
+    var pageIndex = 1;
+    var pageSize = 100;
+    var param, db, LoginName;
+    var type = 0;
+    apiready = function() {
+        LoginName = $api.getStorage('loginData').userName;
+        db = api.require('db');
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        // $('#book').css('margin-top', '' + headerH + 'px');
+        getWaterStatus(); //获取水表状态
+        queryBook();
+
+        $("#center").scroll(function() {
+            var h = $(this).height(); //div可视区域的高度
+            var sh = $(this)[0].scrollHeight; //滚动的高度，$(this)指代jQuery对象，而$(this)[0]指代的是dom节点
+            var st = $(this)[0].scrollTop; //滚动条的高度，即滚动条的当前位置到div顶部的距离
+
+            if (h + st >= sh) {
+                //上面的代码是判断滚动条滑到底部的代码
+                //alert("滑到底部了");
+                if (pageIndex * pageSize < userlist.length) {
+                    //还有未显示的数据
+                    pageIndex++;
+                    var data = [];
+                    for (var i = ((pageIndex - 1) * pageSize); i < (pageIndex * pageSize); i++) {
+                        data.push(userlist[i]);
+                        if ((i + 1) == userlist.length) {
+                            break;
+                        }
+                    }
+                    var datas = {
+                        datas: data,
+                        sum: (pageIndex - 1) * pageSize
+                    }
+                    //alert("1sum:" + datas.sum);
+                    var str = template('userList', datas);
+                    //$('#dv div').remove();
+                    $('#dv').append(str);
+                    fnReadyOpenWin();
+                } else {
+                    //数据已经显示完了
+                }
+                //$("#scrollTest").append(111 + "<br>"); //滚动条滑到底部时，只要继续滚动滚动条，就会触发这条代码.一直滑动滚动条，就一直执行这条代码。
+            }
+        })
+    };
+    // 头部数量统计刷新
+    function queryBook() {
+        var db = api.require('db');
+        var yscusersdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select count(*) as YSC from MRM_USER_BEAN where CBCH="' + api.pageParam.CBCH + '" and CBBZ=1 and ZTSCCG=1 AND userName = "' + LoginName + '"'
+        });
+        var wcusersdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select count(*) as WC from MRM_USER_BEAN where CBCH="' + api.pageParam.CBCH + '" and CBBZ=0 AND userName = "' + LoginName + '"'
+        });
+
+        var ret = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'update MRM_BOOKS_BEAN set YSC="' + yscusersdata.data[0].YSC + '",WC="' + wcusersdata.data[0].WC + '" where CBCH="' + api.pageParam.CBCH + '" AND userName = "' + LoginName + '"'
+        });
+
+        var booksdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_BOOKS_BEAN where CBCH="' + api.pageParam.CBCH + '" AND userName = "' + LoginName + '"'
+        });
+        param = booksdata.data[0];
+        $('#ZBS').html(param.BBCYHZS);
+        $('#WC').html(param.WC);
+        $('#YC').html(param.YC);
+        $('#YSC').html("上传数&nbsp;" + param.YSC);
+        $('#GDS').html("申报工单总数&nbsp;" + param.GDSBS);
+        api.sendEvent({
+            name: 'gxMeterRing',
+            extra: {
+                yc: param.YC,
+                wc: param.WC,
+                cbch: param.CBCH
+            }
+        });
+        setTimeout(() => {
+            api.showProgress({
+                title: '加载中',
+                modal: false
+            });
+            queryUser();
+        }, 100)
+    }
+
+    function queryBook2() {
+        var db = api.require('db');
+        var yscusersdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select count(*) as YSC from MRM_USER_BEAN where CBCH="' + api.pageParam.CBCH + '" and CBBZ=1 and ZTSCCG=1 AND userName = "' + LoginName + '"'
+        });
+        var wcusersdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select count(*) as WC from MRM_USER_BEAN where CBCH="' + api.pageParam.CBCH + '" and CBBZ=0 AND userName = "' + LoginName + '"'
+        });
+
+        var ret = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'update MRM_BOOKS_BEAN set YSC="' + yscusersdata.data[0].YSC + '",WC="' + wcusersdata.data[0].WC + '" where CBCH="' + api.pageParam.CBCH + '" AND userName = "' + LoginName + '"'
+        });
+
+        var booksdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_BOOKS_BEAN where CBCH="' + api.pageParam.CBCH + '" AND userName = "' + LoginName + '"'
+        });
+        param = booksdata.data[0];
+        $('#ZBS').html(param.BBCYHZS);
+        $('#WC').html(param.WC);
+        $('#YC').html(param.YC);
+        $('#YSC').html("上传数&nbsp;" + param.YSC);
+        $('#GDS').html("申报工单总数&nbsp;" + param.GDSBS);
+        api.sendEvent({
+            name: 'gxMeterRing',
+            extra: {
+                yc: param.YC,
+                wc: param.WC,
+                cbch: param.CBCH
+            }
+        });
+    }
+    // 抄表列表刷新
+    function queryUser() {
+        var db = api.require('db');
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where CBCH="' + param.CBCH + '" AND userName = "' + LoginName + '" ORDER BY CBXH'
+        });
+        if (userdata.status) {
+            if (userdata.data.length == param.BBCYHZS) {
+                //userlist.push(userdata.data[0]);
+                userlist = userdata.data;
+                var data = [];
+                if (userlist.length > pageSize) {
+                    for (var i = 0; i < pageSize; i++) {
+                        data.push(userlist[i]);
+                    }
+                } else {
+                    data = userlist;
+                }
+                var datas = {
+                    datas: data,
+                    sum: (pageIndex - 1) * pageSize
+                }
+                //alert("2sum:" + datas.sum);
+                var str = template('userList', datas);
+                $('#dv div').remove();
+                $('#dv').append(str);
+                fnReadyOpenWin();
+            } else {
+                api.alert({
+                    title: '提示',
+                    msg: '数据未下载完成,请前往下载',
+                }, function(ret, err) {
+                    if (ret) {
+                        api.closeWin();
+                    } else {}
+                });
+            }
+        }
+        api.hideProgress();
+    }
+
+    function onClickThree(index) {
+        $("#dv").empty();
+        if ($('#checkbox-2').is(":checked")) {
+            weiMetering();
+            $('#fliterName').text('全部任务');
+        } else {
+            $('#fliterName').text('全部任务');
+            allMetering();
+        }
+        $('.c-filter-box').addClass("aui-hide");
+        $('.c-filter-box ul').children().removeClass("li_active");
+        $('.c-filter-box ul').children().first().addClass("li_active");
+    }
+    // 抄表列表未抄刷新
+    function weiMetering() {
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where CBCH="' + param.CBCH + '" and CBBZ=0 AND userName = "' + LoginName + '" ORDER BY CBXH'
+        });
+        if (userdata.status) {
+            if (userdata.data.length > 0) {
+                // var datas = {
+                //     datas: userdata.data
+                // }
+                // var str = template('userList', datas);
+                // $('#dv div').remove();
+                // $('#dv').append(str);
+                // fnReadyOpenWin();
+                pageIndex = 1;
+                userlist = userdata.data;
+                var data = [];
+                if (userlist.length > pageSize) {
+                    for (var i = 0; i < pageSize; i++) {
+                        data.push(userlist[i]);
+                    }
+                } else {
+                    data = userlist;
+                }
+                var datas = {
+                    datas: data,
+                    sum: (pageIndex - 1) * pageSize
+                }
+                //alert("3sum:" + datas.sum);
+                var str = template('userList', datas);
+                $('#dv div').remove();
+                $('#dv').scrollLeft(0);
+                $('#dv').append(str);
+                fnReadyOpenWin();
+            } else {
+                api.toast({
+                    msg: '暂无数据',
+                    duration: 2000,
+                    location: 'middle'
+                });
+
+            }
+        }
+    }
+
+    //从抄表界面返回调用的
+    function weiMetering2() {
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where CBCH="' + param.CBCH + '" and CBBZ=0 AND userName = "' + LoginName + '" ORDER BY CBXH'
+        });
+        if (userdata.status) {
+            if (userdata.data.length > 0) {
+                // var datas = {
+                //     datas: userdata.data
+                // }
+                // var str = template('userList', datas);
+                // $('#dv div').remove();
+                // $('#dv').append(str);
+                // fnReadyOpenWin();
+                userlist = userdata.data;
+                var data = [];
+                if (userlist.length > pageSize) {
+                    for (var i = 0; i < (pageIndex * pageSize); i++) {
+                        data.push(userlist[i]);
+                        if ((i + 1) == userlist.length) {
+                            break;
+                        }
+                    }
+                } else {
+                    data = userlist;
+                }
+                var datas = {
+                    datas: data,
+                    sum: 0
+                }
+                //alert("4sum:" + datas.sum);
+                var str = template('userList', datas);
+                $('#dv div').remove();
+                $('#dv').append(str);
+                fnReadyOpenWin();
+            } else {
+                api.toast({
+                    msg: '暂无数据',
+                    duration: 2000,
+                    location: 'middle'
+                });
+
+            }
+        }
+    }
+
+    // 全部
+    function allMetering() {
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where CBCH="' + param.CBCH + '" AND userName = "' + LoginName + '" ORDER BY CBXH'
+        });
+        if (userdata.status) {
+            if (userdata.data.length > 0) {
+                // var datas = {
+                //     datas: userdata.data
+                // }
+                // var str = template('userList', datas);
+                // $('#dv div').remove();
+                // $('#dv').append(str);
+                // fnReadyOpenWin();
+                pageIndex = 1;
+                userlist = userdata.data;
+                var data = [];
+                if (userlist.length > pageSize) {
+                    for (var i = 0; i < pageSize; i++) {
+                        data.push(userlist[i]);
+                    }
+                } else {
+                    data = userlist;
+                }
+                var datas = {
+                    datas: data,
+                    sum: (pageIndex - 1) * pageSize
+                }
+                //alert("5sum:" + datas.sum);
+                var str = template('userList', datas);
+                $('#dv div').remove();
+                $('#dv').scrollLeft(0);
+                $('#dv').append(str);
+                fnReadyOpenWin();
+            } else {
+                api.toast({
+                    msg: '暂无数据',
+                    duration: 2000,
+                    location: 'middle'
+                });
+
+            }
+        }
+    }
+
+    function openuser(el) {
+        var yhbh = $(el).attr('data-id');
+        // 选中了全部打开
+
+        if ($("#checkbox-2").is(":checked")) {
+            // 未抄打开
+            api.openWin({
+                name: 'MeterReading_details_New',
+                url: './MeterReading_details_New.html',
+                pageParam: {
+                    name: 'MeterReading_userList',
+                    userCode: param.CBCH,
+                    useryhbh: yhbh,
+                    userState: "NotCopied"
+                }
+            });
+        } else {
+            api.openWin({
+                name: 'MeterReading_details_New',
+                url: './MeterReading_details_New.html',
+                pageParam: {
+                    name: 'MeterReading_userList',
+                    userCode: param.CBCH,
+                    useryhbh: yhbh,
+                    userState: filterBH
+                }
+            });
+        }
+
+    }
+
+    function gongdan(el) {
+        var yhbh = $(el).attr('data-id');
+        //获取工单数据
+        var db = api.require('db');
+        var workorderdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_WORKORDER_BEAN where YHBH="' + yhbh + '" AND userName = "' + LoginName + '"'
+        });
+        if (workorderdata.data) {
+            if (workorderdata.data.length > 0) {
+                api.openWin({
+                    name: 'workOrder',
+                    url: '../workOrder/workOrder.html',
+                    pageParam: {
+                        YHBH: yhbh,
+                        WinName: 'MeterReading_userList'
+                    }
+                });
+            } else {
+                api.openWin({
+                    name: 'workOrder',
+                    url: '../workOrder/workOrder.html',
+                    pageParam: {
+                        YHBH: yhbh,
+                        WinName: 'MeterReading_userList'
+                    }
+                });
+            }
+        }
+
+    }
+
+    function xuchao() {
+        // 续抄
+        api.openWin({
+            name: 'MeterReading_details_New',
+            url: './MeterReading_details_New.html',
+            pageParam: {
+                name: 'MeterReading_userList',
+                userCode: param.CBCH,
+                useryhbh: param.XCYH,
+                userState: "ContinuedCopy"
+            }
+        });
+        $('.c-filter-box').addClass('aui-hide');
+    }
+
+    function chongchao() {
+        api.confirm({
+            title: '重抄',
+            msg: '是否跳转到第一个用户?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index == 1) {
+                api.openWin({
+                    name: 'MeterReading_details_New',
+                    url: './MeterReading_details_New.html',
+                    pageParam: {
+                        name: 'MeterReading_userList',
+                        userCode: userlist[0].CBCH,
+                        useryhbh: userlist[0].YHBH,
+                        userState: "Duplicate"
+                    }
+                });
+            }
+        });
+        $('.c-filter-box').addClass('aui-hide');
+    }
+
+    function show() {
+        if ($("#checkbox-2").is(":checked")) {
+            weiMetering2()
+        } else {
+            queryBook2();
+            filterSelectDB2(filterBH);
+        }
+    }
+
+    var actionList = {
+            'search': function() {
+                api.openWin({
+                    name: 'bookQueryUser',
+                    url: './bookQueryUser.html',
+                    pageParam: {
+                        CBCH: param.CBCH
+                    }
+                });
+            },
+            'back': function() {
+                api.closeWin();
+            }
+        }
+        // 获取水表状态
+    var actionsData = [{
+        'MC': "全部任务",
+        BH: 'all'
+    }, {
+        'MC': "水量异常",
+        BH: 'SLYC'
+    }];
+
+    function getWaterStatus() {
+        var db = api.require("db");
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'select * from MRM_METERSTATE_BEAN WHERE userName = "' + LoginName + '"'
+        }, function(ret, err) {
+            if (ret.status) {
+                var dataList = ret.data
+                dataList.forEach(item => {
+                    actionsData.push(item);
+                });
+                var data = {
+                    list: actionsData
+                }
+                var str = template('filterDemo', data);
+                $('.c-filter-box').append(str);
+            }
+        });
+    }
+
+    // 筛选
+    function filterOpen() {
+        if ($('.c-filter-box').hasClass('aui-hide')) {
+            $('.c-filter-box').removeClass('aui-hide');
+        } else {
+            $('.c-filter-box').addClass('aui-hide');
+        }
+    }
+
+    var filterBH = "all";
+
+    function filterCondition(that) {
+        $('#checkbox-2').prop("checked", false);
+        $(that).siblings().removeClass('li_active');
+        if (!$(that).hasClass('li_active')) {
+            $(that).addClass('li_active');
+        }
+        $('#fliterName').text($(that).text());
+        $('.c-filter-box').addClass('aui-hide');
+        var params = JSON.parse($(that).attr('params'));
+        switch (true) {
+            case params.MC == '全部任务':
+                filterBH = params.BH;
+                allMetering();
+                break;
+            case params.MC == '水量异常':
+                filterBH = params.BH;
+                filterSelectDB(params.BH);
+                break;
+            default:
+                filterBH = params.BH;
+                filterSelectDB(params.BH);
+                break
+        }
+
+    }
+    // 筛选查询数据库
+    function filterSelectDB(type) {
+        switch (true) {
+            case type == 'all':
+                sql = 'select * from MRM_USER_BEAN where CBCH="' + param.CBCH + '" AND userName = "' + LoginName + '" ORDER BY CBXH';
+                break;
+            case type == 'SLYC':
+                sql = `select * from MRM_USER_BEAN where CBCH=${param.CBCH} and CBBZ="1" and SLZT IN ("1","2") AND userName = ${LoginName} ORDER BY CBXH`;
+                break;
+            default:
+                sql = `select * from MRM_USER_BEAN where CBCH=${param.CBCH} and CBBZ="1" and BYXZT="${type}" AND userName = ${LoginName} ORDER BY CBXH`;
+
+        }
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: sql
+        });
+        if (userdata.status) {
+            if (userdata.data.length > 0) {
+                // var datas = {
+                //     datas: userdata.data
+                // }
+                // var str = template('userList', datas);
+                // $('#dv div').remove();
+                // $('#dv').append(str);
+                // fnReadyOpenWin();
+                pageIndex = 1;
+                userlist = userdata.data;
+                var data = [];
+                if (userlist.length > pageSize) {
+                    for (var i = 0; i < pageSize; i++) {
+                        data.push(userlist[i]);
+                    }
+                } else {
+                    data = userlist;
+                }
+                var datas = {
+                    datas: data,
+                    sum: (pageIndex - 1) * pageSize
+                }
+                //alert("6sum:" + datas.sum);
+                var str = template('userList', datas);
+                $('#dv div').remove();
+                $('#dv').scrollLeft(0);
+                $('#dv').append(str);
+                fnReadyOpenWin();
+            } else {
+                pageIndex = 1;
+                userlist = [];
+                var datas = {
+                    datas: [],
+                    sum: 0
+                }
+                //alert("7sum:" + datas.sum);
+                var str = template('userList', datas);
+                $('#dv div').remove();
+                $('#dv').append(str);
+                fnReadyOpenWin();
+            }
+        }
+
+    }
+
+    //从抄表界面返回的调用
+    function filterSelectDB2(type) {
+        switch (true) {
+            case type == 'all':
+                sql = 'select * from MRM_USER_BEAN where CBCH="' + param.CBCH + '" AND userName = "' + LoginName + '" ORDER BY CBXH';
+                break;
+            case type == 'SLYC':
+                sql = `select * from MRM_USER_BEAN where CBCH=${param.CBCH} and CBBZ="1" and SLZT IN ("1","2") AND userName = ${LoginName} ORDER BY CBXH`;
+                break;
+            default:
+                sql = `select * from MRM_USER_BEAN where CBCH=${param.CBCH} and CBBZ="1" and BYXZT="${type}" AND userName = ${LoginName} ORDER BY CBXH`;
+
+        }
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: sql
+        });
+        if (userdata.status) {
+            if (userdata.data.length > 0) {
+                // var datas = {
+                //     datas: userdata.data
+                // }
+                // var str = template('userList', datas);
+                // $('#dv div').remove();
+                // $('#dv').append(str);
+                // fnReadyOpenWin();
+                userlist = userdata.data;
+                var data = [];
+                if (userlist.length > pageSize) {
+                    for (var i = 0; i < (pageIndex * pageSize); i++) {
+                        data.push(userlist[i]);
+                        if ((i + 1) == userlist.length) {
+                            break;
+                        }
+                    }
+                } else {
+                    data = userlist;
+                }
+                var datas = {
+                    datas: data,
+                    sum: 0
+                }
+                //alert("8sum:" + datas.sum);
+                var str = template('userList', datas);
+                $('#dv div').remove();
+                $('#dv').append(str);
+                fnReadyOpenWin();
+            } else {
+                userlist = [];
+                var datas = {
+                    datas: [],
+                    sum: 0
+                }
+                //alert("9sum:" + datas.sum);
+                var str = template('userList', datas);
+                $('#dv div').remove();
+                $('#dv').append(str);
+                fnReadyOpenWin();
+            }
+        }
+
+    }
+</script>
+
+</html>

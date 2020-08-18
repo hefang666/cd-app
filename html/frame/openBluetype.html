@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>选择办理人页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style media="screen">
+            html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .aui-card-list.card {
+            width: 92vw;
+            margin-top: 23.55vh;
+            margin-bottom: 0;
+            border-radius: 0.6rem;
+        }
+
+        .card .aui-card-list-header {
+            padding: 0.75rem;
+            background-position-x: 0.75rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+            letter-spacing: -0.02rem;
+            color: #333333;
+        }
+
+        .card .aui-card-list-content-padded {
+            padding: 0;
+            padding-left: 0.75rem;
+            padding-right: 0.75rem;
+        }
+
+        .person {
+            background-color: #FAFAFA;
+        }
+
+        #contact {
+            max-height: 25vh;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .jiange {
+            width: 100%;
+            height: 0.5rem;
+            background: rgba(250, 250, 250, 1);
+        }
+
+        .aui-card-list,
+        .contactList ul {
+            margin-bottom: 0.5rem;
+        }
+
+        .contactList ul li:last-child {
+            background-image: none !important;
+        }
+
+        .contactList ul:last-child {
+            margin-bottom: 0;
+        }
+
+        #orgReturn {
+            font-size: 0.75rem;
+            color: #999999;
+            padding: 0.9rem 0;
+            overflow: auto;
+            display: -webkit-box;
+            -webkit-overflow-scrolling: touch;
+            -webkit-box-pack: initial;
+        }
+
+        .aui-list {
+            background-image: none
+        }
+
+        .aui-list .aui-list-item {
+            padding-left: 0;
+            font-size: 0.75rem;
+            font-family: PingFangSC-Regular;
+            font-weight: 400;
+            color: #666666;
+            letter-spacing: 0.02rem;
+        }
+
+        .aui-media-list .aui-list-item-inner {
+            display: flex;
+            justify-content: flex-start;
+        }
+
+        .aui-card-list-footer {
+            padding: 1.5rem 0.75rem 1.5rem 0.75rem;
+            background-size: calc(100% - 1.5rem) 1px;
+        }
+        .bulueSfooter{
+          padding: 0.5rem 0.75rem 0.5rem 0.75rem;
+          width: 75%;
+        }
+
+        .aui-btn {
+            width: 40vw;
+            height: 2rem;
+            background-color: #CCCCCC;
+            border-radius: 0.6rem;
+            color: #333333;
+            font-size: 0.7rem;
+            font-weight: 500;
+            letter-spacing: 0.02rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .bulueS{
+          width: 25vw!important  ;
+        }
+
+        .sureBtn {
+            background-color: #7164F9;
+            color: #fff;
+        }
+
+        .aui-card-list-header {
+            font-size: 0.75;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: -0.02rem;
+            color: #666666;
+            display: flex;
+            justify-content: center !important;
+            align-items: center;
+        }
+
+        #contact .aui-media-list .aui-list-item-inner
+            {
+                font-size: 0.75;
+                font-weight: normal;
+                font-stretch: normal;
+                letter-spacing: -0.02rem;
+                color: #666666;
+                display: flex;
+                justify-content: flex-start!important;
+                align-items: center;
+            }
+            .aui-media-list .aui-list-item-inner {
+                padding-right: 0 !important;
+            }
+            .aui-radio {
+                display: inline-table;
+                width: 0.9rem!important;
+                height: 0.9rem !important;
+                margin-right: 0.4rem;
+                box-sizing: border-box;
+            }
+            .aui-radio:checked,
+            .aui-radio.aui-checked,
+            .aui-checkbox:checked,
+            .aui-checkbox.aui-checked {
+                background-color: #574CF1;
+                border: solid 1px #574CF1;
+            }
+
+
+            .junior {
+                display: flex;
+                align-items: center;
+            }
+            .junior span {
+                color: #999999;
+                font-size: 0.75rem;
+                font-weight: normal;
+                font-stretch: normal;
+                letter-spacing: -0.02rem;
+            }
+            .superior {
+                color: #574CF1;
+            }
+            li {
+                -webkit-tap-highlight-color: rgba(255, 0, 0, 0);
+            }
+            /*.junior .juniorImg {
+            width: 0.78rem;
+            height: 0.7rem;
+            background: url(../../../image/message_frame/junior_pre.png);
+            background-size: 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            margin-right: 0.23rem;
+        }*/
+            .junior.active .juniorImg {
+                width: 1.05rem;
+                height: 1.05rem;
+                background: url(../../../image/Customer/workOrder/junior.png);
+                background-size: 100%;
+                background-position: center center;
+                background-repeat: no-repeat;
+            }
+            .contactList {
+                -webkit-box-flex: 1;
+                -webkit-flex: 1;
+                flex: 1;
+            }
+            .aui-list {
+                background-image: none;
+            }
+            .contactList .aui-list .aui-list-item-inner,
+            .aui-list .aui-list-item {
+                min-height: 0;
+                padding-left: 0;
+            }
+            .contactList .hasJunior .aui-list-item-inner,
+            .contactList .hasJunior .aui-list-item {
+                padding-right: 4.03rem;
+                padding-left: 0;
+            }
+            .contactList .aui-list .aui-list-item:active {
+                background-color: transparent;
+            }
+            .contactList .aui-media-list-item-inner:active {
+                background-color: #f5f5f5;
+            }
+            .contactList .aui-media-list-item-inner {
+                padding: 0.8rem 0;
+            }
+            .contactList .aui-media-list .aui-list-item-inner {
+                padding: 0;
+            }
+            .aui-list .aui-list-item-text {
+                display: -webkit-box;
+                font-size: var(--fontsize75) !important;
+                font-weight: normal;
+                font-stretch: normal;
+                letter-spacing: 0rem;
+                -webkit-box-orient: horizontal;
+                -webkit-box-pack: center;
+            }
+            .aui-list .aui-list-item-right,
+            .aui-list-item-title-row em {
+                margin-left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+                height: 100%;
+            }
+            .iconRight {
+                padding: 0 0.5rem;
+            }
+            .orgOrName {
+                width: calc(100% - 1.3rem) !important;
+            }
+
+    </style>
+</head>
+
+<body>
+    <div class="aui-card-list card">
+        <div class="aui-card-list-header aui-border-b">
+            请选择匹配的蓝牙设备
+        </div>
+        <div class="aui-card-list-content-padded">
+            <div class="person">
+              <div class="aui-card-list-footer aui-border-t bulueSfooter">
+                  <div class="aui-btn sureBtn bulueS" tapmode data-action="bulueS">
+                      历史蓝牙
+                  </div>
+                  <div class="aui-btn bulueS" tapmode data-action="bulueN">
+                      扫描
+                  </div>
+              </div>
+                <div class="aui-card-list">
+                    <div class="aui-card-list-header aui-hide" id="orgReturn">
+                        <span class="superior"></span>
+                        <!-- <div class='iconRight'>>></div> -->
+                    </div>
+                </div>
+
+                <section id="contact">
+
+                </section>
+            </div>
+
+        </div>
+        <div class="aui-card-list-footer aui-border-t">
+            <div class="aui-btn sureBtn" tapmode data-action="sure">
+                连接
+            </div>
+            <div class="aui-btn" tapmode data-action="cancel">
+                打印
+            </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/diy/bzremote.js"></script>
+<script type="text/javascript" src="../../script/hammer.min.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/template" id="hasJuniorList">
+  <div class="aui-content contactList">
+      {{each list value i}}
+        <ul class="aui-list aui-media-list noJunior" id="noJunior">
+          {{if value.name == null}}
+            <li class="aui-list-item aui-list-item-middle" tapmode data-action="select">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-radio"></div>
+                        <div class="aui-list-item-inner orgOrName" data-name="{{value.address}}">{{value.address}}</div>
+                    </div>
+                </div>
+            </li>
+          {{else}}
+          <li class="aui-list-item aui-list-item-middle" tapmode data-action="select">
+              <div class="aui-media-list-item-inner">
+                  <div class="aui-list-item-inner">
+                      <div class="aui-radio"></div>
+                      <div class="aui-list-item-inner orgOrName" data-name="{{value.address}}">{{value.name}}</div>
+                  </div>
+              </div>
+          </li>
+          {{/if}}
+        </ul>
+      {{/each}}
+  </div>
+</script>
+<script type="text/javascript">
+  var bluePrinter;
+  var selectPeopleInfo;
+    apiready = function() {
+        api.parseTapmode();
+        fnReady();
+
+        var params = api.pageParam.service
+
+
+    }
+    var deviceAddres
+    var isClick = true;
+    var actionList = {
+        'select':function(){
+          // console.log(111111)
+          $(this).find('.aui-radio').toggleClass('aui-checked')
+          $(this).parent().siblings().find('.aui-radio').removeClass('aui-checked');
+          deviceAddres=$(this).find('.orgOrName').attr('data-name')
+        },
+        'cancel': function() {
+            // api.closeFrame({});
+            var orderInfo;
+            orderInfo = "<CA>测试打印</CA><BR>";
+            orderInfo += "名称　　　　　 单价  数量 金额<BR>";
+            orderInfo += "--------------------------------<BR>";
+            orderInfo += "番　　　　　　 1.0    1   1.0<BR>";
+            orderInfo += "番茄　　　　　 10.0   10  10.0<BR>";
+            orderInfo += "番茄炒　　　　 10.0   100 100.0<BR>";
+            orderInfo += "番茄炒粉　　　 100.0  100 100.0<BR>";
+            orderInfo += "番茄炒粉粉　　 1000.0 1   100.0<BR>";
+            orderInfo += "番茄炒粉粉粉粉 100.0  100 100.0<BR>";
+            orderInfo += "番茄炒粉粉粉粉 15.0   1   15.0<BR>";
+            orderInfo += "备注：快点送到<BR>";
+            orderInfo += "--------------------------------<BR>";
+            orderInfo += "合计：xx.0元<BR>";
+            orderInfo += "送货地点：xxxxxxxxxxxxxxxxx<BR>";
+            orderInfo += "联系电话：138000000000<BR>";
+            orderInfo += "订餐时间：2011-01-06 19:30:10<BR>";
+            orderInfo += "<QR>(300)http://www.baidu.com</QR><BR>";
+            orderInfo += " <CUT>";
+            var printModule = api.require('posPrinter');
+            var param = {
+                   taskList:
+                   [
+                       {
+                           printerAddr: deviceAddres,
+                           type:1,
+                           content:orderInfo,
+                           //<qr>标签表示打印二维码
+                           //tagContent里面所有标签都支持旋转属性，如rotate="45"表示旋转45度
+                           //text标签可以使用center="1"表示居中，如果居中时，设置left="-10"，表示居中后，再往左偏移10
+                           keepAlive:true,       //usb打印机，建议把keepAlive设为true
+                           copyNum: 1
+                       }
+                   ]
+                 };
+                 printModule.print(param,function(ret,err){
+                     console.log(JSON.stringify(ret))
+                     console.log(JSON.stringify(err))
+                 });
+        },
+        'bulueS':function(){
+          api.showProgress({
+              style: 'default',
+              animationType: 'fade',
+              title: '努力加载中...',
+              text: '先喝杯茶...',
+              modal: false
+          });
+          var printModule = api.require('posPrinter');
+          var param = {
+              'status': 'bonded'
+          };
+          printModule.getBluetoothPrinters(param, function (ret, err) {
+              api.hideProgress();
+              var value = ret
+              console.log(JSON.stringify(value))
+              handleAnnotData(value)
+          });
+        },
+        'bulueN':function(){
+          api.showProgress({
+              style: 'default',
+              animationType: 'fade',
+              title: '努力加载中...',
+              text: '先喝杯茶...',
+              modal: false
+          });
+          var printModule = api.require('posPrinter');
+          var param = {
+              'status': 'all'
+          };
+          printModule.getBluetoothPrinters(param, function (ret, err) {
+              api.hideProgress();
+              var value = ret
+              console.log(JSON.stringify(value))
+              handleAnnotData(value)
+          });
+          // var printBleWifi = api.require("printBleWifi");
+
+          // printBleWifi.initBlue(function(ret, err) {
+          //
+          //   printBleWifi.scanBlue(function(ret, err) {
+          //       var dataList = ret.service
+          //       console.log(dataList)
+          //       api.hideProgress();
+          //
+          //       if(ret.code==0){
+          //         // window.location.reload();
+          //         handleAnnotData(dataList)
+          //
+          //       }
+          //
+          //   });
+          // })
+        },
+        'sure': function() {
+            api.showProgress({
+                 style: 'default',
+                 animationType: 'fade',
+                 title: '正在绑定...',
+                 text: '请稍等...',
+                 modal: true
+             });
+
+              var module = api.require('posPrinter');
+               module.createBondToPrinter({
+                   address:deviceAddres
+               } , function(ret,err)
+                 {
+                     api.hideProgress();
+                    if(err){
+                         alert(JSON.stringify(err));
+                   }
+                     else if(ret && ret.result == "ok"){
+                        alert("蓝牙已经连接了")
+                     }
+                 });
+          // console.log(deviceAddres)
+          // if(deviceAddres == null){
+          // api.toast({
+          //     msg: '请选择需连接的蓝牙设备',
+          //     duration: 2000,
+          //     location: 'middle'
+          // });
+          //
+          // } else {
+            // var printUtils=api.require('wwprint');
+            // var str={name:'deviceAddres'};
+            // printUtils.setBluetoothDevice(str,function(ret,err){
+            //     alert(ret.message);
+            //     alert(err)
+            //     console.log(JSON.stringify(ret))
+            // })
+
+            // })
+
+            // api.sendEvent({
+            //     name: 'selectPeopleInfo',
+            //     extra: {
+            //         selectPeopleInfo: deviceAddress,
+            //     }
+          //   // });
+
+
+              // api.closeFrame({});
+          // }
+
+
+        }
+
+    }
+    function handleAnnotData(dataList){
+      var list = {list:dataList};
+      var str = template('hasJuniorList',list);
+      $api.append($api.byId('contact'), str);
+
+      operationDom()
+      api.hideProgress();
+      fnReadyOpenWin();
+    }
+
+</script>
+
+</html>

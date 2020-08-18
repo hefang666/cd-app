@@ -1,0 +1,206 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>应用绑定账户页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+        }
+
+        header {
+            position: relative;
+            width: 100%;
+            height: 50px;
+            background-color: #fff;
+            z-index: 3;
+        }
+
+        header .back {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 50px;
+            background: url(../../image/addApp_frame/leftArrow.png);
+            background-position: 12px 16px;
+            background-size: 11px 18px;
+            background-repeat: no-repeat;
+        }
+
+        header h1 {
+            width: 100%;
+            height: 50px;
+            line-height: 50px;
+            text-align: center;
+            font-size: 18px;
+            font-weight: 400;
+        }
+
+        .sureBtn {
+            border-radius: 2.5rem !important;
+            margin: 1rem auto;
+            justify-content: center;
+            height: 2.5rem !important;
+            line-height: 2.5rem !important;
+            width: 80%;
+            display: flex !important;
+            background: #4f79e8 !important;
+            color: #fff;
+            font-size: 18px !important;
+            outline: none;
+        }
+
+        .aui-list-item {
+            background: #fff !important;
+            padding-left: 0 !important;
+        }
+
+        input {
+            outline: none;
+        }
+
+        .title {
+            width: 37% !important;
+            justify-content: flex-end !important;
+            padding-right: 0 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="back" tapmode onclick="fnReturnMyApp();"></div>
+        <h1>绑定账户</h1>
+    </header>
+    <div class="aui-content mine_List">
+        <ul class="aui-list">
+
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner title">
+                        用户名：
+                    </div>
+                    <div class="aui-list-item-inner">
+                        <input type="text" id="bindUsername" name="" value="" placeholder="请输入用户名">
+                    </div>
+                </div>
+            </li>
+
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner title">
+                        密码：
+                    </div>
+                    <div class="aui-list-item-inner">
+                        <input type="password" id="bindPassword" name="" value="" placeholder="请输入密码">
+                    </div>
+                </div>
+            </li>
+
+            <!-- <li class="aui-list-item" id="IPli">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner title">
+                        服务器：
+                    </div>
+                    <div class="aui-list-item-inner">
+                        <input type="password" id="bindIp" name="" value="" placeholder="请输入服务器地址">
+                    </div>
+                </div>
+            </li> -->
+
+        </ul>
+    </div>
+    <button type="button" class="sureBtn" name="button" tapmode onclick="InsertOrUpdateAsync();">绑定</button>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        // $('#IPli').hide();
+        getBindAccount(api.pageParam.productId, api.pageParam.productName);
+    };
+
+    //返回我的资料页面
+    function fnReturnMyApp() {
+        api.closeWin({});
+    }
+
+    var bindId = null;
+    //获取已绑定的账户密码
+    function getBindAccount(id, name) {
+        // if (name == '管网通') {
+        //     $('#IPli').show();
+        // }
+        fnGet('services/app/BindAccount/GetUserBindAccountAsync?ProductId=' + id + '', {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    if (ret.result != null) {
+                        $('#bindUsername').val(ret.result.bindUserName);
+                        $('#bindPassword').val(ret.result.bindPassWord);
+                        bindId = ret.result.id;
+                    }
+                }
+            }
+        });
+    }
+
+    //点击绑定进行应用账户绑定操作
+    function InsertOrUpdateAsync() {
+        var bindUserName = $('#bindUsername').val();
+        var bindPassWord = $('#bindPassword').val();
+        if (isEmpty(bindUserName) || isEmpty(bindPassWord)) {
+            api.toast({
+                msg: '用户名或密码不能为空',
+                duration: 2000,
+                location: 'top'
+            });
+            return;
+        };
+        var bindData = {
+            id: bindId,
+            bindUserName: bindUserName,
+            bindPassWord: bindPassWord,
+            productId: api.pageParam.productId,
+            mask: "",
+            settingJson: null
+        };
+        fnPost('services/app/BindAccount/InsertOrUpdateAsync', {
+            body: JSON.stringify(bindData)
+        }, 'application/json', true, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    api.toast({
+                        msg: '绑定成功！',
+                        duration: 2000,
+                        location: 'top'
+                    });
+                }
+            }
+        })
+    }
+</script>
+
+</html>

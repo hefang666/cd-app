@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>添加功能页面</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: #fff;
+            /*background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));*/
+        }
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+        .aui-title{
+          color: #000;
+        }
+
+        .flex-con {
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+        .flex-con>.title{
+          font-size: var(--fontsize75);
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0rem;
+          color: #999999;
+          display: block;
+          padding: 0.65rem 0.75rem;
+          background: #f5f5f5;
+        }
+        .flex-con .AlreadyAdded{
+          width: 100%;
+          overflow: hidden;
+        }
+        .flex-con .AlreadyAdded>div{
+          position: relative;
+          padding-left: 15%;
+          border-bottom: 1px solid #f5f5f5;
+
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0rem;
+          color: #000;
+          display: block;
+          padding: 0.65rem 0.75rem;
+          background: #fff;
+        }
+        .flex-con .AlreadyAdded>div img{
+          position: absolute;
+          /*left: 5%;*/
+          width: 1rem;
+        }
+        .flex-con .AlreadyAdded>div span{
+          /*position: relative;*/
+          display: block;
+          margin-left: 1.3rem;
+          margin-top: -0.08rem;
+          font-size: 0.8rem;
+          font-weight: normal;
+          font-stretch: normal;
+          letter-spacing: 0rem;
+          color: #000;
+
+        }
+        #footer {
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            padding: 1rem 0;
+        }
+        #footer>div{
+          width: 100%;
+          padding: 1rem auto;
+          text-align: center;
+        }
+        .dv {
+            background-color: #ffffff;
+            border-bottom: 1px solid #F3F3F3;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .dv_top {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_top_dv1 {
+            flex: 1;
+            color: #2aaeff;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">添加应用</div>
+    </header>
+
+    <div id="main" class="flex-con">
+        <span class="title" id="title">已添加的应用</span>
+        <div class="AlreadyAdded" id="AlreadyAdded">
+
+        </div>
+        <span class="title" id="title2">未添加的应用</span>
+        <div class="AlreadyAdded" id="NotAdded">
+          <!-- <div><img src="../../image/MeteReading/drawable-hdpi/add.png" alt=""><span>下载用户</span></div>
+          <div><img src="../../image/MeteReading/drawable-hdpi/add.png" alt=""><span>下载用户</span></div> -->
+        </div>
+    </div>
+
+    <div id="footer">
+        <div id="meueGN">暂未添加应用</div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id='logList'>
+  {{if list.length>0}}
+  {{each list value i}}
+  <div  class="DeleteApp" tapmode data-action='DeleteApp' parse={{value.NAME}}><img src="../../image/MeteReading/drawable-hdpi/delete.png"><span>{{value.NAME}}</span></div>
+  {{/each}}
+  {{else}}
+  <div class="AddApp"><span>暂无已添加应用</span></div>
+  {{/if}}
+</script>
+<script type="text/template" id='deleteApp'>
+  {{if list.length>0}}
+  {{each list value i}}
+  <div class="AddApp" tapmode data-action='AddApp' parse={{value.NAME}}><img src="../../image/MeteReading/drawable-hdpi/add.png" alt=""><span>{{value.NAME}}</span></div>
+  {{/each}}
+  {{else}}
+  <div class="AddApp"><span>暂无未添加应用</span></div>
+  {{/if}}
+</script>
+<script type="text/javascript">
+    var refulash;//做判断上一页进来和本页刷新
+    var dataList,db;
+
+    apiready = function() {
+        db = api.require("db");
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        var header = $api.byId('header');
+        headerH = $api.offset(header).h;
+        var headerHight = headerH-1
+        $('#main').css('margin-top', '' + headerHight + 'px');
+        dataList = api.pageParam.text;
+        refulash = 0//
+        AlreadyCotent('')
+        addAppCotent('');
+
+
+    };
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'DeleteApp': function(){//删除功能菜单
+          refulash = 1//页面操作赋值为1进行
+          $(this).removeClass("DeleteApp")//先移除页面展示的功能菜单名称class和隐藏他
+          $(this).addClass("aui-hide")
+          var menu =$('#AlreadyAdded .DeleteApp')//获取删除隐藏后现在的功能菜单将其循环
+          var UserMenu = []
+          for(var i=0;i<menu.length;i++){
+            var obj = {}
+            obj.NAME = $(menu[i]).attr('parse')
+            UserMenu.push(obj);
+          }
+          // 得到的格式为[{"NAME":"开始抄表"},{"NAME":"申报工单"}]此类型数组对象
+          $("#NotAdded").empty()//然后将其未添加应用清空重新渲染，
+          api.sendEvent({//发送事件到主页面进行刷新，这里传过去的是已添加数组的值
+              name: 'reflashMenu',
+              extra: UserMenu
+          });
+          $api.setStorage('HistoryMenu', UserMenu);//存储当前功能菜单，用于首页推出app时再近来渲染
+
+          addAppCotent(UserMenu)
+          if(UserMenu.length>0){
+            // var html = '<div class="AddApp"><span>暂无应用</span></div>'
+            // $("#AlreadyAdded").append(html)
+          }else {
+            handleAnnotData(UserMenu)
+          }
+
+          // $(this).css("background":"pink")
+        },
+        'AddApp': function(){
+          refulash = 1
+          $(this).removeClass("AddApp");
+          $(this).addClass("aui-hide");
+          var menu =$('#NotAdded .AddApp');//未添加的应用
+          // var menu1 =$('#AlreadyAdded .DeleteApp')//已经添加应用
+          var UserMenu = []
+          for(var i=0;i<menu.length;i++){
+            var obj = {}
+            obj.NAME = $(menu[i]).attr('parse')
+            UserMenu.push(obj);
+          }
+          $("#AlreadyAdded").empty()
+          // UserMenu得到未添加数组
+          if(UserMenu.length>0){
+            // var html = '<div class="AddApp"><span>暂无应用</span></div>'
+            // $("#AlreadyAdded").append(html)
+          }else {
+            handleAnnotData2(UserMenu)
+          }
+          AlreadyCotent(UserMenu)
+        }
+    }
+    function AlreadyCotent(hasAddAppNumer){//未添加调用
+      var dataList
+      if(refulash==0){
+        dataList=api.pageParam.text;//上一页近来传过来的已经添加的菜单
+      }else {
+        var hasAddApp = hasAddAppNumer
+        var ret = db.selectSqlSync({
+          name: 'CBtest',
+          sql: 'SELECT * FROM MRM_USERMEUE_BEAN'
+        });
+        var dataList = ret.data
+        var UserMenu = []
+        for(var i=0;i<dataList.length;i++){
+          var obj = {}//里面定义对象
+          obj.NAME=dataList[i].NAME
+          UserMenu.push(obj)
+        }
+        var AppNumer=UserMenu;//总共多少应用
+        var hasNotAppContent = [];//用于计算装已经添加的
+        for(var i=0;i<AppNumer.length;i++){//循环总共的与未添加的进行对比得到已经添加的
+          var floag = true;
+          for(var j=0;j<hasAddApp.length;j++){
+            if(hasAddApp[j].NAME==AppNumer[i].NAME){//相等终止下面操作
+              floag = false;
+              break;//
+            }else {
+              floag = true;
+            }
+          }
+          // floag为true
+          if(floag){
+            hasNotAppContent.push(AppNumer[i])
+          }
+        }
+        dataList=hasNotAppContent;//这一页操作已经添加的
+        api.sendEvent({
+            name: 'reflashMenu',
+            extra: dataList
+        });
+        $api.setStorage('HistoryMenu', dataList);
+
+      }
+      handleAnnotData(dataList)//已经添加的渲染
+      var text
+      if(dataList.length>0){
+        text = "已添加"+dataList.length+'个应用'
+      }else {
+        text = "暂未添加应用"
+
+      }
+      $("#meueGN").text(text)
+
+    }
+    function handleAnnotData(dataList) {//已经添加的渲染
+        var list = {
+            list: dataList
+        }
+        var str = template('logList', list)
+        $api.append($api.byId('AlreadyAdded'), str);
+        fnReady();
+        // operationDom();
+        operationDom();
+        api.hideProgress();
+
+    }
+    // 初次渲染未添加应用
+    function addAppCotent(hasAddAppNumer){
+      var hasAddApp
+      var ret = db.selectSqlSync({
+        name: 'CBtest',
+        sql: 'SELECT * FROM MRM_USERMEUE_BEAN'
+      });
+      var dataList = ret.data
+      var UserMenu = []
+      for(var i=0;i<dataList.length;i++){
+        var obj = {}//里面定义对象
+        obj.NAME=dataList[i].NAME
+        UserMenu.push(obj)
+      }
+      var AppNumer=UserMenu;//总共多少应用
+      if(refulash==0){
+        hasAddApp=api.pageParam.text;//上一页近来传过来的已经添加的菜单
+      }else {
+        hasAddApp = hasAddAppNumer//这一页操作已经添加的功能菜单
+      }
+      var hasNotAppContent = [];//用于计算装未添加的
+      for(var i=0;i<AppNumer.length;i++){//循环总共的与已经添加的进行对比得到没添加的
+        var floag = true;
+        for(var j=0;j<hasAddApp.length;j++){
+          if(hasAddApp[j].NAME==AppNumer[i].NAME){//相等终止下面操作
+            floag = false;
+            break;//
+          }else {
+            floag = true;
+          }
+        }
+        // floag为true
+        if(floag){
+          hasNotAppContent.push(AppNumer[i])
+        }
+      }
+      handleAnnotData2(hasNotAppContent)//没添加的渲染
+      var text
+      if(hasAddApp.length>0){
+        text = "已添加"+hasAddApp.length+'个应用'
+      }else {
+        text = "暂未添加应用"
+      }
+      $("#meueGN").text(text)
+
+    }
+    function handleAnnotData2(dataList) {
+        var list = {
+            list: dataList
+        }
+        var str = template('deleteApp', list)
+        $api.append($api.byId('NotAdded'), str);
+        fnReady();
+        // operationDom();
+        operationDom();
+        api.hideProgress();
+
+    }
+</script>
+
+</html>

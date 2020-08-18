@@ -1,0 +1,156 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>报装审批页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+            display: flex;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            border-bottom: solid 0.03rem #e6e6e6;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .aui-toast {
+            left: 40% !important;
+            width: 11.5em !important;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">报装</div>
+    </header> -->
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/aui-toast.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        // var header = $api.byId('header');
+        // // 实现沉浸式状态栏效果
+        // $api.fixStatusBar(header);
+        // headerH = $api.offset(header).h;
+        var linkUrl = api.pageParam.url + '&SourceSystem=CloudPlatformApp2.0';
+        var ProductId = api.pageParam.productId;
+        var url = 'services/app/Product/GetSsoUrl?ProductId=' + ProductId + '';
+        fnGet(url, {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    if (ret.result != null) {
+                        var paramName = ret.result.paramName;
+                        var otherurl = ret.result.verifyTokenUrl;
+                        var tokenResult = ret.result.tokenResult;
+                        // var loginData = {
+                        // }
+                        // var data = {
+                        //     body: JSON.stringify(loginData)
+                        // }
+                        for (var i = 0; i < paramName.length; i++) {
+                            if (i == 0) {
+                                otherurl = otherurl + '?' + paramName[i] + '=' + tokenResult[i];
+                            } else {
+                                otherurl = '&' + paramName[i] + '=' + tokenResult[i];
+                            }
+                        }
+                        var headers = {};
+                        api.ajax({
+                            url: otherurl,
+                            method: 'get',
+                            timeout: 15,
+                            dataType: 'jsonp',
+                            headers: headers,
+                            traditional: true
+                        }, function(ret, err) {
+                            if (ret != "") {
+                                api.openFrame({
+                                    name: 'BZFrame',
+                                    url: linkUrl,
+                                    progress: {
+                                        type: "page",
+                                    },
+                                    rect: {
+                                        x: 0,
+                                        y: 0,
+                                        w: 'auto',
+                                        h: 'auto'
+                                    },
+                                    pageParam: {
+                                        name: 'test'
+                                    },
+                                    bounces: false,
+                                });
+                            }
+
+                        })
+                    }
+                } else {
+                    setTimeout(function() {
+                        var toast = new auiToast();
+                        toast.custom({
+                            title: "关联账号配置错误，无法登录",
+                            html: '<i class="aui-iconfont aui-icon-info"></i>',
+                            duration: 2000
+                        });
+                    }, 500);
+                }
+            }
+        })
+        fnReady();
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            api.closeWin();
+        });
+
+    };
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+    }
+</script>
+
+</html>

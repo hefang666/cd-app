@@ -1,0 +1,1303 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>工作通知页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #F0F0F0;
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+            display: flex;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            border: none;
+            background-size: 100% 1px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-image: linear-gradient(0, #dddddd, #dddddd 50%, transparent 50%);
+            background-image: -webkit-linear-gradient(90deg, #dddddd, #dddddd 50%, transparent 50%);
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .aui-tab {
+            width: 100%;
+            border-bottom: solid 0.03rem #e6e6e6;
+        }
+
+        .aui-tab-item {
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+        }
+
+        .aui-tab-item.aui-active {
+            border-bottom: 0.05rem solid #4f79e8;
+        }
+
+        .aui-tab-item.aui-active,
+        .aui-tab-item.aui-active .aui-iconfont {
+            color: #4f79e8;
+        }
+
+        .aui-tab-item .aui-iconfont {
+            color: #999999;
+            font-weight: 900;
+            margin-left: 0.15rem;
+        }
+
+        section {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 0 0.6rem;
+            padding-bottom: 0.78rem;
+        }
+
+        section .item {
+            margin: 0;
+            margin-top: 0.78rem;
+        }
+
+        section .item .time {
+            width: fit-content;
+            width: -webkit-fit-content;
+            width: -moz-fit-content;
+            padding: 0 0.25rem;
+            height: 0.88rem;
+            background-color: #cccccc;
+            border-radius: 0.08rem;
+            font-size: var(--fontsize6);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #ffffff;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.28rem;
+        }
+
+        section .item .aui-card-list {
+            width: auto;
+            background-color: #ffffff;
+            border-radius: 0.25rem;
+            margin: 0 auto;
+        }
+
+        section .item .aui-card-list .baozhuang {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        section .item .aui-card-list .OA {
+            width: 1rem;
+            height: 0.83rem;
+            margin: auto 0;
+        }
+
+        section .item .aui-card-list .Cus {
+            width: 0.98rem;
+            height: 0.98rem;
+        }
+
+        section .item .aui-card-list .Alarm {
+            width: 0.88rem;
+            height: 0.98rem;
+        }
+
+        section .item .aui-card-list .Notice {
+            width: 1.05rem;
+            height: 1.05rem;
+        }
+
+        section .item .aui-card-list .aui-list-item-arrow:before {
+            width: 0.55rem;
+            height: 0.55rem;
+            border-color: #999999;
+        }
+
+        section .item .aui-card-list .aui-card-list-user-avatar {
+            margin-right: 0.35rem;
+        }
+
+        section .aui-card-list-user-name {
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #323232;
+        }
+
+        section .item .aui-card-list .aui-card-list-content-padded,
+        .aui-card-list-header,
+        .aui-card-list-footer {
+            padding: 0.75rem 0.6rem;
+        }
+
+        section .item .aui-card-list .aui-card-list-header.aui-card-list-user {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        section .item .aui-card-list .aui-card-list-content-padded ul li {
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+            margin-bottom: 0.05rem;
+        }
+
+        section .item .aui-card-list .aui-card-list-content-padded ul li:last-child {
+            margin-bottom: 0;
+        }
+
+        section .item .aui-card-list .aui-card-list-content-padded ul li:first-child {
+            color: #323232;
+        }
+
+        section .item .aui-card-list .aui-card-list-footer ul {
+            width: 100%;
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        section .item .aui-card-list .aui-card-list-footer ul li {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        section .item .aui-card-list .AlarmContent {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        section .item .aui-card-list .NoticeContent {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        section .stamp {
+            position: absolute;
+            width: 4.6rem;
+            height: 3.65rem;
+            top: 1.73rem;
+            right: 0.13rem;
+        }
+
+        .aui-card-list-header:active {
+            background-color: #ececec;
+        }
+
+        .aui-toast {
+            left: 40% !important;
+            width: 11.5em !important;
+        }
+
+        .item .aui-dot {
+            position: initial;
+            margin-left: 60vw;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">工作通知</div>
+    </header>
+    <div class="aui-tab" id="tab">
+        <div class="aui-tab-item" tapmode>消息提示<span class="aui-iconfont aui-icon-down"></span></div>
+        <div class="aui-tab-item aui-active" tapmode>工作查询：<span id="mesType">全部消息</span><span class="aui-iconfont aui-icon-down"></span></div>
+    </div>
+    <section id="sec">
+    </section>
+
+
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/javascript" src="../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../script/aui-toast.js"></script>
+<script type="text/template" id="messageList">
+    {{each items value i}}
+    {{if value.data}}
+    {{if value.messageType == 1}}
+    <div class="item">
+        <div class="time">
+            {{value.sendTime}}
+        </div>
+        <div class="aui-card-list" tapmode data-action="openOA" data-param="{{value}}">
+            <!-- <div class="stamp">
+                <img src="../../image/message_frame/red.png">
+            </div> -->
+            <div class="aui-card-list-header aui-card-list-user aui-border-b aui-list-item-arrow">
+                <div class="aui-card-list-user-avatar OA">
+                    <img src="../../image/message_frame/OA.png" />
+                </div>
+                <div class="aui-card-list-user-name">
+                    OA
+                </div>
+                {{if !value.isRead}}
+                <div class="aui-dot">
+
+                </div>
+                {{/if}}
+            </div>
+            <div class="aui-card-list-content-padded">
+                <ul>
+                    <li>{{value.title}}</li>
+                    <li class="NoticeContent">{{value.data.Content}}</li>
+                    <li>提交时间：{{value.data.Send_Time}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{/if}} {{if value.messageType == 2}}
+    <div class="item">
+        <div class="time">
+            {{value.sendTime}}
+        </div>
+        <div class="aui-card-list" tapmode data-action="openBaoWin" data-param="{{value}}">
+            <!-- {{if value.businessType == 1}}
+            <div class="stamp">
+                <img src="../../image/message_frame/red.png">
+            </div>
+            {{/if}} {{if value.businessType == 2}}
+            <div class="stamp">
+                <img src="../../image/message_frame/green.png">
+            </div>
+            {{/if}} -->
+            <div class="aui-card-list-header aui-card-list-user aui-border-b aui-list-item-arrow">
+                <div class="aui-card-list-user-avatar baozhuang">
+                    <img src="../../image/message_frame/baozhuang.png" />
+                </div>
+                <div class="aui-card-list-user-name">
+                    报装
+                </div>
+                {{if !value.isRead}}
+                <div class="aui-dot">
+
+                </div>
+                {{/if}}
+            </div>
+            <div class="aui-card-list-content-padded">
+                <ul>
+                    <li>报装编号：<span>{{value.data.ReqCode}}</span></li>
+                    <li>工程名称：<span>{{value.data.InstanceName}}</span></li>
+                    <li>当前环节：<span>{{value.data.ActiveName}}</span></li>
+                    <li>接受时间：<span>{{value.data.ArrivedTimeText}}</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{/if}} {{if value.messageType == 3}}
+    <div class="item">
+        <div class="time">
+            {{value.sendTime}}
+        </div>
+        <div class="aui-card-list" tapmode data-action="openCusWin" data-param="{{value}}">
+            <!-- {{if value.businessType == 1}}
+            <div class="stamp">
+                <img src="../../image/message_frame/red.png">
+            </div>
+            {{/if}} {{if value.businessType == 2}}
+            <div class="stamp">
+                <img src="../../image/message_frame/green.png">
+            </div>
+            {{/if}} -->
+            <div class="aui-card-list-header aui-card-list-user aui-border-b aui-list-item-arrow">
+                <div class="aui-card-list-user-avatar Cus">
+                    <img src="../../image/message_frame/cus.png" />
+                </div>
+                <div class="aui-card-list-user-name">
+                    客服
+                </div>
+                {{if !value.isRead}}
+                <div class="aui-dot">
+
+                </div>
+                {{/if}}
+            </div>
+            <div class="aui-card-list-content-padded">
+                <ul>
+                    <li>工单编号：{{value.data.OrderNo}}</li>
+                    <li>工程名称：{{value.data.InstanceName}}</li>
+                    <li>当前环节：{{value.data.ActivityName}}</li>
+                    <li>接受时间：{{value.data.ArrivedTime}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{/if}} {{if value.messageType == 4}}
+    <div class="item">
+        <div class="time">
+            {{value.sendTime}}
+        </div>
+        <div class="aui-card-list" tapmode data-action="openAlarm" data-param="{{value}}">
+            <div class="aui-card-list-header aui-card-list-user aui-border-b aui-list-item-arrow">
+                <div class="aui-card-list-user-avatar Alarm">
+                    <img src="../../image/message_frame/alarm.png" />
+                </div>
+                <div class="aui-card-list-user-name">
+                    报警消息
+                </div>
+                {{if !value.isRead}}
+                <div class="aui-dot">
+
+                </div>
+                {{/if}}
+            </div>
+            <div class="aui-card-list-content-padded">
+                <ul>
+                    <li class="AlarmContent">{{value.data.Content}}</li>
+                    <li>报警时间：{{value.time}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{/if}} {{if value.messageType == 5}}
+    <div class="item">
+        <div class="time">
+            {{value.sendTime}}
+        </div>
+        <div class="aui-card-list" tapmode data-action="openNotice" data-param="{{value}}">
+            <div class="aui-card-list-header aui-card-list-user aui-border-b aui-list-item-arrow">
+                <div class="aui-card-list-user-avatar Notice">
+                    <img src="../../image/message_frame/notice.png" />
+                </div>
+                <div class="aui-card-list-user-name">
+                    公告
+                </div>
+                {{if !value.isRead}}
+                <div class="aui-dot">
+
+                </div>
+                {{/if}}
+            </div>
+            <div class="aui-card-list-content-padded">
+                <ul>
+                    <li>{{value.data.Title}}</li>
+                    <li class="NoticeContent">{{value.data.Content}}</li>
+                </ul>
+            </div>
+            <div class="aui-card-list-footer aui-border-t">
+                <ul>
+                    <li>{{value.sendUserName}}</li>
+                    <li>{{value.yearDate}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{/if}}
+    {{/if}}{{/each}}
+</script>
+<script type="text/template" id="chaosong">
+    {{each items value i}}
+    <div class="item">
+        <div class="time">
+            {{value.sendTime}}
+        </div>
+        <div class="aui-card-list" tapmode data-action="openWorkOA" data-param="{{value}}">
+            <div class="aui-card-list-header aui-card-list-user aui-border-b aui-list-item-arrow">
+                <div class="aui-card-list-user-avatar OA">
+                    <img src="../../image/message_frame/OA.png" />
+                </div>
+                <div class="aui-card-list-user-name">
+                    OA
+                </div>
+            </div>
+            <div class="aui-card-list-content-padded">
+                <ul>
+                    <li>{{value.title}}</li>
+                    <li>提交时间：{{value.createTime}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id="serachList">
+    {{each items value i}} {{if value.businessType == 1}}
+    <div class="item">
+        <div class="time">
+            {{value.sendTime}}
+        </div>
+        <div class="aui-card-list" tapmode data-action="openSearchOA" data-param="{{value.todoValue}}">
+            <div class="aui-card-list-header aui-card-list-user aui-border-b aui-list-item-arrow">
+                <div class="aui-card-list-user-avatar OA">
+                    <img src="../../image/message_frame/OA.png" />
+                </div>
+                <div class="aui-card-list-user-name">
+                    OA
+                </div>
+            </div>
+            <div class="aui-card-list-content-padded">
+                <ul>
+                    <li>{{value.todoValue.Title}}</li>
+                    <li>提交时间：{{value.orderTime}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{/if}} {{if value.businessType == 2}}
+    <div class="item">
+        <div class="time">
+            {{value.sendTime}}
+        </div>
+        <div class="aui-card-list" tapmode data-action="openWorkBao" data-param="{{value.todoValue}}">
+            <!-- {{if value.businessType == 1}}
+            <div class="stamp">
+                <img src="../../image/message_frame/red.png">
+            </div>
+            {{/if}} {{if value.businessType == 2}}
+            <div class="stamp">
+                <img src="../../image/message_frame/green.png">
+            </div>
+            {{/if}} -->
+            <div class="aui-card-list-header aui-card-list-user aui-border-b aui-list-item-arrow">
+                <div class="aui-card-list-user-avatar baozhuang">
+                    <img src="../../image/message_frame/baozhuang.png" />
+                </div>
+                <div class="aui-card-list-user-name">
+                    报装
+                </div>
+            </div>
+            <div class="aui-card-list-content-padded">
+                <ul>
+                    <li>工程名称：<span>{{value.todoValue.Title}}</span></li>
+                    <li>接受时间：<span>{{value.orderTime}}</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{/if}} {{if value.businessType == 3}}
+    <div class="item">
+        <div class="time">
+            {{value.sendTime}}
+        </div>
+        <div class="aui-card-list" tapmode data-action="openWorkCus" data-param="{{value.todoValue}}">
+            <!-- {{if value.businessType == 1}}
+            <div class="stamp">
+                <img src="../../image/message_frame/red.png">
+            </div>
+            {{/if}} {{if value.businessType == 2}}
+            <div class="stamp">
+                <img src="../../image/message_frame/green.png">
+            </div>
+            {{/if}} -->
+            <div class="aui-card-list-header aui-card-list-user aui-border-b aui-list-item-arrow">
+                <div class="aui-card-list-user-avatar Cus">
+                    <img src="../../image/message_frame/cus.png" />
+                </div>
+                <div class="aui-card-list-user-name">
+                    客服
+                </div>
+            </div>
+            <div class="aui-card-list-content-padded">
+                <ul>
+                    <li>工程名称：{{value.todoValue.Title}}</li>
+                    <li>接受时间：{{value.orderTime}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    {{/if}} {{/each}}
+</script>
+<script type="text/javascript">
+    document.body.addEventListener('touchstart', function() {});
+    var pageIndex = 1;
+    var pageIndexWork = 1;
+    var noData = false;
+    var finished = true;
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        fnReady();
+        // setRead();
+        setTab(1);
+        setTimeout(function() {
+            getList(1);
+        }, 300);
+
+        noData = false;
+        var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
+        var nScrollTop = 0; //滚动到的当前位置
+        var nmyDivHight = $("#sec").height();
+
+        $("#sec").scroll(function() {
+            nScrollHight = $(this)[0].scrollHeight;
+            nScrollTop = $(this)[0].scrollTop;
+            if (finished && nScrollTop + nmyDivHight >= nScrollHight) {
+                finished = false;
+                if (!noData) {
+                    var tabList = $('.aui-tab-item');
+                    if ($(tabList[0]).hasClass('aui-active')) {
+                        ++pageIndex;
+                        getList(pageIndex);
+                    } else {
+
+                    }
+
+                } else {
+                    setTimeout(function() {
+                        finished = true
+                    }, 2100);
+                    pageIndex = 1;
+                }
+            }
+        });
+
+        var ajpush = api.require('ajpush');
+        ajpush.setListener(
+            function(ret) {
+                var tabList = $('.aui-tab-item');
+                if ($(tabList[0]).hasClass('aui-active')) {
+                    getList(1);
+                }
+
+            }
+        );
+
+        api.addEventListener({
+            name: 'refresh'
+        }, function(ret, err) {
+            if (ret) {
+                var tabList = $('.aui-tab-item');
+                if ($(tabList[0]).hasClass('aui-active')) {
+                    getList(1);
+                }
+            }
+        });
+
+    };
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'openCusWin': function() {
+            var data = JSON.parse($(this).attr('data-param'));
+            var winName = data.linkUrl;
+            var index = winName.lastIndexOf('/');
+            var index2 = winName.indexOf('.html');
+            if (index != -1 && index2 != -1) {
+                winName = winName.substring(index + 1, index2);
+            }
+            if (!$api.getStorage('kfUserId') || !$api.getStorage('kfPassWord')) {
+                api.toast({
+                    msg: '请先关联客服系统账号！',
+                    duration: 2000,
+                    location: 'top'
+                });
+                return
+            }
+            checkCus(data.data.InstanceId, data.data.StepId, function(res) {
+                if (res) {
+                    if (data.linkType == 2) {
+                        api.openWin({
+                            name: winName,
+                            url: data.linkUrl,
+                            pageParam: data.data
+                        });
+                    } else {
+                        api.openWin({
+                            name: 'baozhuang',
+                            url: './baozhuang.html',
+                            pageParam: {
+                                url: data.linkUrl,
+                                productId: data.product
+                            },
+                        });
+                    }
+                } else {
+                    api.alert({
+                        title: '提示',
+                        msg: '此工单消息已办理！',
+                    }, function(ret, err) {
+
+                    });
+                }
+            })
+            var identifies = data.identifies;
+            setRead(identifies);
+            $(this).find('.aui-dot').remove();
+        },
+        'openBaoWin': function() {
+            var data = JSON.parse($(this).attr('data-param'));
+            var winName = data.linkUrl;
+            var index = winName.lastIndexOf('/');
+            var index2 = winName.indexOf('.html');
+            if (index != -1 && index2 != -1) {
+                winName = winName.substring(index + 1, index2);
+            }
+            if (!$api.getStorage('bzUserId') || !$api.getStorage('bzPassWord')) {
+                api.toast({
+                    msg: '请先关联报装系统账号！',
+                    duration: 2000,
+                    location: 'top'
+                });
+                return
+            }
+            checkBao(data.data.InstanceId, data.data.StepId, function(res) {
+                if (res) {
+                    if (data.linkType == 2) {
+                        api.openWin({
+                            name: winName,
+                            url: data.linkUrl,
+                            pageParam: data.data
+                        });
+                    } else {
+                        api.openWin({
+                            name: 'baozhuang',
+                            url: './baozhuang.html',
+                            pageParam: {
+                                url: data.linkUrl,
+                                productId: data.product
+                            },
+                        });
+                    }
+                } else {
+                    api.alert({
+                        title: '提示',
+                        msg: '此流程消息已办理！',
+                    }, function(ret, err) {
+
+                    });
+                }
+            })
+            var identifies = data.identifies;
+            setRead(identifies);
+            $(this).find('.aui-dot').remove();
+        },
+        'openWorkBao': function() {
+            var data = JSON.parse($(this).attr('data-param'));
+            var winName = data.AppUrl;
+            var index = winName.lastIndexOf('/');
+            var index2 = winName.indexOf('.html');
+            if (index != -1 && index2 != -1) {
+                winName = winName.substring(index + 1, index2);
+            }
+            if (!$api.getStorage('bzUserId') || !$api.getStorage('bzPassWord')) {
+                api.toast({
+                    msg: '请先关联报装系统账号！',
+                    duration: 2000,
+                    location: 'top'
+                });
+                return
+            }
+            data.Data = JSON.parse(data.Data);
+            if (data.LinkType == 2) {
+                if (data.MessageType == 1) {
+                    checkBao(data.Data.InstanceId, data.Data.StepId, function(res) {
+                        if (res) {
+                            api.openWin({
+                                name: winName,
+                                url: data.AppUrl,
+                                pageParam: data.Data
+                            });
+                        } else {
+                            api.alert({
+                                title: '提示',
+                                msg: '此流程消息已办理！',
+                            }, function(ret, err) {
+
+                            });
+                        }
+                    })
+                } else {
+                    api.openWin({
+                        name: winName,
+                        url: data.AppUrl,
+                        pageParam: data.Data
+                    });
+                }
+            } else if (data.LinkType == 1) {
+                api.openWin({
+                    name: 'baozhuang',
+                    url: './baozhuang.html',
+                    pageParam: {
+                        url: data.AppUrl,
+                        productId: data.ProductId
+                    },
+
+                });
+            }
+        },
+        'openNotice': function() {
+            var id = JSON.parse($(this).attr('data-param')).data.Id;
+            api.openWin({
+                name: 'NoticeDetails',
+                url: './NoticeDetails.html',
+                pageParam: {
+                    id: id
+                }
+            });
+            var identifies = JSON.parse($(this).attr('data-param')).identifies;
+            setRead(identifies);
+            $(this).find('.aui-dot').remove();
+        },
+        'openCus': function() {
+            var data = JSON.parse($(this).attr('data-param'));
+            api.openWin({
+                name: 'kefu',
+                url: './kefu.html',
+                pageParam: {
+                    url: data.linkUrl,
+                    productId: data.product
+                },
+            });
+            var identifies = data.identifies;
+            setRead(identifies);
+            $(this).find('.aui-dot').remove();
+        },
+        'openWorkCus': function() {
+            var data = JSON.parse($(this).attr('data-param'));
+            var winName = data.AppUrl;
+            var index = winName.lastIndexOf('/');
+            var index2 = winName.indexOf('.html');
+            if (index != -1 && index2 != -1) {
+                winName = winName.substring(index + 1, index2);
+            }
+            if (!$api.getStorage('kfUserId') || !$api.getStorage('kfPassWord')) {
+                api.toast({
+                    msg: '请先关联客服系统账号！',
+                    duration: 2000,
+                    location: 'top'
+                });
+                return
+            }
+            data.Data = JSON.parse(data.Data);
+            if (data.LinkType == 2) {
+                if (data.MessageType == 1) {
+                    checkCus(data.Data.InstanceId, data.Data.StepId, function(res) {
+                        if (res) {
+                            api.openWin({
+                                name: winName,
+                                url: data.AppUrl,
+                                pageParam: data.Data
+                            });
+                        } else {
+                            api.alert({
+                                title: '提示',
+                                msg: '此工单已办理！',
+                            }, function(ret, err) {
+
+                            });
+                        }
+                    })
+                } else {
+                    api.openWin({
+                        name: winName,
+                        url: data.AppUrl,
+                        pageParam: data.Data
+                    });
+                }
+            } else if (data.LinkType == 1) {
+                api.openWin({
+                    name: 'baozhuang',
+                    url: './baozhuang.html',
+                    pageParam: {
+                        url: data.AppUrl,
+                        productId: data.ProductId
+                    },
+
+                });
+            }
+        },
+        'openOA': function() {
+            var data = JSON.parse($(this).attr('data-param'));
+            api.openWin({
+                name: 'OA',
+                url: '../work/OA.html',
+                pageParam: {
+                    url: data.linkUrl,
+                    productId: data.product
+                }
+            });
+            var identifies = data.identifies;
+            setRead(identifies);
+            $(this).find('.aui-dot').remove();
+        },
+        'openWorkOA': function() {
+            var data = JSON.parse($(this).attr('data-param'));
+            api.openWin({
+                name: 'OA',
+                url: '../work/OA.html',
+                pageParam: {
+                    url: data.appLinkUrl,
+                }
+            });
+        },
+        'openSearchOA': function() {
+            var data = JSON.parse($(this).attr('data-param'));
+            api.openWin({
+                name: 'OA',
+                url: '../work/OA.html',
+                pageParam: {
+                    url: data.AppLinkUrl,
+                }
+            });
+        },
+        'openAlarm': function() {
+            var data = JSON.parse($(this).attr('data-param'));
+            api.openWin({
+                name: 'messageDetails',
+                url: './messageDetails.html',
+                pageParam: {
+                    type: 'warn',
+                    data: data
+                }
+            });
+            var identifies = data.identifies;
+            setRead(identifies);
+            $(this).find('.aui-dot').remove();
+        }
+    }
+
+    function setRead(identifies) {
+        fnPost('services/app/MessagePush/ReadMessage', {
+            body: JSON.stringify({
+                Identifies: identifies
+            })
+        }, 'application/json', true, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    api.sendEvent({
+                        name: 'changeMessageNum',
+                        extra: {
+                            data: 1
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    function checkCus(Instanceid, Stepid, callback) {
+        var headers = {};
+        var params = {
+            Instanceid: Instanceid,
+            Stepid: Stepid
+        }
+        headers["Content-Type"] = 'application/json';
+        headers.Authorization = $api.getStorage('kfHeaders');
+        var flag = true
+        api.ajax({
+            url: $api.getStorage('kfapipath') + 'Request/GetChecktalk',
+            method: 'post',
+            timeout: 100,
+            dataType: 'json',
+            returnAll: false,
+            headers: headers,
+            data: {
+                body: JSON.stringify(params)
+            }
+        }, function(ret, err) {
+            if (ret) {
+                flag = !ret.result
+            } else {
+                flag = true
+            }
+            callback(flag);
+        });
+    }
+
+    function checkBao(Instanceid, Stepid, callback) {
+        var headers = {};
+        var params = {
+            Instanceid: Instanceid,
+            Stepid: Stepid,
+            SuspendState: 1
+        }
+        headers["Content-Type"] = 'application/json';
+        headers.Authorization = $api.getStorage('bzHeaders');
+        var flag = true;
+        api.ajax({
+            url: $api.getStorage('bzapipath') + 'Request/CheckStateOnly',
+            method: 'post',
+            timeout: 100,
+            dataType: 'json',
+            returnAll: false,
+            headers: headers,
+            data: {
+                body: JSON.stringify(params)
+            }
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.code == 1) {
+                    flag = true
+                } else {
+                    flag = false
+                }
+            } else {
+                flag = true
+            }
+            callback(flag);
+        });
+    }
+
+    //时间展示，今天不显示年月日，昨天将年月日替换为昨天，今年的只展示月日，非今年展示年月日
+    function getDayName(d) {
+        var td = new Date();
+        td = new Date(td.getFullYear(), td.getMonth(), td.getDate());
+        var od = new Date(d);
+        od = new Date(od.getFullYear(), od.getMonth(), od.getDate());
+        if (od.getFullYear() == td.getFullYear()) {
+            var xc = (od - td) / 1000 / 60 / 60 / 24;
+            if (xc == -1) {
+                return "昨天 ";
+            } else if (xc == 0) {
+                return "今天 ";
+            } else {
+                var date = (od.getMonth() + 1) + '/' + od.getDate();
+                return date + ' '
+            }
+        } else {
+            var date = od.getFullYear() + '/' + (od.getMonth() + 1) + '/' + od.getDate();
+            return date + ' '
+        }
+    }
+
+    //获取时分
+    function getTimeData(data) {
+        var str = data;
+        var num = str.indexOf("T");
+        if (num != -1) {
+            str = str.substr(num + 1);
+            str = str.substr(0, 5);
+            return str;
+        } else {
+            return "";
+        }
+    }
+
+    var allMessageTypes = [];
+    var allBusinessType = 0;
+    var waitMessageTypes = [];
+    var waitBusinessType = 0;
+
+    //设置tab的默认选中以及切换
+    function setTab(index) {
+        var tab = new auiTab({
+            element: document.getElementById("tab"),
+            index: index,
+            repeatClick: true
+        }, function(ret) {
+            var tabList = $('.aui-tab-item');
+            if (ret.index == 1) {
+                if ($(tabList[0]).hasClass('aui-active')) {
+                    api.actionSheet({
+                        title: '选择需要筛选的消息类型',
+                        cancelTitle: '取消',
+                        buttons: ['全部', '公告', '报装', '客服']
+                    }, function(ret, err) {
+                        if (ret.buttonIndex == 1) {
+                            messageTypes = [1, 2, 3, 5];
+                            businessType = 0;
+                            getList(1);
+                        } else if (ret.buttonIndex == 2) {
+                            messageTypes = [1];
+                            businessType = 0;
+                            getList(1);
+                        } else if (ret.buttonIndex == 3) {
+                            messageTypes = [2];
+                            businessType = 0;
+                            getList(1);
+                        } else if (ret.buttonIndex == 4) {
+                            messageTypes = [3];
+                            businessType = 0;
+                            getList(1);
+                        }
+                        waitMessageTypes = messageTypes;
+                        waitBusinessType = businessType;
+                    });
+                } else {
+                    pageIndex = 1;
+                    if (waitMessageTypes.length == 0) {
+                        messageTypes = [1, 2, 3, 5];
+                        businessType = 0;
+                    } else {
+                        messageTypes = waitMessageTypes;
+                        businessType = waitBusinessType;
+                    }
+                    getList(1);
+                }
+            } else {
+                if ($(tabList[1]).hasClass('aui-active')) {
+                    api.actionSheet({
+                        title: '选择需要筛选的消息类型',
+                        cancelTitle: '取消',
+                        buttons: ['全部消息', '待办', '已办', '已完成']
+                    }, function(ret, err) {
+                        if (ret.buttonIndex == 1) {
+                            messageTypes = [];
+                            businessType = 0;
+                            $('#mesType').html('全部消息');
+                            getToList('all');
+                        } else if (ret.buttonIndex == 2) {
+                            $('#mesType').html('待办');
+                            getToList('daiban');
+                        } else if (ret.buttonIndex == 3) {
+                            messageTypes = [1, 2, 3];
+                            businessType = 2;
+                            $('#mesType').html('已办');
+                            getToList('yiban');
+                        } else if (ret.buttonIndex == 4) {
+                            messageTypes = [1, 2, 3];
+                            businessType = 3;
+                            $('#mesType').html('已完成');
+                            getToList('yiwancheng');
+                        }
+                        allMessageTypes = messageTypes;
+                        allBusinessType = businessType;
+                    });
+                } else {
+                    // if (allMessageTypes.length == 0) {
+                    //     messageTypes = [];
+                    //     businessType = 0;
+                    // } else {
+                    //     messageTypes = allMessageTypes;
+                    //     businessType = allBusinessType;
+                    // }
+                    // getList(1);
+                    var type = $('#mesType').html();
+                    if (type == '全部消息') {
+                        getToList('all');
+                    } else if (type == '待办') {
+                        getToList('daiban');
+                    } else if (type == '已办') {
+                        getToList('yiban');
+                    } else if (type == '已完成') {
+                        getToList('yiwancheng');
+                    }
+                }
+            }
+        });
+    }
+
+    var messageTypes = [];
+    var businessType = 0;
+
+    function getList(PageIndex) {
+        var filter = {
+            messageTypes: messageTypes,
+            pageIndex: PageIndex,
+            skipcount: 0,
+            maxResultCount: 10
+        }
+        if (businessType != 0) {
+            filter.businessType = businessType
+        }
+        fnPost('services/app/MessagePush/SearchHasPagingMessage', {
+            body: JSON.stringify(filter)
+        }, 'application/json', true, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    api.sendEvent({
+                        name: 'changeMessageNum',
+                        extra: {
+                            data: 1
+                        }
+                    });
+                    if (ret.result.length < 10) {
+                        noData = true;
+                    } else {
+                        noData = false;
+                    }
+                    finished = true;
+                    for (var i = 0; i < ret.result.length; i++) {
+                        var sendTime = ret.result[i].sendTime;
+                        var time = getTimeData(sendTime);
+                        var yearDate = sendTime.substr(0, 10);
+                        sendTime = sendTime.replace('T', ' ').replaceAll('-', '/');
+                        ret.result[i]['time'] = sendTime;
+                        sendTime = getDayName(sendTime) + time;
+                        ret.result[i].sendTime = sendTime;
+                        ret.result[i]['yearDate'] = yearDate;
+                        try {
+                          var data = eval('(' + ret.result[i].data + ')');
+                          ret.result[i].data = data;
+                        } catch (e) {
+                          ret.result[i].data = {};
+                        }
+                        if (ret.result[i].messageType == 1) {
+                            ret.result[i].data.Send_Time = ret.result[i].data.Send_Time.replace('T', ' ');
+                        }
+                    }
+                    var list = {
+                        items: ret.result
+                    };
+                    var str = template('messageList', list);
+                    if (PageIndex == 1) {
+                        $('#sec').html(str);
+                        var ele = document.getElementById('sec');
+                        ele.scrollTop = 0;
+                    } else {
+                        // var lastScrollHeight = $('#sec')[0].scrollHeight;
+                        // $('#sec').prepend(str);
+                        // var scrollDiff = $('#sec')[0].scrollHeight - lastScrollHeight;
+                        // $('#sec')[0].scrollTop += scrollDiff;
+                        $('#sec').append(str);
+                    }
+                    operationDom();
+                    api.parseTapmode();
+                }
+            } else {
+                $('#sec').html('');
+            }
+        })
+    }
+
+
+    function getFlowCopyAsync(type) {
+        var url;
+        if (type == 'chaosong') {
+            url = 'services/Report/Eoffice/GetFlowCopyAsync?AutoFixPage=1&Page=0&Limit=10';
+        } else if (type == 'duban') {
+            url = 'services/Report/Eoffice/GetMonitorListAsync?AutoFixPage=1&Page=0&Limit=10';
+        } else if (type == 'chaoshi') {
+            url = 'services/Report/Eoffice/GetOvertimeListAsync?AutoFixPage=1&Page=0&Limit=10';
+        }
+        fnGet(url, {}, false, function(ret, err) {
+            // console.log(JSON.stringify(ret));
+            if (ret) {
+                if (ret.success) {
+                    if (ret.result != null) {
+                        for (var i = 0; i < ret.result.length; i++) {
+                            var sendTime = ret.result[i].createTime;
+                            var time = getTimeData(sendTime);
+                            var yearDate = sendTime.substr(0, 10);
+                            sendTime = sendTime.replace('T', ' ').replaceAll('-', '/');
+                            ret.result[i].createTime = sendTime;
+                            sendTime = getDayName(sendTime) + time;
+                            ret.result[i]['sendTime'] = sendTime;
+                            ret.result[i]['yearDate'] = yearDate;
+                        }
+                        var list = {
+                            items: ret.result
+                        };
+                        var str = template('chaosong', list);
+                        $('#sec').html('');
+                        $('#sec').html(str);
+                        // var ele = document.getElementById('sec');
+                        // ele.scrollTop = ele.scrollHeight;
+                        operationDom();
+                        api.parseTapmode();
+                    }
+                }
+            } else {
+                $('#sec').html('');
+            }
+
+        })
+    }
+
+    function getToList(type) {
+        var url;
+        if (type == 'daiban') {
+            url = 'services/Report/AppToDo/GetTodoList';
+        } else if (type == 'yiban') {
+            url = 'services/Report/AppToDo/GetHasBeenDone';
+        } else if (type == 'yiwancheng') {
+            url = 'services/Report/AppToDo/GetCompleted';
+        } else if (type == 'all') {
+            url = 'services/Report/AppToDo/GetAll';
+        }
+        fnGet(url, {}, false, function(ret, err) {
+            // console.log(JSON.stringify(ret));
+            if (ret) {
+                if (ret.success) {
+                    if (ret.result != null) {
+                        for (var i = 0; i < ret.result.length; i++) {
+                            var sendTime = ret.result[i].orderTime;
+                            var time = getTimeData(sendTime);
+                            var yearDate = sendTime.substr(0, 10);
+                            sendTime = sendTime.replace('T', ' ').replaceAll('-', '/');
+                            ret.result[i].orderTime = sendTime;
+                            sendTime = getDayName(sendTime) + time;
+                            ret.result[i]['sendTime'] = sendTime;
+                            ret.result[i]['yearDate'] = yearDate;
+                            var data = eval('(' + ret.result[i].todoValue + ')');
+                            ret.result[i].todoValue = data;
+                        }
+                        // console.log(JSON.stringify(ret.result.reverse()));
+                        var list = {
+                            items: ret.result
+                        };
+                        var str = template('serachList', list);
+                        $('#sec').html('');
+                        $('#sec').html(str);
+                        // var ele = document.getElementById('sec');
+                        // ele.scrollTop = ele.scrollHeight;
+                        operationDom();
+                        api.parseTapmode();
+                    }
+                }
+            } else {
+                $('#sec').html('');
+            }
+
+        })
+    }
+</script>
+
+</html>

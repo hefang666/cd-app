@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>导航图片</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+        }
+
+        #center_top {
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: #ffffff;
+            display: flex;
+            border-radius: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .center_top1 {
+            line-height: 35px;
+            color: #666666;
+        }
+
+        .center_top2 {
+            flex: 1;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .center_top3 {
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            background-color: #2AAEFF;
+            color: #ffffff;
+            border-radius: 5px;
+        }
+
+        #one {
+            width: 100%;
+            height: 30px;
+            caret-color: red;
+            border-bottom: 2px solid red;
+        }
+
+        #center {
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: #ffffff;
+            display: flex;
+            border-radius: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .icon {
+            max-width: 70%;
+        }
+
+        .center2 {
+            color: #666666;
+        }
+
+        #center_bottom {
+            flex: 1;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            color: #666666;
+            background-color: #ffffff;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        .photo {
+            width: 85px;
+            height: 65px;
+        }
+
+        .img-item {
+            width: 100%;
+            height: 65px;
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .item2 {
+            flex: 1;
+            height: 65px;
+            overflow: auto;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">导航图片</div>
+        <div class="aui-pull-right aui-btn" data-action='addImage'>
+            添加导航图片
+        </div>
+    </header>
+
+    <div id="center_top">
+        <div class="center_top1">用户编号：</div>
+        <div class="center_top2"><input id="one" type="number" pattern="\d*" /></div>
+        <div class="center_top3" onclick="queryUser()">查询</div>
+    </div>
+
+
+
+
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../script/navigation.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id='userlist'>
+    {{each datas value i}}
+    <div id="center">
+        <div class="center1"><img src="../../image/MeteReading/drawable-hdpi/loadusers.png" alt="" class="icon"></div>
+        <div class="center2">
+            <div id="YHBH">编号:{{value.YHBH}}</div>
+            <div id="YHMC">户名:{{value.YHMC}}</div>
+            <div id="YHDZ">地址:{{value.YHDZ}}</div>
+            <div id="YDDH">电话:{{value.YDDH}}</div>
+            <div id="KJ">口径:{{value.KJ}}</div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id='photolist'>
+    <div id="center_bottom">
+        <div>导航图片</div>
+        {{each datas value i}}
+        <div class="img-item">
+            <div class="item1"><img src="../../image/MeteReading/tupian/zhaopian_daohang.png" onclick="openphoto(this)" data-id=0 class="photo"></img>
+            </div>
+            <div class="item2">啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀啊手动阀</div>
+        </div>
+        {{/each}}
+    </div>
+</script>
+<script type="text/javascript">
+    var user;
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+
+        $('#center_top').css('margin-top', '' + (headerH + 10) + 'px');
+
+        //queryLogs();
+    };
+
+    function queryUser() {
+        var yhbh = $('#one').val();
+        if (yhbh == "") {
+            alert("请输入用户编号");
+        }
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "yhbh=" + yhbh + "",
+            "Type": "133"
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+
+                    if (Data.length > 0) {
+                        user = Data[0];
+                        var datas = {
+                            datas: Data
+                        }
+
+                        var str = template('userlist', datas);
+                        $('#center').remove();
+                        $('#center_bottom').remove();
+                        $('#bd').append(str);
+                        fnReadyOpenWin();
+                        queryPhoto();
+                    }
+                }
+            } else {
+                api.toast({
+                    msg: err.msg,
+                    duration: 2000,
+                    location: 'bottom'
+                });
+
+            }
+        })
+    }
+
+    function queryPhoto() {
+      var Parameter = {
+          "ClientId": api.deviceId,
+          "ClientName": api.deviceModel,
+          "OperatorId": $api.getStorage('cbOperatorId'),
+          "OperatorName": $api.getStorage('cbOperatorName'),
+          "Required": "yhbh=" + user.YHBH + "",
+          "Type": "307"
+      };
+      var body = {
+          body: JSON.stringify({
+              "UserName": $api.getStorage('cbOperatorName'),
+              "Password": $api.getStorage('cbPassword'),
+              "SerialNo": dataTime(),
+              "Method": "R999",
+              "Parameter": JSON.stringify(Parameter)
+          })
+      }
+      fnPost('', body, 'application/json', false, function(ret, err) {
+          if (ret) {
+              if (ret.Status == 0) {
+                  var Data = [];
+                  if (ret.Data != "" && ret.Data != " ") {
+                      Data = JSON.parse(ret.Data);
+                  }
+
+                  if (Data.length > 0) {
+                      var datas = {
+                          datas: Data
+                      }
+
+                      var str = template('photolist', datas);
+                      $('#center_bottom').remove();
+                      $('#bd').append(str);
+                      fnReadyOpenWin();
+                  }
+              } else {
+                var Data = [];
+                var datas = {
+                    datas: Data
+                }
+
+                var str = template('photolist', datas);
+                $('#center_bottom').remove();
+                $('#bd').append(str);
+                fnReadyOpenWin();
+              }
+          } else {
+              api.toast({
+                  msg: err.msg,
+                  duration: 2000,
+                  location: 'bottom'
+              });
+
+          }
+      })
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'addImage': function() {
+          var yhbh = $('#one').val();
+          api.openWin({
+              name: 'addNavigationImage',
+              url: './addNavigationImage.html',
+              pageParam: {
+                  YHBH: yhbh
+              }
+          });
+
+          //navigation('106.555723','29.558922','两路口轻轨站','106.520415','29.534976','袁家岗轻轨站');
+        }
+    }
+</script>
+
+</html>

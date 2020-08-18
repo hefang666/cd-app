@@ -1,0 +1,534 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>搜索应用页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .aui-searchbar {
+            position: absolute;
+            margin: 0;
+            text-align: center;
+            white-space: nowrap;
+            left: 1.5rem;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            z-index: 2;
+            background-color: #fff !important;
+            width: calc( 100% - 30px);
+            height: 2rem !important;
+            color: #212121;
+        }
+
+        .aui-searchbar-input {
+            background-color: #F2F2F2 !important;
+            border-radius: 1.25rem !important;
+            height: 1.75rem !important;
+            line-height: 1.75rem !important;
+        }
+
+        .aui-searchbar .aui-iconfont {
+            line-height: 0 !important;
+            font-size: var(--fontsize7) !important;
+            font-weight: 900;
+            margin: 0 0.25rem;
+            color: #999999 !important;
+            vertical-align: middle;
+        }
+
+        .aui-searchbar-input input,
+        .aui-searchbar {
+            font-size: var(--fontsize8) !important;
+        }
+
+        .aui-searchbar-input input {
+            height: 1.75rem !important;
+            color: #999999 !important;
+        }
+
+        input {
+            outline: none;
+        }
+
+        .aui-searchbar-clear-btn {
+            right: 0.8rem;
+            background-color: #999999;
+            line-height: 0.9rem;
+            top: 0.45rem;
+            height: 0.9rem;
+            position: absolute;
+            right: 5px;
+            width: 0.9rem!important;
+            border-radius: 50%;
+            text-align: center;
+        }
+
+        .aui-searchbar-clear-btn .aui-iconfont {
+            line-height: 0.8rem !important;
+            top: 0;
+            margin: 0 auto;
+            color: #FFF !important;
+        }
+
+        .aui-searchbar-clear-btn .aui-iconfont {
+            font-size: var(--fontsize6) !important;
+        }
+
+        .aui-list-item-title {
+            font-size: var(--fontsize8) !important;
+            color: #999 !important;
+        }
+
+        #history .aui-list .aui-list-item:after {
+            border: none !important;
+        }
+
+        .aui-list-item-right img {
+            width: 1rem;
+            height: 1rem;
+        }
+
+        #historyLabel {
+            padding: 0 0.75rem;
+        }
+
+        .aui-label {
+            font-size: var(--fontsize7) !important;
+            border-radius: 0 !important;
+            padding: 0.5em 1em!important;
+            margin: 0.5rem 1.25rem 0 0 !important;
+            background-color: #f0f0f0 !important;
+            color: #333 !important;
+            min-width: 5vw;
+        }
+
+        .aui-list:after {
+            display: none;
+        }
+
+        .aui-list {
+            background-image: none !important;
+        }
+
+        .aui-list-item-arrow:before {
+            border-color: #A2A2A2;
+        }
+
+        .aui-list .aui-list-item-media {
+            padding: 0;
+            margin-right: 0.5rem;
+        }
+
+        .mine_List .aui-list .aui-list-item-media {
+            width: 1.5rem;
+        }
+
+        .mine_List .aui-list .aui-list-item {
+            min-height: 3.5rem !important;
+            font-size: var(--fontsize75);
+        }
+
+        #history .aui-list .aui-list-item {
+            background-image: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <header class="aui-bar aui-bar-nav aui-border-b" id="header">
+            <div class="aui-pull-left aui-btn" tapmode onclick="fnCloseWin();">
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <!-- <div class="aui-title"> -->
+            <div class="aui-searchbar" id="search">
+                <div class="aui-searchbar-input aui-border-radius">
+
+                    <i class="aui-iconfont aui-icon-search"></i>
+                    <input type="search" placeholder="请输入应用名称" id="search-input">
+                    <div class="aui-searchbar-clear-btn">
+                        <i class="aui-iconfont aui-icon-close"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- </div> -->
+        </header>
+
+        <div class="aui-content" id="history">
+            <ul class="aui-list aui-media-list">
+                <li class="aui-list-item aui-list-item-middle">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-text">
+                            <div class="aui-list-item-title">历史记录</div>
+                            <div class="aui-list-item-right" data-action='DeletelAll'><img src="../../image/main_frame/lijitong.png" alt=""></div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div id="historyLabel" class="flex-con">
+        </div>
+        <div class="flex-con">
+            <div class="aui-content mine_List">
+                <ul class="aui-list" id="searchResult">
+                    <!-- <li class="aui-list-item">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-media"><img src="../../image/main_frame/productCenter.png" class="aui-list-img-sm"></div>
+                            <div class="aui-list-item-inner">生产中心</div>
+                        </div>
+                    </li>
+                    <li class="aui-list-item">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-media"><img src="../../image/main_frame/SCADA.png" class="aui-list-img-sm"></div>
+                            <div class="aui-list-item-inner">SCADA</div>
+                        </div>
+                    </li>
+                    <li class="aui-list-item">
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-media"><img src="../../image/main_frame/zikong.png" class="aui-list-img-sm"></div>
+                            <div class="aui-list-item-inner">自控系统</div>
+                        </div>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/template" id='historyList'>
+    {{each list value i}} {{if value.isValid}}
+    <div class="aui-label" data-action='openApp1' data-value='{{value}}'>{{value.productName}}
+    </div>
+    {{else}}
+    <div class="aui-label" data-value='{{value}}'>{{value.productName}}
+    </div>
+    {{/if}} {{/each}}
+</script>
+<script type="text/template" id='searchResultList'>
+    {{each list value i}} {{if value.isValid}}
+    <li class="aui-list-item aui-marigin-l-15" data-action='openApp' data-value='{{value}}'>
+        {{else}}
+        <li class="aui-list-item aui-marigin-l-15" data-value='{{value}}'>
+            {{/if}}
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-media"><img src="{{url}}{{value.productIcon}}" class="aui-list-img-sm"></div>
+                <div class="aui-list-item-inner">{{value.productName}}</div>
+            </div>
+        </li>
+        {{/each}}
+</script>
+
+<script type="text/javascript">
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        $('#searchResult').hide();
+        fnReady();
+        var historyDatas = $api.getStorage('historyDatas');
+        Init(historyDatas);
+
+    };
+
+    function Init(historyDatas) {
+        if (historyDatas != undefined) {
+            var applications = historyDatas;
+            var datas = {
+                list: applications,
+            };
+            $('#historyLabel').show();
+            $('#history').show();
+            $('#searchResult').hide();
+            var str = template('historyList', datas);
+            $('#historyLabel').append(str);
+            operationDom();
+        }
+
+    }
+    //搜索条设置
+    //搜索条设置
+    var searchBar = document.querySelector(".aui-searchbar");
+    var searchBarInput = document.querySelector(".aui-searchbar input");
+    var searchBarClearBtn = document.querySelector(".aui-searchbar .aui-searchbar-clear-btn");
+    if (searchBar) {
+        searchBarInput.oninput = function() {
+            if (this.value.length) {
+                searchBarClearBtn.style.display = 'block';
+            } else {
+                searchBarClearBtn.style.display = 'none';
+                $('#searchResult').html('');
+                // $('#searchResult').hide();
+            }
+        }
+    }
+    searchBarClearBtn.onclick = function() {
+        this.style.display = 'none';
+        searchBarInput.value = '';
+        $('#historyLabel').show();
+        $('#history').show();
+        $('#searchResult').html('');
+        $('#searchResult').hide();
+    }
+
+    $('#search-input').on('input', function(e) {
+        var value = $(this).val();
+        if (value != '') {
+            var url = 'services/app/Home/GetMyApplications?KeyStr=' + value;
+            fnGet(url, {}, false, function(ret, err) {
+                if (ret) {
+                    if (ret.success && ret.result != null) {
+                        var datas = {
+                            list: ret.result.applications,
+                            url: apiUrl
+                        };
+                        $('#historyLabel').hide();
+                        $('#history').hide();
+                        $('#searchResult').show();
+                        $('#searchResult').html('');
+                        var str = template('searchResultList', datas);
+                        $('#searchResult').append(str);
+                        operationDom();
+
+                    } else {
+                        api.toast({
+                            msg: '没有查找的数据',
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+
+                    }
+                }
+            });
+        }
+        // if($(this).val() != ""){
+        //   $('#historyLabel').hide();
+        //   $('#history').hide();
+        //   $('#searchResult').show();
+        // }else{
+        //   $('#historyLabel').show();
+        //   $('#history').show();
+        //   $('#searchResult').hide();
+        // }
+    });
+
+    operationDom();
+    var applications = [];
+    var actionList = {
+        'DeletelAll': function() {
+            api.confirm({
+                title: '提示',
+                msg: '确定清空历史记录吗',
+                buttons: ['确定', '取消']
+            }, function(ret, err) {
+                if (ret && ret.buttonIndex == 1) {
+                    $('#historyLabel').html('');
+                    $api.rmStorage('historyDatas');
+
+                }
+            });
+        },
+        'openApp': function() {
+            var lists = [];
+            var num = 0;
+            var appDatas = $(this).attr('data-value');
+            var applications = $api.getStorage('historyDatas');
+            if (applications == undefined || applications == null) {
+                applications = [];
+                applications.push(JSON.parse(appDatas));
+            } else {
+                var value = JSON.parse(appDatas);
+                var num = 0;
+                for (var i = 0; i < applications.length; i++) {
+                    if (value.productId != applications[i].productId) {
+                        num++;
+                    }
+                }
+                // 与数组长度相等，说明没有相同的才加入到数组中
+                if (num == applications.length) {
+                    applications.push(value);
+                }
+            }
+
+            // 保存到缓存中
+            $api.setStorage('historyDatas', applications);
+            //  lists.push(JSON.parse(appDatas));
+            $('#historyLabel').html('');
+            var datas = {
+                list: applications,
+            };
+            $('#historyLabel').show();
+            $('#history').show();
+            $('#searchResult').hide();
+            var str = template('historyList', datas);
+            $('#historyLabel').append(str);
+            operationDom();
+            fnOpenApp(appDatas);
+
+        },
+        'openApp1': function() {
+            //  存入缓存
+            var appDatas = $(this).attr('data-value');
+            var appDatas1 = JSON.parse(appDatas);
+            var url = 'services/app/Home/GetMyApplications?KeyStr=' + appDatas1.productName;
+            fnGet(url, {}, false, function(ret, err) {
+                if (ret) {
+                    if (ret.success && ret.result.applications.length != 0) {
+                        operationDom();
+                        fnOpenApp(appDatas);
+                    } else {
+                        api.toast({
+                            msg: '您没有该权限',
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+
+                    }
+                }
+            });
+
+
+
+        }
+    }
+
+    function fnOpenApp(data) {
+        var data = JSON.parse(data);
+        // var appData = {
+        //     username: '',
+        //     password: ''
+        // };
+
+        if (data.openMobile) {
+
+            if ((data.iosPackage != "" && data.iosPackage != null) || (data.androidPackage != "" && data.androidPackage != null)) {
+
+                if (data.iosPackage != "" && data.iosPackage != null) {
+
+                    if (api.systemType == 'ios') {
+                        api.openApp({
+                            iosUrl: data.iosPackage,
+                            appParam: {},
+                        }, function(ret, err) {
+
+                        });
+                    }
+                } else if (data.androidPackage != "" && data.androidPackage != null) {
+                    //异步返回结果：
+                    api.appInstalled({
+                        appBundle: data.androidPackage
+                    }, function(ret, err) {
+                        if (ret.installed) {
+                            // fnGet('services/app/BindAccount/GetUserBindAccountAsync?ProductId=' + productId + '', {}, false, function(ret, err) {
+                            //     if (ret) {
+                            //         if (ret.success) {
+                            //             if (ret.result != null) {
+                            //                 appData.username = ret.result.bindUserName;
+                            //                 appData.password = ret.result.bindPassWord;
+                            //             }
+                            //
+                            //         }
+                            //     }
+                            // });
+
+                            api.openApp({
+                                androidPkg: data.androidPackage,
+                                appParam: {},
+                            }, function(ret, err) {
+
+                            });
+
+                        } else {
+                            //应用未安装
+                            api.toast({
+                                msg: '应用未安装',
+                                duration: 2000,
+                                location: 'top'
+                            });
+                        }
+                    });
+                }
+            } else if (data.mobileWebUrl != "" && data.mobileWebUrl != null) {
+                if (data.mobileWebUrl.indexOf('http') != -1) {
+                    api.openWin({
+                        name: 'OA',
+                        url: './OA.html',
+                        pageParam: {
+                            url: data.mobileWebUrl
+                        }
+                    });
+                } else {
+                    var winName = data.mobileWebUrl;
+                    var index = winName.lastIndexOf('/');
+                    var index2 = winName.indexOf('.html');
+                    if (index != -1 && index2 != -1) {
+                        winName = winName.substring(index + 1, index2);
+                    }
+                    api.openWin({
+                        name: winName,
+                        url: data.mobileWebUrl,
+                        pageParam: {
+                            productId: data.productId
+                        }
+                    });
+                }
+            }
+        }
+    }
+
+
+
+
+
+
+
+    function fnCloseWin() {
+        api.closeWin({});
+
+    }
+</script>
+
+</html>

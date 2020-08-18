@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            flex-flow: column;
+            display: flex;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #top {
+            background-color: #fff;
+            width: 100%;
+            height: 40px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        #center {
+            flex: 1;
+            overflow: scroll;
+            background-color: #fff;
+            padding-left: 20px;
+            padding-right: 20px;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+        }
+
+        #top {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            flex-direction: row;
+            margin-bottom: 10px;
+        }
+
+        .top_dv {
+            flex: 1;
+            text-align: center;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #daohang {
+            height: 40px;
+            border-radius: 20px;
+            border: 1px solid #ececec;
+            font-size: 15px;
+            line-height: 40px;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        #daohang div {
+            flex: 1;
+            height: 35px;
+        }
+
+        #daohang img {
+            width: 10px;
+            height: 6px;
+            margin-right: 15px;
+            margin-top: 16px;
+        }
+
+        #chaobiao {
+            height: 40px;
+            border-radius: 20px;
+            border: 1px solid #ececec;
+            font-size: 15px;
+            line-height: 40px;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        #chaobiao div {
+            flex: 1;
+            height: 35px;
+        }
+
+        #chaobiao img {
+            width: 10px;
+            height: 6px;
+            margin-right: 15px;
+            margin-top: 16px;
+        }
+
+        #dv {
+            width: 1px;
+            height: 16px;
+            background-color: #000000;
+            margin-top: 22px;
+            font-size: 15px;
+        }
+
+        .dv {
+            width: 100%;
+            border-bottom: 1px solid #ececec;
+            display: flex;
+            flex-direction: row;
+        }
+
+        #dv_left {
+            width: 15px;
+            height: 100%;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+
+        #dv_right {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 5px;
+        }
+
+        .dv_1 {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_1_dv1 {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 18px;
+        }
+
+        .dv_1_dv2 {
+            color: #02C05B;
+        }
+
+        .dv_1_dv3 {
+            color: #F64A4A;
+        }
+
+        .dv_2_dv1 {
+            color: #6091F5
+        }
+
+        .dv_2 {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_2 div {
+            flex: 1;
+        }
+
+        .dv_3 {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_2_dv2 {
+            text-align: right;
+        }
+
+        .dv_3_dv1 {
+            flex: 1;
+            white-space: nowrap;
+            overflow: scroll;
+        }
+
+        .dv_3_dv2 {
+            flex: 1;
+            white-space: nowrap;
+            overflow: scroll;
+        }
+
+        .dv_3_dv3 {
+            text-align: right;
+            white-space: nowrap;
+            overflow: scroll;
+        }
+
+        .dv_1 {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .dv_4 {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">异常列表</div>
+        <div class="aui-pull-right aui-btn" data-action='select'>
+            <span class="aui-iconfont aui-icon-search"></span>
+        </div>
+    </header>
+    <div id="top">
+        <div class="top_dv">
+            <div id="daohang" onclick="querWork1()">
+                <div id="select_1">是否提交</div>
+                <img src="../../image/MeteReading/tupian/xiala.png" />
+            </div>
+        </div>
+        <div id="dv">
+
+        </div>
+        <div class="top_dv">
+            <div id="chaobiao" onclick="querWork2()">
+                <div id="select_2">工单类型</div>
+                <img src="../../image/MeteReading/tupian/xiala.png" />
+            </div>
+        </div>
+    </div>
+
+    <div id="center">
+
+    </div>
+
+    <div id="footer"></div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/bzremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/template" id='workOrderList'>
+    {{each datas value i}}
+    <div class="dv" onclick="openWorkOrder(this)" data-id="{{value.YHBH}}">
+        <div id="dv_left">
+            {{i+1}}
+        </div>
+        <div id="dv_right">
+            <div class="dv_1">
+                <div class="dv_1_dv1">{{value.YHMC}}</div>
+                {{if value.SFSC == 1}}
+                <div class="dv_1_dv2">已提交</div>
+                {{else if value.SFSC == 0}}
+                <div class="dv_1_dv3">未提交</div>
+                {{/if}}
+            </div>
+            <div class="dv_2">
+                <div class="dv_2_dv1">
+                    故障-{{value.YCLXNAME}}
+                </div>
+                <div class="dv_2_dv2">{{value.JLSJ}}</div>
+            </div>
+            <div class="dv_3">
+                <div class="dv_3_dv1">起度:{{value.QD}}</div>
+                <div class="dv_3_dv2">止度:{{value.ZD}}</div>
+                <div class="dv_3_dv3">户号:{{value.YHBH}}</div>
+            </div>
+            <div class="dv_4">{{value.YHDZ}}</div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+
+    var workOrderList = [];
+    var selectone = "是否提交";
+    var selecttow = "工单类型";
+    var sql;
+
+    var onlineName = ["工单类型"]; //异常类型名称数据。
+    var onlineId = ["工单类型"]; //异常类型值数据。
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        $('#top').css('margin-top', '' + headerH + 'px');
+
+        queryWorkOrder();
+        qureyONLINE();
+    };
+
+    function queryWorkOrder() {
+        var db = api.require('db');
+        sql = "select * from MRM_WORKORDER_BEAN";
+        var wordorderdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: sql
+        });
+        if (wordorderdata.status) {
+            if (wordorderdata.data.length > 0) {
+                workOrderList = wordorderdata.data;
+            }
+        }
+        if (workOrderList.length > 0) {
+            var datas = {
+                datas: workOrderList
+            }
+
+            var str = template('workOrderList', datas);
+
+            $('#center div').remove();
+            $('#center').append(str);
+            fnReadyOpenWin();
+        } else {
+
+        }
+    }
+
+    //获取下拉的数据
+    function qureyONLINE() {
+        var db = api.require('db');
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_ONLINE_BEAN where TYPEID="GDLX" and ID in ("13","3","15","16")'
+        }, function(ret, err) {
+            if (ret.status) {
+                if (ret.data.length > 0) {
+                    list = ret.data;
+                    for (var i = 0; i < list.length; i++) {
+                        onlineId.push(list[i].ID);
+                        onlineName.push(list[i].NAME);
+                    }
+                }
+            } else {
+
+            }
+        });
+    }
+
+    function querWork1() {
+        api.actionSheet({
+            buttons: ['是否提交', '已提交', '未提交']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index == 1) {
+                selectone = "是否提交";
+                $('#select_1').html("是否提交");
+            }
+            if (index == 2) {
+                selectone = "1";
+                $('#select_1').html("已提交");
+            }
+            if (index == 3) {
+                selectone = "0";
+                $('#select_1').html("未提交");
+            }
+
+            if (selectone == "是否提交" && selecttow == "工单类型") {
+                sql = 'select * from MRM_WORKORDER_BEAN';
+            } else if (selectone != "是否提交" && selecttow != "工单类型") {
+                sql = 'select * from MRM_WORKORDER_BEAN where SFSC="' + selectone + '" and YCLX="' + selecttow + '"';
+            } else if (selectone == "是否提交" && selecttow != "工单类型") {
+                sql = 'select * from MRM_WORKORDER_BEAN where YCLX="' + selecttow + '"';
+            } else if (selectone != "是否提交" && selecttow == "工单类型") {
+                sql = 'select * from MRM_WORKORDER_BEAN where SFSC="' + selectone + '"';
+            }
+            var db = api.require('db');
+            var wordorderdata = db.selectSqlSync({
+                name: 'CBtest',
+                sql: sql
+            });
+            workOrderList = [];
+            if (wordorderdata.status) {
+                if (wordorderdata.data.length > 0) {
+                    workOrderList = wordorderdata.data;
+                }
+            }
+            if (workOrderList.length > 0) {
+                var datas = {
+                    datas: workOrderList
+                }
+
+                var str = template('workOrderList', datas);
+
+                $('#center div').remove();
+                $('#center').append(str);
+                fnReadyOpenWin();
+            } else {
+                $('#center div').remove();
+            }
+        });
+    }
+
+    function querWork2() {
+        api.actionSheet({
+            buttons: onlineName
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index <= onlineName.length) {
+                selecttow = onlineId[index - 1];
+                $('#select_2').html(onlineName[index - 1]);
+            }
+
+            if (selectone == "是否提交" && selecttow == "工单类型") {
+                sql = 'select * from MRM_WORKORDER_BEAN';
+            } else if (selectone != "是否提交" && selecttow != "工单类型") {
+                sql = 'select * from MRM_WORKORDER_BEAN where SFSC="' + selectone + '" and YCLXID="' + selecttow + '"';
+            } else if (selectone == "是否提交" && selecttow != "工单类型") {
+                sql = 'select * from MRM_WORKORDER_BEAN where YCLXID="' + selecttow + '"';
+            } else if (selectone != "是否提交" && selecttow == "工单类型") {
+                sql = 'select * from MRM_WORKORDER_BEAN where SFSC="' + selectone + '"';
+            }
+            var db = api.require('db');
+            var wordorderdata = db.selectSqlSync({
+                name: 'CBtest',
+                sql: sql
+            });
+            workOrderList = [];
+            if (wordorderdata.status) {
+                if (wordorderdata.data.length > 0) {
+                    workOrderList = wordorderdata.data;
+                }
+            }
+            if (workOrderList.length > 0) {
+                var datas = {
+                    datas: workOrderList
+                }
+
+                var str = template('workOrderList', datas);
+
+                $('#center div').remove();
+                $('#center').append(str);
+                fnReadyOpenWin();
+            } else {
+                $('#center div').remove();
+            }
+        });
+    }
+
+    function openWorkOrder(el) {
+        var YHBH = $(el).attr("data-id");
+
+        var db = api.require('db');
+        var wordorderdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_WORKORDER_BEAN where YHBH="' + YHBH + '"'
+        });
+
+        if (wordorderdata.data[0].SFSC == "1") {
+            api.openWin({
+                name: 'workOrder2',
+                url: './workOrder2.html',
+                slidBackEnabled: false,
+                animation: {
+                    type: "push",
+                    subType: "from_left",
+                    duration: 300
+                },
+                pageParam: {
+                    YHBH: YHBH,
+                    WinName: 'workOrderList'
+                }
+            });
+        } else {
+            api.openWin({
+                name: 'workOrder',
+                url: './workOrder.html',
+                slidBackEnabled: false,
+                animation: {
+                    type: "push",
+                    subType: "from_left",
+                    duration: 300
+                },
+                pageParam: {
+                    YHBH: YHBH,
+                    WinName: 'workOrderList'
+                }
+            });
+        }
+    }
+
+    function show() {
+        var db = api.require('db');
+        var wordorderdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: sql
+        });
+        workOrderList = [];
+        if (wordorderdata.status) {
+            if (wordorderdata.data.length > 0) {
+                workOrderList = wordorderdata.data;
+            }
+        }
+        if (workOrderList.length > 0) {
+            var datas = {
+                datas: workOrderList
+            }
+
+            var str = template('workOrderList', datas);
+
+            $('#center div').remove();
+            $('#center').append(str);
+            fnReadyOpenWin();
+        } else {
+            $('#center div').remove();
+        }
+    }
+
+    var actionList = {
+        'select': function() {
+            api.openWin({
+                name: 'userWorkOrder',
+                url: './userWorkOrder.html',
+                slidBackEnabled: false,
+                animation: {
+                    type: "push",
+                    subType: "from_left",
+                    duration: 300
+                }
+            });
+        },
+        'back': function() {
+            api.closeWin();
+        }
+    }
+</script>
+
+</html>

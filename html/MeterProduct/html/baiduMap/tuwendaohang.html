@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui-slide.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            background-color: #FFFFFF;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #footer {
+            width: 100%;
+            height: 85px;
+            position: fixed;
+            bottom: 0;
+            background-color: #FFFFFF;
+        }
+
+        #footer_dv1 {
+            width: 100%;
+            height: 4px;
+            background-color: #F4F4F4;
+        }
+
+        #footer_dv2 {
+            display: flex;
+            flex-direction: row;
+            line-height: 80px;
+        }
+
+        #footer_dv2 button {
+            width: 80px;
+            height: 40px;
+            background-color: #2F7FF6;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 18px;
+        }
+
+        #footer-up {
+            flex: 1;
+            height: 100%;
+            text-align: center;
+        }
+
+        #footer-chaobiao {
+            flex: 1;
+            height: 100%;
+            text-align: center;
+        }
+
+        #footer-down {
+            flex: 1;
+            height: 100%;
+            text-align: center;
+        }
+
+        #center {
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        #dome {
+            width: 100%;
+            height: 50px;
+            font-size: 18px;
+            border-bottom: 2px solid #4F96FF;
+            line-height: 50px;
+        }
+
+        #dome span {
+            float: left;
+            color: #2F7FF6;
+            margin-left: 5%;
+            font-size: 20px;
+        }
+
+        #dome img {
+            float: right;
+            margin-top: 14px;
+            margin-right: 5%;
+        }
+
+        .dv {
+            width: 85%;
+            font-size: 18px;
+            margin-left: 10%;
+            margin-right: 5%;
+            margin-top: 5px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_1 {}
+
+        .dv_2 {
+            width: 10px;
+            height: 100%;
+        }
+
+        .dv_3 {
+            flex: 1;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv span {
+            color: #626262;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">图片导航</div>
+        <!--
+        <div class="aui-pull-right aui-btn" data-action='select'>
+            <span class="aui-iconfont aui-icon-search"></span>
+        </div>
+      -->
+    </header>
+    <div id="image"></div>
+    <div id="dome">
+        <span>用户信息</span>
+        <!--
+        <img src="../../image/MeteReading/tupian/tianjia.png" onclick="openpath()"></img>
+      -->
+    </div>
+    <div id="center">
+        <div class="dv">
+            <div class="dv_1">表&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</div>
+            <div class="dv_2"></div>
+            <div class="dv_3" id="SBBH"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</div>
+            <div class="dv_2"></div>
+            <div class="dv_3" id="YHBH"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</div>
+            <div class="dv_2"></div>
+            <div class="dv_3" id="YHMC"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</div>
+            <div class="dv_2"></div>
+            <div class="dv_3" id="YHDZ"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">固&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</div>
+            <div class="dv_2"></div>
+            <div class="dv_3" id="GDDH"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机</div>
+            <div class="dv_2"></div>
+            <div class="dv_3" id="YDDH"></div>
+        </div>
+        <div class="dv">
+            <div class="dv_1">水表位置</div>
+            <div class="dv_2"></div>
+            <div class="dv_3" id="SBWZ"></div>
+        </div>
+    </div>
+
+    <div id="footer">
+        <div id="footer_dv1">
+
+        </div>
+        <div id="footer_dv2">
+            <div id="footer-up"><button onclick="userlast()">上一户</button></div>
+            <div id="footer-chaobiao"><button onclick="userchaobiao()">抄&nbsp;&nbsp;表</button></div>
+            <div id="footer-down"><button onclick="usernext()">下一户</button></div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+    var pageParam; //用户编号。
+    var pathH;
+
+    var userList = []; //所有的用户信息。
+    var photoList = []; //当前用户的导航图片信息。
+    var YHBH = "";
+    var index = 0;
+
+    var paths = [];
+    var captions = [];
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        // 计算header和tab元素的高度
+        headerH = $api.offset(header).h;
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        var body = $api.byId('bd');
+        bodyH = $api.offset(body).h;
+        bodyW = $api.offset(body).w;
+        pathH = bodyH / 3;
+        pageParam = api.pageParam; //比如： {"YHBH":"001002413"}
+        YHBH = pageParam.YHBH;
+        document.getElementById('image').style.height = (pathH + headerH) + "px";
+
+        showUser();
+    };
+
+    //填充用户信息。
+    function showUser() {
+        var db = api.require('db');
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN'
+        });
+        userList = userdata.data;
+
+        $('#SBBH').html("");
+        $('#YHBH').html("");
+        $('#YHMC').html("");
+        $('#YHDZ').html("");
+        $('#GDDH').html("");
+        $('#YDDH').html("");
+        $('#SBWZ').html("");
+        if (YHBH == "") {
+            YHBH = userList[0].YHBH
+            $('#SBBH').append("<span>" + (userList[0].SBBH == "null" ? "" : userList[0].SBBH) + "</span>");
+            $('#YHBH').append("<span>" + (userList[0].YHBH == "null" ? "" : userList[0].YHBH) + "</span>");
+            $('#YHMC').append("<span>" + (userList[0].YHMC == "null" ? "" : userList[0].YHMC) + "</span>");
+            $('#YHDZ').append("<span>" + (userList[0].YHDZ == "null" ? "" : userList[0].YHDZ) + "</span>");
+            $('#GDDH').append("<span>" + (userList[0].GDDH == "null" ? "" : userList[0].GDDH) + "</span>");
+            $('#YDDH').append("<span>" + (userList[0].YDDH == "null" ? "" : userList[0].YDDH) + "</span>");
+            $('#SBWZ').append("<span>" + (userList[0].SBWZ == "null" ? "" : userList[0].SBWZ) + "</span>");
+        } else {
+            for (var i = 0; i < userList.length; i++) {
+                if (userList[i].YHBH == YHBH) {
+                    $('#SBBH').append("<span>" + (userList[i].SBBH == "null" ? "" : userList[i].SBBH) + "</span>");
+                    $('#YHBH').append("<span>" + (userList[i].YHBH == "null" ? "" : userList[i].YHBH) + "</span>");
+                    $('#YHMC').append("<span>" + (userList[i].YHMC == "null" ? "" : userList[i].YHMC) + "</span>");
+                    $('#YHDZ').append("<span>" + (userList[i].YHDZ == "null" ? "" : userList[i].YHDZ) + "</span>");
+                    $('#GDDH').append("<span>" + (userList[i].GDDH == "null" ? "" : userList[i].GDDH) + "</span>");
+                    $('#YDDH').append("<span>" + (userList[i].YDDH == "null" ? "" : userList[i].YDDH) + "</span>");
+                    $('#SBWZ').append("<span>" + (userList[i].SBWZ == "null" ? "" : userList[i].SBWZ) + "</span>");
+                    index = i;
+                    break;
+                }
+            }
+        }
+        queryPhoto(1);
+    }
+
+    //获取导航图片信息
+    function queryPhoto(type) {
+        paths = [];
+        captions = [];
+
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "",
+            "Yhbh": YHBH,
+            "Type": "307"
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        console.log(JSON.stringify(body));
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                var photoList = [];
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data.length == 0) {
+                        //alert("没有错误信息");
+                    } else {
+                        photoList = Data[0].NavTextPic;
+                        for (var i = 0; i < photoList.length; i++) {
+                            paths.push("http://192.168.10.107:8045" + photoList[i].value);
+                            captions.push(photoList[i].remark);
+                        }
+                    }
+                } else {
+                    paths.push("../../image/MeteReading/tupian/zhaopian.png");
+                    captions.push("无图文导航数据");
+                }
+                showphoto(type);
+            } else {
+                api.alert({
+                    msg: JSON.stringify(ret)
+                });
+            }
+        })
+    }
+
+    //填充用户导航图片信息。
+    function showphoto(type) {
+        var UIScrollPicture = api.require('UIScrollPicture');
+        if (type == 1) {
+            UIScrollPicture.open({
+                rect: {
+                    x: 0,
+                    y: headerH,
+                    w: bodyW,
+                    h: pathH
+                },
+                data: {
+                    paths: paths,
+                    captions: captions
+                },
+                styles: {
+                    caption: {
+                        height: 35,
+                        color: '#E0FFFF',
+                        size: 15,
+                        bgColor: '#696969',
+                        position: 'overlay',
+                        alignment: 'center'
+                    },
+                    indicator: {
+
+                        align: 'center',
+                        color: '#FFFFFF',
+                        activeColor: '#DA70D6'
+                    }
+                },
+                placeholderImg: '../../image/MeteReading/tupian/zhaopian.png',
+                auto: false,
+                contentMode: 'scaleToFill',
+                interval: 3,
+                fixedOn: api.frameName,
+                loop: true,
+                fixed: false
+            }, function(ret, err) {
+                if (ret) {
+                    if (ret.eventType == 'click') {
+                        pathH = bodyH;
+                        api.openWin({
+                            name: 'tuwendaohangpaths',
+                            url: './tuwendaohangpaths.html',
+                            slidBackEnabled: false,
+                            animation: {
+                                type: "push",
+                                subType: "from_left",
+                                duration: 300
+                            },
+                            pageParam: {
+                                paths: paths,
+                                captions: captions,
+                                index: ret.index
+                            }
+                        });
+                    }
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+        } else {
+            UIScrollPicture.reloadData({
+                data: {
+                    paths: paths,
+                    captions: captions
+                }
+            });
+        }
+    }
+
+    function InitSlide() {
+        var slide3 = new auiSlide({
+            container: document.getElementById("aui-slide3"),
+            // "width":300,
+            "height": 164,
+            "speed": 500,
+            "autoPlay": 0, //自动播放
+            "loop": true,
+            "pageShow": true,
+            "pageStyle": 'dot',
+            'dotPosition': 'center'
+        })
+    }
+    InitSlide();
+
+    //跳转到导航图片上传界面
+    function openpath() {
+        api.openWin({
+            name: 'openpath',
+            url: './openpath.html',
+            slidBackEnabled: false,
+            animation: {
+                type: "push",
+                subType: "from_left",
+                duration: 300
+            },
+            pageParam: {
+                YHBH: YHBH
+            }
+        });
+    }
+
+    function userlast() {
+        //上一户
+        if (index + 1 == 1) {
+            alert("已经是第一户了");
+        } else {
+            index = index - 1;
+            showUser2();
+        }
+    }
+
+    function usernext() {
+        //下一户
+        if (index + 1 == userList.length) {
+            alert("已经是最后一户了");
+        } else {
+            index = index + 1;
+            showUser2();
+        }
+    }
+
+    function userchaobiao() {
+        api.openWin({
+            name: 'cbhome',
+            url: '../cbwork/MeterReading_details.html',
+            slidBackEnabled: false,
+            animation: {
+                type: "push",
+                subType: "from_left",
+                duration: 300
+            },
+            pageParam: {
+                name: 'cbqueryUser',
+                userCode: userList[index].CBCH,
+                useryhbh: userList[index].YHBH
+            }
+        });
+    }
+
+    //上一户，下一户更新展示数据
+    function showUser2() {
+        $('#SBBH').html("");
+        $('#YHBH').html("");
+        $('#YHMC').html("");
+        $('#YHDZ').html("");
+        $('#GDDH').html("");
+        $('#YDDH').html("");
+        $('#SBWZ').html("");
+        $('#SBBH').append("<span>" + (userList[index].SBBH == "null" ? "" : userList[index].SBBH) + "</span>");
+        $('#YHBH').append("<span>" + (userList[index].YHBH == "null" ? "" : userList[index].YHBH) + "</span>");
+        $('#YHMC').append("<span>" + (userList[index].YHMC == "null" ? "" : userList[index].YHMC) + "</span>");
+        $('#YHDZ').append("<span>" + (userList[index].YHDZ == "null" ? "" : userList[index].YHDZ) + "</span>");
+        $('#GDDH').append("<span>" + (userList[index].GDDH == "null" ? "" : userList[index].GDDH) + "</span>");
+        $('#YDDH').append("<span>" + (userList[index].YDDH == "null" ? "" : userList[index].YDDH) + "</span>");
+        $('#SBWZ').append("<span>" + (userList[index].SBWZ == "null" ? "" : userList[index].SBWZ) + "</span>");
+        YHBH = userList[index].YHBH;
+        queryPhoto(2);
+    }
+
+    var actionList = {
+        'select': function() {
+            api.openWin({
+                name: 'userQuery',
+                url: './userQuery.html',
+                slidBackEnabled: false,
+                animation: {
+                    type: "push",
+                    subType: "from_left",
+                    duration: 300
+                }
+            });
+        },
+        'back': function() {
+            api.closeWin();
+        }
+    }
+
+    //获取查询界面返回的用户编号更新当前页面数据
+    function showUser3(yhbh) {
+        for (var i = 0; i < userList.length; i++) {
+            if (userList[i].YHBH == yhbh) {
+                index = i;
+                break;
+            }
+        }
+        $('#SBBH').html("");
+        $('#YHBH').html("");
+        $('#YHMC').html("");
+        $('#YHDZ').html("");
+        $('#GDDH').html("");
+        $('#YDDH').html("");
+        $('#SBWZ').html("");
+        $('#SBBH').append("<span>" + (userList[index].SBBH == "null" ? "" : userList[index].SBBH) + "</span>");
+        $('#YHBH').append("<span>" + (userList[index].YHBH == "null" ? "" : userList[index].YHBH) + "</span>");
+        $('#YHMC').append("<span>" + (userList[index].YHMC == "null" ? "" : userList[index].YHMC) + "</span>");
+        $('#YHDZ').append("<span>" + (userList[index].YHDZ == "null" ? "" : userList[index].YHDZ) + "</span>");
+        $('#GDDH').append("<span>" + (userList[index].GDDH == "null" ? "" : userList[index].GDDH) + "</span>");
+        $('#YDDH').append("<span>" + (userList[index].YDDH == "null" ? "" : userList[index].YDDH) + "</span>");
+        $('#SBWZ').append("<span>" + (userList[index].SBWZ == "null" ? "" : userList[index].SBWZ) + "</span>");
+        YHBH = userList[index].YHBH;
+        queryPhoto(2);
+    }
+</script>
+
+</html>

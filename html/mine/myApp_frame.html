@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>我的应用frame页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+            /*overflow: hidden;*/
+        }
+
+        .aui-list:after {
+            display: none;
+        }
+
+        .aui-list {
+            background-image: none !important;
+        }
+
+        .aui-list-item-arrow:before {
+            border-color: #A2A2A2;
+        }
+
+        .mine_List .aui-list .aui-list-item-media {
+            width: 1rem;
+            padding: 0;
+            margin-right: 0.5rem;
+        }
+
+        .mine_List .aui-list .aui-list-item {
+            min-height: 2.7rem !important;
+            font-size: 0.75rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="aui-content mine_List">
+        <ul class="aui-list">
+
+        </ul>
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        getMyAppList();
+    };
+
+    //获取我的应用
+    function getMyAppList() {
+        fnGet('services/app/Home/GetMyApplications', {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    $('.aui-list').html('');
+                    var html = '';
+                    var num = 0;
+                    if (ret.result.applications != null) {
+                        var data = ret.result.applications;
+                        var num = ret.result.applications.length;
+                        for (var i = 0; i < data.length; i++) {
+                            var url = apiUrl + data[i].productIcon;
+                            var appLi =
+                                '<li class="aui-list-item"><div class="aui-list-item-inner"><div class="aui-list-item-media"><img src="' + url +
+                                '" class="aui-list-img-sm"></div><div class="aui-list-item-inner">' +
+                                data[i].productName + '</div></div></li>';
+                            html += appLi;
+                        }
+                        $('.aui-list').append(html);
+                        setDefaultImg();
+                    }
+                    api.execScript({
+                        name: 'myApp',
+                        script: 'changeNumber(' + num + ');'
+                    });
+
+                }
+            }
+        })
+    }
+
+    //图像加载不出来时显示默认头像
+    function setDefaultImg() {
+        $('img').attr('onerror', "this.src='../../image/main_frame/default1.png'");
+    }
+
+    //打开应用对应账户的绑定页面
+    function fnOpenAppBind(id, name) {
+        api.openWin({
+            name: 'appBind',
+            url: './appBind.html',
+            pageParam: {
+                productId: id,
+                productName: name
+            }
+        });
+
+    }
+</script>
+
+</html>

@@ -1,0 +1,543 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>主页面</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        #footer {
+            background-color: #FFF;
+            height: 2.5rem;
+        }
+
+        #footer ul li {
+            padding-top: 1.3rem;
+            margin-top: 0.3rem;
+            font-size: 0.6rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #666666;
+            background: url() no-repeat center 0;
+            background-size: auto 1.1rem;
+            text-align: center;
+        }
+
+        #footer ul li.active {
+            color: #4f79e8;
+        }
+
+        #footer ul li:nth-child(1) {
+            background-image: url(../image/main/main.png);
+        }
+
+        #footer ul li:nth-child(2) {
+            background-image: url(../image/main/message.png);
+        }
+
+        #footer ul li:nth-child(3) {
+            background-image: url(../image/main/mine.png);
+        }
+
+        #footer ul li:nth-child(1).active {
+            background-image: url(../image/main/main_active.png);
+        }
+
+        #footer ul li:nth-child(2).active {
+            background-image: url(../image/main/message_active.png);
+        }
+
+        #footer ul li:nth-child(3).active {
+            background-image: url(../image/main/mine_active.png);
+        }
+
+        .aui-dot {
+            width: auto;
+            min-width: 0.8rem;
+            height: 0.8rem;
+            right: 43.9%;
+            top: inherit;
+            bottom: 1.6rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.55rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #ffffff;
+        }
+
+        .aui-dot-Max {
+            padding: 0 0.1rem;
+            right: calc(43.9% - 0.3rem);
+        }
+
+        .flex-con {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        /*.aui-dialog-body {
+            color: #333 !important;
+            font-size: 16px !important;
+        }*/
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <div id="main" class="flex-con">
+
+        </div>
+        <div id="footer" class="aui-border-t">
+            <ul class="flex-wrap">
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con active">首页</li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con" id="message">消息
+                    <!-- <div class="aui-dot aui-dot-Max">99+</div> -->
+                </li>
+                <li tapmode="hover" onclick="randomSwitchBtn( this );" class="flex-con">我的</li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript" src="../script/signalr.js"></script>
+<script type="text/javascript" src="../script/zepto.js"></script>
+<script type="text/javascript" src="../script/remote.js"></script>
+<script type="text/javascript" src="../script/aui-dialog.js"></script>
+<script type="text/javascript">
+    var first = null;
+    //租户和用户信息数据存放
+    var infoData = {
+        tenantInfo: {},
+        userInfo: {},
+        contactInfo: {}
+    };
+    apiready = function() {
+        funIniGroup();
+        if (api.systemType == 'ios') {
+            api.setStatusBarStyle({
+                style: 'dark',
+                color: 'black'
+            });
+        }
+        var footer = $api.byId('footer');
+        $api.fixTabBar(footer);
+        // setRedDot(false);
+        //安卓返回键监听，进入编辑模式时按下返回建取消编辑
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            if (!first) {
+                first = new Date().getTime();
+                api.toast({
+                    msg: '再按一次退出',
+                    duration: 1500,
+                    location: 'bottom'
+                });
+                setTimeout(function() {
+                    first = null;
+                }, 2000);
+            } else {
+                if (new Date().getTime() - first < 2000) {
+                    api.closeWidget({
+                        silent: true
+                    });
+                }
+            }
+        });
+
+        ajpush = api.require('ajpush');
+
+        api.addEventListener({
+            name: 'changeMainNum'
+        }, function(ret, err) {
+            setRedDotNum(ret.value.data);
+        });
+        api.addEventListener({
+            name: 'changeMessageNum'
+        }, function(ret, err) {
+            setRedDotNum1();
+        });
+
+        ajpush.setListener(
+            function(ret) {
+                var id = ret.id;
+                var title = ret.title;
+                var content = ret.content;
+                var extra = ret.extra;
+                if (api.systemType == 'ios') {
+                    if (extra.Type != 'Message') {
+                        if ($api.getStorage('isnoinited') == '1') {
+                            if ($api.getStorage('resume') == '1') {
+                                $api.setStorage('resume', '0');
+                            } else {
+                                //弹出状态栏通知
+                                api.notification({
+                                    notify: {
+                                        title: title,
+                                        content: content
+                                    }
+                                });
+                            }
+                        } else {
+                            $api.setStorage('resume', '1');
+                        }
+                    }
+                }
+                // setRedDot();
+                // api.sendEvent({
+                //     name: 'changeMessageNum',
+                //     extra: {}
+                // });
+            }
+        );
+
+        // signalrSet();
+        //
+        // api.addEventListener({
+        //     name: 'refreshSignalr'
+        // }, function(ret, err) {
+        //     if (ret) {
+        //         signalrSet();
+        //     }
+        // });
+        //
+        // api.addEventListener({
+        //     name: 'online'
+        // }, function(ret, err) {
+        //     if (ret) {
+        //         signalrSet();
+        //     }
+        // });
+
+        fnGet('services/app/Home/GetHome', {}, false, function(ret, err) {
+            if (ret && ret.success) {
+                //alert(JSON.stringify(ret.result.templateTitles[0].applications));
+                //console.log(JSON.stringify(ret.result.templateTitles));
+                if (ret.result.templateTitles[0].applications.length > 0) {
+                    var UserId = "";
+                    var UserName = "";
+                    var PassWord = "";
+                    var cbapipath = "";
+                    for (var i = 0; i < ret.result.templateTitles[0].applications.length; i++) {
+                        if (ret.result.templateTitles[0].applications[i].coding == "WaterStarOne-MRH-S8") {
+                            UserId = ret.result.templateTitles[0].applications[i].thirdPartyUserId;
+                            UserName = ret.result.templateTitles[0].applications[i].thirdPartyUserName;
+                            PassWord = ret.result.templateTitles[0].applications[i].thirdPartyPassWord;
+                            cbapipath = ret.result.templateTitles[0].applications[i].appServerApi;
+                            $api.setStorage('cbapipath', cbapipath); //抄表管家的服务器地址
+                            $api.setStorage('yptOperatorId', UserId);
+                            $api.setStorage('yptOperatorName', UserName);
+                            $api.setStorage('yptPassword', PassWord);
+                            break;
+                        }
+                    }
+                }
+            } else {
+
+            }
+        });
+
+    };
+
+    function signalrSet() {
+        try {
+            //及时消息发送
+            var hubUrl = apiUrl + "/signalr";
+            var token = $api.getStorage('loginInfo');
+            var index = token.indexOf(' ');
+            token = token.substring(index + 1);
+            var connection = new signalR.HubConnectionBuilder().withUrl(hubUrl, {
+                accessTokenFactory: function() {
+                    return token
+                }
+            }).configureLogging(signalR.LogLevel.Information).build();
+
+            connection.on("position", function(data) {
+                api.sendEvent({
+                    name: 'sendLocationNow',
+                    extra: {}
+                });
+            });
+
+            connection.on("jiGuangPushUpdateRecords", function(data) {
+                api.sendEvent({
+                    name: 'changeMessageNum',
+                    extra: {}
+                });
+            });
+
+            connection.start()
+                .catch(function(err) {
+                    return "";
+                });
+        } catch (e) {
+            console.log('signalR出错');
+            console.log(e);
+        }
+    }
+
+
+    //设置底部导航三个页面的framegroup，包括首页、消息、我的
+    function funIniGroup() {
+        var eHeaderLis = $api.domAll('header li');
+        api.openFrameGroup({
+            name: 'group',
+            scrollEnabled: false,
+            rect: {
+                x: 0,
+                y: 0,
+                w: api.winWidth,
+                h: 'auto',
+                marginLeft: 0,
+                marginTop: 0,
+                marginBottom: $api.dom('#footer').offsetHeight,
+                marginRight: 0
+            },
+            bounces: false,
+            index: 0,
+            preload: 2,
+            reload: true,
+
+            frames: [{
+                name: 'main_frame',
+                url: '../html/work/main_frame.html',
+                scrollEnabled: true,
+                vScrollBarEnabled: true,
+                hScrollBarEnabled: false,
+                bounces: false,
+            }, {
+                name: 'message_frame',
+                url: '../html/message/message_frame.html'
+            }, {
+                name: 'mine_frame',
+                url: '../html/mine/mine_frame.html',
+            }]
+        }, function(ret, err) {});
+    }
+
+    //设置消息的红点显示
+    function setRedDot() {
+        fnPost('services/app/AppUser/UnreadCountAsync', {
+            body: JSON.stringify({})
+        }, 'application/json', true, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    $('#message').find('.aui-dot').remove();
+                    var alarmNum = ret.result.alarm;
+                    var messageNum = ret.result.website;
+                    var workNum = ret.result.work;
+                    var num = alarmNum + messageNum + workNum;
+                    var jpushNum = messageNum + workNum;
+                    if (api.systemType == 'ios') {
+                        ajpush.setBadge({
+                            badge: jpushNum
+                        });
+                    } else {
+                        api.setAppIconBadge({
+                            badge: jpushNum
+                        });
+                    }
+                    if (num != 0) {
+                        var redDot;
+                        if (num > 99) {
+                            redDot = '<div class="aui-dot" style="padding:0 0.1rem">99+</div>';
+                        } else {
+                            redDot = '<div class="aui-dot">' + num + '</div>';
+                        }
+                        $('#message').append(redDot);
+                    } else {
+                        $('#message').find('.aui-dot').remove();
+                    }
+                    if (num != 0) {
+                        var redDot;
+                        if (num > 99) {
+                            // redDot = '<div class="aui-dot aui-dot-Max">99+</div>';
+                            setTabBarNum('99+');
+                        } else {
+                            // redDot = '<div class="aui-dot">' + num + '</div>';
+                            setTabBarNum(num);
+                        }
+                        // $('#message').append(redDot);
+
+                    } else {
+                        // $('#message').find('.aui-dot').remove();
+                        setTabBarNum(0);
+                    }
+                }
+            }
+        })
+    }
+
+    //监听设置消息的红点显示
+    var number;
+    var jpushNumber;
+
+    function setRedDotNum(data) {
+        $('#message').find('.aui-dot').remove();
+        var alarmNum = data.alarm;
+        var messageNum = data.website;
+        var workNum = data.work;
+        var num = alarmNum + messageNum + workNum;
+        var jpushNum = messageNum + workNum;
+        if (api.systemType == 'ios') {
+            ajpush.setBadge({
+                badge: jpushNum
+            });
+        } else {
+            api.setAppIconBadge({
+                badge: jpushNum
+            });
+        }
+        number = num;
+        jpushNumber = jpushNum;
+        if (num != 0) {
+            var redDot;
+            if (num > 99) {
+                redDot = '<div class="aui-dot aui-dot-Max">99+</div>';
+                // setTabBarNum('99+');
+            } else {
+                redDot = '<div class="aui-dot">' + num + '</div>';
+                // setTabBarNum(num);
+            }
+            $('#message').append(redDot);
+
+        } else {
+            $('#message').find('.aui-dot').remove();
+            // setTabBarNum(0);
+        }
+
+    }
+
+    function setTabBarNum(num) {
+        api.setTabBarItemAttr({
+            index: 1,
+            badge: {
+                text: num,
+                radius: 9,
+                y: 1
+            }
+        });
+    }
+
+    function setRedDotNum1() {
+        number--;
+        jpushNumber--;
+        if (number < 0) {
+            number = 0
+        }
+        if (jpushNumber < 0) {
+            jpushNumber = 0
+        }
+        $('#message').find('.aui-dot').remove();
+        if (api.systemType == 'ios') {
+            ajpush.setBadge({
+                badge: jpushNumber
+            });
+        } else {
+            api.setAppIconBadge({
+                badge: jpushNumber
+            });
+        }
+        if (number != 0) {
+            var redDot;
+            if (number > 99) {
+                redDot = '<div class="aui-dot aui-dot-Max">99+</div>';
+            } else {
+                redDot = '<div class="aui-dot">' + number + '</div>';
+            }
+            $('#message').append(redDot);
+        } else {
+            $('#message').find('.aui-dot').remove();
+        }
+        // if (number != 0) {
+        //     var redDot;
+        //     if (number > 99) {
+        //         // redDot = '<div class="aui-dot aui-dot-Max">99+</div>';
+        //         setTabBarNum('99+');
+        //     } else {
+        //         // redDot = '<div class="aui-dot">' + num + '</div>';
+        //         setTabBarNum(number);
+        //     }
+        //     // $('#message').append(redDot);
+        //
+        // } else {
+        //     // $('#message').find('.aui-dot').remove();
+        //     setTabBarNum(0);
+        // }
+
+    }
+
+    // 随意切换按钮
+    function randomSwitchBtn(tag) {
+        if (tag == $api.dom('#footer li.active')) return;
+        var eFootLis = $api.domAll('#footer li'),
+            index = 0;
+        if (tag == 1) {
+            index = 2;
+            $api.removeCls(eFootLis[1], 'active');
+        } else if (tag == 2 || tag == 3) {
+            index = 1;
+            $api.removeCls(eFootLis[2], 'active');
+        } else {
+            for (var i = 0, len = eFootLis.length; i < len; i++) {
+                if (tag == eFootLis[i]) {
+                    index = i;
+                } else {
+                    $api.removeCls(eFootLis[i], 'active');
+                }
+
+            }
+        }
+
+        setTimeout(function() {
+            $api.addCls(eFootLis[index], 'active');
+            api.setFrameGroupIndex({
+                name: 'group',
+                index: index,
+            });
+        }, 100);
+
+    }
+
+
+    // var initBodyHeight = $(window).height();
+    // var keyBoardStatus = false;
+    // var getKeyBoardStatus = function() {
+    //     setTimeout(function() {
+    //         if (initBodyHeight != $(window).height() && keyBoardStatus == false) {
+    //             keyBoardStatus = true;
+    //             api.sendEvent({
+    //                 name: 'keyBoardOpen'
+    //             });
+    //             getKeyBoardStatus();
+    //             return false;
+    //         }
+    //         if (initBodyHeight == $(window).height() && keyBoardStatus == true) {
+    //             keyBoardStatus = false;
+    //             api.sendEvent({
+    //                 name: 'keyBoardClose'
+    //             });
+    //             getKeyBoardStatus();
+    //             return false;
+    //         }
+    //         getKeyBoardStatus();
+    //     }, 150);
+    // }
+</script>
+
+</html>

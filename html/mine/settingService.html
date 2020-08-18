@@ -1,0 +1,586 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>设置服务器</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/dialog.css">
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+            /*overflow: hidden;*/
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .sureBtn {
+            border-radius: 2.5rem !important;
+            margin: 3rem auto;
+            justify-content: center;
+            height: 2.5rem !important;
+            line-height: 2.5rem !important;
+            width: 80%;
+            display: flex !important;
+            background: #4f79e8 !important;
+            color: #fff;
+            font-size: 18px !important;
+            outline: none;
+        }
+
+        .aui-list-item {
+            background: #fff !important;
+            padding-left: 0 !important;
+            border-bottom: 0.05rem solid #e6e6e6!important;
+        }
+
+        input {
+            outline: none;
+        }
+
+        .title {
+            width: 37% !important;
+            justify-content: flex-end !important;
+            padding-right: 0 !important;
+        }
+        /*地址样式设置*/
+
+        .aui-list-item .aui-row {
+            width: 100%;
+            line-height: 2.2rem;
+            padding: 0 0.5rem;
+        }
+
+        .aui-list-item .aui-row button {
+            background: #fff;
+            border-radius: 3px;
+            border: solid 1px #666666;
+            color: #333;
+        }
+        /*取消掉button的按钮边线*/
+
+        button {
+            outline: none;
+        }
+
+        .check1 {
+            width: 0.7rem;
+            height: 0.7rem;
+            margin: 0.8rem 0.3rem 0 0.3rem;
+        }
+
+        .checkTrue {
+            width: 0.7rem;
+            height: 0.7rem;
+            background: url('../../image/mine_frame/checkTrue.jpg');
+            background-size: 0.7rem 0.7rem;
+            margin: 0.8rem 0.3rem 0 0.3rem;
+        }
+
+        .checkFalse {
+            width: 0.7rem;
+            height: 0.7rem;
+            background: url('../../image/mine_frame/checkFalse.jpg');
+            background-size: 0.7rem 0.7rem;
+            margin: 0.8rem 0.3rem 0 0.3rem;
+        }
+
+        .select1 input {
+            width: 1rem;
+            height: 1rem;
+            margin: 0.6rem 0.3rem 0 0.3rem;
+        }
+
+        #footer {
+            background-color: rgba(255, 255, 255, 0.9);
+            position: absolute;
+            bottom: 5%;
+            width: 10.48rem;
+            left: 3rem;
+        }
+
+        #footer ul {
+            width: 12.35rem;
+            height: 2.2rem;
+            background-color: #ffffff;
+            box-shadow: 0rem 0rem 0.23rem 0rem rgba(0, 0, 0, 0.28);
+            border-radius: 1.1rem;
+            opacity: 0.9;
+            margin: 0 auto;
+        }
+
+        #footer ul li {
+            padding-top: 23px;
+            margin-top: 2px;
+            font-size: 12px;
+            background: url() no-repeat center 2px;
+            background-size: auto 20px;
+            text-align: center;
+            float: left;
+            /*margin: 0.1rem 0.91rem;*/
+        }
+
+        #footer ul li:nth-child(1) {
+            background-image: url(../../image/message_frame/delete_active.png);
+            margin: 0.1rem 1rem;
+        }
+
+        #footer ul li:nth-child(2) {
+            background-image: url(../../image/message_frame/sendMessage.png);
+            margin: 0.1rem 1rem;
+        }
+
+        #footer ul li:nth-child(3) {
+            background-image: url(../../image/mine_frame/net.jpg);
+            margin: 0.1rem 0.7rem;
+        }
+
+        #footer ul {
+            padding: 0 1rem;
+        }
+
+        .button_active {
+            background: #4F79E8!important;
+            color: #fff!important;
+            border-color: #4F79E8!important;
+        }
+
+        .aui-radio:checked,
+        .aui-radio.aui-checked,
+        .aui-checkbox:checked,
+        .aui-checkbox.aui-checked {
+            background-color: #4F79E8;
+            border: solid 1px #4f79e8;
+        }
+
+        /*.aui-radio {
+            width: 1rem;
+            height: 1rem;
+            position: absolute;
+            top: 0.65rem;
+            left: 0.5rem;
+        }*/
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav aui-border-b" id="header">
+        <div class="aui-pull-left aui-btn" tapmode onclick="fnReturnMyInfo();">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">设置服务器</div>
+    </header>
+    <div class="aui-content mine_List">
+        <ul class="aui-list" id="addressDemo">
+            <!-- <li class="aui-list-item">
+                <div class="aui-row">
+                    <div class="aui-col-xs-2 aui-text-right">地址1:</div>
+                    <div class="aui-col-xs-6"><input class="aui-padded-l-5 input_text" type="text" name="" value="192.168.0.43:8889" placeholder="请输入服务器地址" data-input='changeValue'></div>
+                    <div class="aui-col-xs-1 check1"></div>
+                    <div class="aui-col-xs-2 aui-text-center"><button type="button" name="button" data-action="checkNet">检测</button></div>
+                    <div class="aui-col-xs-1 select1">
+                        <div class="aui-radio " data-action='selectRadio'></div>
+                        <input class="aui-radio" type="radio" name='radio' >
+                    </div>
+                </div>
+            </li> -->
+        </ul>
+    </div>
+
+    <div id="footer">
+        <ul class="flex-wrap">
+            <li tapmode class="flex-con" data-action="delete">删除</li>
+            <li tapmode class="flex-con" data-action="addAddress">新增</li>
+            <li tapmode class="flex-con" data-action="OpenAddress" tapmode>启用地址</li>
+        </ul>
+    </div>
+
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/template" id='addressList'>
+    <li class="aui-list-item aui-border-b" data-id='{{value}}'>
+        <div class="aui-row">
+            <div class="aui-col-xs-2 aui-text-right">地址{{value}}:</div>
+            <div class="aui-col-xs-6"><input class="aui-padded-l-5 input_text" type="text" name="" placeholder="请输入服务器地址" data-input='changeValue'></div>
+            <div class="aui-col-xs-1 check1"></div>
+            <div class="aui-col-xs-2 aui-text-center"><button type="button" name="button" data-action="checkNet">检测</button></div>
+            <div class="aui-col-xs-1 select1">
+                <!-- <div class="aui-radio " data-action='selectRadio'></div> -->
+                <input class="aui-radio" type="radio" name='radio' >
+            </div>
+        </div>
+    </li>
+</script>
+<script type="text/template" id='addressList1'>
+    {{each list value i}}
+    <li class="aui-list-item" data-id='{{i + 1}}'>
+        <div class="aui-row">
+            <div class="aui-col-xs-2 aui-text-right">地址{{i+1}}:</div>
+            <div class="aui-col-xs-6"><input class="aui-padded-l-5 input_text" type="text" name="" value="{{value}}" placeholder="请输入服务器地址" data-input='changeValue'></div>
+            <div class="aui-col-xs-1 check1 checkTrue"></div>
+            <div class="aui-col-xs-2 aui-text-center"><button type="button" name="button" data-action="checkNet">检测</button></div>
+            <div class="aui-col-xs-1 select1">
+                <!-- <div class="aui-radio " data-action='selectRadio'></div> -->
+                <input class="aui-radio" type="radio" name='radio'>
+            </div>
+        </div>
+    </li>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var num = 0;
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        var addressHistory = $api.getStorage('addressHistory');
+        Init(addressHistory);
+
+    };
+    function Init(addressHistory) {
+        if (addressHistory != undefined && addressHistory != null && addressHistory != '') {
+            $('#addressDemo').html('');
+            var data = {
+                list: addressHistory
+            };
+            var str = template('addressList1', data);
+            $('#addressDemo').append(str);
+            operatOninput();
+            var OpenAddress = $api.getStorage('OpenAddress');
+            var inputValue = $('.input_text');
+            for (var i = 0; i < inputValue.length; i++) {
+                if ($(inputValue[i]).val() == OpenAddress) {
+                    $(inputValue[i]).parent().siblings('.select1').children().attr('checked', true);
+                }
+            }
+            operationDom();
+            num = addressHistory.length;
+        }
+      //  var apiUrl=$api.getStorage('apiUrl');
+      //  if(apiUrl!=undefined || apiUrl!=null){
+      //    num = 1;
+      //  }else {
+      //    num = 0;
+      //  }
+
+
+
+    }
+
+    operationDom();
+    var headers = {};
+    headers["Content-Type"] = 'application/json';
+    var testData = {
+        body: JSON.stringify({
+
+        })
+    };
+    // 检测地址成功数据
+    var Faddress = [];
+    var actionList = {
+        'delete': function(e) {
+            var event = e || window.event;
+            event.preventDefault();
+            var selectNumber = $('.aui-radio:checked');
+            if (selectNumber.length != 0) {
+              api.confirm({
+                    title: '提示',
+                    msg: '确定删除吗',
+                    buttons: ['确定', '取消']
+                }, function(ret, err) {
+                    if (ret && ret.buttonIndex == 1) {
+                      // 删除一个地址后，后面的地址名称相应的改变
+                      var brothers = $(selectNumber).parents('.aui-list-item').nextAll('.aui-list-item');
+                      for(var i=0;i<brothers.length;i++){
+                        var data_id = $(brothers[i]).attr('data-id');
+                        var n = data_id - 1;
+                        var title = $(brothers[i]).children().children('.aui-text-right').text('地址'+n+':');
+                        $(brothers[i]).attr('data-id',n);
+                      }
+                       num--;
+                    // 删除地址开始
+                      var addressValue = $(selectNumber).parent().siblings('.aui-col-xs-6').children().val();
+                       if(addressValue == '') {
+                       $(selectNumber).parents('.aui-list-item').remove();
+                        } else {
+                       // 删除页面上的地址，并且删除缓存里面的地址
+                        var addressHistory = $api.getStorage('addressHistory');
+                      // 判断是不是最后一个地址
+                        var numbers = addressHistory.length;
+                          if (numbers == 1) {
+                          api.confirm({
+                              title: '提示',
+                              msg: '这是最后一个服务器地址，确定删除吗？',
+                              buttons: ['确定', '取消']
+                          }, function(ret, err) {
+                              if (ret && ret.buttonIndex == 1) {
+                                  // 删除数组中指定的值
+                                  $(selectNumber).parents('.aui-list-item').remove();
+                                  addressHistory.remove(addressValue);
+                                  $api.setStorage('addressHistory', addressHistory);
+                                  var OpenAddress = $api.getStorage('OpenAddress');
+                                  if( OpenAddress == addressValue){
+                                    $api.setStorage('apiUrl', null);
+                                  }
+                                  api.sendEvent({
+                                      name: 'changeApiUrl',
+                                  });
+                              }
+                             });
+                      } else {
+                          // 删除数组中指定的值
+                          $(selectNumber).parents('.aui-list-item').remove();
+                          addressHistory.remove(addressValue);
+                          $api.setStorage('addressHistory', addressHistory);
+                          var OpenAddress = $api.getStorage('OpenAddress');
+                          if( OpenAddress == addressValue){
+                            $api.setStorage('apiUrl', null);
+                          }
+                          api.sendEvent({
+                              name: 'changeApiUrl',
+                          });
+                      }
+                    }
+                    }
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            } else {
+                api.toast({
+                    msg: '请选择要删除的地址',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+
+        },
+        'addAddress': function(e) {
+            // 阻止冒泡，不然会一次加载两次（原因目前不明）
+            var event = e || window.event;
+            event.preventDefault();
+            num++;
+            var data = {
+                value: num
+            };
+            var str = template('addressList', data);
+            $('#addressDemo').append(str);
+            operationDom();
+            operatOninput();
+
+        },
+        'OpenAddress': function(e) {
+            var event = e || window.event;
+            event.preventDefault();
+            var selectNumber = $('.aui-radio:checked');
+            var siblings = $(selectNumber).parent().siblings('.check1');
+            if ($(siblings).hasClass('checkFalse')) {
+                api.toast({
+                    msg: '该地址不可用',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                return false;
+            }
+            if ($(siblings).hasClass('checkTrue')) {
+                if (selectNumber.length != 0) {
+                    api.confirm({
+                        title: '提示',
+                        msg: '确定启用服务器地址吗？',
+                        buttons: ['确定', '取消']
+                    }, function(ret, err) {
+                        if (ret && ret.buttonIndex == 1) {
+                            var addressValue = $(selectNumber).parent().siblings('.aui-col-xs-6').children().val();
+                            $api.setStorage('OpenAddress', addressValue);
+                            $api.setStorage('apiUrl', addressValue);
+                            api.sendEvent({
+                                name: 'changeApiUrl',
+                            });
+                            api.toast({
+                                msg: '启用成功',
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+
+                        }
+                    });
+
+                } else {
+                    api.toast({
+                        msg: '请选择要启用的地址',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+
+                }
+            } else {
+                api.toast({
+                    msg: '请先检测服务器地址',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+
+            }
+
+
+
+        },
+        'checkNet': function() {
+            // 检测地址，检测成功后添加到缓存中
+            // 按钮添加active颜色，移除不是当前元素的所有button的active颜色
+            $(this).addClass('button_active');
+            var that = this;
+            $('button').not(this).removeClass('button_active');
+            var str = $(this).parent().siblings('.aui-col-xs-6').children().val();
+            var addressValue =Trim(str, 'g');
+            var url = 'http://' + addressValue + '/api/services/app/PushInterface/ConnectionTest'
+            api.showProgress({
+                title: '加载中...',
+                modal: false
+            });
+            api.ajax({
+                url: url,
+                method: 'post',
+                timeout: 100,
+                dataType: 'json',
+                returnAll: false,
+                headers: headers,
+                data: testData
+            }, function(ret, err) {
+                api.hideProgress();
+                if (ret) {
+                    if (ret.result && ret.success) {
+                        $(that).removeClass('button_active');
+                        $(that).parent().siblings('.check1').removeClass('checkFalse').addClass('checkTrue');
+                        var Faddress = $api.getStorage('addressHistory');
+                        if (Faddress== undefined || Faddress == null) {
+                            Faddress =[];
+                            Faddress.push(addressValue);
+                        } else {
+                          var n=0;
+                            for (var i = 0; i < Faddress.length; i++) {
+                                if (addressValue != Faddress[i]) {
+                                    n++;
+                                }
+                            }
+                            if(n == Faddress.length){
+                              Faddress.push(addressValue);
+                            }
+                        }
+                        $api.setStorage('addressHistory', Faddress);
+                    }
+                } else if (err) {
+                    // if (err.body.hasOwnProperty('result')) {
+                        api.alert({
+                            title: '错误提示',
+                            msg: '地址输入错误',
+                        }, function(ret, err) {
+
+                        });
+                    // } else {
+                    //     api.alert({
+                    //         title: '错误提示',
+                    //         msg: err.body,
+                    //     }, function(ret, err) {
+                    //
+                    //     });
+                    // }
+                    $(that).removeClass('button_active');
+                    $(that).parent().siblings('.check1').removeClass('checkTrue').addClass('checkFalse');
+                }
+            });
+
+
+        }
+    }
+
+  //  删除字符串前后和中间所有空格
+    function Trim(str, is_global) {
+        var result;
+        result = str.replace(/(^\s+)|(\s+$)/g, "");
+        if (is_global.toLowerCase() == "g") {
+            result = result.replace(/\s/g, "");
+        }
+        return result;
+    }
+
+    //返回我的资料页面
+    function fnReturnMyInfo() {
+        api.closeWin({});
+    }
+    operatOninput();
+    var oninputList = {
+      'changeValue':function(){
+        $(this).siblings('.check1').removeClass('checkTrue');
+        $(this).siblings('.check1').removeClass('checkFalse');
+      }
+    }
+
+
+
+    // 删除数组中对应的值
+    Array.prototype.indexOf = function(val) {
+        for (var i = 0; i < this.length; i++) {
+            if (this[i] == val) return i;
+        }
+        return -1;
+    };
+
+    Array.prototype.remove = function(val) {
+        var index = this.indexOf(val);
+        if (index > -1) {
+            this.splice(index, 1);
+        }
+    };
+</script>
+
+</html>

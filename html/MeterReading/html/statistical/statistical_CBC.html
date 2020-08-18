@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            background-color: #F3F3F3;
+        }
+
+        #center {
+            border-radius: 10px;
+            background-color: #ffffff;
+            margin: 20px;
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+            font-size: 15px;
+        }
+
+        .dv1 {
+            height: 50px;
+            font-size: 0.8rem;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .image {
+            float: left;
+            width: 10px;
+            height: 10px;
+            margin-top: 20px;
+        }
+
+        .sp {
+            margin-top: 0.7rem;
+            margin-left: 5px;
+            color: #5389E2;
+        }
+
+        .dv2 {
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-bottom: 20px;
+        }
+
+        .dv {
+            background-color: #ECECEC;
+            border-radius: 10px;
+            padding-top: 15px;
+            padding-bottom: 15px;
+            margin-bottom: 15px;
+        }
+
+        .dv_top {
+            display: flex;
+        }
+
+        .dv_bottom {
+            margin-top: 10px;
+            display: flex;
+        }
+
+        .dv-1 {
+            flex: 1;
+            padding-left: 10px;
+            color: #000000;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv-2 {
+            height: 1px;
+            margin-top: 12px;
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: #F3F3FF;
+        }
+
+        .dv-3 {
+            flex: 3;
+            text-align: left;
+            padding-left: 10px;
+            flex-direction: row;
+            white-space: nowrap;
+            overflow: scroll;
+            color: #6D6D6D;
+        }
+
+        .dv-4 {
+            display: flex;
+            flex: 4;
+            text-align: left;
+            padding-left: 10px;
+            flex-direction: row;
+            white-space: nowrap;
+            overflow: scroll;
+            color: #6D6D6D;
+        }
+
+        .dv3 {
+            width: 100%;
+            height: 50px;
+            border-bottom: 1px solid #F3F3FF;
+            line-height: 50px;
+            font-size: 18px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv3_center {
+            flex: 1;
+        }
+
+        .aui-checkbox-1 {
+            margin-top: 12px;
+        }
+
+        .box {}
+
+        .content p {
+            display: inline-block;
+            font-size: 15px;
+        }
+
+        .content p.padding {
+            padding-right: 100px;
+        }
+
+        .aui-checkbox:checked,
+        .aui-checkbox.aui-checked {
+            background-color: #2E87F9;
+            border: solid 1px #2E87F9;
+            text-align: center;
+            background-clip: padding-box;
+        }
+
+        .dv-5 {
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="center">
+        <div class="dv3">
+            <div class="dv3_center"></div>
+            <div class="dv3_zx"><input type="checkbox" class="aui-checkbox aui-checkbox-1" id="checkbox-1" onclick="setAllNo(1)" />在线</div>
+            <div class="dv3_center"></div>
+            <div class="dv3_center"></div>
+            <div class="dv3_lx"><input type="checkbox" class="aui-checkbox aui-checkbox-1" id="checkbox-2" onclick="setAllNo(2)" checked="checked" />离线</div>
+            <div class="dv3_center"></div>
+        </div>
+        <div class="dv1">
+            <img src="../../image/MeteReading/tupian/dian.png" class="image" />
+            <span class="sp">时间：2019-9</span>
+        </div>
+        <div class="dv2" id="books">
+
+        </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id='bookList'>
+    {{each datas value i}}
+    <div class="dv" id="box_{{i+1}}" onclick="details({{value.CBBH}})">
+        <div class="dv_top">
+            <!--
+            <div class="dv-1 box" id="box_{{i+1}}" onclick="details({{value.CBBH}})">
+                <div class="content" id="content_{{i+1}}">
+                    <p class="text padding" id="text_{{i+1}}">{{value.CBB}}</p>
+                    <p class="text padding">{{value.CBB}}</p>
+                </div>
+            </div>
+          -->
+            <div class="dv-1 box">
+                {{value.CBB}}
+            </div>
+            <div class="dv-2"></div>
+        </div>
+
+        <div class="dv_bottom">
+            <div class="dv-3">已&nbsp;&nbsp;抄：{{value.YC}}</div>
+            <div class="dv-4">
+                <div>已上传：</div>
+                <div class="dv-5">
+                    <div>抄表&nbsp;{{value.YSC}}/{{value.ZHS}}</div>
+                    <div>工单&nbsp;{{value.GDYSC}}/{{value.ZHS}}</div>
+                    <div>图片&nbsp;{{value.TPYSC}}/{{value.ZHS}}</div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id='bookListonlie'>
+    {{each datas value i}}
+    <div class="dv">
+        <div class="dv_top">
+            <!--
+            <div class="dv-1 box" id="box_{{i+1}}">
+                <div class="content" id="content_{{i+1}}">
+                    <p class="text padding" id="text_{{i+1}}">{{value.BOOK_NAME}}</p>
+                    <p class="text padding">{{value.BOOK_NAME}}</p>
+                </div>
+            </div>-->
+            <div class="dv-1 box" id="box_{{i+1}}">
+                {{value.BOOK_NAME}}
+            </div>
+            <div class="dv-2"></div>
+        </div>
+
+        <div class="dv_bottom">
+            <div class="dv-3">已抄数:{{value.AMOUNT}}</div>
+            <div class="dv-4">应抄数:{{value.ALL_AMOUNT}}</div>
+        </div>
+
+
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var list = [];
+    var type = 2;
+    var LoginName = "";
+    apiready = function() {
+        LoginName = $api.getStorage('loginData').userName;
+        var date = new Date();
+        $(".sp").html("时间：" + date.getFullYear() + "-" + (date.getMonth() + 1));
+        queryStatistical();
+        //toScrollLeft2();
+    };
+
+    function toScrollLeft2() {
+        var boxs = $(".box");
+        for (var i = 1; i <= boxs.length; i++) {
+            var box = document.getElementById("box_" + i);
+            var text = document.getElementById("text_" + i);
+
+            var scrollLeft = box.scrollLeft; //滚动条长度
+            var textWidth = text.offsetWidth; //文字的长度
+
+            if (textWidth > scrollLeft) {
+                box.scrollLeft++;
+            } else {
+                box.scrollLeft = 0;
+            }
+        }
+        setTimeout('toScrollLeft2()', 38);
+    }
+
+    //在线与离线的选中
+    function setAllNo(index) {
+        if (index == 1) {
+            $('#checkbox-2').prop("checked", false);
+            $('#checkbox-1').prop("checked", true);
+            if (type != index) {
+                type = index;
+                queryStatisticalolline();
+            }
+        } else {
+            $('#checkbox-2').prop("checked", true);
+            $('#checkbox-1').prop("checked", false);
+            if (type != index) {
+                type = index;
+                var datas = {
+                    datas: list
+                }
+
+                var str = template('bookList', datas);
+                //console.log(JSON.stringify(str));
+                $('#books div').remove();
+                $('#books').append(str);
+                fnReadyOpenWin();
+            }
+        }
+    }
+
+    //获取在线统计数据
+    function queryStatisticalolline() {
+        var bookId = "BookId=";
+        for (var i = 0; i < list.length; i++) {
+            if (bookId == "BookId=") {
+                bookId += list[i].CBBH
+            } else {
+                bookId += "," + list[i].CBBH
+            }
+        }
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Type": "151",
+            "Required": bookId
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret.Status == 0) {
+                var Data = [];
+                if (ret.Data != "" && ret.Data != " ") {
+                    Data = JSON.parse(ret.Data);
+                }
+                //var Data = JSON.parse(ret.Data);
+                var datas = {
+                    datas: Data
+                }
+
+                var str = template('bookListonlie', datas);
+                //console.log(JSON.stringify(str));
+                $('#books div').remove();
+                $('#books').append(str);
+                fnReadyOpenWin();
+            } else {
+                api.toast({
+                    msg: ret.Message,
+                    duration: 3000,
+                    location: 'bottom'
+                });
+            }
+        });
+    }
+
+    function queryStatistical() {
+        var sql = "SELECT Z.*," + "ROUND(Z.已抄/(Z.总户数*0.01),2) AS 抄表率," +
+            "ROUND(Z.正常抄表数/(Z.总户数*0.01),2) AS 抄见率," +
+            "ROUND(Z.正常抄表数/(Z.总户数*0.01),2) AS 正常抄表率," +
+            "ROUND(Z.估抄抄表数/(Z.总户数*0.01),2) AS 估抄抄表率," +
+            "ROUND(Z.正常抄表数/(Z.已抄*0.01),2) AS 已抄正常抄表率," +
+            "ROUND(Z.估抄抄表数/(Z.已抄*0.01),2) AS 已抄估抄抄表率     " +
+            "  FROM (" +
+            "SELECT B.CBCMC   AS 抄表本, B.CBCH   AS 抄表册号," +
+            "COUNT(1) AS 总户数," +
+            "SUM(CASE WHEN CBBZ='1' THEN 1 ELSE 0 END ) AS 已抄," +
+            "SUM(CASE WHEN CBBZ='0' THEN 1 ELSE 0 END ) AS 未抄," +
+            "SUM(CASE WHEN ZTSCCG='1' THEN 1 ELSE 0 END ) AS 已上传," +
+            "SUM(CASE WHEN BYXZT='1' AND A.BYXZT<>'null' AND A.BYXZT<>'' AND CBBZ='1' THEN 1 ELSE 0 END ) AS 正常抄表数," +
+            "SUM(CASE WHEN BYXZT<>'1' AND A.BYXZT<>'null' AND A.BYXZT<>'' AND CBBZ='1' THEN 1 ELSE 0 END ) AS 估抄抄表数," +
+            "SUM(CASE WHEN CBBZ='1' THEN A.YL ELSE 0 END ) AS 总抄表水量," +
+            "SUM(CASE WHEN BYXZT='1' AND A.BYXZT<>'null' AND A.BYXZT<>'' AND CBBZ='1' THEN A.YL ELSE 0 END ) AS 正常水量," +
+            "SUM(CASE WHEN BYXZT<>'1' AND A.BYXZT<>'null' AND A.BYXZT<>'' AND CBBZ='1' THEN A.YL ELSE 0 END ) AS 估抄水量," +
+            "SUM(CASE WHEN CBBZ='1' THEN A.FY ELSE 0 END ) AS 总水费金额" +
+            "   FROM MRM_USER_BEAN A,MRM_BOOKS_BEAN B WHERE A.CBCH = B.CBCH and A.userName='" + LoginName + "' GROUP BY A.CBCH" + ") Z";
+
+        var db = api.require("db");
+        var data = db.selectSqlSync({
+            name: 'CBtest',
+            sql: sql
+        });
+
+        if (data.status) {
+            if (data.data.length > 0) {
+                for (var i = 0; i < data.data.length; i++) {
+                    var num = data.data[i];
+                    var CBB = num["抄表本"];
+                    var CBBH = num["抄表册号"] + "";
+                    var ZHS = num["总户数"];
+                    var YC = num["已抄"];
+                    var WC = num["未抄"];
+                    var YSC = num["已上传"];
+                    var ZCC = num["正常抄表数"];
+                    var GC = num["估抄抄表数"];
+                    var ZSL = num["总抄表水量"];
+                    var ZCSL = num["正常水量"];
+                    var GCSL = num["估抄水量"];
+                    var JE = num["总水费金额"];
+                    var CBL = num["抄表率"] + "%";
+                    var CJL = num["抄见率"] + "%";
+
+                    var photodata = db.selectSqlSync({
+                        name: 'CBtest',
+                        sql: 'select * from MRM_PHOTOS_BEAN where YHBH in (select YHBH from MRM_USER_BEAN where CBCH="' + num["抄表册号"] + '" and ZTSCCG=1 and userName="' + LoginName + '") and SFSC=1 GROUP BY YHBH'
+                    });
+                    var TPYSC = photodata.data.length;
+                    var workdata = db.selectSqlSync({
+                        name: 'CBtest',
+                        sql: 'select * from MRM_WORKORDER_BEAN where YHBH in (select YHBH from MRM_USER_BEAN where CBCH="' + num["抄表册号"] + '" and ZTSCCG=1 and userName="' + LoginName + '") and SFSC=1 GROUP BY YHBH'
+                    });
+                    var GDYSC = workdata.data.length;
+
+
+                    var map = {};
+                    map["CBB"] = CBB;
+                    map["CBBH"] = CBBH;
+                    map["ZHS"] = ZHS;
+                    map["YC"] = YC;
+                    map["WC"] = WC;
+                    map["YSC"] = YSC;
+                    map["ZCC"] = ZCC;
+                    map["GC"] = GC;
+                    map["ZSL"] = ZSL;
+                    map["ZCSL"] = ZCSL;
+                    map["GCSL"] = GCSL;
+                    map["JE"] = JE;
+                    map["CBL"] = CBL;
+                    map["CJL"] = CJL;
+                    map["TPYSC"] = TPYSC;
+                    map["GDYSC"] = GDYSC;
+
+                    list.push(map);
+                }
+                var datas = {
+                    datas: list
+                }
+
+                var str = template('bookList', datas);
+                //console.log(JSON.stringify(str));
+                $('#books div').remove();
+                $('#books').append(str);
+                fnReadyOpenWin();
+            }
+        }
+    }
+
+    function details(cbch) {
+        var data;
+        for (var i = 0; i < list.length; i++) {
+            if (list[i].CBBH == cbch) {
+                data = list[i];
+                break;
+            }
+        }
+        api.openWin({
+            name: 'statistical_details',
+            url: './statistical_details.html',
+            slidBackEnabled: false,
+            animation: {
+                type: "push",
+                subType: "from_left",
+                duration: 300
+            },
+            pageParam: {
+                Data: data,
+                TYPE: "CBC"
+            }
+        });
+    }
+</script>
+
+</html>

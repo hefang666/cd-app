@@ -1,0 +1,506 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>公告消息详情页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/dialog.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 3;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            border: none;
+            background-size: 100% 1px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-image: linear-gradient(0, #dddddd, #dddddd 50%, transparent 50%);
+            background-image: -webkit-linear-gradient(90deg, #dddddd, #dddddd 50%, transparent 50%);
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .flex-con {
+            overflow: auto;
+        }
+
+        .message .aui-media-list .aui-list-item-inner {
+            font-size: var(--fontsize75) !important;
+            font-weight: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+            padding: 1rem 0 !important;
+            padding-right: 0.75rem;
+            display: flex !important;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .contentText {
+            color: #999999;
+            width: calc( 100% - 3.6rem - 1.05rem);
+            margin-left: 1.05rem;
+        }
+
+        .contentTitle {
+            width: 2.6rem;
+        }
+
+        .jiange {
+            width: 100%;
+            height: 0.6rem;
+            background-color: #f0f0f0;
+        }
+
+        .message .aui-list .aui-list-item:last-child {
+            background-image: none !important;
+        }
+
+        #file .aui-list .aui-list-item-text,
+        .aui-list .aui-list-item-title {
+            font-size: var(--fontsize65);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.07rem;
+        }
+
+        #file .aui-list .aui-list-item-title {
+            color: #333333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        #file .aui-list .aui-list-item-text {
+            color: #999999;
+        }
+
+        #file .aui-list .aui-list-header {
+            background-color: #FFF;
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+            padding: 0.88rem 1.15rem;
+            border: none;
+            background-size: 100% 1px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-image: linear-gradient(0, #dddddd, #dddddd 50%, transparent 50%);
+            background-image: -webkit-linear-gradient(90deg, #dddddd, #dddddd 50%, transparent 50%);
+        }
+
+        #file .aui-list .aui-list-item {
+            padding-left: 1.15rem;
+        }
+
+        #file .aui-media-list .aui-list-item-inner {
+            padding-right: 0;
+            width: calc(100% - 2.35rem)
+        }
+
+        .download {
+            width: 0.85rem;
+            height: 0.85rem;
+            margin-left: 0.75rem !important;
+            margin-right: 0.75rem;
+            background: url(../../image/message_frame/download.png);
+            background-size: 0.85rem 0.85rem;
+            background-position: center center;
+            background-repeat: no-repeat;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .fileOpen {
+            width: 0.85rem;
+            height: 0.85rem;
+            margin-left: 0.75rem !important;
+            margin-right: 0.75rem;
+            background: url(../../image/message_frame/fileOpen.png);
+            background-size: 0.85rem 0.73rem;
+            background-position: center center;
+            background-repeat: no-repeat;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .message {
+            height: auto;
+        }
+
+        #NoticeMessageDetail .aui-row {
+            padding: 0 0.75rem;
+            min-height: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        #NoticeMessageDetail .aui-row:first-child {
+            padding-top: 0.88rem
+        }
+
+        #NoticeMessageDetail .aui-row:nth-child(3) {
+            height: auto;
+            padding-top: 0.3rem
+        }
+
+        #NoticeMessageDetail .aui-row:nth-child(4) {
+            padding-top: 0.88rem;
+        }
+
+        #title {
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        #sendUser,
+        #sendTime {
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+        }
+
+        #content,
+        #sendUserName,
+        #yearDate {
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        .departmentTitle {
+            color: #999999;
+        }
+
+        .aui-list .aui-list-item:active {
+            background-color: transparent
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <header class="aui-bar aui-bar-nav" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">公告详情</div>
+        </header>
+        <div class="aui-content message" id="NoticeMessageDetail">
+            <div class="aui-row">
+                <div class="aui-col-xs-12 aui-text-left"><span id="title"></span></div>
+            </div>
+            <div class="aui-row">
+                <div class="aui-col-xs-6 aui-text-left departmentTitle"><span id="sendUser"></span></div>
+                <div class="aui-col-xs-6 aui-text-left departmentTitle"><span id="sendTime"></span></div>
+            </div>
+            <div class="aui-row">
+                <div class="aui-col-xs-12 content" id="content"></div>
+            </div>
+            <div class="aui-row">
+                <div class="aui-col-xs-12 aui-text-right"><span id="sendUserName"></span></div>
+
+            </div>
+            <div class="aui-row">
+                <div class="aui-col-xs-12 aui-text-right"><span id="yearDate"></span></div>
+            </div>
+        </div>
+
+        <div class="jiange">
+
+        </div>
+        <div class="aui-content" id="file">
+            <ul class="aui-list aui-media-list">
+                <li class="aui-list-header">
+                    附&nbsp;&nbsp;&nbsp;件
+                </li>
+            </ul>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/moment.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/template" id="NoticeMessageDemo">
+    <div class="aui-row">
+        <div class="aui-col-xs-12 aui-text-left"><span>{{关于元旦放假通知}}</span></div>
+    </div>
+    <div class="aui-row">
+        <div class="aui-col-xs-6 aui-text-left departmentTitle"><span>{{重庆森鑫炬科技有限公司}}</span></div>
+        <div class="aui-col-xs-6 aui-text-left departmentTitle"><span>{{2018-12-25}}</span></div>
+    </div>
+    <div class="aui-row">
+        <div class="aui-col-xs-12 aui-text-left"><span>公司全体员工</span></div>
+        <div class="aui-col-xs-12 ">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容内容}}</div>
+    </div>
+    <div class="aui-row">
+        <div class="aui-col-xs-12 aui-text-right"><span>{{重庆森鑫炬科技有限公司}}</span></div>
+        <div class="aui-col-xs-12 aui-text-right aui-padded-r-15"><span>{{2018年12月25}}</span></div>
+    </div>
+</script>
+<script type="text/javascript">
+    var headerH;
+    var tabH;
+
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        if (api.systemType == 'ios') {
+            api.setStatusBarStyle({
+                style: 'dark',
+            });
+        }
+        // 计算header和tab元素的高度
+        headerH = $api.offset(header).h;
+        var paramDatas = api.pageParam;
+        $('#NoticeMessageDetail').show();
+        $('.jiange').show();
+        $('#file').show();
+        getNoticeMessageDetail(api.pageParam.id);
+        fs = api.require('fs');
+    };
+
+    var actionList = {
+        'back': function() {
+            api.closeWin({});
+        }
+    }
+
+    var html = "";
+    var fs;
+    //获取站内消息详情
+    function getNoticeMessageDetail(id) {
+        fnGet('services/app/Message/GetMessageById?Id=' + id + '', {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    $('#sendUser').html(ret.result.sendUserName);
+                    $('#sendUserName').html(ret.result.sendUserName);
+                    $('#title').html(ret.result.title);
+                    $('#content').html(ret.result.content);
+                    var sendTime = ret.result.sendTime;
+                    var time = getTime(sendTime);
+                    var yearDate = sendTime.substr(0, 10);
+                    sendTime = sendTime.replace('T', ' ');
+                    $('#sendTime').html(sendTime);
+                    $('#yearDate').html(yearDate);
+                    $('#file ul').html('');
+                    $('#file ul').append('<li class="aui-list-header">附&nbsp;&nbsp;&nbsp;件</li>');
+                    var fileData = ret.result.files;
+                    html = "";
+                    for (var i = 0; i < fileData.length; i++) {
+                        (function(i) {
+                            var size = '0.00M';
+                            var number = (fileData[i].size / 1024 / 1024).toFixed(2);
+                            if (number == 0.00) {
+                                number = (fileData[i].size / 1024).toFixed(2);
+                                if (number == 0.00) {
+                                    number = fileData[i].size;
+                                    size = number + 'byte'
+                                } else {
+                                    size = number + 'KB'
+                                }
+                            } else {
+                                size = number + 'M'
+                            }
+                            var path = 'fs://download/' + fileData[i].fileName;
+                            var li = "";
+                            var file = fileData[i];
+                            fs.exist({
+                                path: path
+                            }, function(ret, err) {
+                                if (ret.exist) {
+                                    li = '<li class="aui-list-item aui-list-item-middle" id="file' + file.resourceId +
+                                        '"><div class="aui-media-list-item-inner"><div class="aui-list-item-inner" style="width:90%"><div class="aui-list-item-text"><div class="aui-list-item-title">' +
+                                        file.fileName + '</div></div><div class="aui-list-item-text">' + size + '</div></div>  <div class="aui-list-item-right fileOpen" style="width:10%" tapmode onclick="fnOpenFile(&quot;' + path +
+                                        '&quot;)"></div></div></li>';
+                                } else {
+                                    li = '<li class="aui-list-item aui-list-item-middle" id="file' + file.resourceId +
+                                        '"><div class="aui-media-list-item-inner"><div class="aui-list-item-inner" style="width:90%"><div class="aui-list-item-text"><div class="aui-list-item-title">' +
+                                        file.fileName + '</div></div><div class="aui-list-item-text">' + size + '</div></div><div class="aui-list-item-right download" style="width:10%" tapmode onclick="fnDownload(&quot;' +
+                                        file.url +
+                                        '&quot;,&quot;' + file.fileName +
+                                        '&quot;,&quot;' + file.resourceId +
+                                        '&quot;)"></div></div></li>';
+
+                                }
+                                html += li;
+                            });
+                        })(i)
+                    }
+                    setTimeout(function() {
+                        $('#file ul').append(html);
+                    }, 500);
+                    setRead();
+                }
+            }
+        })
+    }
+
+    var value = 0;
+
+    //下载附件
+    function fnDownload(url, fileName, resourceId) {
+        var url = apiUrl + url;
+        var progress = '<div class="aui-media-list-item-inner progressInner"><div class="aui-list-item-inner"><div class="aui-progress aui-progress-sm"><div class="aui-progress-bar" style="width: 0%;"></div></div></div></div>';
+        $('#file' + resourceId + '').append(progress);
+        api.download({
+            url: url,
+            savePath: 'fs://download/' + fileName,
+            report: true,
+            cache: true,
+            allowResume: true
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.state == 0) {
+                    var timer = setInterval(function() {
+                        clearInterval(timer);
+                        //修改参数
+                        setProgress(ret.percent, resourceId);
+                    }, 200);
+                } else if (ret.state == 2) {
+                    $('#file' + resourceId + '').find('.progressInner').remove();
+                    var dialog = new auiDialog();
+                    dialog.alert({
+                        title: ret.msg,
+                        buttons: ['确定']
+                    }, function(ret) {
+
+                    })
+                } else if (ret.state == 1) {
+                    clearInterval(timer);
+                    var path = 'fs://download/' + fileName;
+                    var openDiv = '<div class="aui-list-item-right fileOpen" style="width:10%" tapmode onclick="fnOpenFile(&quot;' + path +
+                        '&quot;)"></div>';
+                    $('#file' + resourceId + '').find('.download').remove();
+                    $('#file' + resourceId + '').find('.progressInner').remove();
+                    $('#file' + resourceId + '').find('.aui-media-list-item-inner').append(openDiv);
+                }
+            }
+
+        });
+    }
+
+    //设置进度条进度
+    function setProgress(value, resourceId) {
+        $('#file' + resourceId + '').find('.aui-progress-bar').css('width', value + '%');
+    }
+
+    //打开文件
+    function fnOpenFile(path) {
+        var docReader = api.require('docReader');
+        var docInteraction = api.require('docInteraction');
+        if (api.systemType != 'ios') {
+            docInteraction.open({
+                path: path
+            }, function(ret, err) {
+                if (err) {
+                    var msg = "出现未知错误！";
+                    if (err.code == 1) {
+                        msg = "没有能打开此文档的应用程序！";
+                    } else if (err.code == 2) {
+                        msg = "文件不存在！"
+                    }
+                    api.toast({
+                        msg: msg,
+                        duration: 2000,
+                        location: 'top'
+                    });
+                }
+            });
+        } else {
+            docReader.open({
+                path: path,
+                autorotation: false
+            }, function(ret, err) {
+                if (err) {
+                    var msg = "出现未知错误！";
+                    if (err.code == -1) {
+                        msg = "未知错误！";
+                    } else if (err.code == 1) {
+                        msg = "文件不存在！";
+                    } else if (err.code == 2) {
+                        msg = "文件格式不支持！"
+                    }
+                    api.toast({
+                        msg: msg,
+                        duration: 2000,
+                        location: 'top'
+                    });
+                }
+            });
+        }
+    }
+
+    //设置消息为已读
+    function setRead() {
+        var ids = [];
+        ids.push(api.pageParam.id);
+        fnPost('services/app/Message/UpdateMessageIsRead', {
+            body: JSON.stringify(ids)
+        }, 'application/json', true, true, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    // api.execScript({
+                    //     name: 'NoticeMessage',
+                    //     script: 'setMessageRead(' + api.pageParam.id + ');'
+                    // });
+                    api.sendEvent({
+                        name: 'setNoticeMessageRead',
+                        extra: {
+                            id: api.pageParam.id,
+                        }
+                    });
+                }
+            }
+        })
+    }
+</script>
+
+</html>

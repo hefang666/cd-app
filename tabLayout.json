@@ -1,0 +1,40 @@
+{
+    "name": "root",
+    "bgColor": "#fff",
+    "navigationBar": {
+
+    },
+    "tabBar": {
+        "animated": true,
+        "list": [
+            {
+                "text": "首页",
+                "iconPath": "widget://image/main/main.png",
+                "selectedIconPath": "widget://image/main/main_active.png"
+            }, {
+                "text": "消息",
+                "iconPath": "widget://image/main/message.png",
+                "selectedIconPath": "widget://image/main/message_active.png"
+            }, {
+                "text": "我的",
+                "iconPath": "widget://image/main/mine.png",
+                "selectedIconPath": "widget://image/main/mine_active.png"
+            }
+        ],
+        "frames": [
+            {
+                "title": "首页",
+                "name": "main_frame",
+                "url": "widget://html/work/main_frame.html"
+            }, {
+                "title": "消息",
+                "name": "message_frame",
+                "url": "widget://html/message/message_frame.html"
+            }, {
+                "title": "我的",
+                "name": "mine_frame",
+                "url": "widget://html/mine/mine_frame.html"
+            }
+        ]
+    }
+}

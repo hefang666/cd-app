@@ -1,0 +1,226 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>设置页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/dialog.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .aui-list:after {
+            display: none;
+        }
+
+        .aui-list {
+            background-image: none !important;
+        }
+
+        .aui-list-item-arrow:before {
+            border-color: #A2A2A2;
+        }
+
+        .mine_List .aui-list .aui-list-item-media {
+            width: 2.0rem;
+            padding-right: 0 !important;
+        }
+
+        .mine_List .aui-list .aui-list-item {
+            min-height: 2.7rem !important;
+            font-size: var(--fontsize75);
+        }
+
+        .aui-dialog-body {
+            color: #333 !important;
+            font-size: var(--fontsize8) !important;
+        }
+
+        .aui-list .aui-list-item-text {
+            font-size: var(--fontsize7);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav aui-border-b" id="header">
+        <div class="aui-pull-left aui-btn" tapmode onclick="fnReturnMineFrame();">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">设置</div>
+    </header>
+
+    <div class="aui-content mine_List">
+        <ul class="aui-list">
+
+
+            <li id="checkUpdate" class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner">
+                        保存后自动跳转至下一户<input id="sendNext" class="aui-switch" type="checkbox" onclick="onClickOner(this)">
+                    </div>
+                </div>
+
+
+
+            </li>
+            <li id="checkUpdate" class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner">
+                        保存后自动跳转至打印机<input id="sendPrinter" class="aui-switch" type="checkbox" onclick="onClickTwo(this)">
+                    </div>
+                </div>
+            </li>
+            <li id="checkUpdate" class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner">
+                        抄表完成后自动上传<input id="sendUpload" class="aui-switch" type="checkbox" onclick="onClickThree(this)">
+                    </div>
+                </div>
+            </li>
+            <li id="checkUpdate" class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner">
+                        水表状态异常自动跳转工单<input id="sendOrder" class="aui-switch" type="checkbox" onclick="onClickFore(this)">
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item open-win" tapmode win='../mine/downLoadBasisData'>
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        数据更新
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item open-win" tapmode win='../mine/settingService'>
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        关于我们
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        if ($api.getStorage('sendNext')) {
+            $('#sendNext').attr('checked', true)
+        }
+        if ($api.getStorage('sendPrinter')) {
+            $('#sendPrinter').attr('checked', true)
+        }
+        if ($api.getStorage('sendUpload')) {
+            $('#sendUpload').attr('checked', true)
+        }
+        if ($api.getStorage('sendOrder')) {
+            $('#sendOrder').attr('checked', true)
+        }
+        changeFontSize();
+        // setIOSBar();
+        if (api.systemType == 'ios') {
+            api.setStatusBarStyle({
+                style: 'dark',
+            });
+            $('#checkUpdate').hide();
+        }
+        fnReady();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+
+    };
+
+    var dialog = new auiDialog();
+    //返回我的页面
+    function fnReturnMineFrame() {
+        api.closeWin({});
+    }
+
+
+
+
+
+    function onClickOner(obj) {  //保存后自动跳转至下一户
+        if (obj.checked) {
+            $api.setStorage('sendNext', true)
+        } else {
+            $api.rmStorage('sendNext');
+        }
+
+    }
+    function onClickTwo(obj) {  //保存后自动跳转至打印机
+        if (obj.checked) {
+            $api.setStorage('sendPrinter', true)
+        } else {
+            $api.rmStorage('sendPrinter');
+        }
+
+    }
+    function onClickThree(obj) {  //抄表完成后自动上传
+        if (obj.checked) {
+            $api.setStorage('sendUpload', true)
+        } else {
+            $api.rmStorage('sendUpload');
+        }
+
+    }
+    function onClickFore(obj) {  //水表状态异常自动跳转工单
+        if (obj.checked) {
+            $api.setStorage('sendOrder', true)
+        } else {
+            $api.rmStorage('sendOrder');
+        }
+
+    }
+
+</script>
+
+</html>

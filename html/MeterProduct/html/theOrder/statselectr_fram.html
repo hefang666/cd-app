@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+    html,
+    body {
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+    }
+
+    .body_top {
+        width: 100%;
+        background: #000;
+        opacity: 0.3;
+        height: 60%;
+    }
+
+    .body_bottom {
+        width: 100%;
+        opacity: 1;
+        /*height: 40%;*/
+        background: #fff;
+        display: flex;
+        flex-flow: column;
+    }
+
+    #header {
+        width: 100%;
+        height: 60px;
+        line-height: 60px;
+        background: #fff;
+        display: flex;
+        border-bottom: 10px solid #F4F4F4;
+    }
+
+    .header_dv {
+        color: #3E7BF3;
+        font-size: 18px;
+        margin-left: 20px;
+        margin-right: 20px;
+    }
+    .center_colorone{
+      color: #5A5A5A;
+    }
+    .center_colortwo{
+      color: #3E7BF3;
+    }
+
+    .header_wile {
+        flex: 1;
+    }
+
+    #center {
+        flex: 1;
+        overflow: scroll;
+        -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+    }
+
+    .center_dv {
+        width: 90%;
+        margin: auto auto;
+        /*height: 50px;*/
+        height: auto;
+        line-height: 50px;
+        display: flex;
+        border-bottom: 1px solid #F4F4F4;
+        font-size: 18px;
+        /*color: #5A5A5A;*/
+        color: #3E7BF3;
+    }
+    .center_dv:active {
+        background: #E4E4E4;
+    }
+
+    .center_dv2 {
+        flex: 1;
+        overflow: scroll;
+        flex-direction: row;
+        white-space: nowrap;
+
+    }
+    .center_right{
+      padding-left: 0.5rem;
+    }
+
+    .center_dv5 {
+        width: 100%;
+        height: 50px;
+        text-align: center;
+        line-height: 50px;
+        font-size: 18px;
+        color: #5A5A5A;
+        background: #F4F4F4;
+    }
+
+    .center_dv5:active {
+        background: #E4E4E4;
+    }
+
+    .aui-icon-down {
+        color: #3A87F7;
+    }
+
+    #footer {
+        position: fixed;
+        bottom: 0;
+    }
+
+    .lanse {
+        color: #3A87F7;
+    }
+    </style>
+</head>
+
+<body id="body">
+    <body id="body">
+        <div class="body_top" onclick="no()" id="body_top"></div>
+        <div class="body_bottom" id="body_bottom">
+            <div id="header">
+                <!-- <div class="header_dv" onclick="no()">取消</div> -->
+                <div class="header_wile"></div>
+                <div class="header_dv" onclick="no()">取消</div>
+            </div>
+
+            <div id="center">
+              <!-- <div class="center_holie">
+                  <div class="center_dv" params="{{value.CBCH}}" tapmode data-action="closeStatse">
+                      <div class="center_dv2">{{value.CBCMC}}fgfgfgdt{{value.CBCMC}}fgfgfgdt</div>
+                      <div class="center_right">({{value.BBCYHZS}})</div>
+                  </div>
+              </div> -->
+            </div>
+
+            <div id="footer">
+            </div>
+        </div>
+    </body>
+
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id="bookList">
+    {{each list value i}}
+    <div class="center_holie">
+      {{if value.YXZ!="0"}}
+      <div class="center_dv center_colortwo" params="{{value}}" tapmode data-action="closeStatse">
+          <div class="center_dv2">{{value.CBCMC}}</div>
+          <div class="center_right">({{value.BBCYHZS}})</div>
+      </div>
+      {{else}}
+      <div class="center_dv center_colorone" params="{{value.CBCH}}" tapmode data-action="closeStatse">
+          <div class="center_dv2">{{value.CBCMC}}</div>
+          <div class="center_right">({{value.BBCYHZS}})</div>
+      </div>
+      {{/if}}
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var headerH;
+    var bodyW, bodyH;
+    var METERSTATE = "";
+    var CBZTID = -1;
+    var OneList
+    apiready = function() {
+        api.parseTapmode();
+        // var header = $api.byId('header');
+        var footer1 = $api.byId('footer');
+        // $api.fixStatusBar(header);
+        $api.fixTabBar(footer);
+        show();
+
+
+
+    };
+
+    function show() {
+      var dataList = api.pageParam
+      console.log(JSON.stringify(api.pageParam))
+      var list = {
+          list: dataList
+      }
+      var str = template('bookList', list)
+      $api.append($api.byId('center'), str);
+      fnReady();
+      // operationDom();
+      operationDom();
+      api.hideProgress();
+    }
+
+    var actionList = {
+      // console.log()
+        'closeStatse': function() {
+            api.sendEvent({
+                name: 'closeBooks',
+                extra: {
+                    key1: JSON.parse($(this).attr('params'))
+                }
+            });
+
+
+            api.closeFrame({});
+        }
+    }
+
+    function no() {
+
+        api.closeFrame({});
+    }
+
+</script>
+
+</html>

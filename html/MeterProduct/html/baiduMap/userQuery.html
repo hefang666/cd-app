@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            flex-flow: column;
+            display: flex;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+        }
+
+        #dv {
+            width: 100%;
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        .dv {
+            width: 100%;
+            border-top: 1px solid #ececec;
+            display: flex;
+            flex-direction: row;
+            background-color: #ffffff;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #dv_left {
+            width: 35px;
+            height: 100%;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+
+        #dv_right {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 5px;
+        }
+
+        .dv_1 {
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .dv_1_dv1 {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 18px;
+        }
+
+        .dv_1_dv2 {
+            color: #02C05B;
+        }
+
+        .dv_1_dv3 {
+            color: #F64A4A;
+        }
+
+        .dv_2 {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_2_dv1 {
+            color: #6091F5
+        }
+
+        .dv_2 div {
+            flex: 1;
+        }
+
+        .dv_2_dv2 {
+            text-align: right;
+        }
+
+        .dv_3 {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_3_dv1 {
+            flex: 1;
+            white-space: nowrap;
+            overflow: scroll;
+        }
+
+        .dv_3_dv2 {
+            flex: 1;
+            white-space: nowrap;
+            overflow: scroll;
+        }
+
+        .dv_3_dv3 {
+            text-align: right;
+            white-space: nowrap;
+            overflow: scroll;
+        }
+
+        .dv_4 {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-bottom: 10px;
+        }
+
+        .sp {
+            margin-left: 10px;
+            margin-right: 10px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        #query {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            flex-direction: row;
+            background-color: #fff;
+        }
+
+        #query_dv1 {
+            width: 80px;
+            height: 100%;
+            font-size: 15px;
+            display: flex;
+            flex-direction: row;
+            line-height: 60px;
+        }
+
+        #query_dv2 {
+            flex: 1;
+            background-color: #fff;
+        }
+
+        #query_dv3 {
+            width: 80px;
+            height: 100%;
+            font-size: 18px;
+            background-color: #fff;
+            text-align: center;
+            line-height: 60px;
+            color: #85CB7E;
+        }
+
+        #search {
+            height: 100%;
+            font-size: 15px;
+        }
+
+        #LISHI {
+            margin-left: 15px;
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .LS_dv {
+            float: left;
+            width: 45%;
+            margin-left: 15px;
+            font-size: 15px;
+            height: 30px;
+            line-height: 30px;
+        }
+
+        #query_dv1_div {
+            color: #2F7FF6;
+            width: 40px;
+            height: 100%;
+            margin-left: 15px;
+            font-size: 18px;
+        }
+
+        #query_dv1_img {
+            width: 10px;
+            height: 100%;
+        }
+
+        #query_dv1_img img {
+            float: left;
+            margin-top: 28px;
+        }
+
+        #error {
+            width: 100%;
+            margin-top: 10px;
+            text-align: center;
+            color: #666666;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">搜索</div>
+    </header>
+    <div id="query">
+        <div id="query_dv1" onclick="alertList()">
+            <div id="query_dv1_div">全部</div>
+            <div id="query_dv1_img">
+                <img src="../../image/MeteReading/tupian/xiala.png" />
+            </div>
+        </div>
+
+        <div id="query_dv2">
+            <div class="aui-searchbar" id="search" style="background-color: #fff;">
+                <div class="aui-searchbar-input aui-border-radius" tapmode style="background-color: #F3F3F3;margin: 0;height:40px;line-height:40px;">
+                    <i class="aui-iconfont aui-icon-search"></i>
+                    <form action="javascript:search();">
+                        <input type="search" style="height: 2rem;" placeholder="请输入搜索内容" id="search-input">
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div id="query_dv3" onclick="queryUserOne()">
+            确认
+        </div>
+    </div>
+    <div id="dv">
+        <div id="LISHI">搜索历史</div>
+    </div>
+    <div id="footer">
+
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/template" id='lishiList'>
+    {{each datas value i}}
+    <div class="LS_dv" onclick="queryUserTwo(this)" data-id={{value.CXLX}}>{{value.CXCS}}</div>
+    {{/each}}
+</script>
+<script type="text/template" id='userList'>
+    <ul>
+        {{each datas value i}}
+        <li>
+          <div class="dv" onclick="returntuwendaohang(this)" data-id="{{value.YHBH}}">
+              <div id="dv_left">
+                  {{i+1}}
+              </div>
+              <div id="dv_right">
+                  <div class="dv_1">
+                      <div class="dv_1_dv1">{{value.YHMC}}</div>
+                  </div>
+                  <div class="dv_3">
+                      <div class="dv_3_dv1">起度:{{value.QD}}</div>
+                      <div class="dv_3_dv2">止度:{{value.ZD}}</div>
+                      <div class="dv_3_dv3">户号:{{value.YHBH}}</div>
+                  </div>
+                  <div class="dv_4">{{value.YHDZ}}</div>
+              </div>
+          </div>
+        </li>
+        {{/each}}
+    </ul>
+</script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+    var historylist = [];
+    var userlist = [];
+
+    var CXLX = "全部"
+    var CXCS = "";
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+
+        var body = $api.byId('bd');
+        bodyH = $api.offset(body).h;
+        bodyW = $api.offset(body).w;
+
+        $('#query').css('margin-top', '' + headerH + 'px');
+
+        var pageParam = api.pageParam;
+
+        queryLS();
+    };
+
+    //获取历史记录
+    function queryLS() {
+        var db = api.require('db');
+        var historydata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_HISTORYS_BEAN where LSLX="导航" ORDER BY _id DESC limit 10'
+        });
+        if (historydata.status) {
+            if (historydata.data.length > 0) {
+                for (var i = 0; i < historydata.data.length; i++) {
+                    historylist.push({
+                        CXLX: historydata.data[i].CXLX,
+                        CXCS: historydata.data[i].CXCS
+                    });
+                }
+                var datas = {
+                    datas: historylist
+                }
+
+                var str = template('lishiList', datas);
+                $('#dv').append(str);
+                fnReadyOpenWin();
+            }
+        } else {
+            var ret = db.executeSqlSync({
+                name: 'CBtest',
+                sql: 'CREATE TABLE "MRM_HISTORYS_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"LSLX" TEXT,"CXLX" TEXT,"CXCS" TEXT)'
+            });
+        }
+    }
+
+    //获取查询的参数类型
+    function alertList() {
+        api.actionSheet({
+            buttons: ['全部', '户号', '户名']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index == 1) {
+                CXLX = "全部";
+                $('#query_dv1_div').html("全部");
+            }
+            if (index == 2) {
+                CXLX = "YHBH";
+                $('#query_dv1_div').html("户号");
+            }
+            if (index == 3) {
+                CXLX = "YHMC";
+                $('#query_dv1_div').html("户名");
+            }
+        });
+    }
+
+    //查询用户信息
+    function queryUserOne() {
+        var CXCS = $("#search-input").val();
+        var sql = "";
+        var db = api.require('db');
+        if (CXLX == "全部" || CXCS == "") {
+            sql = 'select * from MRM_USER_BEAN';
+        } else {
+            sql = 'select * from MRM_USER_BEAN where ' + CXLX + ' LIKE "%' + CXCS + '%"';
+
+            var data = db.executeSqlSync({
+                name: 'CBtest',
+                sql: "INSERT INTO MRM_HISTORYS_BEAN (LSLX,CXLX,CXCS) VALUES ('导航', '" + CXLX + "', '" + CXCS + "')"
+            });
+        }
+
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: sql
+        });
+        userlist = [];
+        if (userdata.status) {
+            if (userdata.data.length > 0) {
+                for (var i = 0; i < userdata.data.length; i++) {
+                    userlist.push({
+                        YHBH: userdata.data[i].YHBH,
+                        YHMC: userdata.data[i].YHMC,
+                        YHDZ: userdata.data[i].YHDZ,
+                        QD: userdata.data[i].QD,
+                        ZD: userdata.data[i].ZD
+                    });
+                }
+                var datas = {
+                    datas: userlist
+                }
+
+                var str = template('userList', datas);
+                $('#dv div').remove();
+                $('#dv').append(str);
+                fnReadyOpenWin();
+            } else {
+                $('#dv div').remove();
+                $('#dv').append('<div id="error">未找到对应的用户数据</div>');
+            }
+        } else {
+            $('#dv div').remove();
+            $('#dv').append('<div id="error">查询失败</div>');
+        }
+    }
+
+    //历史搜索
+    function queryUserTwo(el) {
+        var CXLX = $(el).attr('data-id');
+        var CXCS = $(el).text();
+        var db = api.require('db');
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where ' + CXLX + ' LIKE "%' + CXCS + '%"'
+        });
+        userlist = [];
+        if (userdata.status) {
+            if (userdata.data.length > 0) {
+                for (var i = 0; i < userdata.data.length; i++) {
+                    userlist.push({
+                        YHBH: userdata.data[i].YHBH,
+                        YHMC: userdata.data[i].YHMC,
+                        YHDZ: userdata.data[i].YHDZ
+                    });
+                }
+                var datas = {
+                    datas: userlist
+                }
+
+                var str = template('userList', datas);
+                $('#dv div').remove();
+                $('#dv').append(str);
+                fnReadyOpenWin();
+            } else {
+                $('#dv div').remove();
+                $('#dv').append('<div id="error">未找到对应的用户数据</div>');
+            }
+        } else {
+            $('#dv div').remove();
+            $('#dv').append('<div id="error">查询失败</div>');
+        }
+    }
+
+    //选中用户调用上一个页面的方法。
+    function returntuwendaohang(el) {
+        var yhbh = $(el).attr('data-id');
+        var jsfun = 'showUser("' + yhbh + '");';
+        api.execScript({
+            name: 'baiduMap',
+            script: jsfun
+        });
+        api.closeWin();
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        }
+    }
+</script>
+
+</html>

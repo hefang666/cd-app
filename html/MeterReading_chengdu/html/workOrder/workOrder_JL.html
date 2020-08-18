@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-flow: column;
+        }
+
+        #header {
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #center {
+            border-radius: 15px;
+            background-color: #ffffff;
+            padding: 20px;
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        #footer {
+            height: 60px;
+            background-color: #ffffff;
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+        }
+
+        #footer div {
+            float: left;
+            flex: 1;
+            text-align: center;
+            line-height: 40px;
+        }
+
+        #shanchu {
+            width: 100px;
+            height: 35px;
+            background-color: #FF4141;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 15px;
+        }
+
+        #shangchuan {
+            width: 100px;
+            height: 35px;
+            background-color: #2F87F8;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 15px;
+        }
+
+        #center_dv1 {
+            margin-top: 10px;
+        }
+
+        .label {
+            float: left;
+            width: 33%;
+            height: 35px;
+            margin-bottom: 10px;
+            display: flex;
+        }
+
+        .label_text {
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        #center_dv2 {
+            margin-top: 10px;
+            width: 100%
+        }
+
+        .center_dv {
+            margin-top: 10px;
+        }
+
+        .textarea {
+            border: 1px solid #D9D9D9;
+            border-radius: 10px;
+            font-size: 18px;
+            color: #626262;
+            padding: 10px;
+            height: 5rem;
+        }
+
+        #GDZP {
+            margin-top: 10px;
+        }
+
+        .photo {
+            width: 100%;
+            height: 100%;
+        }
+
+        .img-item {
+            float: left;
+            margin-right: 5%;
+            margin-top: 7px;
+            width: 30%;
+            height: 65px;
+            position: relative;
+        }
+
+        .last-img {
+            margin-right: 0;
+        }
+
+        .deleteImg {
+            position: absolute;
+            right: -7px;
+            top: -7px;
+            width: 16px;
+            height: 16px;
+        }
+
+        .locationImg {
+            height: 17px;
+            margin-top: 5px;
+        }
+
+        #query {
+            width: 100%;
+            height: 45px;
+            display: flex;
+            flex-direction: row;
+            background-color: #fff;
+        }
+
+        #query_dv1 {
+            width: 80px;
+            height: 100%;
+            font-size: 18px;
+            background-color: #fff;
+            text-align: center;
+            line-height: 45px;
+            color: #2F7FF6;
+        }
+
+        #query_dv2 {
+            flex: 1;
+            background-color: #fff;
+        }
+
+        #query_dv3 {
+            width: 80px;
+            height: 100%;
+            font-size: 18px;
+            background-color: #fff;
+            text-align: center;
+            line-height: 45px;
+            color: #2F7FF6;
+        }
+
+        #query_dv1_div {
+            color: #2F7FF6;
+            width: 40px;
+            height: 100%;
+            margin-left: 15px;
+            font-size: 18px;
+        }
+
+        #query_dv1_img {
+            width: 10px;
+            height: 100%;
+        }
+
+        #query_dv1_img img {
+            float: left;
+            margin-top: 28px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">异常记录</div>
+    </header>
+    <div id="query">
+        <div id="query_dv1">
+            户号
+        </div>
+
+        <div id="query_dv2">
+            <div class="aui-searchbar" id="search" style="background-color: #fff;">
+                <div class="aui-searchbar-input aui-border-radius" tapmode style="background-color: #F3F3F3;margin: 0;height:40px;line-height:40px;">
+                    <i class="aui-iconfont aui-icon-search"></i>
+                    <form action="">
+                        <input type="search" autocomplete="off" style="height: 2rem;" placeholder="请输入搜索内容" id="search-input">
+                    </form>
+                    <div class="aui-searchbar-clear-btn">
+                        <i class="aui-iconfont aui-icon-close"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="query_dv3" class="aui-searchbar-btn" tapmode onclick='queryUser()'>
+            搜索
+        </div>
+    </div>
+    <div id="center">
+        <div id="center_dv1">
+
+            <div class="label">
+                <div><input class="aui-checkbox" type="checkbox" name="demo1"></div>
+                <div class="label_text">异常类型</div>
+            </div>
+            <div class="label">
+                <div><input class="aui-checkbox" type="checkbox" name="demo1"></div>
+                <div class="label_text">异常类型</div>
+            </div>
+            <div class="label">
+                <div><input class="aui-checkbox" type="checkbox" name="demo1"></div>
+                <div class="label_text">异常类型</div>
+            </div>
+            <div class="label">
+                <div><input class="aui-checkbox" type="checkbox" name="demo1"></div>
+                <div class="label_text">异常类型</div>
+            </div>
+            <div style=" clear:both; "></div>
+        </div>
+        <div id="center_dv2">
+            <div class="center_dv">
+                异常描述
+            </div>
+            <textarea class="textarea" placeholder="请输入内容" id="YYMS"></textarea>
+        </div>
+        <div id="center_dv3">
+            <div class="GDZP" id="GDZP">
+
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div><button id="shanchu" onclick="shanchu()">删除</button></div>
+        <div><button id="shangchuan" onclick="baocun(2)">保存并提交</button></div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/publicMethod.js"></script>
+<script type="text/javascript" src="../../../public/script/moment.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/template" id='userList'>
+    {{each datas value i}}
+    <div class="label">
+        <div>
+            {{if value.check=="1"}}
+            <input class="aui-checkbox" type="checkbox" checked="checked" name="demo" value="{{value.id}}"> {{else}}
+            <input class="aui-checkbox" type="checkbox" name="demo" value="{{value.id}}"> {{/if}}
+        </div>
+        <div class="label_text">{{value.name}}</div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id='photoList'>
+    {{each datas value i}} {{if (i+1)%3 == 0}}
+    <div class="img-item last-img">
+        <img src="../../image/MeteReading/tupian/sahnchu-2.png" onclick="deletephoto(this)" data-id={{i+1}} class="deleteImg"></img>
+        <img src="{{value.ZPLJ}}" onclick="showPhoto({{i}})" data-id={{i+1}} class="photo"></img>
+    </div>
+    {{else}}
+    <div class="img-item">
+        <img src="../../image/MeteReading/tupian/sahnchu-2.png" onclick="deletephoto(this)" data-id={{i+1}} class="deleteImg"></img>
+        <img src="{{value.ZPLJ}}" onclick="showPhoto({{i}})" data-id={{i+1}} class="photo"></img>
+    </div>
+    {{/if}}
+    <!-- <img src="{{value.ZPLJ}}" onclick="openphoto(this)" data-id={{i+1}} class="photo"></img> -->
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var userbean; //用户数据
+    var workorderbean; //工单数据
+    var photoList = []; //工单图片数据。
+    var uploadPhotoList = []; //需要上传的图片
+    var workordertype = 0;
+
+    var onlineYCLXID = ["1", "2", "3", "4", "5", "6"]; //问题原因ID数据。
+    var onlineYCLXNAME = ["异常类型1", "异常类型2", "异常类型3", "异常类型4", "异常类型5", "异常类型6"]; //问题原因NAME数据。
+    var LoginName = "";
+    var REMARK = "";
+    var lon = ""; //经度
+    var lat = ""; //维度
+    var type;
+    var db;
+    var YHBH = "";
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        LoginName = $api.getStorage('loginData').userName;
+        db = api.require('db');
+
+        $("#search-input").val(api.pageParam.YHBH);
+
+        if (api.pageParam.YHBH != null && api.pageParam.YHBH != "") {
+            queryPhoto();
+            queryData();
+            queryUser();
+        } else {
+            queryData();
+            show()
+        }
+    };
+
+    function queryUser() {
+        var yhbh = $("#search-input").val();
+        if (yhbh == "") {
+            api.toast({
+                msg: '查询内容不能为空',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        }
+
+        //获取用户数据
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where YHBH="' + yhbh + '" and userName="' + LoginName + '"'
+        });
+        if (userdata.data) {
+            if (userdata.data.length > 0) {
+                //有离线数据
+                userbean = userdata.data[0];
+                YHBH = yhbh;
+                queryWorkOrder();
+            } else {
+                //没有离线数据，在线查询
+                var Parameter = {
+                    ClientId: api.deviceId,
+                    ClientName: api.deviceModel,
+                    OperatorId: $api.getStorage('cbOperatorId'),
+                    OperatorName: $api.getStorage('cbOperatorName'),
+                    Required: "yhbh=" + yhbh,
+                    Type: "138"
+                };
+                var body = {
+                    body: JSON.stringify({
+                        Method: 'R999',
+                        UserName: $api.getStorage("cbOperatorName"), //"01012"
+                        Password: $api.getStorage("cbPassword"), // "g6OuZomFp3E="
+                        SerialNo: dataTime(),
+                        Parameter: JSON.stringify(Parameter)
+                    })
+                };
+                fnPost('', body, 'application/json', false, function(ret, err) {
+                    if (ret) {
+                        if (ret.Status == 0) {
+                            var data = JSON.parse(ret.Data);
+                            if (data.length > 0) {
+                                userbean = data.data[0];
+                                YHBH = yhbh;
+                                queryWorkOrder();
+                            } else {
+                                api.toast({
+                                    msg: "未查找到对应用户！",
+                                    duration: 2000,
+                                    location: 'bottom'
+                                });
+                                YHBH = "";
+                            }
+                        } else {
+                            api.toast({
+                                msg: ret.Message,
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+                            YHBH = "";
+                        }
+                    }
+                });
+            }
+        }
+    }
+
+    function queryWorkOrder() {
+        //获取工单数据
+        var workorderdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_WORKORDER_BEAN where YHBH="' + YHBH + '" and userName="' + LoginName + '"'
+        });
+        if (workorderdata.status) {
+            if (workorderdata.data.length > 0) {
+                workorderbean = workorderdata.data[0];
+                workordertype = 1;
+
+                $('#YYMS').val(workorderbean.YYMS);
+            } else {
+                workordertype = 0;
+                $('#YYMS').val("");
+            }
+        }
+        show();
+        queryPhoto();
+    }
+
+    function queryData() {
+        onlineYCLXID = [];
+        onlineYCLXNAME = [];
+        //获取用户数据
+        var onlinedata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_ONLINE_BEAN where TYPEID="SBGZYY" and userName="' + LoginName + '"'
+        });
+        if (onlinedata.data) {
+            if (onlinedata.data.length > 0) {
+                for (var i = 0; i < onlinedata.data.length; i++) {
+                    onlineYCLXID.push(onlinedata.data[i].ID);
+                    onlineYCLXNAME.push(onlinedata.data[i].NAME);
+                }
+            }
+        }
+    }
+
+    function show() {
+        var yclxList = [];
+        if (workordertype == 1) {
+            var BZ = workorderbean.BZ
+            var checkYCLX = BZ.split(",");
+            for (var i = 0; i < onlineYCLXID.length; i++) {
+                var bol = false;
+                var check = "0"
+                for (var j = 0; j < checkYCLX.length; j++) {
+                    if (checkYCLX[j] == onlineYCLXID[i]) {
+                        bol = true;
+                        check = "1";
+                        break;
+                    }
+                }
+                if (bol) {
+                    yclxList.push({
+                        "id": onlineYCLXID[i],
+                        "name": onlineYCLXNAME[i],
+                        "check": check
+                    });
+                } else {
+                    yclxList.push({
+                        "id": onlineYCLXID[i],
+                        "name": onlineYCLXNAME[i],
+                        "check": check
+                    });
+                }
+
+            }
+        } else {
+            for (var i = 0; i < onlineYCLXID.length; i++) {
+                yclxList.push({
+                    "id": onlineYCLXID[i],
+                    "name": onlineYCLXNAME[i],
+                    "check": "0"
+                });
+            }
+        }
+
+        var datas = {
+            datas: yclxList,
+        }
+
+        var str = template('userList', datas);
+        $('#center_dv1 div').remove();
+        $('#center_dv1').append(str);
+        fnReadyOpenWin();
+    }
+
+    //获取图片数据
+    function queryPhoto() {
+        var yhbh = $("#search-input").val();
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_WORKORDERPHOTOS_BEAN where YHBH="' + yhbh + '" and userName="' + LoginName + '"'
+        });
+        if (ret.data) {
+            if (ret.data.length > 0) {
+                photoList = ret.data;
+                var datas = {
+                    datas: photoList
+                }
+
+                var str = template('photoList', datas);
+
+                $('#GDZP .img-item').remove();
+                $('#GDZP').append(str);
+                if ((photoList.length + 1) % 3 == 0) {
+                    $('#GDZP').append('<div class="img-item last-img"><img src="../../image/MeteReading/tupian/zhaopian_daohang.png" onclick="openphoto(this)" data-id=0 class="photo"></img></div>');
+                } else {
+                    $('#GDZP').append('<div class="img-item"><img src="../../image/MeteReading/tupian/zhaopian_daohang.png" onclick="openphoto(this)" data-id=0 class="photo"></img></div>');
+                }
+                fnReadyOpenWin();
+            } else {
+                $('#GDZP .img-item').remove();
+                $('#GDZP').append('<div class="img-item"><img src="../../image/MeteReading/tupian/zhaopian_daohang.png" onclick="openphoto(this)" data-id=0 class="photo"></img></div>');
+                fnReadyOpenWin();
+            }
+        }
+    }
+
+    //定位
+    function map() {
+        lon = ""; //经度
+        lat = ""; //维度
+
+        pGetLocation(function(ret, err) {
+            if (ret.status) {
+                lon = ret.lon;
+                lat = ret.lat;
+            }
+        });
+    }
+
+    //拍照
+    function openphoto(el) {
+        if (workordertype == 1 && workorderbean.SFSC == "1") {
+            return;
+        }
+        var data_id = $(el).attr('data-id');
+
+        api.actionSheet({
+            buttons: ['拍照']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index == 1) {
+                getCamera(data_id);
+            }
+        });
+    }
+
+    //图片拍照
+    function getCamera(data_id) {
+        var options = {
+            type: 'camera',
+            waterMark: true,
+            waterMarkData: {
+                yhbh: YHBH
+            }
+        }
+        pGetPicture(options, function(ret, err) {
+            if (ret.status) {
+                var fs = api.require('fs');
+                fs.copyTo({
+                    oldPath: ret.imgList[0],
+                    newPath: 'fs://MeterReadingPicture'
+                }, function(ret2, err) {
+                    if (ret2.status) {
+                        var picName = ret.imgList[0].substring(ret.imgList[0].lastIndexOf("/") + 1);
+                        var url = api.fsDir + "/MeterReadingPicture/" + picName;
+
+                        var year = Time("year"); //获取系统的年；
+                        var month = Time("month"); //获取系统月份，由于月份是从0开始计算，所以要加1
+                        var day = Time("day"); //获取系统日
+                        var hour = Time("hour"); //获取系统时间
+                        var minute = Time("minute"); //分
+                        var second = Time("second"); //秒
+                        var ZPMC = year + month + day + hour + minute + second + "_" + YHBH + ".jpg"
+                        var naviphoto = {
+                            "ID": "10001",
+                            "YHBH": YHBH,
+                            "ZPMC": ZPMC,
+                            "ZPLX": "6",
+                            "ZPLJ": url,
+                            "ZPJD": lon,
+                            "ZPWD": lat,
+                            "SFSC": "0",
+                            "REMARK": REMARK
+                        }
+                        var naviphotodata = db.executeSqlSync({
+                            name: 'CBtest',
+                            sql: "INSERT INTO MRM_WORKORDERPHOTOS_BEAN " +
+                                "(userName, ID, YHBH, ZPMC, ZPLJ, ZPLX, ZPJD, ZPWD, REMARK, SFSC) VALUES " +
+                                "('" + LoginName +
+                                "', '" + naviphoto.ID +
+                                "', '" + naviphoto.YHBH +
+                                "', '" + naviphoto.ZPMC +
+                                "', '" + naviphoto.ZPLJ +
+                                "', '" + naviphoto.ZPLX +
+                                "', '" + naviphoto.ZPJD +
+                                "', '" + naviphoto.ZPWD +
+                                "', '" + naviphoto.REMARK +
+                                "', '" + naviphoto.SFSC + "')"
+                        });
+                        if (naviphotodata.status) {
+                            queryPhoto();
+                        }
+                    }
+                });
+            }
+        });
+    }
+
+    //删除图片
+    function deletephoto(el) {
+        if (workordertype == 1 && workorderbean.SFSC == "1") {
+            return;
+        }
+        var data_id = $(el).attr('data-id');
+        api.confirm({
+            title: '提示',
+            msg: '确认删除照片',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.buttonIndex == 1) {
+                    getDelete(data_id);
+                }
+            }
+        });
+    }
+
+    //删除图片
+    function getDelete(data_id) {
+        var fs = api.require('fs');
+        fs.remove({
+            path: photoList[data_id - 1].ZPLJ
+        }, function(ret, err) {
+            if (ret.status) {
+
+            } else {
+
+            }
+            var naviphotodata = db.executeSqlSync({
+                name: 'CBtest',
+                sql: 'delete from MRM_WORKORDERPHOTOS_BEAN where _id="' + photoList[data_id - 1]._id + '" and userName="' + LoginName + '"'
+            });
+            if (naviphotodata.status) {
+                queryPhoto();
+            }
+        });
+    }
+
+    //展示图片
+    function showPhoto(index) {
+        var imgArr = [];
+        for (var i = 0; i < photoList.length; i++) {
+            imgArr.push(photoList[i].ZPLJ);
+        }
+        pBrowserPicture(index, imgArr);
+    }
+
+    function shanchu() {
+        if (YHBH == "") {
+            api.toast({
+                msg: '请输入用户编号，并搜索用户信息。',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        } else if (userbean == null || userbean == "") {
+            api.toast({
+                msg: '当前用户编号为查找到对应的用户。',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        }
+
+        var workorderdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_WORKORDER_BEAN where YHBH="' + YHBH + '" and userName="' + LoginName + '"'
+        });
+        if (workorderdata.status) {
+            if (workorderdata.data.length > 0) {
+                workorderbean = workorderdata.data[0];
+                if (workorderbean.SFSC == "0") {
+                    api.confirm({
+                        title: '提示',
+                        msg: '当前异常记录未上传，是否确认删除！',
+                        buttons: ['确定', '取消']
+                    }, function(ret, err) {
+                        var index = ret.buttonIndex;
+                        if (index == 1) {
+                            var workOrderData = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: 'delete from MRM_WORKORDER_BEAN where YHBH="' + YHBH + '" and userName="' + LoginName + '"'
+                            });
+                            if (workOrderData.status) {
+                                var workOrderData = db.executeSqlSync({
+                                    name: 'CBtest',
+                                    sql: 'delete from MRM_WORKORDERPHOTOS_BEAN where YHBH="' + YHBH + '" and userName="' + LoginName + '"'
+                                });
+                                queryPhoto();
+                                queryData();
+                                queryUser();
+                            }
+                        }
+                    });
+                } else {
+                    var workOrderData = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'delete from MRM_WORKORDER_BEAN where YHBH="' + YHBH + '" and userName="' + LoginName + '"'
+                    });
+                    if (workOrderData.status) {
+                        var workOrderData = db.executeSqlSync({
+                            name: 'CBtest',
+                            sql: 'delete from MRM_WORKORDERPHOTOS_BEAN where YHBH="' + YHBH + '" and userName="' + LoginName + '"'
+                        });
+                        queryPhoto();
+                        queryData();
+                        queryUser();
+                    }
+                }
+            } else {
+                api.toast({
+                    msg: '暂无异常记录',
+                    duration: 2000,
+                    location: 'top'
+                });
+            }
+        }
+    }
+
+    //保存
+    function baocun(num) {
+        if (YHBH == "") {
+            api.toast({
+                msg: '请输入用户编号，并搜索用户信息。',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        } else if (userbean == null || userbean == "") {
+            api.toast({
+                msg: '当前用户编号为查找到对应的用户。',
+                duration: 2000,
+                location: 'bottom'
+            });
+            return;
+        }
+        $('#baocun').attr('disabled', "true"); //添加disabled属性
+        $('#shangchuan').attr('disabled', "true"); //添加disabled属性
+
+        var id_array = new Array();
+        $('input[name="demo"]:checked').each(function() {
+            id_array.push($(this).val()); //向数组中添加元素
+        });
+        var idstr = id_array.join(','); //将数组元素连接起来以构建一个字符串
+        if (idstr == null || idstr == "") {
+            api.toast({
+                msg: '请选择异常类型',
+                duration: 2000,
+                location: 'bottom'
+            });
+            $('#baocun').removeAttr("disabled"); //添加disabled属性
+            $('#shangchuan').removeAttr("disabled"); //添加disabled属性
+            return;
+        }
+
+        if (photoList.length < 1) {
+            api.toast({
+                msg: '请拍照',
+                duration: 2000,
+                location: 'bottom'
+            });
+            $('#baocun').removeAttr("disabled"); //添加disabled属性
+            $('#shangchuan').removeAttr("disabled"); //添加disabled属性
+            return;
+        }
+        type = num;
+        var YYMS = $('#YYMS').val();
+
+        if (YYMS == "") {
+            api.toast({
+                msg: '请录入完整信息',
+                duration: 2000,
+                location: 'bottom'
+            });
+            $('#baocun').removeAttr("disabled"); //添加disabled属性
+            $('#shangchuan').removeAttr("disabled"); //添加disabled属性
+        } else {
+            var date = new Date(); //实例一个时间对象；
+            var year = Time("year"); //获取系统的年；
+            var month = Time("month"); //获取系统月份，由于月份是从0开始计算，所以要加1
+            var day = Time("day"); //获取系统日
+            var time = year + "-" + month + "-" + day
+            if (workordertype == 0) {
+                //新增工单
+                var sql = "INSERT INTO MRM_WORKORDER_BEAN (userName, YHBH, YHMC, YHDZ, YYMS, BZ, SFSC) VALUES " +
+                    "('" + LoginName +
+                    "', '" + YHBH +
+                    "', '" + userbean.YHMC +
+                    "', '" + userbean.YHDZ +
+                    "', '" + YYMS +
+                    "', '" + idstr +
+                    "', '0')";
+                //console.log(sql);
+                var workOrderData = db.executeSqlSync({
+                    name: 'CBtest',
+                    sql: sql
+                });
+                if (workOrderData.status) {
+                    api.toast({
+                        msg: '保存成功',
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                    workordertype = 1;
+                    if (type == 2) {
+                        shangchuan();
+                    } else {
+                        $('#baocun').removeAttr("disabled"); //添加disabled属性
+                        $('#shangchuan').removeAttr("disabled"); //添加disabled属性
+                    }
+                } else {
+                    $('#baocun').removeAttr("disabled"); //添加disabled属性
+                    $('#shangchuan').removeAttr("disabled"); //添加disabled属性
+                }
+            } else {
+                //修改工单
+                var sql = 'update MRM_WORKORDER_BEAN set ' +
+                    'userName="' + LoginName + '",' +
+                    'YYMS="' + YYMS + '",' +
+                    'BZ="' + idstr + '" where YHBH="' + YHBH + '"';
+                //console.log(sql);
+                var workOrderData = db.executeSqlSync({
+                    name: 'CBtest',
+                    sql: sql
+                });
+                if (workOrderData.status) {
+                    api.toast({
+                        msg: '修改成功',
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+
+                    if (type == 2) {
+                        shangchuan();
+                    } else {
+                        $('#baocun').removeAttr("disabled"); //添加disabled属性
+                        $('#shangchuan').removeAttr("disabled"); //添加disabled属性
+                    }
+                } else {
+                    $('#baocun').removeAttr("disabled"); //添加disabled属性
+                    $('#shangchuan').removeAttr("disabled"); //添加disabled属性
+                }
+            }
+        }
+        api.sendEvent({
+            name: 'nweWorkOrderList'
+        });
+    }
+
+    var photoindex = 0;
+    var Records = [];
+    var FileUrlArr = [];
+
+    function shangchuan() {
+        if (photoindex < photoList.length) {
+            var fs = api.require('fs');
+            fs.getAttribute({
+                path: photoList[photoindex].ZPLJ
+            }, function(ret, err) {
+                if (ret.status) {
+                    var wjdx = ret.attribute.size;
+                    var path = photoList[photoindex].ZPLJ;
+                    var filename = path.substring(path.lastIndexOf("/") + 1, path.length);
+
+                    var photo = {
+                        "WJMC": filename,
+                        "PATH": photoList[photoindex].ZPLJ,
+                        "WJDX": wjdx,
+                        "BZ": "",
+                        "TITLE": filename,
+                    }
+                    Records.push(photo);
+                    FileUrlArr.push(photoList[photoindex].ZPLJ);
+                    photoindex++;
+                    shangchuan();
+                } else {
+
+                }
+            });
+        } else {
+            var workorderdata = db.selectSqlSync({
+                name: 'CBtest',
+                sql: 'select * from MRM_WORKORDER_BEAN where YHBH="' + YHBH + '" and userName="' + LoginName + '"'
+            });
+            if (workorderdata.status) {
+                if (workorderdata.data.length > 0) {
+                    workorderbean = workorderdata.data[0];
+                    if (workorderbean.SFSC == "1") {
+                        api.toast({
+                            msg: '异常记录已提交',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                        $('#baocun').removeAttr("disabled"); //添加disabled属性
+                        $('#shangchuan').removeAttr("disabled"); //添加disabled属性
+                    } else {
+                        //上传数据
+                        api.showProgress({
+                            title: '上传数据中'
+                        });
+                        var Required = 'YHBH=' + userbean.YHBH + '&YHMC=' + userbean.YHMC + '&YHDZ=' + userbean.YHDZ + '&SBKJ=' + userbean.KJ + '&LXRDH=' + userbean.YDDH + '&SBRDH=' + $api.getStorage('cbOperatorMoblie') + '&GZYY=' + workorderbean.BZ +
+                            '&BZ=' + workorderbean.YYMS;
+                        var Parameter = {
+                            "ClientId": api.deviceId,
+                            "ClientName": api.deviceModel,
+                            "OperatorId": $api.getStorage('cbOperatorId'),
+                            "OperatorName": $api.getStorage('cbOperatorName'),
+                            "Required": Required,
+                            "Type": "239",
+                            "Records": Records
+                        };
+                        var values = {
+                            Method: 'R999',
+                            UserName: $api.getStorage('cbOperatorName'), //"01012"
+                            Password: $api.getStorage('cbPassword'), // "g6OuZomFp3E="
+                            SerialNo: dataTime(),
+                            KeyCode: '', //营业
+                            Parameter: JSON.stringify(Parameter)
+                        }
+                        api.ajax({
+                            url: $api.getStorage('cbapipath') + '/api/WaterMeters/Info',
+                            method: 'post',
+                            timeout: 60,
+                            data: {
+                                values: {
+                                    Method: 'R999',
+                                    UserName: $api.getStorage('cbOperatorName'), //"01012"
+                                    Password: $api.getStorage('cbPassword'), // "g6OuZomFp3E="
+                                    SerialNo: dataTime(),
+                                    KeyCode: '', //营业
+                                    Parameter: JSON.stringify(Parameter)
+                                },
+                                files: {
+                                    file: FileUrlArr
+                                }
+                            }
+                        }, function(ret, err) {
+                            if (ret) {
+                                if (ret.Status == 0) {
+                                    var db = api.require('db');
+                                    var workOrderData = db.executeSqlSync({
+                                        name: 'CBtest',
+                                        sql: 'update MRM_WORKORDER_BEAN set SFSC="1" where YHBH="' + workorderbean.YHBH + '" and userName="' + LoginName + '"'
+                                    });
+                                    var workOrderPhotoData = db.executeSqlSync({
+                                        name: 'CBtest',
+                                        sql: 'update MRM_WORKORDERPHOTOS_BEAN set SFSC="1" where YHBH="' + workorderbean.YHBH + '" and userName="' + LoginName + '"'
+                                    });
+                                } else {
+                                    //上传失败
+                                    api.toast({
+                                        msg: ret.Message,
+                                        duration: 3000,
+                                        location: 'bottom'
+                                    });
+                                }
+                            } else {
+                                api.alert({
+                                    msg: JSON.stringify(err.msg)
+                                });
+                            }
+                            api.hideProgress();
+                            $('#baocun').removeAttr("disabled"); //添加disabled属性
+                            $('#shangchuan').removeAttr("disabled"); //添加disabled属性
+                            api.sendEvent({
+                                name: 'nweWorkOrderList'
+                            });
+                        });
+                    }
+                } else {
+                    api.toast({
+                        msg: '请先保存数据',
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                    $('#baocun').removeAttr("disabled"); //添加disabled属性
+                    $('#shangchuan').removeAttr("disabled"); //添加disabled属性
+                }
+            }
+        }
+    }
+
+    //上传图片
+    function uploadPhoto() {
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_WORKORDERPHOTOS_BEAN where YHBH="' + YHBH + '" and SFSC="0" and userName="' + LoginName + '"'
+        });
+        if (ret.data) {
+            if (ret.data.length > 0) {
+                //有未上传的图片
+                api.showProgress({
+                    title: '上传数据中'
+                });
+                var photo = ret.data[0];
+
+                var Parameter = {
+                    "ClientId": api.deviceId,
+                    "ClientName": api.deviceModel,
+                    "OperatorId": $api.getStorage('cbOperatorId'),
+                    "OperatorName": $api.getStorage('cbOperatorName'),
+                    "Yhbh": photo.YHBH,
+                    "PhotoName": photo.ZPMC,
+                    "PhotoType": "4",
+                    "Longitude": photo.JD,
+                    "Latitude": photo.WD,
+                    "OrderNo": "",
+                    "Errtype": "",
+                    "Remark": "",
+                    "Type": "302",
+                    "PhotoInfo": ""
+                };
+
+                var FileUrlArr = [];
+                FileUrlArr.push(photo.ZPLJ);
+                api.ajax({
+                    url: $api.getStorage('cbapipath') + '/api/WaterMeters/Info',
+                    method: 'post',
+                    timeout: 60,
+                    data: {
+                        values: {
+                            Method: 'R999',
+                            UserName: $api.getStorage('cbOperatorName'), //"01012"
+                            Password: $api.getStorage('cbPassword'), // "g6OuZomFp3E="
+                            SerialNo: dataTime(),
+                            KeyCode: '', //营业
+                            Parameter: JSON.stringify(Parameter)
+                        },
+                        files: {
+                            file: FileUrlArr
+                        }
+                    }
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.Status == 0) {
+                            var workOrderData = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: 'update MRM_WORKORDERPHOTOS_BEAN set SFSC="1" where YHBH="' + YHBH + '" and userName="' + LoginName + '"'
+                            });
+                            uploadPhoto();
+                        } else {
+                            //上传失败
+                            api.toast({
+                                msg: ret.Message,
+                                duration: 3000,
+                                location: 'bottom'
+                            });
+                            api.hideProgress();
+                            $('#baocun').removeAttr("disabled"); //移除disabled属性
+                            $('#shangchuan').removeAttr("disabled"); //移除disabled属性
+                        }
+                    } else {
+                        api.alert({
+                            msg: JSON.stringify(err.msg)
+                        });
+                        api.hideProgress();
+                        $('#baocun').removeAttr("disabled"); //移除disabled属性
+                        $('#shangchuan').removeAttr("disabled"); //移除disabled属性
+                    }
+                });
+            } else {
+                //没有未上传的图片
+                api.hideProgress();
+            }
+        }
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        }
+    }
+</script>
+
+</html>

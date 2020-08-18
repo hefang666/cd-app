@@ -1,0 +1,146 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>修改身份证号码页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+            /*overflow: hidden;*/
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .sureBtn {
+            border-radius: 2.5rem !important;
+            margin: 3rem auto;
+            justify-content: center;
+            height: 2.5rem !important;
+            line-height: 2.5rem !important;
+            width: 80%;
+            display: flex !important;
+            background: #4f79e8 !important;
+            color: #fff;
+            font-size: var(--fontsize9) !important;
+            outline: none;
+        }
+
+        input {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" tapmode onclick="fnReturnMyInfo();">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">身份证号码</div>
+    </header>
+
+    <div class="aui-content mine_List">
+        <ul class="aui-list">
+
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner" style="width: 50%;">
+                        身份证号码：
+                    </div>
+                    <div class="aui-list-item-inner">
+                        <input type="text" name="" value="" placeholder="请输入身份证号码" id="idCard">
+                    </div>
+
+                </div>
+            </li>
+        </ul>
+    </div>
+    <button type="button" class="sureBtn" name="button" tapmode data-action="sureChange">确定</button>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        setIdCard();
+        fnReady();
+    };
+
+    //返回我的资料页面
+    function fnReturnMyInfo() {
+        api.closeWin({});
+    }
+
+    //设置默认
+    function setIdCard() {
+        var idCard = api.pageParam.idCard;
+        $('#idCard').val(idCard);
+    }
+
+    var actionList = {
+        'sureChange': function() {
+            var data = {
+                idCard: $('#idCard').val()
+            }
+            fnPost('services/app/AppUser/UpdateIdCardAsync', {
+                body: JSON.stringify(data)
+            }, 'application/json', true, true, function(ret, err) {
+                if (ret) {
+                    if (ret.success) {
+                        api.toast({
+                            msg: '修改成功！',
+                            duration: 2000,
+                            location: 'top'
+                        });
+                        api.sendEvent({
+                            name: 'changedInfo',
+                            extra: {}
+                        });
+                        setTimeout(function() {
+                            api.closeWin({});
+                        }, 500);
+                    }
+                }
+            })
+        }
+    }
+</script>
+
+</html>

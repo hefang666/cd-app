@@ -1,0 +1,191 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>修改字体大小页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+            /*overflow: hidden;*/
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .auiCheckbox {
+            width: auto !important;
+        }
+
+        .aui-radio,
+        .aui-checkbox {
+            width: 0.9rem !important;
+            height: 0.9rem !important;
+            margin-right: 0.5rem;
+        }
+
+        .aui-list .aui-list-item-inner {
+            justify-content: flex-start !important;
+        }
+
+        .sureBtn {
+            border-radius: 2.5rem !important;
+            margin: 3rem auto;
+            justify-content: center;
+            height: 2.5rem !important;
+            line-height: 2.5rem !important;
+            width: 80%;
+            display: flex !important;
+            background: #4f79e8 !important;
+            color: #fff;
+            font-size: var(--fontsize9) !important;
+            outline: none;
+        }
+
+        .aui-list-item {
+            background-color: #fff !important;
+        }
+
+        .aui-radio:checked,
+        .aui-radio.aui-checked,
+        .aui-checkbox:checked,
+        .aui-checkbox.aui-checked {
+            background-color: #4f79e8;
+            border-color: #4f79e8;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav aui-border-b" id="header">
+        <div class="aui-pull-left aui-btn" tapmode onclick="fnReturnMyInfo();">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">字体大小</div>
+    </header>
+    <div class="aui-content mine_List">
+        <ul class="aui-list">
+
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner aui-col-4">
+                        字体大小：
+                    </div>
+                    <div class="aui-list-item-inner auiCheckbox" style="margin-right:1rem">
+                        <div class="aui-radio aui-checked" id="small" tapmode onclick="change(1)"></div>小
+                    </div>
+                    <div class="aui-list-item-inner auiCheckbox" style="margin-right:1rem">
+                        <div class="aui-radio" id="normal" tapmode onclick="change(2)"></div>中
+                    </div>
+                    <div class="aui-list-item-inner auiCheckbox">
+                        <div class="aui-radio" id="large" tapmode onclick="change(3)"></div>大
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <button type="button" class="sureBtn" name="button" data-action="change">确定</button>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        fnReady();
+        changeFontSize();
+        setDefault();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+    };
+
+    var actionList = {
+        'change': function() {
+            $api.setStorage('fontSize', $('.aui-checked').attr('id'));
+            api.toast({
+                msg: '设置成功！',
+                duration: 2000,
+                location: 'top'
+            });
+            api.sendEvent({
+                name: 'changedFontSize',
+                extra: {}
+            });
+            setTimeout(function() {
+                api.closeWin({});
+            }, 300);
+        }
+    }
+
+    function setDefault() {
+        var size = $api.getStorage('fontSize');
+        if (size == undefined || size == 'normal') {
+            $('#small').removeClass('aui-checked');
+            $('#normal').addClass('aui-checked');
+            $('#large').removeClass('aui-checked');
+        } else if (size == 'large') {
+            $('#small').removeClass('aui-checked');
+            $('#normal').removeClass('aui-checked');
+            $('#large').addClass('aui-checked');
+        } else if (size == 'small') {
+            $('#small').addClass('aui-checked');
+            $('#normal').removeClass('aui-checked');
+            $('#large').removeClass('aui-checked');
+        }
+    }
+
+    //返回我的资料页面
+    function fnReturnMyInfo() {
+        api.closeWin({});
+    }
+
+    //点击小中大前的checkbox切换字体大小
+    function change(size) {
+        if (size == 1) {
+            $('#small').addClass('aui-checked');
+            $('#normal').removeClass('aui-checked');
+            $('#large').removeClass('aui-checked');
+        } else if (size == 2) {
+            $('#small').removeClass('aui-checked');
+            $('#normal').addClass('aui-checked');
+            $('#large').removeClass('aui-checked');
+        } else {
+            $('#small').removeClass('aui-checked');
+            $('#normal').removeClass('aui-checked');
+            $('#large').addClass('aui-checked');
+        }
+    }
+</script>
+
+</html>

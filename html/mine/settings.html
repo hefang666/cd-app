@@ -1,0 +1,321 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>设置页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/dialog.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .aui-list:after {
+            display: none;
+        }
+
+        .aui-list {
+            background-image: none !important;
+        }
+
+        .aui-list-item-arrow:before {
+            border-color: #A2A2A2;
+        }
+
+        .mine_List .aui-list .aui-list-item-media {
+            width: 2.0rem;
+            padding-right: 0 !important;
+        }
+
+        .mine_List .aui-list .aui-list-item {
+            min-height: 2.7rem !important;
+            font-size: var(--fontsize75);
+        }
+
+        .aui-dialog-body {
+            color: #333 !important;
+            font-size: var(--fontsize8) !important;
+        }
+
+        .aui-list .aui-list-item-text {
+            font-size: var(--fontsize7);
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav aui-border-b" id="header">
+        <div class="aui-pull-left aui-btn" tapmode onclick="fnReturnMineFrame();">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">设置</div>
+    </header>
+
+    <div class="aui-content mine_List">
+        <ul class="aui-list">
+          <li class="aui-list-item" tapmode onclick="Metersettings()">
+              <div class="aui-list-item-inner">
+                  <div class="aui-list-item-inner aui-list-item-arrow">
+                      抄表设置
+                  </div>
+              </div>
+          </li>
+            <li class="aui-list-item" tapmode onclick="fnOpenAccountAndSecurity()">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        账号与安全
+                    </div>
+                </div>
+            </li>
+
+            <!-- <li class="aui-list-item" tapmode onclick="fnChangeFontSize()">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        字体大小
+                        <div class="aui-list-item-text" id="FontSize">
+
+                        </div>
+                    </div>
+                </div>
+            </li> -->
+
+            <!-- <li class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        夜间模式
+                        <div class="aui-list-item-text">
+                            <input class="aui-switch" type="checkbox" name="demo2">
+                        </div>
+                    </div>
+                </div>
+            </li> -->
+            <li class="aui-list-item open-win" tapmode win='../mine/settingService'>
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        设置服务器
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item" tapmode onclick="fnClearCache()">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        清除缓存
+                        <div class="aui-list-item-text" id="cacheSize">
+                            1.5M
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li id="checkUpdate" class="aui-list-item" tapmode onclick="fnCheckUpdate()">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        检查更新
+                        <div class="aui-list-item-text" id="APP_Version">
+
+                        </div>
+                    </div>
+
+                </div>
+            </li>
+
+            <!-- <li id="checkUpdate" class="aui-list-item">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-inner">
+                        上传位置信息<input id="locationSwitch" class="aui-switch" type="checkbox" onclick="onClickHander(this)">
+                    </div>
+                </div>
+            </li> -->
+
+        </ul>
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        if ($api.getStorage('sendLocation')) {
+            $('#locationSwitch').attr('checked', true)
+        }
+        changeFontSize();
+        // setIOSBar();
+        if (api.systemType == 'ios') {
+            api.setStatusBarStyle({
+                style: 'dark',
+            });
+            $('#checkUpdate').hide();
+        }
+        fnReady();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        api.getCacheSize(function(ret, err) {
+            var size = parseInt(ret.size / 1024 / 1024) + 'M';
+            var cacheSize = $api.byId('cacheSize');
+            cacheSize.innerHTML = size;
+        });
+
+        var version = api.appVersion;  //比如： 1.0.0
+        $('#APP_Version').text(version);
+
+    };
+
+    var dialog = new auiDialog();
+    //返回我的页面
+    function fnReturnMineFrame() {
+        api.closeWin({});
+    }
+    function Metersettings() {
+        api.openWin({
+            name: 'MeterReading_settings',
+            url: '../MeterReading/html/MeterReading_settings.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+    function onClickHander(obj) {  //是否上传位置
+        if (obj.checked) {
+            $api.setStorage('sendLocation', true)
+        } else {
+            $api.rmStorage('sendLocation');
+        }
+
+    }
+
+    //打开账号与安全页面
+    function fnOpenAccountAndSecurity() {
+        api.openWin({
+            name: 'accountAndSecurity',
+            url: './accountAndSecurity.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+
+    //打开字体大小切换页面
+    function fnChangeFontSize() {
+        api.openWin({
+            name: 'changeFontSize',
+            url: './changeFontSize.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+    }
+
+    //检查更新
+    function fnCheckUpdate() {
+        var mam = api.require('mam');
+        api.showProgress({
+            style: 'default',
+            animationType: 'fade',
+            title: '加载中...',
+            modal: false
+        });
+        mam.checkUpdate(function(ret, err) {
+            api.hideProgress();
+            if (ret) {
+                var result = ret.result;
+                if (result.update == true && result.closed == false) {
+                    api.openFrame({
+                        name: 'checkupdate_frm',
+                        url: './checkupdate_frm.html',
+                        rect: {
+                            x: 0,
+                            y: 0,
+                            w: 'auto',
+                            h: 'auto'
+                        },
+                        pageParam: {
+                            version: result.version,
+                            updateTip: result.updateTip,
+                            source: result.source
+                        },
+                        bounces: false,
+                        bgColor: 'rgba(0,0,0,0.4)',
+                    });
+                } else {
+                    api.toast({
+                        msg: '已经是最新版了',
+                        duration: 2000,
+                        location: 'top'
+                    });
+                }
+            }
+        })
+    }
+
+    //清除缓存确认框
+    function fnClearCache() {
+        dialog.alert({
+            title: '确定要清除缓存吗',
+            buttons: ['确定', '取消']
+        }, function(ret) {
+            if (ret.buttonIndex == 1) {
+                clearCache()
+            }
+        })
+    }
+
+    //清除缓存
+    function clearCache() {
+        api.clearCache(function() {
+            api.toast({
+                msg: '清除完成',
+                location: 'top'
+            });
+            api.getCacheSize(function(ret, err) {
+                var size = parseInt(ret.size / 1024 / 1024) + 'M';
+                var cacheSize = $api.byId('cacheSize');
+                cacheSize.innerHTML = size;
+            });
+        });
+    };
+</script>
+
+</html>

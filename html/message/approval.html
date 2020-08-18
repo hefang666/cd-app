@@ -1,0 +1,635 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>报装审批页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #F0F0F0;
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+            display: flex;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            border-bottom: solid 0.03rem #e6e6e6;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        section {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+            padding: 0.65rem 0.6rem;
+            padding-bottom: 0;
+        }
+
+        span {
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            letter-spacing: 0.07rem;
+            color: #999999;
+        }
+
+        .aui-content-padded {
+            margin: 0;
+        }
+
+        .aui-card-list {
+            border-radius: 0.25rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .aui-card-list:last-child {
+            margin-bottom: 0;
+        }
+
+        .aui-card-list-header {
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #4f79e8;
+        }
+
+        .headerText {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .aui-card-list-header .line {
+            width: 0.1rem;
+            height: 0.8rem;
+            background-color: #4f79e8;
+            margin-right: 0.33rem;
+        }
+
+        .aui-card-list-header .aui-iconfont {
+            color: #4f79e8;
+            font-size: var(--fontsize8);
+            font-weight: 900;
+        }
+
+        .aui-collapse-header.aui-active {
+            background: transparent;
+        }
+
+        .aui-card-list-header:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-bottom: 1px solid #e6e6e6;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 200%;
+            height: 200%;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+            -webkit-transform-origin: left top;
+            transform-origin: left top;
+            pointer-events: none;
+        }
+
+        .aui-list:after {
+            border: none;
+        }
+
+        .download {
+            width: 0.85rem;
+            height: 0.85rem;
+            background: url(../../image/message_frame/download.png);
+            background-size: 100% 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .fileOpen {
+            width: 0.85rem;
+            height: 0.73rem;
+            background: url(../../image/message_frame/fileOpen.png);
+            background-size: 100% 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .aui-list .aui-list-item-title {
+            font-size: var(--fontsize65);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.07rem;
+            color: #333333;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .aui-list .aui-list-item-text {
+            font-size: var(--fontsize65);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.07rem;
+            color: #999999;
+        }
+
+        .aui-list .aui-list-item {
+            padding-left: 0.6rem;
+        }
+
+        .WaterReq .aui-media-list .aui-list-item-inner,
+        .ApprRecord .aui-media-list .aui-list-item-inner {
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.07rem;
+            color: #333333;
+            padding-top: 0.20rem;
+            padding-bottom: 0.20rem;
+            min-height: 0;
+            padding-right: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            -webkit-box-align: start;
+            box-align: start;
+        }
+
+        .WaterReq .aui-list .aui-list-item,
+        .ApprRecord .aui-list .aui-list-item {
+            padding: 0.4rem 0.6rem;
+        }
+
+        .yellowRot {
+            width: 0.4rem;
+            height: 0.4rem;
+            background-color: #ffab18;
+            border-radius: 50%;
+            float: right;
+            margin-right: 0.35rem;
+        }
+
+        .ApprTitle {
+            font-size: var(--fontsize8) !important;
+            font-weight: normal !important;
+            font-stretch: normal !important;
+            letter-spacing: 0.08rem !important;
+            color: #333333 !important;
+        }
+
+        .statusPass {
+            padding: 0.1rem 0.53rem;
+            width: auto;
+            height: 1.05rem;
+            background-color: #e3f4f1;
+            border-radius: 0.08rem;
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #12bca2;
+            display: inline-flex;
+            float: right;
+            border-radius: 0.08rem;
+        }
+
+        .statusNot {
+            padding: 0.1rem 0.53rem;
+            width: auto;
+            height: 1.05rem;
+            background-color: #ffefef;
+            border-radius: 0.08rem;
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #f24d4d;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            float: right;
+            border-radius: 0.08rem;
+        }
+
+        .Remark .aui-card-list-content {
+            padding: 0.6rem;
+        }
+
+        textarea {
+            outline: none;
+            background: #f0f0f0;
+            border-radius: 0.25rem;
+            height: auto !important;
+            color: #999999;
+            padding: 0.6rem 0.65rem;
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.07rem;
+        }
+
+        textarea::-webkit-input-placeholder {
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.07rem;
+            color: #999999;
+        }
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.68rem 2.03rem;
+        }
+
+        .sureBtn {
+            width: 6rem;
+            height: 1.8rem;
+            line-height: 1.8rem;
+            background-color: #4f79e8;
+            border-radius: 0.9rem;
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.08rem;
+            color: #ffffff;
+        }
+
+        .cancelBtn {
+            width: 6rem;
+            height: 1.8rem;
+            line-height: 1.8rem;
+            border: solid 0.03rem #4f79e8;
+            border-radius: 0.9rem;
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.08rem;
+            color: #4f79e8;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">报装审批</div>
+    </header>
+
+    <section class="aui-content-padded">
+        <div class="aui-card-list">
+            <div class="aui-card-list-header aui-collapse-header aui-active" tapmode>
+                <div class="headerText">
+                    <div class="line"></div>
+                    基本信息
+                </div>
+                <i class="aui-iconfont aui-icon-down aui-collapse-arrow"></i>
+            </div>
+            <div class="aui-card-list-content-padded aui-collapse-content aui-show">
+                <div class="aui-row aui-row-padded">
+                    <ul>
+                        <li>报装编号：<span>132654365</span></li>
+                        <li>用户类型：<span>个人</span></li>
+                        <li>用户名：<span>张三</span></li>
+                        <li>用水地址：<span>渝中区上清市</span></li>
+                        <li>身份证号码：<span>4747484844737327</span></li>
+                        <li>联系电话：<span>4321513452</span></li>
+                        <li>电子邮箱：<span>32387423@qq.com</span></li>
+                        <li>工程类别：<span>居民用水工程</span></li>
+                        <li>施工方式：<span>新建</span></li>
+                        <li>项目名称：<span>连芳花园居民供水</span></li>
+                        <li>所属区域：<span>渝中区</span></li>
+                        <li>所属厂所：<span>渝中区营业管网所</span></li>
+                        <li>月常用水量：<span>20m³/日</span></li>
+                        <li>月最大用水量：<span>20m³/日</span></li>
+                        <li>月最小用水量：<span>20m³/日</span></li>
+                        <li>申请方式：<span>营业厅</span></li>
+                        <li>安装用途：<span>用途</span></li>
+                        <li>用水原因：<span></span></li>
+                        <li>建设成高（米）：<span></span></li>
+                        <li>地平标高（米）：<span></span></li>
+                        <li>开发总量：<span></span></li>
+                        <li>规划许可证：<span></span></li>
+                        <li>规划许可证：<span></span></li>
+                        <li>申请时间：<span>2018-09-09</span></li>
+                        <li>是否将临时用水与正式用水合并：<span>是</span></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="aui-card-list">
+            <div class="aui-card-list-header aui-collapse-header aui-active" tapmode>
+                <div class="headerText">
+                    <div class="line"></div>
+                    附件
+                </div>
+                <i class="aui-iconfont aui-icon-down aui-collapse-arrow"></i>
+            </div>
+            <div class="aui-card-list-content aui-collapse-content aui-show">
+                <div class="aui-row">
+                    <ul class="aui-list aui-media-list">
+                        <li class="aui-list-item aui-list-item-middle">
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-list-item-inner" style="width:90%">
+                                    <div class="aui-list-item-text">
+                                        <div class="aui-list-item-title">我的资料文件名称wenjianjsjnakcjnsdkcj10001.doc</div>
+                                    </div>
+                                    <div class="aui-list-item-text">
+                                        33.93KB
+                                    </div>
+                                </div>
+                                <div class="aui-list-item-right download"></div>
+                            </div>
+                        </li>
+                        <li class="aui-list-item aui-list-item-middle">
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-list-item-inner" style="width:90%">
+                                    <div class="aui-list-item-text">
+                                        <div class="aui-list-item-title">我的资料文件名称10001.doc</div>
+                                    </div>
+                                    <div class="aui-list-item-text">
+                                        33.93KB
+                                    </div>
+                                </div>
+                                <div class="aui-list-item-right download"></div>
+                            </div>
+                        </li>
+                        <li class="aui-list-item aui-list-item-middle">
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-list-item-inner" style="width:90%">
+                                    <div class="aui-list-item-text">
+                                        <div class="aui-list-item-title">我的资料文件名称10001.doc</div>
+                                    </div>
+                                    <div class="aui-list-item-text">
+                                        33.93KB
+                                    </div>
+                                </div>
+                                <div class="aui-list-item-right download"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="aui-card-list WaterReq">
+            <div class="aui-card-list-header aui-collapse-header aui-active" tapmode>
+                <div class="headerText">
+                    <div class="line"></div>
+                    用水要求
+                </div>
+                <i class="aui-iconfont aui-icon-down aui-collapse-arrow"></i>
+            </div>
+            <div class="aui-card-list-content aui-collapse-content aui-show">
+                <div class="aui-row">
+                    <ul class="aui-list aui-media-list">
+                        <li class="aui-list-item aui-list-item-middle">
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-col-xs-1">
+                                    <div class="yellowRot"></div>
+                                </div>
+                                <div class="aui-col-xs-6">
+                                    <div class="aui-list-item-inner">
+                                        用水类型：<span>普通表</span>
+                                    </div>
+                                </div>
+                                <div class="aui-col-xs-5">
+                                    <div class="aui-list-item-inner">
+                                        口径：<span>20</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-col-xs-1"></div>
+                                <div class="aui-col-xs-6">
+                                    <div class="aui-list-item-inner">
+                                        用户性质：<span>个人</span>
+                                    </div>
+                                </div>
+                                <div class="aui-col-xs-5">
+                                    <div class="aui-list-item-inner">
+                                        只数：<span>90</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-col-xs-1"></div>
+                                <div class="aui-col-xs-11">
+                                    <div class="aui-list-item-inner">
+                                        用水地址：<span>渝中区上清寺某小区1栋20号...</span>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="aui-card-list ApprRecord">
+            <div class="aui-card-list-header aui-collapse-header aui-active" tapmode>
+                <div class="headerText">
+                    <div class="line"></div>
+                    审批记录
+                </div>
+                <i class="aui-iconfont aui-icon-down aui-collapse-arrow"></i>
+            </div>
+            <div class="aui-card-list-content aui-collapse-content aui-show">
+                <div class="aui-row">
+                    <ul class="aui-list aui-media-list">
+                        <li class="aui-list-item aui-list-item-middle">
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-col-xs-1">
+                                    <div class="yellowRot"></div>
+                                </div>
+                                <div class="aui-col-xs-4">
+                                    <div class="aui-list-item-inner ApprTitle">
+                                        申请登记
+                                    </div>
+                                </div>
+                                <div class="aui-col-xs-7">
+                                    <div class="statusPass">
+                                        已同意
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-col-xs-1"></div>
+                                <div class="aui-col-xs-11">
+                                    <div class="aui-list-item-inner">
+                                        办理人：<span>张三【产品设计部门】</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-col-xs-1"></div>
+                                <div class="aui-col-xs-11">
+                                    <div class="aui-list-item-inner">
+                                        审批时间：<span>2018-10-10 13:20:20</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="aui-list-item aui-list-item-middle">
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-col-xs-1">
+                                    <div class="yellowRot"></div>
+                                </div>
+                                <div class="aui-col-xs-4">
+                                    <div class="aui-list-item-inner ApprTitle">
+                                        查勘设计
+                                    </div>
+                                </div>
+                                <div class="aui-col-xs-7">
+                                    <div class="statusPass">
+                                        已同意
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-col-xs-1"></div>
+                                <div class="aui-col-xs-11">
+                                    <div class="aui-list-item-inner">
+                                        办理人：<span>张三【产品设计部门】</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-col-xs-1"></div>
+                                <div class="aui-col-xs-11">
+                                    <div class="aui-list-item-inner">
+                                        审批时间：<span>2018-10-10 13:20:20</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="aui-list-item aui-list-item-middle">
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-col-xs-1">
+                                    <div class="yellowRot"></div>
+                                </div>
+                                <div class="aui-col-xs-4">
+                                    <div class="aui-list-item-inner ApprTitle">
+                                        申请登记
+                                    </div>
+                                </div>
+                                <div class="aui-col-xs-7">
+                                    <div class="statusNot">
+                                        退回查勘设计
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-col-xs-1"></div>
+                                <div class="aui-col-xs-11">
+                                    <div class="aui-list-item-inner">
+                                        办理人：<span>张三【产品设计部门】</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aui-media-list-item-inner">
+                                <div class="aui-col-xs-1"></div>
+                                <div class="aui-col-xs-11">
+                                    <div class="aui-list-item-inner">
+                                        审批时间：<span>2018-10-10 13:20:20</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="aui-card-list Remark">
+            <div class="aui-card-list-header aui-collapse-header aui-active" tapmode>
+                <div class="headerText">
+                    <div class="line"></div>
+                    批注
+                </div>
+                <i class="aui-iconfont aui-icon-down aui-collapse-arrow"></i>
+            </div>
+            <div class="aui-card-list-content aui-collapse-content aui-show">
+                <div class="aui-row">
+                    <textarea name="name" rows="5" cols="80" placeholder="请填写批注"></textarea>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="aui-btn sureBtn">发送</div>
+        <div class="aui-btn cancelBtn">取消</div>
+    </footer>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../script/aui-collapse.js"></script>
+<script type="text/javascript">
+    document.body.addEventListener('touchstart', function() {});
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        fnReady();
+    };
+
+    var collapse = new auiCollapse({
+        autoHide: false //是否自动隐藏已经展开的容器
+    });
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+    }
+</script>
+
+</html>

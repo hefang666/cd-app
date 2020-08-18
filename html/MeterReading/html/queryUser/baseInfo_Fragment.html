@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>基本信息</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        #top {
+            padding: 10px;
+        }
+
+        .top_first {
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .dv {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+        }
+
+        .REPLACEDTIME {
+            flex: 1;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .REPLACEDTIME div {
+            border-bottom: 1px solid #ececec;
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="top">
+        <div class="top_first">
+            <div class="dv">
+                <div class="XH">
+                    <div>表&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</div>
+                </div>
+                <div class="REPLACEDTIME" id="SBBH">
+                    <div></div>
+                </div>
+            </div>
+            <div class="dv">
+                <div class="XH">
+                    <div>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号</div>
+                </div>
+                <div class="REPLACEDTIME" id="YHBH">
+                    <div></div>
+                </div>
+            </div>
+            <div class="dv">
+                <div class="XH">
+                    <div>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名</div>
+                </div>
+                <div class="REPLACEDTIME" id="YHMC">
+                    <div></div>
+                </div>
+            </div>
+            <div class="dv">
+                <div class="XH">
+                    <div>地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;址</div>
+                </div>
+                <div class="REPLACEDTIME" id="YHDZ">
+                    <div></div>
+                </div>
+            </div>
+            <div class="dv">
+                <div class="XH">
+                    <div>固&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话</div>
+                </div>
+                <div class="REPLACEDTIME" id="GDDH">
+                    <div></div>
+                </div>
+            </div>
+            <div class="dv">
+                <div class="XH">
+                    <div>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机</div>
+                </div>
+                <div class="REPLACEDTIME" id="YDDH">
+                    <div></div>
+                </div>
+            </div>
+            <div class="dv">
+                <div class="XH">
+                    <div>水表位置</div>
+                </div>
+                <div class="REPLACEDTIME" id="SBWZ">
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/bzremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript">
+    var YHBH;
+    var LoginName = "";
+    apiready = function() {
+        //api.parseTapmode();
+        LoginName = $api.getStorage('loginData').userName;
+        var pageParam = api.pageParam;
+        YHBH = pageParam.YHBH;
+
+        queryUser();
+    };
+
+    function queryUser() {
+        var db = api.require('db');
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where YHBH="' + YHBH + '" and userName="' + LoginName + '"'
+        });
+        var data;
+        if (userdata.status) {
+            if (userdata.data.length > 0) {
+                data = userdata.data[0];
+                /*
+                $('#SBBH').html("表&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp号：" + data.SBBH);
+                $('#YHBH').html("户&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp号：" + data.YHBH);
+                $('#YHMC').html("户&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp名：" + data.YHMC);
+                $('#YHDZ').html("地&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp址：" + data.YHDZ);
+                $('#GDDH').html("固&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp话：" + data.GDDH);
+                $('#YDDH').html("手&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp机：" + data.YDDH);
+                $('#SBWZ').html("水表位置：" + data.SBWZ);
+                */
+                $('#SBBH').html("<div>" + (data.SBBH == "null" || data.SBBH == null ? "" : data.SBBH) + "</div>");
+                $('#YHBH').html("<div>" + (data.YHBH == "null" || data.YHBH == null ? "" : data.YHBH) + "</div>");
+                $('#YHMC').html("<div>" + (data.YHMC == "null" || data.YHMC == null ? "" : data.YHMC) + "</div>");
+                $('#YHDZ').html("<div>" + (data.YHDZ == "null" || data.YHDZ == null ? "" : data.YHDZ) + "</div>");
+                $('#GDDH').html("<div>" + (data.GDDH == "null" || data.GDDH == null ? "" : data.GDDH) + "</div>");
+                $('#YDDH').html("<div>" + (data.YDDH == "null" || data.YDDH == null ? "" : data.YDDH) + "</div>");
+                $('#SBWZ').html("<div>" + (data.SBWZ == "null" || data.SBWZ == null ? "" : data.SBWZ) + "</div>");
+
+            } else {
+                data = api.pageParam.params;
+                $('#SBBH').html("<div>" + (data.SBBH == "null" || data.SBBH == null ? "" : data.SBBH) + "</div>");
+                $('#YHBH').html("<div>" + (data.YHBH == "null" || data.YHBH == null ? "" : data.YHBH) + "</div>");
+                $('#YHMC').html("<div>" + (data.YHMC == "null" || data.YHMC == null ? "" : data.YHMC) + "</div>");
+                $('#YHDZ').html("<div>" + (data.YHDZ == "null" || data.YHDZ == null ? "" : data.YHDZ) + "</div>");
+                $('#GDDH').html("<div>" + (data.GDDH == "null" || data.GDDH == null ? "" : data.GDDH) + "</div>");
+                $('#YDDH').html("<div>" + (data.YDDH == "null" || data.YDDH == null ? "" : data.YDDH) + "</div>");
+                $('#SBWZ').html("<div>" + (data.SBWZ == "null" || data.SBWZ == null ? "" : data.SBWZ) + "</div>");
+            }
+        }
+
+    }
+</script>
+
+</html>

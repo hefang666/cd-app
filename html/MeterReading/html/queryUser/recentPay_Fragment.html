@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>近期缴费</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        #top {
+            padding: 10px;
+        }
+
+        .dv {
+            margin-top: 10px;
+            height: 30px;
+            display: flex;
+            color: #949295;
+            flex-direction: row;
+            text-align: center;
+        }
+
+        #SBWZ {
+            margin-top: 10px;
+        }
+
+        .top_first {
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .XH {
+            flex: 1;
+            padding-left: 10px;
+        }
+
+        .XH div {
+            border-bottom: 1px solid #ececec;
+        }
+
+        .JFSJ {
+            flex: 2;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .JFSJ div {
+            border-bottom: 1px solid #ececec;
+        }
+
+        .SFJE {
+            flex: 2;
+            padding-right: 10px;
+        }
+
+        .SFJE div {
+            border-bottom: 1px solid #ececec;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="top">
+        <div class="top_first">
+            <div class="XH">序号</div>
+            <div class="JFSJ">缴费时间</div>
+            <div class="SFJE">缴费金额</div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/template" id='queryRecentPayList'>
+    {{each datas value i}}
+    <div class="dv">
+        <div class="XH">
+            <div>{{i+1}}</div>
+        </div>
+        <div class="JFSJ">
+            <div>{{value.JFSJ.slice(0,8)}}</div>
+        </div>
+        <div class="SFJE">
+            <div>{{value.SFJE}}</div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var YHBH;
+    var queryRecentPayList = [];
+    apiready = function() {
+        //api.parseTapmode();
+
+        var pageParam = api.pageParam;
+        YHBH = pageParam.YHBH;
+
+        queryRecentPay();
+    };
+
+    //获取近期缴费
+    function queryRecentPay() {
+        //0500032700
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "yhbh=" + YHBH + "",
+            "Type": "122"
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data == null || Data.length == 0) {
+                        $('#top div').remove();
+                        $('#top').append("<div style='text-align: center;'>没有用户数据</div>");
+                    } else {
+                        queryRecentPayList = Data;
+                        var datas = {
+                            datas: queryRecentPayList
+                        }
+
+                        var str = template('queryRecentPayList', datas);
+                        //console.log(JSON.stringify(str));
+                        //$('#top div').remove();
+                        $('#top').append(str);
+                        fnReadyOpenWin();
+                    }
+                } else {
+                    $('#top div').remove();
+                    $('#top').append("<div style='text-align: center;'>" + ret.Message + "</div>");
+                }
+            } else {
+                $('#top div').remove();
+                $('#top').append("<div style='text-align: center;'>没有用户数据</div>");
+            }
+        })
+    }
+</script>
+
+</html>

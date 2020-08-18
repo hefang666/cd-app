@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>换表记录</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        #center {
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: #ffffff;
+        }
+
+        .top_first {
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            text-align: center;
+        }
+
+        .top_first div {
+            flex: 1;
+            color: #31ACF6;
+            overflow-y: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv {
+            text-align: center;
+            display: flex;
+            background-color: #ECECEC;
+            margin-bottom: 5px;
+        }
+
+        .dv_1 {
+            width: 84px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv_2 {
+            flex: 1;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="center">
+      <!-- <div class="dv">
+          <div class="dv_1">用户编号</div>
+          <div class="dv_2">{{value.YHBH}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">联系人</div>
+          <div class="dv_2">{{value.USERNAME}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">申请人</div>
+          <div class="dv_2">{{value.REQUESTOR}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">换表原因</div>
+          <div class="dv_2">{{value.CAUSETEXT}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">旧表起度</div>
+          <div class="dv_2">{{value.OLDBEGINSCALE}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">旧表止度</div>
+          <div class="dv_2">{{value.OLDENDSCALE}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">旧表水量</div>
+          <div class="dv_2">{{value.OLDAMOUNT}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">旧表铅封号</div>
+          <div class="dv_2">{{value.OLDSEALNO}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">旧表口径</div>
+          <div class="dv_2">{{value.OLDCALIBER}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">旧表表号</div>
+          <div class="dv_2">{{value.OLDSTAMPNO}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">换表时间</div>
+          <div class="dv_2">{{value.REPLACEDTIME}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">操作时间</div>
+          <div class="dv_2">{{value.OPERATEDTIME}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">换表人</div>
+          <div class="dv_2">{{value.REPLACERNAME}}</div>
+      </div>
+      <div class="dv">
+          <div class="dv_1">操作人</div>
+          <div class="dv_2">{{value.OPERATORNAME}}</div>
+      </div> -->
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/template" id='recentReaderList'>
+    {{each datas value i}}
+    <div class="dv">
+        <div class="dv_1">用户编号</div>
+        <div class="dv_2">{{value.YHBH}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">联系人</div>
+        <div class="dv_2">{{value.USERNAME}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">申请人</div>
+        <div class="dv_2">{{value.REQUESTOR}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">换表原因</div>
+        <div class="dv_2">{{value.CAUSETEXT}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">旧表起度</div>
+        <div class="dv_2">{{value.OLDBEGINSCALE}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">旧表止度</div>
+        <div class="dv_2">{{value.OLDENDSCALE}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">旧表水量</div>
+        <div class="dv_2">{{value.OLDAMOUNT}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">旧表铅封号</div>
+        <div class="dv_2">{{value.OLDSEALNO}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">旧表口径</div>
+        <div class="dv_2">{{value.OLDCALIBER}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">旧表表号</div>
+        <div class="dv_2">{{value.OLDSTAMPNO}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">换表时间</div>
+        <div class="dv_2">{{value.REPLACEDTIME}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">操作时间</div>
+        <div class="dv_2">{{value.OPERATEDTIME}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">换表人</div>
+        <div class="dv_2">{{value.REPLACERNAME}}</div>
+    </div>
+    <div class="dv">
+        <div class="dv_1">操作人</div>
+        <div class="dv_2">{{value.OPERATORNAME}}</div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var YHBH;
+    var recentReaderList = [];
+    apiready = function() {
+        //api.parseTapmode();
+
+        var pageParam = api.pageParam;
+        YHBH = pageParam.YHBH;
+
+        getRecentReader();
+    };
+
+    //获取近期抄表
+    function getRecentReader() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "yhbh=" + YHBH + "",
+            "Type": "134"
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data == null || Data.length == 0) {
+                        $('#center div').remove();
+                        $('#center').append("<div style='text-align: center;'>没有换表记录</div>");
+                    } else {
+                        recentReaderList = Data;
+                        var datas = {
+                            datas: recentReaderList
+                        }
+
+                        var str = template('recentReaderList', datas);
+                        //console.log(JSON.stringify(str));
+                        //$('#top div').remove();
+                        $('#center').append(str);
+                        fnReadyOpenWin();
+                    }
+                } else {
+                    $('#center div').remove();
+                    $('#center').append("<div style='text-align: center;'>" + ret.Message + "</div>");
+                }
+            } else {
+                $('#top div').remove();
+                $('#top').append("<div style='text-align: center;'>没有换表记录</div>");
+            }
+        })
+    }
+</script>
+
+</html>

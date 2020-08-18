@@ -1,0 +1,1254 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>首页</title>
+    <link rel="stylesheet" type="text/css" href="../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../public/css/swiper.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../public/css/home.css" />
+    <link rel="stylesheet" type="text/css" href="../../public/css/style.css" />
+      <link rel="stylesheet" type="text/css" href="../../public/css/aui-slide.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #f0f0f0;
+            overflow-x: hidden;
+            overflow-y: scroll;
+            /*ios滑动添加此样式*/
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .flex-con {
+            overflow: auto;
+            overflow-x: hidden;
+            /*ios滑动添加此样式*/
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .aui-refresh-pull-arrow {
+            top: 20% !important;
+        }
+
+        .aui-bar-nav {
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn {
+            height: 2.2rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+            /*background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));*/
+        }
+
+        .header .aui-pull-left {
+            padding-left: 1.2rem;
+        }
+
+        .header .aui-title {
+            font-size: 1.14rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .flex-wrap {
+            width: 100%;
+            background: #fff;
+            /*height: 5.85rem;*/
+            background: rgba(243, 243, 243.1);
+            padding-bottom: 1rem;
+        }
+
+        .aui-bar-nav .aui-pull-right {
+            padding-right: 0.7rem;
+        }
+
+        .aui-btn>span>img {
+            max-width: 60%;
+        }
+        .aui-btn>.title{
+          margin-left: -1rem;
+          color: #FFF;
+        }
+        .bannerDiv {
+            position: relative;
+            width: 100%;
+            height: 8.2rem;
+        }
+
+        .bannerDiv .banner {
+            width: 100%;
+            height: 100%;
+        }
+        .bannerDiv .banner img{
+            display: block;
+            width: 100%;
+        }
+        /*section {
+            width: 100%;
+            height: calc( 100% - 227px);
+            overflow-x: hidden;
+            overflow-y: auto;
+            box-sizing: border-box;
+            -webkit-overflow-scrolling: touch;
+        }*/
+
+        .aui-card-list-header {
+            color: #999999;
+            font-size: var(--fontsize8) !important;
+            padding: 0.6rem;
+        }
+
+        .aui-font-size-18 {
+            font-size: var(--fontsize8) !important;
+        }
+
+        .aui-card-list-header:after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border-bottom: 1px solid #e6e6e6;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 200%;
+            height: 200%;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+            -webkit-transform-origin: left top;
+            transform-origin: left top;
+            pointer-events: none;
+        }
+
+        .aui-card-list-header #ddImg {
+            width: 0.93rem;
+            height: 0.18rem;
+            /*margin: 0 15px 0 7px;*/
+            display: inline-block;
+        }
+
+        .aui-card-list-header .downArrow {
+            width: 0.7rem;
+            height: 0.38rem;
+            display: inline-block;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .aui-card-list-header .imgDiv {
+            min-height: 1.2rem;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+
+        .aui-card-list-header .imgDiv:first-child {
+            color:rgba(46, 142, 250, 1);
+        }
+        .aui-card-list-header .imgDiv:first-child:active{
+            padding-left: 1rem;
+            color:rgba(49, 89, 235, 1);
+        }
+
+        .aui-row.aui-row-padded .aui-col-xs-3 img {
+            width: 100%;
+            /*height: 30px;*/
+            margin: 0 auto;
+            /*margin-bottom: 0.5rem*/
+        }
+
+        .aui-row.aui-row-padded .aui-col-xs-3 {
+            font-size: 0.65rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: -0.02rem;
+            color: #333333;
+            display: flex;
+            justify-content: center;
+            padding: 0 !important;
+            margin-bottom: 1.02rem;
+            text-align: center;
+        }
+
+        .aui-row {
+            padding: 1.02rem 0.83rem 0rem 0.83rem !important;
+        }
+
+        .appRow {
+            display: inline-block;
+            /*max-height: 47px;*/
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+        .appRow:active{
+          /*background: #dddddd;*/
+          background-image: radial-gradient(#f0f0f0 30%, #f0f0f0 30%, #fff 40%);
+          box-shadow: 0rem 0.3rem 0.5rem 0rem rgba(227, 227, 227, 0.68);
+          /*border-radius: 1.5rem;*/
+          border-radius: 1.5rem 1.5rem 1rem 1rem;
+        }
+
+        .largeRow {
+            display: inline-block;
+            max-height: 55px;
+            max-width: 100%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-all;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .hide {
+            display: none;
+        }
+
+        .aui-list {
+            background-image: none !important;
+        }
+
+        .aui-list .aui-list-item:last-child {
+            background-image: none !important;
+        }
+
+        .aui-list .aui-list-item-text {
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        .addApp {
+            color: #4F79E8;
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            border: 1px solid #4F79E8;
+            border-radius: 5rem;
+            padding: 0.3rem 0.7rem;
+            display: inline-block;
+            float: right;
+        }
+
+        .addApp:active {
+            color: #333333;
+            background-color: #bdbdbd;
+        }
+
+        .gray {
+            -webkit-filter: grayscale(100%);
+            -moz-filter: grayscale(100%);
+            -ms-filter: grayscale(100%);
+            -o-filter: grayscale(100%);
+            filter: grayscale(100%);
+            filter: gray;
+        }
+
+        #ListView .aui-list:after {
+            border: none !important;
+        }
+
+
+        .content_borderContent {
+            /*position: absolute;*/
+            width: 100%;
+            /*height: 100%;*/
+            margin-top: -0.8rem;
+        }
+
+        .ICON_Hide {
+            width: 0.8rem;
+            height: 0.8rem;
+            background: url('../../image/main_frame/hide.jpg')no-repeat;
+            background-size: 0.8rem 0.8rem;
+            position: absolute;
+            margin: 0.6rem 0;
+            right: 0
+        }
+
+        .ICON_Show {
+            width: 0.8rem;
+            height: 0.8rem;
+            background: url('../../image/main_frame/show.jpg')no-repeat;
+            background-size: 0.8rem 0.8rem;
+            position: absolute;
+            margin: 0.6rem 0;
+            right: 0
+        }
+
+        .noData {
+            width: 100%;
+            height: 60vw;
+            line-height: 53vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0vw;
+            color: #0c9ff4;
+            text-align: cnt;
+            text-align: center;
+        }
+
+        .headerLine {
+            width: 0.1rem;
+            height: 0.8rem;
+            margin-right: 0.3rem;
+            background-color: #4f79e8;
+            display: inline-block;
+        }
+
+        .headerDiv {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+        }
+
+        .interval {
+            height: 0.75rem;
+            width: 100%;
+            background: #f0f0f0;
+        }
+
+        .content_borderContent .aui-content-padded {
+            margin-top: 0rem !important;
+        }
+
+        .oAfont {
+            font-size: 0.7rem!important;
+        }
+
+        .aui-list .aui-list-item-media {
+            width: 1rem;
+            padding: 0;
+            margin-right: 0.65rem;
+        }
+
+        .aui-media-list .aui-list-item-inner {
+            display: flex;
+            align-items: center;
+            padding: 0;
+            padding-right: 0.75rem;
+        }
+
+        #body ul li:last-child .aui-list-item-inner {
+            justify-content: flex-end;
+        }
+
+        .addAppLi:active {
+            background-color: transparent !important;
+        }
+
+        #changeDiv {
+            width: 1.03rem;
+        }
+
+        .flex-box {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .noCommentMessage {
+            line-height: 1.4rem;
+            margin-left: 2.75rem;
+        }
+
+        .approve {
+            padding: 0.6rem;
+            background-color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .approve .aui-card-list {
+            border: 1px solid #e5e5e5;
+            margin-bottom: 0;
+        }
+
+        .approve .aui-card-list-header {
+            align-items: flex-start;
+        }
+
+        .pieTitleDiv {
+            width: 40%;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .pieTitle {
+            color: #333;
+            font-weight: 600;
+            width: 100%;
+            margin-bottom: 2rem;
+        }
+
+        .pieTitleBtn {
+            border-radius: 1rem;
+            background: #ed7d31;
+            color: #fff;
+            padding: 0 0.75rem;
+        }
+
+        .aui-btn.pieTitleBtn:active {
+            background: #ed7d31;
+            color: #fff;
+            opacity: 0.8;
+        }
+
+        .pieCharts {
+            width: 60%;
+            height: 9rem;
+        }
+
+        .approve .aui-card-list .aui-card-list-content ul {
+            padding: 0.5rem 0;
+        }
+
+        .approve .aui-card-list .aui-card-list-content ul>li {
+            text-align: center;
+            padding-left: 2rem;
+            background: url() no-repeat center 0;
+            background-size: auto 1.1rem;
+            border-right: 1px solid #e5e5e5;
+        }
+
+        .approve .aui-card-list .aui-card-list-content ul>li:last-child {
+            border-right: none
+        }
+    </style>
+</head>
+
+<body>
+  <div id="wrap" class="flex-wrap flex-vertical">
+    <header class="aui-bar aui-bar-nav header" id="header">
+        <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+            <span class="aui-iconfont"><img src="../image/MeteReading/drawable-hdpi/main_title.png" alt=""></span>
+            <div class="title">抄表系统</div>
+        </div>
+    </header>
+    <!-- 轮播 -->
+    <div class="bannerDiv" id="bannerDiv">
+        <div id="aui-slide3">
+            <div class="aui-slide-wrap">
+                <div class="aui-slide-node bg-dark banner">
+                    <img src="../image/MeteReading/drawable-hdpi/raw_1458986734.png" />
+                </div>
+                <div class="aui-slide-node bg-dark">
+                    <img src="../image/MeteReading/drawable-hdpi/raw_1458986819.png" />
+                </div>
+                <div class="aui-slide-node bg-dark">
+                    <img src="../image/MeteReading/drawable-hdpi/raw_1458986869.png" />
+                </div>
+            </div>
+            <div class="aui-slide-page-wrap"></div>
+        </div>
+    </div>
+
+
+      <div id="main" class="flex-con">
+          <!-- 应用部分开始 -->
+          <div id="body">
+              <section id="AppView" class="">
+                  <div class="aui-card-list">
+                      <div class="aui-card-list-header"><span class="headerDiv"><div class="headerLine"></div>常用应用</span>
+                          <div class="imgDiv">
+                              <div class="imgDiv" tapmode data-action="alertClassify" data-param="">添加功能</div>
+
+                          </div>
+                      </div>
+                      <div class="aui-card-list-content">
+                          <div class="aui-row aui-row-padded"  id="content">
+
+                          </div>
+                      </div>
+                  </div>
+      </section>
+
+      </div>
+
+
+  </div>
+</body>
+<script type="text/javascript" src="../../public/script/api.js"></script>
+<script type="text/javascript" src="../../public/script/common.js"></script>
+<script type="text/javascript" src="../script/cbpublic.js"></script>
+<script type="text/javascript" src="../script/cbremote.js"></script>
+<script type="text/javascript" src="../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../public/script/template.js"></script>
+<script type="text/javascript" src="../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../public/script/aui-collapse.js"></script>
+<script type="text/template" id='appList'>
+    {{each list value i}} {{if value.NAME=="开始抄表"}}
+    <div class="aui-col-xs-3 menu open-win" win='cbwork/MeterReading_userList'>
+        <div class="appRow" parse="开始抄表">
+            <img src="../image/MeteReading/drawable-hdpi/index_kscb.png"  /> 开始抄表
+        </div>
+    </div>
+    {{else if value.NAME =="上传数据"}}
+    <div class="aui-col-xs-3  menu open-win" win='userUpload/userUpload'>
+        <div class="appRow" parse="上传数据">
+            <img src="../image/MeteReading/drawable-hdpi/index_scsj.png"  /> 上传数据
+        </div>
+    </div>
+    {{else if value.NAME =="导航图片"}}
+    <div class="aui-col-xs-3 menu open-win" win='navigationImage/navigationImage'>
+        <div class="appRow" parse="导航图片">
+            <img src="../image/MeteReading/drawable-hdpi/index_dhtp.png"  /> 导航图片
+        </div>
+    </div>
+    {{else if value.NAME =="抄表统计"}}
+    <div class="aui-col-xs-3  menu open-win" win='statistical/statistical'>
+        <div class="appRow" parse="抄表统计">
+            <img src="../image/MeteReading/drawable-hdpi/index_cbtj.png"  /> 抄表统计
+        </div>
+    </div>
+    {{else if value.NAME =="查询用户"}}
+    <div class="aui-col-xs-3 menu open-win" win='queryUser/queryUser'>
+        <div class="appRow" parse="查询用户">
+            <img src="../image/MeteReading/drawable-hdpi/index_cxyh.png"  /> 查询用户
+        </div>
+    </div>
+    {{else if value.NAME =="操作日志"}}
+    <div class="aui-col-xs-3 menu open-win" win='log/log'>
+        <div class="appRow" parse="操作日志">
+            <img src="../image/MeteReading/drawable-hdpi/index_czrz.png"  /> 操作日志
+        </div>
+    </div>
+    {{else if value.NAME =="申报工单"}}
+    <div class="aui-col-xs-3 menu open-win" win='workOrder/workOrderList'>
+        <div class="appRow" parse="申报工单">
+            <img src="../image/MeteReading/drawable-hdpi/index_xtsz.png"  /> 申报工单
+        </div>
+    </div>
+    {{else if value.NAME =="下载用户"}}
+    <div class="aui-col-xs-3 menu open-win" win='userDownLoad/userDownLoad'>
+        <div class="appRow"  parse="下载用户">
+            <img src="../image/MeteReading/drawable-hdpi/index_xzyh.png"  /> 下载用户
+        </div>
+    </div>
+    {{else if value.NAME =="基础数据"}}
+    <div class="aui-col-xs-3 menu open-win" win='basisDataDownload/basisDataDownload'>
+        <div class="appRow"  parse="基础数据">
+            <img src="../image/MeteReading/drawable-hdpi/index_jcsj.png"  /> 基础数据
+        </div>
+    </div>
+    {{else if value.NAME =="抄表顺序"}}
+    <div class="aui-col-xs-3 menu open-win" win='theOrder/theOrder'>
+        <div class="appRow" parse="抄表顺序">
+            <img src="../image/MeteReading/drawable-hdpi/index_cbsx.png"  /> 抄表顺序
+        </div>
+    </div>
+    {{/if}} {{/each}}
+</script>
+<script type="text/javascript">
+    var SetupAlldata;
+    var UserId = "";
+    var UserName = "";
+    var Password = "";
+    var permissionList = [];
+    var apiready = function() {
+        var header = $api.byId('header');
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        var headerHight = headerH-1
+        $('#bannerDiv').css('margin-top', '' + headerHight + 'px');
+
+        api.setStatusBarStyle({
+            style: 'dark'
+        });
+        UserId = $api.getStorage('yptOperatorId');
+        UserName = $api.getStorage('yptOperatorName');
+        Password = $api.getStorage('yptPassword');
+
+        if (UserName == null || UserName == "" || Password == null || Password == "") {
+            api.alert({
+                title: '提示',
+                msg: '未获取到对应抄表员数据',
+            }, function(ret, err) {
+                if (ret) {
+                    api.closeWin();
+                } else {}
+            });
+        } else {
+            setTimeout(() => {
+                getUserInfo();
+            }, 300)
+        }
+
+        api.addEventListener({
+            name: 'reflashMenu'
+        }, function(ret, err){
+            if( ret ){
+                $("#content").empty()
+                 var dataList = JSON.parse(ret.value);
+                 handleAnnotData(dataList)
+            }else{
+
+            }
+        });
+        api.addEventListener({
+            name: 'newPERMISSION'
+        }, function(ret, err) {
+            if (ret) {
+                $("#content").empty()
+                CreateBase();
+            } else {
+
+            }
+        });
+
+
+    }
+    function getUserInfo() {
+        var connectionType = api.connectionType;
+        if (connectionType == "none") {
+            if ($api.getStorage('cbOperatorId') == $api.getStorage('yptOperatorId')) {
+                CreateBase();
+            } else {
+                api.alert({
+                    title: '提示',
+                    msg: '当前账号没有通过验证，请连接网络后重新尝试',
+                }, function(ret, err) {
+                    if (ret) {
+                        api.closeWin();
+                    } else {}
+                });
+            }
+        } else {
+            var Parameter = {
+                "ClientId": api.deviceId,
+                "ClientName": api.deviceModel,
+                "OperatorId": $api.getStorage('yptOperatorId'),
+                "OperatorName": $api.getStorage('yptOperatorName'),
+                "Required": '',
+                "Type": '101'
+            }
+            var body = {
+                body: JSON.stringify({
+                    "UserName": $api.getStorage('yptOperatorName'),
+                    "Password": $api.getStorage('yptPassword'),
+                    "SerialNo": dataTime(),
+                    "Method": "R999",
+                    "Parameter": JSON.stringify(Parameter)
+                })
+            };
+            //alert(body.body);
+            fnPost('', body, 'application/json', false, function(ret, err) {
+                //alert(JSON.stringify(ret));
+                if (ret) {
+                    if (ret.Status == 0) {
+                        var Data = [];
+                        if (ret.Data != "" && ret.Data != " ") {
+                            Data = JSON.parse(ret.Data);
+                        }
+                        if (Data.length > 0) {
+                            for (var i = 0; i < Data.length; i++) {
+                                if (Data[i].ID == UserId) {
+                                    $api.setStorage('cbOperatorId', Data[i].ID);
+                                    $api.setStorage('cbOperatorName', Data[i].DLZH);
+                                    $api.setStorage('cbPassword', Password);
+                                    $api.setStorage('cbOperatorMoblie', Data[i].GDDH);
+                                    break;
+                                }
+                            }
+                        } else {
+                            api.alert({
+                                title: '提示',
+                                msg: "抄表员账号验证失败，没有对应的账号信息",
+                            }, function(ret, err) {
+                                if (ret) {
+                                    api.closeWin();
+                                } else {}
+                            });
+                        }
+                    } else {
+                        api.alert({
+                            title: '提示',
+                            msg: ret.Message,
+                        }, function(ret, err) {
+                            if (ret) {
+                                api.closeWin();
+                            } else {}
+                        });
+                    }
+                } else {
+                    if ($api.getStorage('cbOperatorId') == $api.getStorage('yptOperatorId')) {
+
+                    } else {
+                        api.alert({
+                            title: '提示',
+                            msg: err.msg,
+                        }, function(ret, err) {
+                            if (ret) {
+                                api.closeWin();
+                            } else {}
+                        });
+                    }
+
+                }
+                CreateBase();
+            });
+        }
+    }
+    function CreateBase() {
+        var db = api.require("db");
+        var path = 'fs://MeterTable/Data/CBtest.db'
+        db.openDatabase({
+            name: 'CBtest',
+            path: path
+        }, function(ret, err) {
+            if (ret.status) {
+                // db.selectSql查询是否有此数据表，如果返回false则创建数据表
+                // 抄表本表
+                // var ret = db.executeSqlSync({
+                //     name: 'CBtest',
+                //     sql: 'DROP TABLE MRM_BOOKS_BEAN'
+                // });
+
+                //设置界面的选中
+                var sendNext = $api.getStorage('sendNext');
+                var sendUpload = $api.getStorage('sendUpload');
+                var sendUploadPicture = $api.getStorage('sendUploadPicture');
+
+                if (sendNext == null || sendNext == "") {
+                  $api.setStorage('sendNext', true);
+                }
+                if (sendUpload == null || sendUpload == "") {
+                  $api.setStorage('sendUpload', true)
+                  var ret = db.executeSqlSync({
+                      name: 'CBtest',
+                      sql: 'update MRM_DEPLOYS_BEAN set VALUE="1" where CODE="MRM_ONE_UP"'
+                  });
+                }
+                if (sendUploadPicture == null || sendUploadPicture == "") {
+                  $api.setStorage('sendUploadPicture', true);
+                }
+
+                api.showProgress({
+                    title: '加载中',
+                    modal: false
+                });
+
+                //基础数据下载日期表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_DTR_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE MRM_DTR_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"XZRQ" TEXT)'
+                    });
+                }
+
+                //创建抄表册表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_BOOKS_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE MRM_BOOKS_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"CBCH" TEXT,"CBCMC" TEXT,"BBCYHZS" TEXT,"DQCBXH" TEXT,"YZM" TEXT,"SFSC" TEXT,"SFTX" TEXT,"JHR" TEXT,"YCSM" TEXT,"YSC" TEXT,"YC" TEXT,"WC" TEXT,"YXZ" TEXT,"XZDD" TEXT,"CBBRZ" TEXT,"CBBDATA" TEXT,"CBNUMER" TEXT,"NOTDOWNLOAD" TEXT,"GDSBS" INTEGER,"XCYH" TEXT)'
+                    });
+                }
+
+                //创建用户表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_USER_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE MRM_USER_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ZHBH" TEXT,"YHBH" TEXT,"YHMC" TEXT,"YHDZ" TEXT,"SBWZ" TEXT,"YHXXBZ" TEXT,"SBBH" TEXT,"GDDH" TEXT,"YDDH" TEXT,"CBCH" TEXT,"CBXH" INTEGER NOT NULL ,"YSXZ" TEXT,"XZXF" TEXT,"KJ" TEXT,"QD" TEXT,"ZD" TEXT,"YL" TEXT,"BJYL" TEXT,"CBRQ" TEXT,"SFGC" TEXT,"BYXZT" TEXT,"CBBZ" TEXT,"QYL" TEXT,"QFJE" TEXT,"SCCBRQ" TEXT,"SCSL" TEXT,"TQSL" TEXT,"PJSL" TEXT,"SFXG" TEXT,"CBYBH" TEXT,"CWXX" TEXT,"SFJF" TEXT,"FY" TEXT,"FYHJ" TEXT,"YCYE" TEXT,"DZXFPRICE" TEXT,"ZTSCCG" TEXT,"CBZQ" TEXT,"DJC" TEXT,"UID" TEXT,"SFJE" TEXT,"WSFJE" TEXT,"SFDJ" TEXT,"WSFDJ" TEXT,"NEXTMETERMONTH" TEXT,"ARREARMONTH" TEXT,"JWD" TEXT,"XGXXSC" TEXT,"WSFYHBL" TEXT,"RFID" TEXT,"SMZT" TEXT,"SMSJ" TEXT,"SFSF" TEXT,"SFSC" TEXT,"JTFY" TEXT,"POPULATION" TEXT,"ONERESIDUEAMOUNT" TEXT,"TWORESIDUEAMOUNT" TEXT,"THREERESIDUEAMOUNT" TEXT,"JTLJL" TEXT,"JSYPJL" TEXT,"SFJTYH" TEXT,"QFYS" TEXT,"REMARK" TEXT,"BEGINTIME" TEXT,"ENDTIME" TEXT,"CBYSZJD" TEXT,"CBYSZWD" TEXT,"CJDZ" TEXT ,"SBYXZT" TEXT,"YHZT" TEXT,"JFFS" TEXT,"SBYT" TEXT,"ZBBH" TEXT,"ZBZT" TEXT,"HHYSMS" TEXT,"YYQY" TEXT,"BWTP" TEXT,"JSYYSL" TEXT,"GSPQ" TEXT,"CBZTTEXT" TEXT,"QTMONEY" TEXT,"JFBS" TEXT,"SJBM" TEXT,"SFQZPZ" TEXT,"PATH" TEXT,"DWSFSC" TEXT,"XBBH" TEXT,"SLZT" TEXT)'
+                    });
+                }
+
+                //创建抄表员权限表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_PERMISSION_ALL_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE MRM_PERMISSION_ALL_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"NAME" TEXT,"DESCRIPTION" TEXT,"SORT" TEXT,"USERID" TEXT,"USERNAME" TEXT)'
+                    });
+                }
+                // 创建抄表功能系统权限表
+                var userpermissiondata = db.selectSqlSync({
+                 name: 'CBtest',
+                 sql: 'select * from MRM_USER_PERMISSION_BEAN'
+                 });
+                 if (!userpermissiondata.status) {
+                     var ret = db.executeSqlSync({
+                         name: 'CBtest',
+                         sql: 'CREATE TABLE MRM_USER_PERMISSION_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"FUNCTION_ID" TEXT,"OPERATOR_ID" TEXT,"IS_DISMINSS" TEXT)'
+                     });
+                 }
+                 //创建过滤抄表员权限表
+                 var ret = db.selectSqlSync({
+                     name: 'CBtest',
+                     sql: 'SELECT * FROM MRM_USERMEUE_BEAN'
+                 });
+                 if (!ret.status) {
+                     var ret = db.executeSqlSync({
+                         name: 'CBtest',
+                         sql: 'CREATE TABLE MRM_USERMEUE_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"NAME" TEXT,"DESCRIPTION" TEXT,"SORT" TEXT,"USERID" TEXT,"USERNAME" TEXT)'
+                     });
+                 }
+
+                //创建抄表状态表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_METERSTATE_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE MRM_METERSTATE_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"BH" TEXT,"MC" TEXT,"SLLRFS" TEXT,"CBZTID" TEXT,"CBZT" TEXT)'
+                    });
+                }
+
+                //创建系统参数表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_DEPLOYS_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_DEPLOYS_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"CODE" TEXT,"VALUE" TEXT)'
+                    });
+                }
+
+                //创建短信模板表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_SHORT_MEESSAGE_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE MRM_SHORT_MEESSAGE_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"MBMC" TEXT,"MBNR" TEXT,"MBSL" TEXT)'
+                    });
+                }
+
+                //创建短信存储表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_MEESSAGE_STORANG_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE MRM_MEESSAGE_STORANG_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"MBMC" TEXT,"PHONE" TEXT,"CONTENT" TEXT,"NOTSEND" TEXT,"FSSJ" TEXT,"USERCODE" TEXT)'
+                    });
+                }
+
+                //创建照片存储表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_PHOTOS_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE MRM_PHOTOS_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"CBCH" TEXT,"YHBH" TEXT,"ZPMC" TEXT,"ZPLJ" TEXT,"SFSC" TEXT,"CBRQ" TEXT,"ZPLX" TEXT,"ZPLXMC" TEXT,"JD" TEXT,"WD" TEXT,"NotLoction" TEXT,"NotNew" TEXT)'
+                    });
+                }
+
+                //创建定位表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_METER_LOCATION_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE MRM_METER_LOCATION_BEAN("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"CBCH" TEXT,"YHBH" TEXT,"JD" TEXT,"WD" TEXT,"SFGX" TEXT,"CBSJ" TEXT)'
+                    });
+                }
+
+                //历史记录表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_HISTORYS_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_HISTORYS_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"LSLX" TEXT,"CXLX" TEXT,"CXCS" TEXT)'
+                    });
+                }
+
+                //日志表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_LOGS_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_LOGS_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"EVENT" TEXT,"TIME" TEXT,"INFORMATION" TEXT,"CBCH" TEXT)'
+                    });
+                }
+
+                //抄表员轨迹表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_LOCATIONS_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_LOCATIONS_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"CBY" TEXT,"JD" TEXT,"WD" TEXT,"DZ" TEXT,"CJSJ" TEXT,"CBCH" TEXT,"YHBH" TEXT,"SFSC" TEXT)'
+                    });
+                }
+
+                //工单表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_WORKORDER_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_WORKORDER_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"YHBH" TEXT,"YHMC" TEXT,"YHDZ" TEXT,"QD" TEXT,"ZD" TEXT,"JLSJ" TEXT,"SFSC" TEXT' +
+                            ',"YCLXID" TEXT,"YCLXNAME" TEXT' +
+                            ',"FYQMID" TEXT,"FYQMNAME" TEXT' +
+                            ',"XXLYID" TEXT,"XXLYNAME" TEXT' +
+                            ',"JJQKID" TEXT,"JJQKNAME" TEXT' +
+                            ',"WTYYID" TEXT,"WTYYNAME" TEXT' +
+                            ',"GDLXID" TEXT,"GDLXNAME" TEXT' +
+                            ',"GDZTID" TEXT,"GDZTNAME" TEXT' +
+                            ',"LBXFID" TEXT,"LBXFNAME" TEXT' +
+                            ',"QTYY" TEXT,"SQMS" TEXT,"GDBH" TEXT,"KHDH" TEXT,"YYMS" TEXT,"BZ" TEXT,"JD" TEXT,"WD" TEXT,"DZ" TEXT,"LCBH" TEXT,"SFBF" TEXT,"CLJB" TEXT)'
+                    });
+                }
+
+                //工单图片表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_WORKORDERPHOTOS_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_WORKORDERPHOTOS_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"REMARK" TEXT,"YHBH" TEXT,"ZPMC" TEXT,"ZPLJ" TEXT,"ZPLX" TEXT,"ZPJD" TEXT,"ZPWD" TEXT,"ORDERNO" TEXT,"SFSC" TEXT)'
+                    });
+                }
+
+                //下拉列表数据
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_ONLINE_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_ONLINE_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"NAME" TEXT,"TYPEID" TEXT)'
+                    });
+                }
+
+                //创建备忘录表
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_THE_MEMO_BEAN'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_THE_MEMO_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"YHBH" TEXT,"REMARK" TEXT,"TXLX" TEXT,"TXLXMC" TEXT,"TXSJ" TEXT,"SFTX" TEXT,"SFSC" TEXT)'
+                    });
+                }
+
+                //创建备忘录表2
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_THE_MEMO_BEAN2'
+                });
+                if (!ret.status) {
+                    var ret = db.executeSqlSync({
+                        name: 'CBtest',
+                        sql: 'CREATE TABLE "MRM_THE_MEMO_BEAN2" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"CBCH" TEXT,"YHBH" TEXT,"REMARK" TEXT,"TXSJ" TEXT,"TXLX" TEXT)'
+                    });
+                }
+
+                //判断抄表员是否有主页的功能权限数据，有就获取，没有的话跳转基础数据下载界面。
+                var mpabret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'SELECT * FROM MRM_PERMISSION_ALL_BEAN'
+                });
+                api.hideProgress();
+                if (mpabret.status) {
+                    api.hideProgress();
+
+                    if (mpabret.data.length > 0) {
+
+
+                      var retUser = db.selectSqlSync({//查询过滤后比较后的功能权限表
+                          name: 'CBtest',
+                          sql: 'SELECT * FROM MRM_USERMEUE_BEAN'
+                      });
+                      if(retUser.status){
+                        if (retUser.data.length > 0) {//有直接用
+                          insertHome()
+                        }else {//没有插入
+                          var User = db.selectSqlSync({
+                              name: 'CBtest',
+                              sql: 'SELECT * FROM MRM_USER_PERMISSION_BEAN'
+                          });
+                          var SetupAlldata = mpabret.data//系统权限比较
+                          var dataList = User.data
+                          if(User.data.length>0){
+
+                            var data = ''
+                                // 将返回的全部功能菜单（SetupAlldata）和用户权限菜单（dataList）对比渲染
+                            for (var i = 0; i < SetupAlldata.length; i++) {
+                                for (var j = 0; j < dataList.length; j++) {
+                                    if (SetupAlldata[i].ID == dataList[j].FUNCTION_ID) {
+                                        var obj = {}
+                                        data += SetupAlldata[i].NAME + ','
+                                    }
+                                }
+                            }
+                            // 追加成字符串转换为数组，再用模板渲染
+                            var SetupList = data.substr(0, data.lastIndexOf(','))
+                            var AlldataList = []
+                            AlldataList = SetupList.split(",")
+                            // 插入
+                            for (var i in AlldataList) {
+                                db.executeSqlSync({
+                                  name: 'CBtest',
+                                  sql: 'INSERT INTO MRM_USERMEUE_BEAN(NAME,USERID,USERNAME) VALUES ("' + AlldataList[i] + '","' + $api.getStorage('cbOperatorId') + '","' + $api.getStorage('cbOperatorName') + '")'
+                              });
+                            }
+                            insertHome()
+
+                          }
+
+                        }
+                      }
+
+
+                    } else {
+                        //跳转基础数据下载界面。
+                        api.confirm({
+                            title: '提示',
+                            msg: '当前账号没有权限数据，是否下载。',
+                            buttons: ['确定', '取消']
+                        }, function(ret, err) {
+                            var index = ret.buttonIndex;
+                            if (index == 1) {
+                                api.openWin({
+                                    name: 'downLoadBasisData',
+                                    url: './downLoadBasisData.html',
+                                    pageParam: {
+                                        name: 'test'
+                                    }
+                                });
+                            }
+                        });
+                    }
+                }
+            }
+        });
+    }
+
+    function insertHome() {
+        var db = api.require("db");
+
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_USERMEUE_BEAN'
+        }, function(ret, err) {
+            if (ret.status) {
+                var dataList = ret.data;
+                var HistoryMenu = $api.getStorage('HistoryMenu')//获取上传添加未添加存储的功能菜单
+                if(HistoryMenu!=undefined){
+                  permissionList = HistoryMenu;
+                }else {
+                  permissionList = dataList
+                }
+                handleAnnotData(permissionList)
+                // 循环总共的菜单，为添加删除菜单准备
+                var UserMenu = []
+                for(var i=0;i<dataList.length;i++){
+                  var obj = {}//里面定义对象
+                  obj.NAME=dataList[i].NAME
+                  UserMenu.push(obj)
+                }
+                $api.setStorage('UserMenu', UserMenu);
+
+            } else {
+                // console.log(JSON.stringify(err))
+            }
+        });
+    }
+    function handleAnnotData(dataList) {
+        var list = {
+            list: dataList
+        }
+        var str = template('appList', list)
+        $api.append($api.byId('content'), str);
+        fnReady();
+        // operationDom();
+        operationDom();
+        api.hideProgress();
+    }
+    function InitSlide() {
+        var slide3 = new auiSlide({
+            container: document.getElementById("aui-slide3"),
+            // "width":300,
+            "height": 164,
+            "speed": 500,
+            "autoPlay": 4000, //自动播放
+            "loop": true,
+            "pageShow": true,
+            "pageStyle": 'dot',
+            'dotPosition': 'center'
+        })
+    }
+    operationDom();
+    InitSlide();
+    var actionList = {
+        'alertClassify': function() {
+          // 循环已经添加的菜单
+          var menu =$('#content .appRow')
+          var UserMenu = []
+          for(var i=0;i<menu.length;i++){
+            var obj = {}
+            obj.NAME = $(menu[i]).attr('parse')
+            UserMenu.push(obj)
+          }
+          api.openWin({
+              name: 'addApp',
+              url: './homeWork/addApp.html',
+              slidBackEnabled: false,
+              pageParam: {
+                  text:UserMenu
+              }
+          });
+        },
+        'stamp': function() {
+
+            api.openFrame({
+                name: 'openBluetype',
+                url: '../frame/openBluetype.html',
+                rect: {
+                    x: 0,
+                    y: 0,
+                    w: "auto",
+                    h: "auto"
+                },
+                pageParam: {},
+                bounces: false,
+                bgColor: 'rgba(0,0,0,0.4)',
+                vScrollBarEnabled: true,
+                hScrollBarEnabled: true
+            });
+        }
+
+    }
+
+    // function openWin(name) {
+    //
+    //     var bool = false;
+    //
+    //     for (var i = 0; i < permissionList.length; i++) {
+    //         if (permissionList[i].NAME == name) {
+    //             bool = true;
+    //             break;
+    //         }
+    //     }
+    //
+    //     if (bool) {
+    //         if (name == "开始抄表") {
+    //             api.openWin({
+    //                 name: 'cbhome',
+    //                 url: './cbwork/cbhome2.html',
+    //             });
+    //             return;
+    //         } else if (name == "上传数据") {
+    //             api.openWin({
+    //                 name: 'userUpload',
+    //                 url: './userUpload/userUpload.html',
+    //             });
+    //         } else if (name == "导航图片") {
+    //             api.openWin({
+    //                 name: 'baiduMap',
+    //                 url: './baiduMap/baiduMap.html',
+    //             });
+    //         } else if (name == "抄表统计") {
+    //             api.openWin({
+    //                 name: 'statistical',
+    //                 url: './statistical/statistical.html',
+    //             });
+    //         } else if (name == "查询用户") {
+    //             api.openWin({
+    //                 name: 'queryUser',
+    //                 url: './queryUser/queryUser.html',
+    //             });
+    //         } else if (name == "操作日志") {
+    //             api.openWin({
+    //                 name: 'log',
+    //                 url: './log/log.html',
+    //             });
+    //         } else if (name == "申报工单") {
+    //             api.openWin({
+    //                 name: 'workOrderList',
+    //                 url: './workOrder/workOrderList.html',
+    //             });
+    //         }
+    //     } else {
+    //         alert("你没有该功能的使用权限！");
+    //     }
+    // }
+</script>
+
+
+</html>

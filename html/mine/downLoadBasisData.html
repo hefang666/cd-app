@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>更新数据</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/dialog.css">
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            background-color: #ffffff;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+        }
+
+        #center {
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        #download {
+            background-color: #03A9F4;
+            color: #ffffff;
+            border-radius: 20px;
+            font-size: 18px;
+            width: 80%;
+            height: 40px;
+            margin-left: 10%;
+            margin-top: 20px;
+            text-align: center;
+            line-height: 40px;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav aui-border-b" id="header">
+        <div class="aui-pull-left aui-btn" tapmode onclick="fnReturnMyInfo();">
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">更新数据</div>
+    </header>
+    <div id="center">
+        <div class="center_top">
+
+        </div>
+        <div class="center_bottom">
+            <div id="download" onclick="downloadBaseData()">下载</div>
+        </div>
+    </div>
+
+    <div id="footer">
+
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/diy/cbremote.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/javascript">
+    var CBB = 0X071,
+        STATUS = 0X072,
+        PARAM = 0X073,
+        PERMISS = 0X074,
+        USERPERMISS = 0X075,
+        AREA = 0X076;
+    var downlaodTag = 0; //下载标识,当前下载到哪一种
+
+    apiready = function() {
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+
+        $('#center').css('margin-top', '' + headerH + 'px');
+
+        var newPath = 'fs://Sntsoft/chongqing/Data/mrm.db';
+        db = api.require('db');
+        var ret = db.openDatabaseSync({
+            name: 'mrm',
+            path: newPath
+        });
+
+        createTable();
+    };
+
+    //创建基础数据的表
+    function createTable() {
+        var db = api.require('db');
+
+        //抄表册
+        var booksdata = db.selectSqlSync({
+            name: 'mrm',
+            sql: 'select * from MRM_BOOKS_BEAN'
+        });
+        if (!booksdata.status) {
+            var ret = db.executeSqlSync({
+                name: 'mrm',
+                sql: 'CREATE TABLE "MRM_BOOKS_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"CBCH" TEXT,"CBCMC" TEXT,"BBCYHZS" TEXT,"DQCBXH" TEXT,"YZM" TEXT,"SFSC" TEXT,"SFTX" TEXT,"JHR" TEXT,"YCSM" TEXT,"YSC" TEXT,"YC" TEXT,"WC" TEXT,"YXZ" TEXT,"XZDD" TEXT)'
+            });
+        }
+
+        //水表状态
+        var statusdata = db.selectSqlSync({
+            name: 'mrm',
+            sql: 'select * from MRM_METER_STATUS_BEAN'
+        });
+        if (!statusdata.status) {
+            var ret = db.executeSqlSync({
+                name: 'mrm',
+                sql: 'CREATE TABLE "MRM_METER_STATUS_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"BH" TEXT,"MC" TEXT,"SLLRFS" TEXT)'
+            });
+        }
+
+        //系统参数
+        var deploysdata = db.selectSqlSync({
+            name: 'mrm',
+            sql: 'select * from MRM_DEPLOYS_BEAN'
+        });
+        if (!deploysdata.status) {
+            var ret = db.executeSqlSync({
+                name: 'mrm',
+                sql: 'CREATE TABLE "MRM_DEPLOYS_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"CODE" TEXT,"VALUE" TEXT)'
+            });
+        }
+
+        //权限数据
+        var permissionalldata = db.selectSqlSync({
+            name: 'mrm',
+            sql: 'select * from MRM_PERMISSION_ALL_BEAN'
+        });
+        if (!permissionalldata.status) {
+            var ret = db.executeSqlSync({
+                name: 'mrm',
+                sql: 'CREATE TABLE "MRM_PERMISSION_ALL_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"NAME" TEXT,"DESCRIPTION" TEXT,"SORT" TEXT)'
+            });
+        }
+
+        //用户权限
+        var userpermissiondata = db.selectSqlSync({
+            name: 'mrm',
+            sql: 'select * from MRM_USER_PERMISSION_BEAN'
+        });
+        if (!userpermissiondata.status) {
+            var ret = db.executeSqlSync({
+                name: 'mrm',
+                sql: 'CREATE TABLE "MRM_USER_PERMISSION_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"FUNCTION_ID" TEXT,"OPERATOR_ID" TEXT,"IS_DISMINSS" TEXT)'
+            });
+        }
+
+        //地理围栏
+        var areadata = db.selectSqlSync({
+            name: 'mrm',
+            sql: 'select * from MRM_AREA_BEAN'
+        });
+        if (!areadata.status) {
+            var ret = db.executeSqlSync({
+                name: 'mrm',
+                sql: 'CREATE TABLE "MRM_AREA_BEAN" ("_id" INTEGER PRIMARY KEY AUTOINCREMENT ,"ID" TEXT,"BOOK_ID" TEXT,"LNG" TEXT,"LAT" TEXT,"SORT" INTEGER NOT NULL )'
+            });
+        }
+    }
+
+    //开始下载
+    function downloadBaseData() {
+        api.confirm({
+            title: '提示消息',
+            msg: '该操作会清空已有基础数据，确认下载?',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index == 1) {
+                downlaodDatas();
+            }
+        });
+    }
+
+    function downlaodDatas() {
+        if (downlaodTag < CBB) {
+            $('.center_top').append("下载抄表册...</br>");
+            downLoadBooks();
+        } else if (downlaodTag < STATUS) {
+            $('.center_top').append("下载水表状态...</br>");
+            beginDownLoadMeterState();
+        } else if (downlaodTag < PARAM) {
+            $('.center_top').append("下载系统参数...</br>");
+            beginDownLoadSysData();
+        } else if (downlaodTag < PERMISS) {
+            $('.center_top').append("下载系统模块...</br>");
+            beginDownLoadAllPromiss();
+        } else if (downlaodTag < USERPERMISS) {
+            $('.center_top').append("下载用户权限模块...</br>");
+            beginDownLoadUserPromiss();
+        } else if (downlaodTag < AREA) {
+            $('.center_top').append("下载地理围栏...</br>");
+            beginDownLoadArea();
+        } else {
+            downlaodTag = 0;
+            $('#download').html("完成");
+            $('#download').css("background-color", "#69BB20");
+        }
+    }
+
+    //下载抄表本信息
+    function downLoadBooks() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": "10011",
+            "OperatorName": "02011",
+            "Type": "103",
+            "Required": "",
+
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": "02011",
+                "Password": "ok",
+                "SerialNo": datetime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    deleteboods();
+                    var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'mrm',
+                                sql: "INSERT INTO MRM_BOOKS_BEAN " +
+                                    "(ID, CBCH, CBCMC, BBCYHZS, DQCBXH, JHR, YCSM, SFSC, SFTX, YSC, YC, WC, YXZ, XZDD) VALUES " +
+                                    "('" + Data[i].ID +
+                                    "', '" + Data[i].CBCH +
+                                    "', '" + Data[i].CBCMC +
+                                    "', '" + Data[i].BBCYHZS +
+                                    "', '" + Data[i].DQCBXH +
+                                    "', '" + Data[i].JHR +
+                                    "', '" + Data[i].YCSM + "', '0', '0', '0', '0', '0', '0', '0')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无当前账号对应抄表本!',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载抄表册成功</br>");
+                    downlaodTag = CBB;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载抄表册失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(ret)
+                });
+            }
+        });
+    }
+
+    //下载水表状态
+    function beginDownLoadMeterState() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": "10011",
+            "OperatorName": "02011",
+            "Type": "104",
+            "Required": "",
+
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": "02011",
+                "Password": "ok",
+                "SerialNo": datetime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    deletestatus();
+                    var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'mrm',
+                                sql: "INSERT INTO MRM_METER_STATUS_BEAN " +
+                                    "(BH, MC, SLLRFS) VALUES " +
+                                    "('" + Data[i].BH +
+                                    "', '" + Data[i].MC +
+                                    "', '" + Data[i].SLLRFS + "')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无水表状态返回',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载水表状态成功</br>");
+                    downlaodTag = STATUS;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载水表状态失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(ret)
+                });
+            }
+        });
+    }
+
+    //下载系统参数
+    function beginDownLoadSysData() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": "10011",
+            "OperatorName": "02011",
+            "Type": "105",
+            "Required": "",
+
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": "02011",
+                "Password": "ok",
+                "SerialNo": datetime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    deletedeploys();
+                    var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'mrm',
+                                sql: "INSERT INTO MRM_DEPLOYS_BEAN " +
+                                    "(CODE, VALUE) VALUES " +
+                                    "('" + Data[i].CODE +
+                                    "', '" + Data[i].VALUE + "')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无系统参数返回',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载系统参数成功</br>");
+                    downlaodTag = PARAM;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载系统参数失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(ret)
+                });
+            }
+        });
+    }
+
+    //下载权限数据
+    function beginDownLoadAllPromiss() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": "10011",
+            "OperatorName": "02011",
+            "Type": "131",
+            "Required": "",
+
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": "02011",
+                "Password": "ok",
+                "SerialNo": datetime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    deletepermissionall();
+                    var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'mrm',
+                                sql: "INSERT INTO MRM_PERMISSION_ALL_BEAN " +
+                                    "(ID, NAME, DESCRIPTION, SORT) VALUES " +
+                                    "('" + Data[i].ID +
+                                    "('" + Data[i].NAME +
+                                    "('" + Data[i].DESCRIPTION +
+                                    "', '" + Data[i].SORT + "')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无权限数据返回',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载系统模块成功</br>");
+                    downlaodTag = PERMISS;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载系统模块失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(ret)
+                });
+            }
+        });
+    }
+
+    //下载用户权限
+    function beginDownLoadUserPromiss() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": "10011",
+            "OperatorName": "02011",
+            "Type": "132",
+            "Required": "",
+
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": "02011",
+                "Password": "ok",
+                "SerialNo": datetime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    deleteuserpermission();
+                    var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'mrm',
+                                sql: "INSERT INTO MRM_USER_PERMISSION_BEAN " +
+                                    "(FUNCTION_ID, OPERATOR_ID, IS_DISMINSS) VALUES " +
+                                    "('" + Data[i].FUNCTION_ID +
+                                    "('" + Data[i].OPERATOR_ID +
+                                    "', '" + Data[i].IS_DISMINSS + "')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无权限数据返回',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载用户权限成功</br>");
+                    downlaodTag = USERPERMISS;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载用户权限失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(ret)
+                });
+            }
+        });
+    }
+
+    //下载地理围栏
+    function beginDownLoadArea() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": "10011",
+            "OperatorName": "02011",
+            "Type": "125",
+            "Required": "",
+
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": "02011",
+                "Password": "ok",
+                "SerialNo": datetime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        };
+
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    deletearea();
+                    var Data = JSON.parse(ret.Data);
+                    if (Data.length > 0) {
+                        var db = api.require('db');
+                        for (var i = 0; i < Data.length; i++) {
+                            var data = db.executeSqlSync({
+                                name: 'mrm',
+                                sql: "INSERT INTO MRM_AREA_BEAN " +
+                                    "(ID, BOOK_ID, LNG, LAT, SORT) VALUES " +
+                                    "('" + Data[i].ID +
+                                    "('" + Data[i].BOOK_ID +
+                                    "('" + Data[i].LNG +
+                                    "('" + Data[i].LAT +
+                                    "', '" + Data[i].SORT + "')"
+                            });
+                        }
+                    } else {
+                        api.toast({
+                            msg: '无地理围栏返回',
+                            duration: 3000,
+                            location: 'bottom'
+                        });
+                    }
+                    $('.center_top').append("下载地理围栏成功</br>");
+                    downlaodTag = AREA;
+                    downlaodDatas();
+                } else {
+                    $('.center_top').append("下载地理围栏失败</br>");
+                    api.toast({
+                        msg: ret.Message,
+                        duration: 3000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.alert({
+                    msg: JSON.stringify(ret)
+                });
+            }
+        });
+    }
+
+    function deleteboods() {
+        var book = db.executeSqlSync({
+            name: 'mrm',
+            sql: 'delete from MRM_BOOKS_BEAN'
+        });
+        var user = db.executeSqlSync({
+            name: 'mrm',
+            sql: 'delete from MRM_USERS_BEAN'
+        });
+        var user = db.executeSqlSync({
+            name: 'mrm',
+            sql: 'delete from MRM_NAVIPHOTOS_BEAN'
+        });
+        var user = db.executeSqlSync({
+            name: 'mrm',
+            sql: 'delete from MRM_METER_LOCATION_BEAN'
+        });
+    }
+
+    function deletestatus() {
+        var user = db.executeSqlSync({
+            name: 'mrm',
+            sql: 'delete from MRM_METER_STATUS_BEAN'
+        });
+    }
+
+    function deletedeploys() {
+        var user = db.executeSqlSync({
+            name: 'mrm',
+            sql: 'delete from MRM_DEPLOYS_BEAN'
+        });
+    }
+
+    function deletepermissionall() {
+        var user = db.executeSqlSync({
+            name: 'mrm',
+            sql: 'delete from MRM_PERMISSION_ALL_BEAN'
+        });
+    }
+
+    function deleteuserpermission() {
+        var user = db.executeSqlSync({
+            name: 'mrm',
+            sql: 'delete from MRM_USER_PERMISSION_BEAN'
+        });
+    }
+
+    function deletearea() {
+        var user = db.executeSqlSync({
+            name: 'mrm',
+            sql: 'delete from MRM_AREA_BEAN'
+        });
+    }
+
+    //返回我的资料页面
+    function fnReturnMyInfo() {
+        api.closeWin({});
+    }
+
+    function datetime() {
+        var date = new Date(); //实例一个时间对象；
+        var year = getTime("year"); //获取系统的年；
+        var month = getTime("month"); //获取系统月份，由于月份是从0开始计算，所以要加1
+        var day = getTime("day"); //获取系统日
+        var hour = getTime("hour"); //获取系统时间
+        var minute = getTime("minute"); //分
+        var second = getTime("second"); //秒
+        var ZPMC = year + month + day + hour + minute + second + ""
+    }
+
+    function getTime(type) {
+        var date = new Date()
+        var time = null
+        switch (type) {
+            case 'year':
+                time = date.getFullYear().toString()
+                break
+            case 'month':
+                time = date.getMonth() + 1
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+            case 'day':
+                time = date.getDate()
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+            case 'hour':
+                time = date.getHours()
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+            case 'minute':
+                time = date.getMinutes()
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+            case 'second':
+                time = date.getSeconds()
+                time = time.toString().length === 2 ? time : ('0' + time)
+                break
+        }
+        return time
+    }
+</script>
+
+</html>

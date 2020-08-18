@@ -1,0 +1,430 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>抄表详情信息页面</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style media="screen">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(243, 243, 243.1);
+        }
+
+        .flex-wrap-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        .header .aui-pull-left {
+            padding-left: 1.2rem;
+        }
+
+        .header .aui-title {
+            font-size: 1.14rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .flex-wrap {
+            width: 100%;
+            background: #fff;
+            /*height: 5.85rem;*/
+            background: rgba(243, 243, 243.1);
+            padding-bottom: 1rem;
+        }
+
+        .aui-bar-nav .aui-pull-right {
+            padding-right: 0.7rem;
+        }
+
+        .aui-btn>img {
+            max-width: 80%;
+        }
+
+        .content {
+            flex: 1;
+            margin-top: 3.5rem;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .section_one {
+            padding: 0.8rem 1.25rem;
+            background: white;
+            padding-bottom: 0.3rem;
+        }
+
+        .aui-card-list .section_one_box .box>div {
+            padding: 0.05rem 0;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(80, 80, 80, 1);
+        }
+
+        .aui-card-list .section_one_box .box>div:first-child {
+            padding-top: 0rem;
+        }
+
+        .aui-card-list .section_one_box .box>div:before {
+            content: "";
+            display: table;
+        }
+
+        .aui-card-list .section_one_box .box>div:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+
+        .aui-card-list .section_one_box .box>div>span:nth-child(1) {
+            overflow: hidden;
+            float: left;
+            text-align: left;
+            width: 50%;
+        }
+
+        .aui-card-list .section_one_box .box>div>span:nth-child(1)>span {
+            position: relative;
+            bottom: -2px;
+            width: 49%;
+            line-height: 0.8rem;
+            display: inline-block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .aui-card-list .section_one_box .box>div>span:nth-child(2) {
+            overflow: hidden;
+            float: right;
+            text-align: left;
+            width: 50%;
+        }
+
+        .aui-card-list .section_one_box .box>div>span:nth-child(2)>span {
+            position: relative;
+            bottom: -2px;
+            width: 49%;
+            line-height: 0.8rem;
+            display: inline-block;
+            overflow-x: auto;
+            white-space: nowrap;
+        }
+
+        .section_two {
+            border-radius: 0.5rem;
+            margin: 0.71rem 0.25rem;
+        }
+
+        .section_two .box>div:first-child {
+            padding-bottom: 0.5rem;
+        }
+
+        .section_two .box>div:first-child span:nth-child(1) {
+            width: 20%!important;
+            line-height: 2rem;
+        }
+
+        .section_two .box>div:first-child span:nth-child(2) {
+            width: 80%!important;
+        }
+        /*.section_two .box>div:nth-child(2) .textdiscript{
+        background: pink;
+      }*/
+        /*.section_two .box>div:nth-child(2) span:nth-child(2){
+        background: red;
+        width: 80%!important;
+      }*/
+
+        .section_two .state div {
+            display: inline-block;
+            background: rgba(0, 210, 123, 1);
+            border-radius: 0.8rem;
+            height: 2rem;
+            line-height: 2rem;
+            width: 7rem;
+            text-align: center;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+        }
+
+        .section_two .box>div:last-child.dunumer span:nth-child(1) {
+            width: 50%;
+            overflow: auto;
+        }
+
+        .section_two .box>div:last-child.dunumer span:nth-child(1) {
+            overflow: auto;
+            position: relative;
+            right: 0;
+            width: 50%;
+        }
+
+        .section_two .box>div:last-child.dunumer span:nth-child(2) {
+            overflow: hidden;
+            position: relative;
+            width: 50%;
+            /*background: pink;*/
+            text-align: left;
+            right: 0;
+        }
+
+        .section_two .box>div:last-child.dunumer .textdiscript {
+            position: absolute;
+            display: inline-block;
+            width: 5rem!important;
+            height: 1.5rem;
+            border-bottom: 1px solid rgba(206, 206, 206, 1);
+        }
+
+        .changeDegrees {
+            border: 1px solid #ccc!important;
+        }
+
+        .imgbox>img {
+            display: block;
+            margin: 0 auto;
+            width: 8.5rem;
+        }
+
+        footer {
+            position: flex;
+            bottom: 2rem;
+        }
+
+        .footer .Allsave {
+            width: 100%;
+            margin: 0 0.25rem;
+        }
+
+        .footer .Allsave>div:active {
+            background: #757575;
+        }
+
+        .footer .Allsave>div {
+            margin: 0 auto;
+            width: 70%;
+            border-radius: 0.5rem;
+            line-height: 2rem;
+            text-align: center;
+            background: rgba(190, 197, 208, 1);
+            padding-top: 0.3rem;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            background: rgba(55, 126, 255, 1);
+            border-radius: 1rem;
+            color: #fff;
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap-box flex-vertical">
+        <header class="aui-bar aui-bar-nav header" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">抄表详情</div>
+            <div class="aui-pull-right aui-btn" tapmode data-action="search">
+                <img src="../../image/MeteReading/cbdatiles/sousuo.png" alt="">
+            </div>
+        </header>
+
+        <div class="content" id="content">
+            <!-- <section class="section_one">
+            <div class="aui-card-list">
+                <div class="section_one_box">
+                    <div class="box">
+                      <div>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 名:{{listdataLst.YHMC}}</div>
+                      <div>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 号:{{listdataLst.YHBH}}</div>
+                      <div id="changeAddressYh">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 址:{{listdataLst.YHDZ}}</div>
+                      <div id="changeAddressSb">水表位置:{{listdataLst.SBWZ}}</div>
+                      <div>用水性质:{{listdataLst.YSXZ}}</div>
+                      <div>
+
+                          <span>用户状态:正常</span>
+
+                        <span>口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 径:{{listdataLst.KJ}}</span>
+                      </div>
+                      <div><span>起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 度:{{listdataLst.QD}}</span></div>
+                      <div>近三月平均用水量:{{listdataLst.JSYPJL}}</div>
+                      <div>近三月水量:{{listdataLst.JSYPJL}}</div>
+                      <div id="changeMobilePhone">手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 机:{{listdataLst.YDDH}}</div>
+                      <div id="changeFixedPhone">固&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 话:{{listdataLst.GDDH}}</div>
+                      <div><span>历史欠费:<span>20004.866</span></span><span>账户余额:<span>{{listdataLst.YCYE}}</span></span></div>
+                      <div><span>水&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费:{{listdataLst.FY}}</span><span>应&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 收:{{listdataLst.FYHJ}}</span></div>
+                      <div>表位图片:
+                        <div class="imgbox"><img src="{{listdataLst.BWTP}}" alt=""></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </section> -->
+        </div>
+        <footer class="footer">
+            <div class="Allsave" tapmode data-action="OpenEdit">
+                <div>编辑</div>
+            </div>
+        </footer>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/template" id="Booksdata">
+    <section class="section_one">
+        <div class="aui-card-list">
+            <div class="section_one_box">
+                <div class="box">
+                    <div>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 名:{{listdataLst.YHMC}}</div>
+                    <div>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 号:{{listdataLst.YHBH}}</div>
+                    <div id="changeAddressYh">地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 址:{{listdataLst.YHDZ}}</div>
+                    <div id="changeAddressSb">水表位置:{{listdataLst.SBWZ}}</div>
+                    <div>用水性质:{{listdataLst.YSXZ}}</div>
+                    <div>
+                        {{if listdataLst.BYXZT!=""}}
+                        <span>用户状态:{{listdataLst.CBZTTEXT}}</span> {{else}}
+                        <span>用户状态:正常</span> {{/if}}
+                        <span>口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 径:{{listdataLst.KJ}}</span>
+                    </div>
+                    <div><span>起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 度:{{listdataLst.QD}}</span></div>
+                    <div>近三月平均用水量:{{listdataLst.JSYPJL}}</div>
+                    <div>近三月水量:{{listdataLst.JSYPJL}}</div>
+                    <div id="changeMobilePhone">手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 机: <a href="tel:{{listdataLst.YDDH}}">{{listdataLst.YDDH}}</a></div>
+                    <div id="changeFixedPhone">固&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 话: <a href="tel:{{listdataLst.GDDH}}">{{listdataLst.GDDH}}</a></div>
+                    <div><span>历史欠费:<span>{{listdataLst.QFJE}}</span></span><span>账户余额:<span>{{listdataLst.YCYE}}</span></span>
+                    </div>
+                    <div><span>水&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费:<span>{{listdataLst.FY}}</span></span><span>应&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 收:<span>{{listdataLst.FYHJ}}</span></span>
+                    </div>
+                    {{if listdataLst.BWTP==" "}}
+                    <div>表位图片:暂无
+                    </div>
+                    {{else}}
+                    <div>表位图片:
+                        <div class="imgbox"><img src="{{listdataLst.BWTP}}" alt="" tapmode data-action="opneImg"></div>
+                    </div>
+                    {{/if}}
+                </div>
+            </div>
+        </div>
+    </section>
+</script>
+<script type="text/javascript">
+    var db, dataList, headerH;
+    apiready = function() {
+        db = api.require("db");
+
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        var footer = $api.byId('footer');
+
+        $api.fixStatusBar(header);
+        // 计算header和tab元素的高度
+        headerH = $api.offset(header).h;
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        $api.fixTabBar(footer);
+        alert(JSON.stringify(api.pageParam))
+        dataList = api.pageParam
+        handleAnnotData(dataList)
+        $("#header .aui-title").text(dataList.YHMC)
+        api.addEventListener({
+            name: 'MeterReadingEdit'
+        }, function(ret, err) {
+            if (ret) {
+
+                var changeAddressYh = "地&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 址:" + ret.value.YHDZ
+                var changeAddressSb = "水表位置:" + ret.value.SBWZ
+                var changeMobilePhone = "手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 机:" + ret.value.YDDH
+                var changeFixedPhone = "固&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 话:" + ret.value.GDDH
+                $("#changeAddressYh").html(changeAddressYh)
+                $("#changeAddressSb").html(changeAddressSb)
+                $("#changeMobilePhone").html(changeMobilePhone)
+                $("#changeFixedPhone").html(changeFixedPhone)
+
+                //  $("#header .aui-title").text(dataList.YHMC)
+            } else {
+                console.log(JSON.stringify(err));
+            }
+        });
+
+    };
+
+    var actionList = {
+        'back': function() {
+            api.closeWin()
+        },
+        'OpenEdit': function() {
+            api.openWin({
+                name: 'MeterReading_Edit',
+                url: './MeterReading_Edit.html',
+                pageParam: dataList
+            });
+
+        },
+        'search': function() {
+            api.openWin({
+                name: 'queryUser',
+                url: './queryUser.html',
+                pageParam: {
+                    name: 'test'
+                }
+            });
+
+        },
+        'opneImg': function() {
+            var path = $(this).attr('src')
+            api.openWin({
+                name: 'photoBrowser_fram',
+                url: './photoBrowser_fram.html',
+                pageParam: {
+                    src: path
+                }
+            });
+        }
+
+    }
+
+    function handleAnnotData(dataList) {
+        var list = {
+            listdataLst: dataList
+        }
+        var str = template('Booksdata', list)
+        $api.append($api.byId('content'), str);
+        fnReady();
+        // operationDom();
+        operationDom();
+        api.hideProgress();
+    }
+</script>
+
+</html>

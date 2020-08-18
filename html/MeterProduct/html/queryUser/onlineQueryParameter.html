@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>在线查询参数</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            background-color: #fff;
+        }
+
+        .center_dv {
+            height: 30px;
+            margin-top: 10px;
+            margin-left: 20px;
+            margin-right: 20px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_one {
+            font-size: 18px;
+            line-height: 30px;
+            color: #8E8E8E;
+        }
+
+        .dv_two {
+            flex: 1;
+            color: #626262;
+            margin-left: 10px;
+            font-size: 18px;
+            line-height: 30px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .font {
+            border-bottom: 1px solid #D8D8D8;
+        }
+
+        .select_dv {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .center_dv2 {
+            flex: 1;
+            color: #000000;
+        }
+
+        input {
+            caret-color: red;
+        }
+
+        .radio {
+            margin-left: 5px;
+            margin-right: 2px;
+        }
+
+        .btnQuery {
+            height: 40px;
+            line-height: 40px;
+            margin-left: 20px;
+            margin-top: 20px;
+            margin-right: 20px;
+            text-align: center;
+            background-color: #2AAEFF;
+            color: #ffffff;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="center_dv">
+        <div class="dv_one">户号：</div>
+        <div class="dv_two font"><input id="YHBH" oninput = "value=value.replace(/[^\d]/g,'')"></div>
+    </div>
+
+    <div class="center_dv">
+        <div class="dv_one">户名：</div>
+        <div class="dv_two font"><input id="YHMC"></div>
+    </div>
+
+    <div class="center_dv">
+        <div class="dv_one">手机：</div>
+        <div class="dv_two font"><input id="YDDH" oninput = "value=value.replace(/[^\d]/g,'')"></div>
+    </div>
+
+    <div class="btnQuery" onclick="query()">查询</div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+
+    };
+
+    function query() {
+        var YHBH = $('#YHBH').val();
+        var YHMC = $('#YHMC').val();
+        var YDDH = $('#YDDH').val();
+
+        api.sendEvent({
+            name: 'onlineMeterRing',
+            extra: {
+                YHBH: YHBH,
+                YHMC: YHMC,
+                YDDH: YDDH,
+            }
+        });
+        api.closeFrame({
+            name: 'onlineQueryParameter'
+        });
+    }
+</script>
+
+</html>

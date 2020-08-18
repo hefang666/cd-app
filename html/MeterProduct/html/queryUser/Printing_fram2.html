@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+        }
+
+        .flex-wrap-box {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            /*flex-direction: row | row-reverse | column | column-reverse;*/
+            flex-direction: column;
+        }
+
+        .header {
+            flex: 1;
+            width: 100%;
+            background: #000;
+            opacity: 0.1;
+        }
+
+        .center {
+            background: #ffffff;
+            opacity: 1;
+            height: 18rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .title {
+            text-align: center;
+            font-size: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .show {
+            flex: 1;
+            border-top: 1px solid #F4F4F4;
+            border-bottom: 1px solid #F4F4F4;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        .center_holie {
+            font-size: 18px;
+            margin-left: 1rem;
+            margin-right: 1rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+            border-top: 1px solid #F4F4F4;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .remove {
+            font-size: 18px;
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            color: #2AAEFF;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap-box">
+        <div class="header"></div>
+        <div class="center">
+            <div class="title">
+                抄表册
+            </div>
+            <div class="show" id="show">
+
+            </div>
+            <div class="remove" onclick="show()">
+                取消
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../../script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id="bookList">
+    {{each list value i}}
+    <div class="center_holie" params="{{value.CBCH}}" tapmode data-action="closeStatse">
+        {{value.CBCMC}}({{value.BBCYHZS}})
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    apiready = function() {
+        queryBook();
+    };
+
+    function queryBook() {
+        var bookList = [];
+        var db = api.require('db');
+        var bookdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_BOOKS_BEAN'
+        });
+        if (bookdata.status) {
+            bookList = bookdata.data;
+            if (bookList.length > 0) {
+                var list = {
+                    list: bookList
+                }
+                var str = template('bookList', list)
+                $api.append($api.byId('show'), str);
+                fnReady();
+                operationDom();
+            }
+        }
+    }
+
+    var actionList = {
+        'closeStatse': function() {
+            api.sendEvent({
+                name: 'closeBooks',
+                extra: {
+                    key1: $(this).attr('params')
+                }
+            });
+            api.closeFrame();
+        }
+    }
+
+    function show() {
+        api.closeFrame();
+    }
+</script>
+
+</html>

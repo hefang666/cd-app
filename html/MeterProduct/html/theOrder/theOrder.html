@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>抄表排序</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            flex-flow: column;
+            display: flex;
+            background-color: #ffffff;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+        }
+
+        #top {
+            display: flex;
+            flex-direction: row;
+            padding-top: 20px;
+        }
+
+        #center {
+            flex: 1;
+            overflow: scroll;
+            margin-top: 5px;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        .input {
+            width: 70px;
+            height: 30px;
+            margin-left: 5px;
+            border-bottom: 1px solid #000000;
+        }
+
+        .border_color {
+            border-bottom: 2px solid red;
+        }
+
+        #one {
+            width: 70px;
+            height: 30px;
+            caret-color: red;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        #two {
+            width: 70px;
+            height: 30px;
+            caret-color: red;
+            text-align: center;
+            font-size: 18px;
+        }
+
+        .dv {
+            display: flex;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .dv:active {
+            background: #dddddd;
+        }
+
+        .dv_1 {
+            width: 80px;
+            line-height: 72px;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        .dv_2 {
+            flex: 1;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv_3 {
+            display: flex;
+        }
+
+        .dv_4 {
+            flex: 1;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">抄表顺序</div>
+        <div class="aui-pull-right aui-btn" data-action='querybook'>
+            <span class="aui-iconfont">抄表册</span>
+        </div>
+    </header>
+    <div id="top">
+        <div id="dv_one" class="input border_color" onclick="one()">
+            <input id="one" type="number" pattern="\d*" />
+        </div>
+        <div style="margin-left:5px;line-height:30px">移至</div>
+        <div id="dv_two" class="input" onclick="two()">
+            <input id="two" type="number" pattern="\d*" />
+        </div>
+        <div style="flex:1;"></div>
+        <div style="margin-right:20px;" onclick="save();">保存</div>
+        <div style="margin-right:10px;" onclick="upload();">上传</div>
+    </div>
+    <div id="center">
+        <!-- <div class="dv" onclick="item(1);">
+            <div class="dv_1">1</div>
+            <div class="dv_2">
+                <div class="dv_3">
+                  <div>户号：</div>
+                  <div class="dv_4">0101000101</div>
+                </div>
+                <div class="dv_3">
+                  <div>户名：</div>
+                  <div class="dv_4">0101000101010100010101010001010101000101010100010101010001010101000101</div>
+                </div>
+                <div class="dv_3">
+                  <div>地址：</div>
+                  <div class="dv_4">0101000101</div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id='userList'>
+    {{each datas value i}}
+    <div class="dv" onclick="item({{i+1}});">
+        <div class="dv_1">{{i+1}}</div>
+        <div class="dv_2">
+            <div class="dv_3">
+                <div>户号：</div>
+                <div class="dv_4">{{value.YHBH}}</div>
+            </div>
+            <div class="dv_3">
+                <div>户名：</div>
+                <div class="dv_4">{{value.YHMC}}</div>
+            </div>
+            <div class="dv_3">
+                <div>地址：</div>
+                <div class="dv_4">{{value.YHDZ}}</div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+
+    var book;
+    var bookList = [];
+    var booksName = [];
+    var userList = [];
+
+    var type = 1;
+    var db;
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+
+        var body = $api.byId('bd');
+        bodyH = $api.offset(body).h;
+        bodyW = $api.offset(body).w;
+        db = api.require("db");
+
+        var pageParam = api.pageParam;
+        $('#top').css('margin-top', '' + headerH + 'px');
+
+        var oInput = document.getElementById("one");
+        oInput.focus();
+
+        //queryUser(pageParam.CBCH);
+        queryBooks();
+        api.addEventListener({
+            name: 'closeBooks'
+        }, function(ret, err){
+            if( ret ){
+              console.log(JSON.stringify(ret))
+              var boocbch = ret.value.key1
+              var userdata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_USER_BEAN where CBCH="' + boocbch + '" ORDER BY CBXH ASC'
+                });
+                if (userdata.status) {
+                    userList = userdata.data;
+
+                    var datas = {
+                        datas: userList
+                    }
+
+                    var str = template('userList', datas);
+                    //console.log(JSON.stringify(str));
+                    $('#center div').remove();
+                    $('#center').append(str);
+                    fnReadyOpenWin();
+                }
+            }else{
+                 alert( JSON.stringify( err ) );
+            }
+        });
+
+    };
+
+    function queryBooks() {
+        bookList = [];
+        booksName = [];
+        var db = api.require('db');
+        //WHERE YXZ>0
+        var bookdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_BOOKS_BEAN'
+        });
+        if (bookdata.status) {
+            bookList = bookdata.data;
+            if (bookList.length > 0) {
+                api.openFrame({
+                    name: 'statselectr_fram',
+                    url: './Printing_fram.html',
+                    rect: {
+                        x: 0,
+                        y: 0,
+                        w: 'auto',
+                        h: 'auto'
+                    },
+                    pageParam: bookList,
+                    bounces: false,
+                    bgColor: 'rgba(243,243,243.1)',
+                    vScrollBarEnabled: true,
+                    hScrollBarEnabled: true,
+                });
+
+            } else {
+                api.toast({
+                    msg: '没有抄表册数据，请下载。',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+        }
+    }
+
+    function one() {
+        $('#dv_one').addClass("border_color");
+        $('#dv_two').removeClass("border_color");
+        type = 1;
+    }
+
+    function two() {
+        $('#dv_one').removeClass("border_color");
+        $('#dv_two').addClass("border_color");
+        type = 2;
+    }
+
+    function item(index) {
+        if (type == 1) {
+            $('#one').val(index);
+        } else {
+            $('#two').val(index);
+        }
+    }
+
+    function save() {
+        var one = $('#one').val();
+        var two = $('#two').val();
+        if (one == "" || two == "") {
+            return;
+        }
+
+        if (one == two) {
+            alert("位置不能相同");
+            return;
+        }
+
+        var db = api.require('db');
+        if (one > 0 && one <= userList.length && two > 0 && two <= userList.length) {
+            var ret = db.executeSqlSync({
+                name: 'CBtest',
+                sql: 'update MRM_USER_BEAN set CBXH="' + userList[two - 1].CBXH + '" where YHBH="' + userList[one - 1].YHBH + '"'
+            })
+            var ret = db.executeSqlSync({
+                name: 'CBtest',
+                sql: 'update MRM_USER_BEAN set CBXH="' + userList[one - 1].CBXH + '" where YHBH="' + userList[two - 1].YHBH + '"'
+            })
+            if (book != null) {
+                var ret = db.executeSqlSync({
+                    name: 'CBtest',
+                    sql: 'update MRM_BOOKS_BEAN set SFTX="1" where CBCH="' + book.CBCH + '"'
+                })
+                book.SFTX = "1";
+                api.toast({
+                    msg: '替换成功',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+                var userdata = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: 'select * from MRM_USER_BEAN where CBCH="' + book.CBCH + '" ORDER BY CBXH ASC'
+                });
+                if (userdata.status) {
+                    userList = userdata.data;
+
+                    var datas = {
+                        datas: userList
+                    }
+
+                    var str = template('userList', datas);
+                    //console.log(JSON.stringify(str));
+                    $('#center div').remove();
+                    $('#center').append(str);
+                    fnReadyOpenWin();
+                }
+            }
+            var one = $('#one').val("");
+            var two = $('#two').val("");
+        } else {
+            alert("顺序输入错误");
+        }
+    }
+
+    function upload() {
+        if (book.SFTX == "1") {
+            var db = api.require('db');
+            var userdata = db.selectSqlSync({
+                name: 'CBtest',
+                sql: 'select * from MRM_USER_BEAN where CBCH="' + book.CBCH + '" ORDER BY CBXH ASC'
+            });
+            if (userdata.status) {
+                var records = [];
+                for (var i = 0; i < userdata.data.length; i++) {
+                    var user = {
+                        "CBCH": userdata.data[i].CBCH,
+                        "YHBH": userdata.data[i].YHBH,
+                        "CBXH": userdata.data[i].CBXH
+                    }
+                    records.push(user);
+                }
+                var Parameter = {
+                    "ClientId": api.deviceId,
+                    "ClientName": api.deviceModel,
+                    "OperatorId": $api.getStorage('cbOperatorId'),
+                    "OperatorName": $api.getStorage('cbOperatorName'),
+                    "Required": "BookId=" + book.CBCH + "&CheckCode=" + book.YZM,
+                    "Type": "204",
+                    "Records": records
+                };
+                var body = {
+                    body: JSON.stringify({
+                        "UserName": $api.getStorage('cbOperatorName'),
+                        "Password": $api.getStorage('cbPassword'),
+                        "SerialNo": dataTime(),
+                        "Method": "R999",
+                        "Parameter": JSON.stringify(Parameter)
+                    })
+                }
+                fnPost('', body, 'application/json', false, function(ret, err) {
+                    if (ret) {
+                        if (ret.Status == 0) {
+                            var ret = db.executeSqlSync({
+                                name: 'CBtest',
+                                sql: 'update MRM_BOOKS_BEAN set SFTX="0" where CBCH="' + book.CBCH + '"'
+                            })
+                            book.SFTX = "1";
+                            api.toast({
+                                msg: '上传成功',
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+                        } else {
+                            api.toast({
+                                msg: ret.Message,
+                                duration: 2000,
+                                location: 'bottom'
+                            });
+
+                        }
+                    } else {
+                        alert(JSON.stringify(err.msg));
+                    }
+                })
+            }
+        } else {
+            api.toast({
+                msg: '调序已上传',
+                duration: 2000,
+                location: 'bottom'
+            });
+        }
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'querybook': function() {
+            queryBooks();
+        }
+    }
+</script>
+
+</html>

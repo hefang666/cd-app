@@ -1,0 +1,19 @@
+/*弹出框的样式*/
+.aui-mask {
+    background: rgba(0, 0, 0, 0.4);
+}
+.aui-dialog {
+    border: 1px solid #eee;
+}
+
+.aui-dialog-body {
+    display: none;
+}
+
+.aui-dialog-header {
+    padding: 0.75rem 0.75rem 0.5rem 0.75rem;
+}
+.aui-mask.aui-mask-in1 {
+    visibility: visible;
+    opacity: 1;
+}

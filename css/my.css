@@ -1,0 +1,49 @@
+.main{
+    overflow: hidden;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 4.2rem;
+    width: -webkit-fill-available;
+    background: #F8F8F8!important;
+}
+.style-color {
+    color: #7164F9;
+}
+.aui-bar-nav {
+    top: 0;
+    z-index: 3;
+    background-color: #F8F8F8;
+    color: rgba(3, 3, 3, 1)!important;
+    font-size: 0.85rem;
+    font-weight: 400;
+    font-stretch: normal;
+    letter-spacing: -0.02rem;
+    position: absolute;
+}
+.aui-bar-nav {
+    top: 0;
+    z-index: 3;
+    background-color: #F8F8F8!important;
+    color: rgba(3, 3, 3, 1);
+    font-size: 0.85rem;
+    font-weight: 400;
+    font-stretch: normal;
+    letter-spacing: -0.02rem;
+}
+.aui-bar-nav .aui-btn .aui-iconfont {
+    color: #333333!important;
+    font-weight: 900;
+    font-size: 0.8rem;
+}
+.aui-bar {
+    position: fixed!important;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    min-height: 2.25rem;
+    font-size: 0.9rem;
+    text-align: center;
+    display: table;
+}

@@ -1,0 +1,476 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>我的frame页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/dialog.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+        }
+
+        header {
+            position: relative;
+            width: 100%;
+            height: 9rem;
+            background: url(../../image/mine_frame/mine_background.png);
+            background-repeat: no-repeat;
+            background-size: cover;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: flex-start;
+        }
+
+        header .aui-content .aui-list,
+        header .aui-content .aui-list .aui-list-item {
+            background-image: none !important;
+            background-color: transparent !important;
+        }
+
+        header .aui-list .aui-list-item-title,
+        header .aui-list .aui-list-item-text {
+            color: #FFF;
+        }
+
+        header .aui-list .aui-list-item-title {
+            font-size: var(--fontsize9) !important;
+        }
+
+        header .aui-list .aui-list-item-text {
+            font-size: var(--fontsize8) !important;
+        }
+
+        header .aui-list .aui-list-item:after {
+            display: none;
+        }
+
+        .aui-list:after {
+            display: none;
+        }
+
+        .aui-list {
+            background-image: none !important;
+        }
+
+        .aui-list-item-arrow:before {
+            border-color: #A2A2A2;
+        }
+        /*图片大小设置*/
+
+        .aui-list .aui-list-item-media {
+            padding: 0;
+            margin-right: 0.5rem;
+        }
+
+        .mine_List .aui-list .aui-list-item-media {
+            width: 1.0rem;
+        }
+
+        .mine_List .aui-list .aui-list-item {
+            min-height: 2.7rem !important;
+            font-size: var(--fontsize75);
+        }
+
+        #head {
+            width: 3rem;
+            height: 3rem;
+            display: -webkit-box !important;
+        }
+
+        .headImgDiv img {
+            height: 100%;
+        }
+
+        .headImgDiv {
+            border: 1px solid;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+
+<body>
+    <header id="header">
+        <div class="aui-content aui-margin-b-15">
+            <ul class="aui-list aui-media-list">
+                <li class="aui-list-item aui-list-item-middle">
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-list-item-media" id="head">
+                            <div class="headImgDiv">
+                                <img src="../../image/mine_frame/mine_head.png" class="aui-img-round">
+                            </div>
+                        </div>
+                        <div class="aui-list-item-inner">
+                            <div class="aui-list-item-text">
+                                <div class="aui-list-item-title aui-font-size-14" id="userName"></div>
+                            </div>
+                            <div class="aui-list-item-text" id="userAccount">
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </header>
+    <div class="aui-content aui-margin-b-15 mine_List">
+        <ul class="aui-list">
+
+            <li class="aui-list-item" tapmode data-action="openMessage">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <img src="../../image/mine_frame/myMessage.png">
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        工作通知
+                    </div>
+                </div>
+            </li>
+
+            <li class="aui-list-item" tapmode data-action="openAlarm">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <img src="../../image/mine_frame/warning.png">
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        报警消息
+                    </div>
+                </div>
+            </li>
+
+            <li class="aui-list-item" tapmode onclick="fnToMyInfo()">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <img src="../../image/mine_frame/myInfo.png">
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        我的资料
+                    </div>
+                </div>
+            </li>
+
+            <li class="aui-list-item" tapmode onclick="fnToMyApp()">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <img src="../../image/mine_frame/myApp.png">
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        我的应用
+                    </div>
+                </div>
+            </li>
+            <!-- <li class="aui-list-item open-win" tapmode win="../mine/helpAndResponse">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <img src="../../image/mine_frame/help.png">
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        帮助与反馈
+                    </div>
+                </div>
+            </li> -->
+            <!-- <li class="aui-list-item open-win" tapmode win="../decision/decision">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <img src="../../image/mine_frame/help.png">
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        数据决策系统
+                    </div>
+                </div>
+            </li> -->
+
+            <!-- <li class="aui-list-item open-win" win="./kaoqin" tapmode>
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <img src="../../image/mine_frame/sign.png" class="aui-list-img-sm">
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        考勤
+                    </div>
+                </div>
+            </li> -->
+
+            <!-- <li class="aui-list-item open-win" win="./amaptest" tapmode>
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <img src="../../image/mine_frame/sign.png" class="aui-list-img-sm">
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                      地图测试
+                    </div>
+                </div>
+            </li> -->
+
+            <li class="aui-list-item" tapmode onclick="fnToSettings()">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <img src="../../image/mine_frame/settings.png">
+                    </div>
+                    <div class="aui-list-item-inner aui-list-item-arrow">
+                        设置
+                    </div>
+                </div>
+            </li>
+
+            <li class="aui-list-item" tapmode onclick="loginOut()">
+                <div class="aui-list-item-inner">
+                    <div class="aui-list-item-media">
+                        <img src="../../image/mine_frame/loginOut.png">
+                    </div>
+                    <div class="aui-list-item-inner">
+                        注销
+                    </div>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript">
+    var myInfoData = {
+        tenantInfo: {},
+        userInfo: {},
+        contactInfo: {}
+    };
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        fnReady();
+        fnReadyOpenWin();
+        getInfo();
+        api.addEventListener({
+            name: 'changedInfo'
+        }, function(ret, err) {
+            getInfo();
+        });
+        api.addEventListener({
+            name: 'refreshMain'
+        }, function(ret, err) {
+            if (ret) {
+                location.reload();
+            }
+        });
+        // 监听是否修改了服务器地址
+        api.addEventListener({
+            name: 'changeApiUrl'
+        }, function(ret, err) {
+            if (ret) {
+                location.reload();
+            }
+        });
+    };
+
+    var actionList = {
+        'openAlarm': function() {
+            api.openWin({
+                name: 'alarm',
+                url: '../message/alarm.html',
+                pageParam: {
+                    from: 'mine'
+                }
+            });
+        },
+        'openMessage': function() {
+            api.openWin({
+                name: 'message',
+                url: '../message/worknotice.html',
+            });
+
+        }
+    }
+
+    //获取租户和用户信息
+    function getInfo() {
+        fnGet('services/app/Home/GetLoginInfo', {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    setUserInfo(ret.result.userInfo, ret.result.tenantInfo);
+                    myInfoData.tenantInfo = ret.result.tenantInfo;
+                    myInfoData.userInfo = ret.result.userInfo;
+                    myInfoData.contactInfo = ret.result.contactInfo;
+                }
+            }
+        })
+    }
+
+    //设置用户名和账户
+    function setUserInfo(data1, data2) {
+        $('#userName').html(data1.trueName);
+        $('#userAccount').html('账号：' + data1.userName);
+        $("#head img").attr('src', apiUrl + data1.avatar);
+        setDefaultImg();
+    }
+
+    //注销操作，清空登录信息，回到登录页面
+    function loginOut() {
+        api.openFrame({
+            name: 'delete_frame',
+            url: '../delete_frame.html',
+            rect: {
+                x: 0,
+                y: 0,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: {
+                msg: '确定退出当前账号吗？',
+                winName: 'main',
+                frameName: 'mine_frame',
+                jsfun: "loginOutSure()"
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0.1)',
+        });
+    }
+
+    //确认退出当前账号
+    function loginOutSure() {
+        var bindData = {
+            userId: myInfoData.userInfo.userId,
+            machineCode: ""
+        }
+        fnPost('services/app/User/UpdateMachineCode', {
+            body: JSON.stringify(bindData)
+        }, 'application/json', true, true, function(ret, err) {
+            api.openWin({
+                name: 'login',
+                url: '../login/login.html',
+                bgColor: '../../image/login/login_backgroud.png',
+                animation: {
+                    type: "reveal", //动画类型（详见动画类型常量）
+                    subType: "from_bottom", //动画子类型（详见动画子类型常量）
+                    duration: 300 //动画过渡时间，默认300毫秒
+                },
+                reload: true,
+                slidBackEnabled: false
+            });
+            // 删除抄表文件 zxf 2020-04-17
+            var fs = api.require('fs');
+            fs.remove({
+                path: 'fs://SntSoft'
+            }, function(ret, err) {
+                if (ret.status) {
+                    // console.log( JSON.stringify( ret ) );
+                }
+            });
+            $api.rmStorage('loginInfo');
+            $api.rmStorage('kfapipath');
+            $api.rmStorage('kfUserId');
+            $api.rmStorage('kfPassWord');
+            $api.rmStorage('kfHeaders');
+            $api.rmStorage('bzapipath');
+            $api.rmStorage('bzUserId');
+            $api.rmStorage('bzPassWord');
+            $api.rmStorage('bzHeaders');
+            $api.rmStorage('cbOperatorId');
+            $api.rmStorage('cbOperatorName');
+            $api.rmStorage('cbPassword');
+            $api.rmStorage('cbOperatorMoblie');
+            //  清除缓存
+            api.clearCache(function() {
+            });
+
+
+            setTimeout(function() {
+                api.closeFrameGroup({
+                    name: 'group'
+                })
+            }, 300);
+        })
+    }
+
+    //头像加载不出来时显示默认头像
+    function setDefaultImg() {
+        $('#head img').attr('onerror', "this.src='../../image/mine_frame/mine_head.png'");
+    }
+
+    //点击我的消息，跳转到消息-站内消息
+    function fnToMyMessage() {
+        var jsfun = 'randomSwitchBtn(2)';
+        api.execScript({
+            name: 'main',
+            script: jsfun
+        });
+    }
+
+    //点击报警消息，跳转到消息-报警消息
+    function fnToWarningMessage() {
+        var jsfun = 'randomSwitchBtn(3)';
+        api.execScript({
+            name: 'main',
+            script: jsfun
+        });
+    }
+
+    //打开我的资料页面
+    function fnToMyInfo() {
+        api.openWin({
+            name: 'myInfo',
+            url: './myInfo.html',
+            pageParam: {
+                myInfoData: myInfoData
+            },
+            // scrollEnabled:false
+        });
+
+    }
+
+    //打开我的应用页面
+    function fnToMyApp() {
+        api.openWin({
+            name: 'myApp',
+            url: './myApp.html',
+            pageParam: {
+                name: 'test'
+            }
+        });
+
+    }
+
+    //打开帮助与反馈页面
+    function fnToHelpAndResponse() {
+        api.openWin({
+            name: 'helpAndResponse',
+            url: './helpAndResponse.html',
+        });
+
+    }
+
+    //打开设置页面
+    function fnToSettings() {
+        api.openWin({
+            name: 'settings',
+            url: './settings.html',
+            pageParam: {
+                name: 'test'
+            },
+            // scrollEnabled:false
+        });
+    }
+</script>
+
+</html>

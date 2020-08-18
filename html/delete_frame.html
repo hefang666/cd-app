@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>删除消息frame页面</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../css/dialog.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+        }
+    </style>
+</head>
+
+<body>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript" src="../script/zepto.js"></script>
+<script type="text/javascript" src="../script/aui-dialog.js"></script>
+<script>
+    var dialog = new auiDialog();
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        //删除弹出确认提示框
+        dialog.alert({
+            title: api.pageParam.msg,
+            buttons: ['确定', '取消']
+        }, function(ret) {
+            if (ret.buttonIndex == 1) {
+                if (api.pageParam.jsfun != "") {
+                    if (api.pageParam.frameName != "") {
+                        api.execScript({
+                            name: api.pageParam.winName,
+                            frameName: api.pageParam.frameName,
+                            script: api.pageParam.jsfun
+                        });
+                    } else {
+                        api.sendEvent({
+                            name: 'deleteMessage',
+                            extra: {}
+                        });
+                    }
+                }
+                setTimeout(function() {
+                    api.closeFrame({});
+                }, 100);
+            } else if (ret.buttonIndex == 2) {
+                setTimeout(function() {
+                    api.closeFrame({});
+                }, 100);
+            }
+        })
+    };
+</script>
+
+</html>

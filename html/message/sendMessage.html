@@ -1,0 +1,461 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>发送消息页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/dialog.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+            display: flex;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 3;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .message {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .aui-list .aui-list-item-inner,
+        .aui-list .aui-list-item {
+            min-height: 0;
+        }
+
+        .aui-list .aui-list-item:active {
+            background-color: transparent;
+        }
+
+        .message .aui-media-list .aui-list-item-inner {
+            font-size: var(--fontsize75) !important;
+            font-weight: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+            padding: 0;
+            display: flex;
+            align-items: flex-start;
+        }
+
+        .message ul li {
+            padding: 0.85rem 0.75rem !important
+        }
+
+        .message ul li:first-child .aui-list-item-inner {
+            padding-right: 1.8rem;
+            align-items: center;
+            justify-content: flex-start;
+        }
+
+        .aui-xs-3,
+        .aui-xs-9 {
+            letter-spacing: -0.02rem;
+            color: #222222;
+        }
+
+        .aui-col-xs-3 {
+            width: 2.8rem;
+        }
+
+        .aui-col-xs-9 {
+            width: calc(100% - 3.75rem);
+        }
+
+        .aui-list textarea {
+            margin: 0.05rem 0;
+            height: auto;
+            color: #666666;
+            margin-left: 0.95rem;
+            font-size: var(--fontsize75) !important;
+            font-weight: normal;
+            letter-spacing: 0rem;
+        }
+
+        .contentText {
+            color: #999999 !important;
+            width: calc( 100% - 5.62rem) !important;
+            margin-left: 1.05rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .contentTitle {
+            color: #333333;
+            width: 2.8rem;
+            height: 1rem;
+            line-height: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .message .aui-list .aui-list-item:last-child {
+            background-image: none !important;
+        }
+
+        .close {
+            width: 0.75rem;
+            height: 0.75rem;
+            background: url(../../image/message_frame/close2.png);
+            background-size: 100% 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .aui-label {
+            border-radius: 0.08rem;
+            border: solid 0.03rem #e5e5e5;
+            font-size: var(--fontsize65);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+            border-radius: 0 !important;
+            padding: 0.33rem 0.4rem !important;
+            margin: 0.1rem 0.3rem 0.1rem 0 !important;
+            background-color: #f0f0f0 !important;
+            color: #333 !important;
+        }
+
+        .aui-label:last-child {
+            margin-right: 0 !important;
+        }
+
+        #recept .aui-list-item-right {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        #recept {
+            margin-left: 0.95rem;
+        }
+
+        .receptName {
+            vertical-align: middle;
+        }
+
+        .choose {
+            position: absolute !important;
+            top: 0;
+            right: 0.75rem;
+            width: 1.02rem;
+            height: 100%;
+            background: url(../../image/message_frame/choose.png);
+            background-size: 1.02rem 0.53rem;
+            background-position: center center;
+            background-repeat: no-repeat;
+            margin-left: 0 !important;
+        }
+
+        footer {
+            background-color: #f0f0f0;
+            padding: 0.6rem 2rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        footer .aui-btn {
+            width: 37.33vw;
+            height: 1.8rem;
+            border-radius: 5rem;
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.08rem;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            outline: none;
+        }
+
+        .sureBtn {
+            background: #4f79e8 !important;
+            color: #fff !important;
+        }
+
+        .cancelBtn {
+            background: #f0f0f0 !important;
+            color: #4f79e8 !important;
+            border: 1px solid #4f79e8 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">发送消息</div>
+    </header>
+    <div class="aui-content message">
+        <ul class="aui-list aui-media-list">
+            <li class="aui-list-item aui-list-item-middle">
+                <div class="aui-list-item-inner">
+                    <div class="aui-col-xs-3"><span style="color:red">*</span>接收人</div>
+                    <div class="aui-col-xs-9" id="recept">
+                    </div>
+                </div>
+                <div class="aui-list-item-right choose" tapmode data-action="openContact"></div>
+            </li>
+            <li class="aui-list-item aui-list-item-middle">
+                <div class="aui-list-item-inner">
+                    <div class="aui-col-xs-3"><span style="color:red">*</span>标&nbsp;&nbsp;&nbsp;题</div>
+                    <textarea class="aui-col-xs-9" rows="1" id="notificationName" placeholder="请输入标题"></textarea>
+                </div>
+            </li>
+            <li class="aui-list-item aui-list-item-middle">
+                <div class="aui-list-item-inner">
+                    <div class="aui-col-xs-3"><span style="color:red">*</span>内&nbsp;&nbsp;&nbsp;容</div>
+                    <textarea class="aui-col-xs-9" rows="1" id="message" placeholder="请输入内容"></textarea>
+                </div>
+            </li>
+
+        </ul>
+    </div>
+    <footer id="footer">
+        <div class="aui-btn sureBtn" tapmode data-action="send">发送</div>
+        <div class="aui-btn cancelBtn" tapmode data-action="cancel">取消</div>
+    </footer>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/template" id="receptList">
+    {{each items value i}}
+    <div class="aui-label"><span class="receptName">{{value.name}}</span>
+        <div class="aui-list-item-right close" tapmode data-action="delete" data-id="{{value.userId}}"></div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var headerH;
+    var tabH;
+    var text1 = document.getElementById("message");
+    var text2 = document.getElementById("notificationName");
+    var dialogShow = false;
+    autoTextarea(text1);
+    autoTextarea(text2);
+    var dialog = new auiDialog();
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        // var text = document.getElementById("message");
+        // autoTextarea(text);
+        var text1 = document.getElementById("message");
+        var text2 = document.getElementById("notificationName");
+        autoTextarea(text1);
+        autoTextarea(text2);
+        // $api.rmStorage('closeToMessage');
+        // $('.closeToWin').hide();
+        // 计算header和tab元素的高度
+        headerH = $api.offset(header).h;
+        fnReady();
+        operationDom();
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            if (!dialogShow) {
+                dialog.alert({
+                    title: "确定退出发送消息？",
+                    buttons: ['确定', '取消']
+                }, function(ret) {
+                    if (ret) {
+                        if (ret.buttonIndex == 1) {
+                            api.closeWin();
+                        } else if (ret.buttonIndex == 2) {
+                            dialogShow = false;
+                        }
+                    }
+                });
+                dialogShow = true;
+            }
+        });
+    };
+
+    var actionList = {
+        'openContact': function() {
+            fnOpenContact();
+        },
+        'back': function() {
+            dialog.alert({
+                title: "确定退出发送消息？",
+                buttons: ['确定', '取消']
+            }, function(ret) {
+                if (ret) {
+                    if (ret.buttonIndex == 1) {
+                        api.closeWin();
+                    }
+                }
+            });
+        },
+        'chooseFile': function() {
+            var selectFile = api.require('selectFile');
+            selectFile.open(function(ret, err) {
+                if (ret.status) {
+                    alert(JSON.stringify(ret.path));
+                } else {
+                    alert('选择文件不存在');
+                }
+            });
+        },
+        'delete': function() {
+            $(this).parent().remove();
+            var id = $(this).attr('data-id');
+            for (var i = 0; i < contactIds.length; i++) {
+                if (contactIds[i] == id) {
+                    contactIds.splice(i, 1);
+                    break;
+                }
+            }
+            for (var i = 0; i < selectedPerson.length; i++) {
+                if (selectedPerson[i].userId == id) {
+                    selectedPerson.splice(i, 1);
+                    break;
+                }
+            }
+        },
+        'send': function() {
+            if (emptyempty($('#notificationName').val())) {
+                api.toast({
+                    msg: '请先输入标题！',
+                    duration: 2000,
+                    location: 'top'
+                });
+                return
+            } else if (emptyempty($('#message').val())) {
+                api.toast({
+                    msg: '请先输入内容！',
+                    duration: 2000,
+                    location: 'top'
+                });
+                return
+            } else if (contactIds.length == 0) {
+                api.toast({
+                    msg: '请先选择接收人！',
+                    duration: 2000,
+                    location: 'top'
+                });
+                return
+            }
+            var sendData = {
+                msgUserIds: contactIds,
+                messageType: 1,
+                notificationName: $('#notificationName').val(),
+                message: $('#message').val(),
+                severity: 0,
+                files: [],
+                isPush: true
+            }
+            fnPost('services/app/Notifier/SendMessage', {
+                body: JSON.stringify(sendData)
+            }, 'application/json', true, false, function(ret, err) {
+                if (ret) {
+                    if (ret.success) {
+                        api.toast({
+                            msg: '发送成功！',
+                            duration: 2000,
+                            location: 'top'
+                        });
+                        setTimeout(function() {
+                            api.closeWin({});
+                        }, 500);
+                    }
+                }
+            })
+        }
+        ,
+        'cancel':function(){
+          api.closeWin();
+        }
+    }
+
+    var contactIds = [];
+    var selectedPerson = [];
+
+    function getSelectedPersons(data) {
+        selectedPerson = data;
+        contactIds = [];
+        for (var i = 0; i < data.length; i++) {
+            contactIds.push(data[i].userId);
+        }
+        var list = {
+            items: data
+        };
+        var str = template('receptList', list);
+        $('#recept').html(str);
+        operationDom();
+        api.parseTapmode();
+    }
+
+    function fnOpenContact() {
+        api.openWin({
+            name: 'contact',
+            url: './contact.html',
+            slidBackEnabled: false,
+            pageParam: {
+                contactIds: contactIds,
+                selectedPerson: selectedPerson
+            }
+        });
+    }
+
+    // function showClose() {
+    //     if ($api.getStorage('closeToMessage')) {
+    //         $('.closeToWin').show();
+    //     } else {
+    //         $('.closeToWin').hide();
+    //     }
+    // }
+
+    // function closeToWin() {
+    //     api.closeToWin({
+    //         name: 'main'
+    //     });
+    //     $api.rmStorage('closeToMessage');
+    // }
+</script>
+
+</html>

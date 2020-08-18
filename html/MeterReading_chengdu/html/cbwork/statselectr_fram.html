@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+        }
+
+        #box {
+            height: 100%;
+            width: 100%;
+            display: flex;
+            flex-flow: column;
+        }
+
+        #box_1 {
+            flex: 2;
+        }
+
+        #box_2 {
+            flex: 2;
+        }
+
+        .body_top {
+            width: 100%;
+            background: #000;
+            opacity: 0.3;
+        }
+
+        #box_3 {
+            flex: 3;
+            flex-flow: column;
+            display: flex;
+            overflow: scroll;
+        }
+
+        #header {
+            width: 100%;
+            height: 60px;
+            line-height: 60px;
+            background: #fff;
+            display: flex;
+            border-bottom: 10px solid #F4F4F4;
+        }
+
+        .header_dv {
+            color: #3E7BF3;
+            font-size: 18px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .header_wile {
+            flex: 1;
+        }
+
+        #center {
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        .center_dv5 {
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 18px;
+            color: #5A5A5A;
+            background: #F4F4F4;
+        }
+    </style>
+</head>
+
+<body id="body">
+    <div id="box">
+        <div id="box_1" class="body_top" onclick="noClose()"></div>
+        <div id="box_2" class="body_top" onclick="noClose()"></div>
+        <div id="box_3">
+            <div id="header">
+                <div class="header_dv aui-hide">取消</div>
+                <div class="header_wile"></div>
+                <div class="header_dv" onclick="no()">取消</div>
+            </div>
+            <div id="center">
+
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id="bookList">
+    {{each list value i}}
+    <div class="center_holie">
+        <div class="center_dv" onclick="alertList({{value.CBZTID}})">
+            <div class="center_dv2" id="noe_name{{value.CBZTID}}">{{value.CBZT}}</div>
+            <div class="center_dv3"><i id="noe_i{{value.CBZTID}}" class="aui-iconfont aui-icon-right"></i></div>
+        </div>
+        <div id="noe_{{value.CBZTID}}" class="center_dv4">
+
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id="book2List">
+    {{each list value i}}
+    <div class="center_dv5" tapmode data-action="closeStatse" params="{{value}}">{{value.MC}}</div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var headerH;
+    var bodyW, bodyH;
+    var METERSTATE = "";
+    var CBZTID = -1;
+    var OneList
+    var LoginName = "";
+    apiready = function() {
+        api.parseTapmode();
+        LoginName = $api.getStorage('loginData').userName;
+
+        show();
+    };
+
+    //一级菜单
+    function show() {
+        var db = api.require("db");
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'select * from MRM_METERSTATE_BEAN where userName="' + LoginName + '"'
+        }, function(ret, err) {
+            if (ret.status) {
+                var dataList = ret.data
+                var list = {
+                    list: dataList
+                }
+                var str = template('book2List', list)
+                $("#center").append(str);
+                fnReady();
+                operationDom();
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+    }
+
+    //二级菜单
+    function show2() {
+        var db = api.require("db");
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'select distinct CBZT, CBZTID from MRM_METERSTATE_BEAN where userName="' + LoginName + '"'
+        }, function(ret, err) {
+            if (ret.status) {
+                var dataList = ret.data
+                var list = {
+                    list: dataList
+                }
+                var str = template('bookList', list)
+                $api.append($api.byId('center'), str);
+                fnReady();
+                // operationDom();
+                operationDom();
+                api.hideProgress();
+                var center = $api.byId('center');
+                OneList = $api.offset(center).h;
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+    }
+
+    var a = 0;
+
+    function alertList(index) {
+        // alert(OneList)
+        if (index == CBZTID) {
+            $(".center_dv2").removeClass("lanse");
+            $(".center_dv3 i").removeClass("aui-icon-down");
+            $(".center_dv3 i").addClass("aui-icon-right");
+            $(".center_dv4 div").remove();
+            CBZTID = -1
+        } else {
+            // 从第二个开始写
+            CBZTID = index;
+            $(".center_dv2").removeClass("lanse");
+            $(".center_dv3 i").removeClass("aui-icon-down");
+            $(".center_dv3 i").addClass("aui-icon-right");
+            $(".center_dv4 div").remove();
+
+            $("#noe_name" + index + "").addClass('lanse');
+            $("#noe_i" + index + "").removeClass('aui-icon-right');
+            $("#noe_i" + index + "").addClass('aui-icon-down');
+
+            var db = api.require("db");
+            db.selectSql({
+                name: 'CBtest',
+                sql: 'select * from MRM_METERSTATE_BEAN where CBZTID="' + index + '" and userName="' + LoginName + '"'
+            }, function(ret, err) {
+                if (ret.status) {
+                    var dataList = ret.data
+                    var list = {
+                        list: dataList
+                    }
+                    var str = template('book2List', list)
+                    $("#noe_" + index + "").append(str);
+                    //$api.append($api.byId("#noe_" + index + ""), str);
+                    fnReady();
+                    // operationDom();
+                    operationDom();
+                    api.hideProgress();
+                } else {
+                    alert(JSON.stringify(err));
+                }
+            });
+        }
+    }
+
+    var actionList = {
+        'closeStatse': function() {
+            $(".center_dv5").removeClass('lanse')
+            $(this).addClass('lanse')
+            METERSTATE = $(this).attr('params');
+            api.sendEvent({
+                name: 'closeStatse',
+                extra: JSON.parse(METERSTATE)
+            });
+            api.closeFrame({});
+        }
+    }
+
+    function no() {
+        api.sendEvent({
+            name: 'closeFrameSelect',
+            extra: {
+                key1: 'value1',
+                key2: 'value2'
+            }
+        });
+        api.closeFrame({});
+    }
+
+    function noClose() {
+        api.closeFrame({});
+    }
+</script>
+
+</html>

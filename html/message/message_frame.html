@@ -1,0 +1,454 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>消息页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+            display: flex;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .aui-list:after {
+            border-top: none;
+        }
+
+        .aui-list .aui-list-item:after {
+            left: 3.27rem;
+        }
+
+        .aui-list .aui-list-item-media {
+            width: 10.4vw;
+            height: 10.4vw;
+            border-radius: 0.67vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0;
+            margin-right: 0.57rem;
+        }
+
+        .aui-media-list-item-inner {
+            align-items: center;
+        }
+
+        .aui-list .aui-list-item-media img {
+            width: initial;
+        }
+
+        .messageDiv {
+            background-color: #3bcd91;
+        }
+
+        .messageDiv img {
+            width: 5.6vw;
+            height: 4.8vw;
+        }
+
+        .workNoticeDiv {
+            background-color: #2eb0fb;
+        }
+
+        .workNoticeDiv img {
+            width: 0.95rem;
+            height: 0.95rem;
+        }
+
+        .alarmDiv {
+            background-color: #fbc902;
+        }
+
+        .alarmDiv img {
+            width: 1rem;
+            height: 1.13rem;
+        }
+
+        .aui-list .aui-list-item {
+            padding: 0.8rem 0;
+            padding-left: 0.75rem;
+        }
+
+        .aui-media-list .aui-list-item-inner {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        .aui-list .aui-list-item-title {
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        .aui-list .aui-list-item-right,
+        .aui-list-item-title-row em {
+            font-size: var(--fontsize6);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+        }
+
+        .aui-list .aui-list-item-inner .aui-list-item-text:last-child {
+            font-size: var(--fontsize65);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .aui-dot {
+            width: auto !important;
+            min-width: 4.27vw !important;
+            height: 4.27vw;
+            background: #ff2600;
+            border-radius: 3rem;
+            position: absolute;
+            top: initial;
+            right: initial;
+            bottom: 12.07vw;
+            left: 11.47vw;
+            z-index: 99;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 2.93vw;
+        }
+
+        .aui-list .aui-list-item {
+            background-position-x: 3.3rem;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        消息
+    </header>
+    <div class="aui-content aui-margin-b-15">
+        <ul class="aui-list aui-media-list">
+            <li class="aui-list-item open-win" tapmode win="message">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-media messageDiv">
+                        <img src="../../image/message_frame/messageIcon.png">
+                    </div>
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-text">
+                            <div class="aui-list-item-title">站内消息</div>
+                            <div class="aui-list-item-right" id="myMessageSendTime"></div>
+                        </div>
+                        <div class="aui-list-item-text" id="myMessage">
+                            没有消息
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item open-win" tapmode win="worknotice">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-media workNoticeDiv">
+                        <img src="../../image/message_frame/workNotice.png">
+                    </div>
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-text">
+                            <div class="aui-list-item-title">工作通知</div>
+                            <div class="aui-list-item-right" id="workNoticeSendTime"></div>
+                        </div>
+                        <div class="aui-list-item-text" id="workNotice">
+                            没有消息
+                        </div>
+                    </div>
+                </div>
+            </li>
+            <li class="aui-list-item open-win" tapmode win="alarm">
+                <div class="aui-media-list-item-inner">
+                    <div class="aui-list-item-media alarmDiv">
+                        <img src="../../image/message_frame/alarmIcon.png">
+                    </div>
+                    <div class="aui-list-item-inner">
+                        <div class="aui-list-item-text">
+                            <div class="aui-list-item-title">报警消息</div>
+                            <div class="aui-list-item-right" id="alarmSendTime"></div>
+                        </div>
+                        <div class="aui-list-item-text" id="alarm">
+                            没有消息
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript">
+    document.body.addEventListener('touchstart', function() {});
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        var ajpush = api.require('ajpush');
+        // api.addEventListener({
+        //     name: 'resume'
+        // }, function(ret, err) {
+        //   ajpush.setListener(
+        //       function(ret) {
+        //           var id = ret.id;
+        //           var title = ret.title;
+        //           var content = ret.content;
+        //           var extra = ret.extra;
+        //
+        //           getList();
+        //       }
+        //   );
+        // })
+        fnReady();
+        getList();
+        // 监听是否修改了服务器地址
+        api.addEventListener({
+            name: 'changeApiUrl'
+        }, function(ret, err) {
+            if (ret) {
+                location.reload();
+            }
+        });
+
+        api.addEventListener({
+            name: 'refreshMain'
+        }, function(ret, err) {
+            if (ret) {
+                location.reload();
+            }
+        });
+
+        api.addEventListener({
+            name: 'changeMessageNum'
+        }, function(ret, err) {
+            getList();
+        });
+    };
+
+    //时间展示，今天不显示年月日，昨天将年月日替换为昨天，今年的只展示月日，非今年展示年月日
+    function getDayName(d) {
+        var td = new Date();
+        td = new Date(td.getFullYear(), td.getMonth(), td.getDate());
+        var od = new Date(d);
+        od = new Date(od.getFullYear(), od.getMonth(), od.getDate());
+        if (od.getFullYear() == td.getFullYear()) {
+            var xc = (od - td) / 1000 / 60 / 60 / 24;
+            if (xc == -1) {
+                return "昨天 ";
+            } else if (xc == 0) {
+                return "";
+            } else {
+                var date = (od.getMonth() + 1) + '/' + od.getDate();
+                return date + ' '
+            }
+        } else {
+            var date = od.getFullYear() + '/' + (od.getMonth() + 1) + '/' + od.getDate();
+            return date + ' '
+        }
+
+    }
+
+
+    //获取角标数量
+    function getReddot() {
+        fnPost('services/app/AppUser/UnreadCountAsync', {
+            body: JSON.stringify({})
+        }, 'application/json', true, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    var alarmNum = ret.result.alarm;
+                    var messageNum = ret.result.website;
+                    var workNum = ret.result.work;
+                    api.sendEvent({
+                        name: 'changeMainNum',
+                        extra: {
+                            data: ret.result
+                        }
+                    });
+                    if (alarmNum != 0) {
+                        var redDot;
+                        if (alarmNum > 99) {
+                            redDot = '<div class="aui-dot" style="padding:0 0.05rem">99+</div>';
+                        } else {
+                            redDot = '<div class="aui-dot">' + alarmNum + '</div>';
+                        }
+                        $('.alarmDiv').parent().append(redDot);
+                    } else {
+                        $('.alarmDiv').parent().find('.aui-dot').remove();
+                    }
+                    if (messageNum != 0) {
+                        var redDot;
+                        if (messageNum > 99) {
+                            redDot = '<div class="aui-dot" style="padding:0 0.05rem">99+</div>';
+                        } else {
+                            redDot = '<div class="aui-dot">' + messageNum + '</div>';
+                        }
+                        $('.messageDiv').parent().append(redDot);
+                    } else {
+                        $('.messageDiv').parent().find('.aui-dot').remove();
+                    }
+                    if (workNum != 0) {
+                        var redDot;
+                        if (workNum > 99) {
+                            redDot = '<div class="aui-dot" style="padding:0 0.05rem">99+</div>';
+                        } else {
+                            redDot = '<div class="aui-dot">' + workNum + '</div>';
+                        }
+                        $('.workNoticeDiv').parent().append(redDot);
+                    } else {
+                        $('.workNoticeDiv').parent().find('.aui-dot').remove();
+                    }
+                }
+            }
+        })
+    }
+
+    //获取站内消息
+    function getMyMessageList() {
+        var url = 'services/app/Message/GetMessageList?MessageType=1&PageIndex=1&MaxResultCount=1';
+        fnGet(url, {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    var data = ret.result.items;
+                    if (data.length != 0) {
+                        var sendTime = data[0].sendTime;
+                        var time = getTime(sendTime);
+                        sendTime = sendTime.replace('T', ' ').replaceAll('-', '/');
+                        sendTime = getDayName(sendTime) + time;
+                        $('#myMessageSendTime').html(sendTime);
+                        $('#myMessage').html(data[0].title);
+                    } else {
+                        $('#myMessageSendTime').html("");
+                        $('#myMessage').html('没有消息');
+                    }
+                }
+            }
+        })
+    }
+
+    //获取工作通知
+    function getWorkNoticeList() {
+        var filter = {
+            messageTypes: [],
+            pageIndex: 1,
+            maxResultCount: 1
+        }
+        fnPost('services/app/MessagePush/SearchMessage', {
+            body: JSON.stringify(filter)
+        }, 'application/json', true, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    if (ret.result.length != 0) {
+                        var data = ret.result[0]
+                        var sendTime = data.sendTime;
+                        var time = getTime(sendTime);
+                        sendTime = sendTime.replace('T', ' ').replaceAll('-', '/');
+                        sendTime = getDayName(sendTime) + time;
+                        $('#workNoticeSendTime').html(sendTime);
+                        var text = ret.result[0].content;
+                        if (data.messageType == 1) {
+                            text = '【OA】' + text;
+                        } else if (data.messageType == 2) {
+                            text = '【报装】' + text;
+                        } else if (data.messageType == 3) {
+                            text = '【客服】' + text;
+                        } else if (data.messageType == 4) {
+                            text = '【报警消息】' + text;
+                        } else if (data.messageType == 5) {
+                            text = '【通知公告】' + text;
+                        }
+                        $('#workNotice').html(text);
+                    } else {
+                        $('#workNoticeSendTime').html("");
+                        $('#workNotice').html('没有消息');
+                    }
+
+                }
+            }
+        })
+    }
+
+    //获取报警消息
+    function getAlarmList() {
+        var url = 'services/app/Message/GetMessageAlarmList?&PageIndex=1&MaxResultCount=1';
+        fnGet(url, {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    var data = ret.result.items;
+                    if (data.length != 0) {
+                        var sendTime = data[0].sendTime;
+                        var time = getTime(sendTime);
+                        sendTime = sendTime.replace('T', ' ').replaceAll('-', '/');
+                        sendTime = getDayName(sendTime) + time;
+                        $('#alarmSendTime').html(sendTime);
+                        $('#alarm').html(data[0].content);
+                    } else {
+                        $('#alarmSendTime').html("");
+                        $('#alarm').html("没有消息");
+                    }
+                }
+            }
+        })
+    }
+
+    function getList() {
+        getMyMessageList();
+        getAlarmList();
+        getWorkNoticeList();
+        getReddot();
+    }
+
+    var actionList = {
+
+    }
+</script>
+
+</html>

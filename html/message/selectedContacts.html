@@ -1,0 +1,410 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>已选人员页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+            -webkit-box-orient: vertical;
+            -webkit-flex-flow: column;
+            flex-flow: column;
+            display: flex;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            border-bottom: 1px solid #dddddd;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .aui-content {
+            position: relative;
+            width: 100%;
+            height: auto;
+        }
+
+        .aui-list {
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        .aui-content ul li,
+        .aui-content ul {
+            background-image: none !important;
+        }
+
+        .aui-content ul li {
+            padding-left: 0 !important;
+        }
+
+        .aui-list-item {
+            background-position: 0 bottom !important;
+        }
+
+        .aui-list .aui-list-item-media {
+            width: 0.95rem;
+            height: 0.95rem;
+            padding: 0;
+            margin-right: 0.6rem;
+        }
+
+        .aui-list-item>.aui-list-item-inner {
+            padding-left: 0.75rem;
+            border-bottom: 1px solid #dddddd;
+            overflow-x: hidden;
+            position: relative;
+            z-index: 1;
+            background-color: #ffffff;
+        }
+
+        .aui-swipe-btn {
+            position: absolute;
+            right: 0;
+            z-index: 0;
+            height: 100%;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-flex: 1;
+            -webkit-box-pack: justify;
+            -webkit-justify-content: space-between;
+            justify-content: space-between;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .aui-swipe-btn .aui-btn {
+            border-radius: 0;
+            height: 100%;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+            cursor: pointer;
+            pointer-events: auto;
+            padding: 0 1.38rem;
+        }
+
+        .donghua {
+            -webkit-transition-duration: 300ms;
+            transition-duration: 300ms;
+        }
+
+        .aui-margin-b-15 {
+            margin-bottom: 0 !important;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">已选<span id="number">0</span>人</div>
+    </header>
+
+    <div class="aui-content aui-margin-b-15" id="selectedContacts">
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner aui-swipe-handle">
+                    <div class="aui-list-item-media imgIcon"><img src="../../image/addApp_frame/delete.png" class="aui-list-img-sm"></div>
+                    <div class="aui-list-item-inner auiText">部门（10人）</div>
+                </div>
+                <div class="aui-swipe-btn">
+                    <div class="aui-btn aui-btn-danger" tapmode data-action="delete" data-param="{{value}}">删除</div>
+                </div>
+            </li>
+
+            <li class="aui-list-item">
+                <div class="aui-list-item-inner aui-swipe-handle">
+                    <div class="aui-list-item-media imgIcon"><img src="../../image/addApp_frame/delete.png" class="aui-list-img-sm"></div>
+                    <div class="aui-list-item-inner auiText">张三</div>
+                </div>
+                <div class="aui-swipe-btn">
+                    <div class="aui-btn aui-btn-danger" tapmode data-action="delete" data-param="{{value}}">删除</div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/aui-list-swipe.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/template" id="selectedList">
+    <ul class="aui-list aui-list-in">
+        {{each orgs value i}}
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner aui-swipe-handle">
+                <div class="aui-list-item-media imgIcon"><img src="../../image/addApp_frame/delete.png" class="aui-list-img-sm"></div>
+                <div class="aui-list-item-inner auiText">{{value.orgName}}（{{value.peopleCount}}人）</div>
+            </div>
+            <div class="aui-swipe-btn">
+                <div class="aui-btn aui-btn-danger" tapmode data-action="delete" data-param="{{value}}">删除</div>
+            </div>
+        </li>
+        {{/each}} {{each persons value i}}
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner aui-swipe-handle">
+                <div class="aui-list-item-media imgIcon"><img src="../../image/addApp_frame/delete.png" class="aui-list-img-sm"></div>
+                <div class="aui-list-item-inner auiText">{{value.name}}</div>
+            </div>
+            <div class="aui-swipe-btn">
+                <div class="aui-btn aui-btn-danger" tapmode data-action="delete" data-param="{{value}}">删除</div>
+            </div>
+        </li>
+        {{/each}}
+    </ul>
+</script>
+<script type="text/javascript">
+    document.body.addEventListener('touchstart', function() {});
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        fnReady();
+        selectedPerson = api.pageParam.selectedPerson;
+        contactData = api.pageParam.contactData;
+        allUsers = api.pageParam.allUsers
+        getSelectedPersonList();
+        $('#number').html(selectedPerson.length);
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            if (ret) {
+                if (changed) {
+                    api.execScript({
+                        name: 'contact',
+                        script: 'getContactList(' + JSON.stringify(selectedPerson) + ',"frame");'
+                    });
+                    setTimeout(function() {
+                        api.closeWin({});
+                    }, 200);
+                } else {
+                    api.closeWin({});
+                }
+            }
+        });
+
+    };
+
+    //设置点击删除图标时的动画效果
+    function setTranslate(el, value) {
+        if (el) el.style.webkitTransform = el.style.transform = "translate3d(" + value + ",0,0)";
+    }
+
+    //点击删除图标时，向左滑动显示删除按钮
+    function showRightBtn() {
+        $('.imgIcon').on('touchstart', function(event) {
+            event = event || window.event;
+            event.stopPropagation();
+            var open = $api.domAll('.aui-swipe-handle');
+            for (var i = 0; i < open.length; i++) {
+                if ($api.hasCls(open[i], 'aui-swipe-opened')) {
+                    setTranslate(open[i], "0px");
+                    $api.removeCls(open[i], 'aui-swipe-opened');
+                }
+            }
+            if ($('.imgIcon').parent().hasClass('aui-swipe-handle')) {
+                var auiSwipe = $(this).parent()[0];
+                var btnWidth = $(this).parent().next()[0].offsetWidth;
+                $(this).parent().addClass('donghua');
+                setTranslate(auiSwipe, "" + -btnWidth + "px");
+                $(this).parent().addClass('aui-swipe-opened');
+            }
+        })
+    }
+
+    //点击除删除图标外的其它区域时，向右滑动隐藏删除图标
+    function hideRightBtn() {
+        $('.aui-swipe-btn').on('touchstart', function(event) {
+            event = event || window.event;
+            event.stopPropagation();
+        });
+        document.addEventListener("touchstart", function() {
+            var open = $api.domAll('.aui-swipe-handle');
+            for (var i = 0; i < open.length; i++) {
+                if ($api.hasCls(open[i], 'aui-swipe-opened')) {
+                    setTranslate(open[i], "0px");
+                    $api.removeCls(open[i], 'aui-swipe-opened');
+                }
+            }
+        });
+    }
+
+    function unique(songs) {
+        var result = {};
+        var finalResult = [];
+        for (var i = 0; i < songs.length; i++) {
+            result[songs[i].userId] = songs[i];
+        }
+        for (item in result) {
+            finalResult.push(result[item]);
+        }
+        return finalResult;
+    }
+
+    var contactData = [];
+    var selectedPerson = [];
+    var allUsers = [];
+    var changed = false;
+    var actionList = {
+        'back': function() {
+            if (changed) {
+                api.execScript({
+                    name: 'contact',
+                    script: 'getContactList(' + JSON.stringify(selectedPerson) + ',"frame");'
+                });
+                setTimeout(function() {
+                    api.closeWin({});
+                }, 200);
+            } else {
+                api.closeWin({});
+            }
+        },
+        'delete': function() {
+            $(this).parents('.aui-list-item').remove();
+            var data = JSON.parse($(this).attr('data-param'));
+            var index;
+            if (data.hasOwnProperty('orgId')) {
+                var testData = selectedPerson;
+                for (var i = 0; i < testData.length; i++) {
+                    if (testData[i].hasOwnProperty('o' + data.orgId)) {
+                        selectedPerson.splice(i, 1);
+                        i--;
+                    }
+                }
+            } else {
+                index = selectedPerson.findIndex(function(p) {
+                    return p.userId == data.userId;
+                });
+                selectedPerson.splice(index, 1);
+            }
+            selectedPerson = unique(selectedPerson);
+            $('#number').html(selectedPerson.length);
+            changed = true;
+        }
+    }
+
+    function getSelectedPersonList() {
+        getOrg(contactData);
+        getOrgUser(org);
+        getUser(orgUser);
+        var list = {
+            orgs: org,
+            persons: user
+        };
+        var str = template('selectedList', list);
+        $('#selectedContacts').html(str);
+        operationDom();
+        showRightBtn();
+        hideRightBtn();
+        api.parseTapmode();
+    }
+
+    var org = [];
+    var user = [];
+
+    function getOrg(data) {
+        for (var index = 0; index < data.length; index++) {
+            var item = data[index];
+            var usercount = 0;
+            //选的人==部门总人数，显示，不递归下一级
+            //选人数
+            for (var n = 0; n < selectedPerson.length; n++) {
+                var element = selectedPerson[n];
+                if (element.hasOwnProperty('o' + item.orgId)) {
+                    usercount += 1;
+                }
+            }
+            if (usercount > 0) {
+                if (usercount == item.peopleCount) {
+                    org.push(item);
+                }
+                if (item.children && item.children.length > 0 && usercount != item.peopleCount) {
+                    getOrg(item.children);
+                }
+            }
+        }
+    }
+
+    var orgUser = [];
+
+    function getOrgUser(data) {
+        for (var index = 0; index < data.length; index++) {
+            var el = data[index];
+            for (var i = 0; i < el.personnels.length; i++) {
+                orgUser.push(el.personnels[i]);
+            }
+            if (el.children && el.children.length > 0) {
+                getOrgUser(el.children);
+            }
+        }
+    }
+
+    function getUser(data) {
+        //data是部门的所有的人
+        var temp = selectedPerson; //选中的人
+        var save = [];
+        for (var index = 0; index < selectedPerson.length; index++) {
+            var el = selectedPerson[index];
+            for (var i = 0; i < data.length; i++) {
+                var e = data[i];
+                if (e.userId == el.userId) {
+                    temp.splice(index, 1);
+                    save.push(el);
+                    index--;
+                    break;
+                }
+            }
+        }
+        user = temp;
+        selectedPerson = temp.concat(save);
+    }
+</script>
+
+</html>

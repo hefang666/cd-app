@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>机构性质页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+        }
+
+        .aui-list .aui-list-item {
+            background-image: none;
+        }
+
+        .aui-radio,
+        .aui-checkbox {
+            width: 0.8rem;
+            height: 0.8rem;
+            margin-right: 0.3rem;
+        }
+
+        .aui-radio:checked,
+        .aui-radio.aui-checked,
+        .aui-checkbox:checked,
+        .aui-checkbox.aui-checked {
+            background-color: #4f79e8;
+            border: solid 1px #4f79e8;
+        }
+
+        .aui-radio:checked:before,
+        .aui-radio.aui-checked:before,
+        .aui-checkbox:checked:before,
+        .aui-checkbox.aui-checked:before,
+        .aui-radio:checked:after,
+        .aui-radio.aui-checked:after,
+        .aui-checkbox:checked:after,
+        .aui-checkbox.aui-checked:after {
+            width: 0.4rem;
+            height: 0.24rem;
+            margin-left: -0.2125rem;
+            margin-top: -0.2125rem;
+        }
+
+        .aui-media-list .aui-list-item-inner {
+            display: block;
+            padding-top: 0.85rem;
+            padding-bottom: 0.85rem;
+            width: calc(100% - 1.1rem);
+        }
+
+        .aui-list .aui-list-item-text {
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+        }
+
+        .aui-content {
+            position: absolute;
+            top: -2000px;
+            width: 100%;
+            -webkit-transition: all 0.35s;
+            transition: all 0.35s;
+        }
+
+        .aui-list {
+            background-image: none;
+            border-top: 1px solid #dddddd;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical aui-bordr-t">
+
+        <div class="aui-content">
+            <ul class="aui-list aui-media-list" id="tenantList">
+                <!-- <li class="aui-list-item aui-list-item-middle">
+                    <div class="aui-media-list-item-inner">
+                        <div class="aui-radio"></div>
+                        <div class="aui-list-item-inner aui-border-b">
+                            <div class="aui-list-item-text">
+                                重庆自来水有限公司
+                            </div>
+                        </div>
+                    </div>
+                </li> -->
+            </ul>
+        </div>
+
+        <div class="flex-con" tapmode data-action="close">
+
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/template" id="tenantTpl">
+    {{each items value i}}
+    <li class="aui-list-item aui-list-item-middle" tapmode data-param="{{value}}" data-action="select">
+        <div class="aui-media-list-item-inner">
+            {{if value.tenantId == tenantId}}
+            <div class="aui-radio aui-checked"></div>
+            {{else}}
+            <div class="aui-radio"></div>
+            {{/if}}
+            <div class="aui-list-item-inner aui-border-b">
+                <div class="aui-list-item-text">
+                    {{value.tenantName}}
+                </div>
+            </div>
+        </div>
+    </li>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    document.body.addEventListener('touchstart', function() {});
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        tenantId = $api.getStorage('tenantId');
+        allTenants = $api.getStorage('allTenants');
+        var list = {
+            items: allTenants,
+            tenantId: tenantId
+        };
+        var str = template('tenantTpl', list);
+        $('#tenantList').html(str);
+        operationDom();
+        api.parseTapmode();
+        $('.aui-content').css('top', '0');
+        fnReady();
+        api.addEventListener({
+            name: 'closeOrgSelectFrm'
+        }, function(ret, err) {
+            if (ret) {
+                closeFrame();
+            }
+        });
+
+    };
+
+    var actionList = {
+        'close': function() {
+            closeFrame();
+        },
+        'select': function() {
+            var data = JSON.parse($(this).attr('data-param'));
+            var loginData = $api.getStorage('loginData');
+            var preList = $(this).prevAll();
+            for (var i = 0; i < preList.length; i++) {
+                $(preList[i]).find('.aui-radio').removeClass('aui-checked');
+            }
+            var nextList = $(this).nextAll();
+            for (var i = 0; i < nextList.length; i++) {
+                $(nextList[i]).find('.aui-radio').removeClass('aui-checked');
+            }
+            if ($(this).find('.aui-radio').hasClass('aui-checked')) {
+                closeFrame();
+            } else {
+                $(this).find('.aui-radio').addClass('aui-checked');
+                loginData.tenantCode = data.tenantCode;
+                loginData.encryptPassword = data.encryptPassword;
+                fnPost('TokenAuth/APPAuthenticate', {
+                    body: JSON.stringify(loginData)
+                }, 'application/json', false, false, function(ret, err) {
+                    if (ret) {
+                        if (ret.success) {
+                            var Authorization = 'Bearer ' + ret.result.accessToken;
+                            $api.setStorage('loginInfo', Authorization);
+                            $api.setStorage('allTenants', ret.result.allTenants);
+                            $api.setStorage('tenantId', ret.result.tenantId);
+                            closeFrame();
+                            api.sendEvent({
+                                name: 'changeApiUrl',
+                            });
+                            api.sendEvent({
+                                name: 'refreshSignalr',
+                            });
+                        }
+                    }
+                })
+            }
+
+        }
+    }
+
+    function closeFrame() {
+        $('.aui-content').css('top', '-2000px');
+        api.sendEvent({
+            name: 'resetArrow',
+        });
+        setTimeout(function() {
+            api.closeFrame({});
+        }, 300);
+    }
+</script>
+
+</html>

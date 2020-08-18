@@ -1,0 +1,396 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>登录页面</title>
+    <link rel="stylesheet" type="text/css" href="./css/api.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: url(./image/login/login_backgroud.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;
+        }
+    </style>
+</head>
+
+<body>
+
+</body>
+<script type="text/javascript" src="./script/api.js"></script>
+<script type="text/javascript" src="./script/common.js"></script>
+<script type="text/javascript" src="./script/kefu/remote.js"></script>
+<script type="text/javascript">
+    var jpush = null,
+        deviceId, db;
+    //统计-app恢复
+    function onResume() {
+        jpush.onResume();
+        // console.log('JPush onResume');
+    }
+    //统计-app暂停
+    function onPause() {
+        jpush.onPause();
+        // console.log('JPush onPause');
+    }
+
+    function checkTime() {
+        var time = moment().format('HH:mm:ss').split(':');
+        var quit = false;
+        if (time[0] > '21' || time[0] < '06') {
+            quit = true;
+        } else if (time[0] == '21') {
+            if (time[1] > '00') {
+                quit = true;
+            } else if (time[1] == '00') {
+                if (time[2] > '00') {
+                    quit = true;
+                }
+            }
+        }
+        return quit
+    }
+
+    function openFrameGroup() {
+        api.openTabLayout({
+            name: 'main',
+            url: 'widget://html/main.html',
+            bounces: false,
+            slidBackEnabled: false,
+            hideTabBar: false,
+            animated: true,
+            tabBar: {
+                height: 50,
+                selectedColor: '#4f79e8',
+                shadow: '#e6e6e6',
+                fontSize: 12,
+                textOffset: 6,
+                scrollEnabled: false,
+                list: [{
+                    text: "首页",
+                    iconPath: "widget://image/main/main.png",
+                    selectedIconPath: "widget://image/main/main_active.png"
+                }, {
+                    text: "消息",
+                    iconPath: "widget://image/main/message.png",
+                    selectedIconPath: "widget://image/main/message_active.png"
+                }, {
+                    text: "我的",
+                    iconPath: "widget://image/main/mine.png",
+                    selectedIconPath: "widget://image/main/mine_active.png"
+                }],
+                frames: [{
+                    name: "main_frame",
+                    url: "widget://html/work/main_frame.html"
+                }, {
+                    name: "message_frame",
+                    url: "widget://html/message/message_frame.html"
+                }, {
+                    name: "mine_frame",
+                    url: "widget://html/mine/mine_frame.html"
+                }]
+            }
+        });
+    }
+
+    function sendLocation() {
+        // if ($api.getStorage('sendLocation')) {
+        //     var Longitude = "";
+        //     var Latitude = "";
+        //     var PostAddress = "";
+        //     bMap.getLocation({
+        //         accuracy: '100m',
+        //         autoStop: true,
+        //         filter: 1
+        //     }, function(ret, err) {
+        //         if (ret.status) {
+        //             Longitude = ret.lon + "";
+        //             Latitude = ret.lat + "";
+        //             bMap.getNameFromCoords({
+        //                 lon: ret.lon,
+        //                 lat: ret.lat
+        //             }, function(ret, err) {
+        //                 if (ret.status) {
+        //                     PostAddress = ret.address;
+        //                     var data = {
+        //                         OrderNo: "",
+        //                         Longitude: Longitude,
+        //                         Latitude: Latitude,
+        //                         PostAddress: PostAddress,
+        //                         Username: ""
+        //                     }
+        //                     fnPost('Request/Post_Address', {
+        //                         body: JSON.stringify(data)
+        //                     }, 'application/json', true, false, function(ret, err) {
+        //
+        //                     })
+        //                 }
+        //             });
+        //         }
+        //     });
+        // }
+    }
+
+    var timer;
+
+    apiready = function() {
+
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        //云修复使用静默修复时，更新完毕事件。可通过监听此事件来通知用户做是否强制重启应用等操作或者提示，以使更新生效，字符串类型如果是提示修复，则不会触发该事件
+        api.addEventListener({
+            name: 'smartupdatefinish'
+        }, function(ret, err) {
+            api.rebootApp();
+        });
+        api.addEventListener({
+            name: 'sendLocation'
+        }, function(ret, err) {
+            if (ret) {
+                clearInterval(timer);
+                if ($api.getStorage('kfUserId') && $api.getStorage('kfUserId') != null) {
+                    sendLocation();
+                }
+                timer = setInterval(function() {
+                    if ($api.getStorage('kfUserId') && $api.getStorage('kfUserId') != null) {
+                        sendLocation();
+                    } else {
+                        clearInterval(timer);
+                    }
+                }, 1800000);
+            }
+        });
+        api.addEventListener({
+            name: 'sendLocationNow'
+        }, function(ret, err) {
+            if (ret) {
+                sendLocation();
+            }
+        });
+        api.getPrefs({        
+            key: 'isFistUse'    
+        }, function(ret, err) {        
+            if (ret.value === '') {            
+                $api.setStorage('sendLocation', true)
+                api.setPrefs({                
+                    key: 'isFistUse',
+                    value: true
+                });        
+            }
+        })
+
+        jpush = api.require('ajpush');
+        api.sendEvent({
+            name: 'pause',
+        });
+        api.sendEvent({
+            name: 'resume',
+        });
+        deviceId = api.deviceId;
+        if (api.systemType == 'ios') {
+            api.setStatusBarStyle({
+                style: 'light',
+                color: 'white'
+            });
+        }
+        jpush.getRegistrationId(function(ret) {
+            var registrationId = ret.id;
+            // console.log(registrationId);
+            // alert(registrationId);
+            // console.log(registrationId);
+            $api.setStorage('registrationId', registrationId);
+        });
+        //setlistener
+        api.addEventListener({
+            name: 'appintent'
+        }, function(ret, err) {
+            // alert('通知被点击，收到数据：\n' + JSON.stringify(ret));//监听通知被点击后收到的数据
+            if ($api.getStorage('loginInfo')) {
+                var extra = ret.appParam.enable;
+                if (extra) {
+                    if (extra.LinkType == 2) {
+                        var winName = extra.LinkUrl;
+                        var index = winName.lastIndexOf('/');
+                        var index2 = winName.indexOf('.html');
+                        if (index != -1 && index2 != -1) {
+                            winName = winName.substring(index + 1, index2);
+                        }
+                        var data = JSON.parse(extra.Data);
+                        api.openWin({
+                            name: winName,
+                            url: extra.LinkUrl,
+                            pageParam: data
+                        });
+                    } else {
+                        api.openWin({
+                            name: 'main',
+                            url: './html/main.html',
+                            bounces: false,
+                            slidBackEnabled: false,
+                        });
+                    }
+                } else {
+                    api.openWin({
+                        name: 'main',
+                        url: './html/main.html',
+                        bounces: false,
+                        slidBackEnabled: false,
+                    });
+                }
+                // openFrameGroup();
+            }
+            onResume(); //监听应用恢复到前台，通知jpush恢复事件
+            // jpush.setBadge({
+            //     badge: 0
+            // });
+            var param = {
+                id: -1
+            };
+            jpush.clearNotification(param, function(ret) {
+                if (ret && ret.status) {
+                    //success
+                }
+            });
+            $api.setStorage("isnoinited", "1"); //前台
+        })
+        api.addEventListener({
+            name: 'noticeclicked'
+        }, function(ret, err) {
+            if ($api.getStorage('loginInfo')) {
+                var extra = ret.appParam.ajpush.extra;
+                if (extra) {
+                    if (extra.LinkType == 2) {
+                        var winName = extra.LinkUrl;
+                        var index = winName.lastIndexOf('/');
+                        var index2 = winName.indexOf('.html');
+                        if (index != -1 && index2 != -1) {
+                            winName = winName.substring(index + 1, index2);
+                        }
+                        var data = JSON.parse(extra.Data);
+                        api.openWin({
+                            name: winName,
+                            url: extra.LinkUrl,
+                            pageParam: data
+                        });
+                    } else {
+                        api.openWin({
+                            name: 'main',
+                            url: './html/main.html',
+                            bounces: false,
+                            slidBackEnabled: false,
+                        });
+                    }
+                } else {
+                    api.openWin({
+                        name: 'main',
+                        url: './html/main.html',
+                        bounces: false,
+                        slidBackEnabled: false,
+                    });
+                }
+                // openFrameGroup();
+            }
+            onResume(); //监听应用恢复到前台，通知jpush恢复事件
+            // jpush.setBadge({
+            //     badge: 0
+            // });
+            var param = {
+                id: -1
+            };
+            jpush.clearNotification(param, function(ret) {
+                if (ret && ret.status) {
+                    //success
+                }
+            });
+            $api.setStorage("isnoinited", "1"); //前台
+        })
+        api.addEventListener({
+            name: 'pause'
+        }, function(ret, err) {
+            onPause(); //监听应用进入后台，通知jpush暂停事件
+            $api.setStorage("isnoinited", "0"); //后台
+        })
+        api.addEventListener({
+            name: 'resume'
+        }, function(ret, err) {
+            onResume(); //监听应用恢复到前台，通知jpush恢复事件
+            // jpush.setBadge({
+            //     badge: 0
+            // });
+            $api.setStorage("isnoinited", "1"); //前台
+            // $api.setStorage('resume', '1');
+        })
+        deviceId = api.deviceId;
+        // console.log(deviceId);
+        var systemType = api.systemType;
+        // console.log(systemType)
+        if (systemType == 'android') {
+
+        } else if (systemType == 'ios') {
+            deviceId = deviceId.replace(/-/g, "");
+            //  alert(deviceId);
+            // console.log(deviceId);
+        }
+        api.getPrefs({        
+            key: 'isNeedWelcome'    
+        }, function(ret, err) {        
+            if (ret.value === '') {            
+                jpush.setBadge({
+                    badge: 0
+                });
+                api.setPrefs({                
+                    key: 'isNeedWelcome',
+                    value: true
+                });        
+            } else {
+
+            }
+        });
+        //判断是否选择了自动登录，若是且有登录信息，直接跳转到主页面
+        if ($api.getStorage('autoLogin') == 1) {
+            if ($api.getStorage('loginInfo')) {
+                api.openWin({
+                    name: 'main',
+                    url: './html/main.html',
+                    bounces: false,
+                    slidBackEnabled: false,
+                });
+                // openFrameGroup();
+            } else {
+                //打开登录frame页面
+                api.openWin({
+                    name: 'login',
+                    url: './html/login/login.html',
+                    slidBackEnabled: false,
+                    bgColor: './image/login/login_backgroud.png'
+                });
+            }
+        } else {
+            //打开登录frame页面
+            api.openWin({
+                name: 'login',
+                url: './html/login/login.html',
+                slidBackEnabled: false,
+                bgColor: './image/login/login_backgroud.png'
+            });
+        }
+        // api.openWin({
+        //     name: 'main',
+        //     url: './html/main.html',
+        //     bounces: false,
+        //     slidBackEnabled: false,
+        // });
+    }
+</script>
+
+</html>

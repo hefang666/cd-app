@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            background-color: #F3F3F3;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #center {
+            flex: 1;
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-bottom: 80px;
+            border-radius: 15px;
+            padding: 20px;
+            background-color: #ffffff;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #ffffff;
+        }
+
+        #btn {
+            width: 80%;
+            height: 40px;
+            margin-left: 10%;
+            margin-top: 10px;
+            border-radius: 20px;
+            background-color: #377EFF;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+            font-size: 18px;
+        }
+
+        .dv {
+            display: flex;
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .dv_value {
+            flex: 1;
+            margin-left: 10px;
+            color: #626262;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        #BWTP img {
+            width: 100px;
+            height: 100px;
+            float: left;
+            margin-right: 20px;
+        }
+
+        #center_bottom {
+            border: 1px solid #ececec;
+            border-radius: 10px;
+        }
+
+        #center_bottom_dv {
+            display: flex;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .active_item {
+            padding-left: 10px;
+            padding-right: 10px;
+            text-align: center;
+            width: 150px;
+            height: 40px;
+            color: #949295;
+            font-size: 16px;
+            line-height: 40px;
+            border-bottom: 1px solid #ececec;
+        }
+
+        .active_item1 {
+            color: #2F7FF6;
+            border-right: 1px solid #ececec;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        .active_item2 {
+            color: #2F7FF6;
+            border-left: 1px solid #ececec;
+            border-right: 1px solid #ececec;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        .active_item3 {
+            color: #2F7FF6;
+            border-left: 1px solid #ececec;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        #center_bottom_dv2 {
+            width: 100%;
+            height: 300px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        #top {
+            /*padding: 10px;*/
+        }
+
+        .center_bottom_dv2_dv {
+            /*margin-top: 10px;*/
+            height: 30px;
+            display: flex;
+            color: #949295;
+            flex-direction: row;
+            text-align: center;
+        }
+        /*.top_first {
+            display: flex;
+            flex-direction: row;
+            text-align: center;
+            margin-bottom: 10px;
+        }*/
+
+        .first_one {
+            flex: 1;
+            padding-left: 10px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .first_one2 {
+            flex: 2;
+            padding-left: 10px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .first_two {
+            flex: 2;
+            padding-left: 10px;
+            padding-right: 10px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .first_three {
+            flex: 2;
+            padding-right: 10px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .first_one div {
+            border-bottom: 1px solid #ececec;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .first_one2 div {
+            border-bottom: 1px solid #ececec;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .first_two div {
+            border-bottom: 1px solid #ececec;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .first_three div {
+            border-bottom: 1px solid #ececec;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .tab {
+            width: 100%;
+            display: flex;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .tab_dv {
+            height: 40px;
+            line-height: 40px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .check {
+            color: #31ACF6;
+            border-bottom: 2px solid #F44681;
+        }
+
+        .top_first {
+            height: 40px;
+            line-height: 40px;
+            display: flex;
+            text-align: center;
+        }
+
+        .top_first div {
+            flex: 1;
+            color: #31ACF6;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .newdv {
+            margin-left: 5px;
+            margin-right: 5px;
+            display: flex;
+            border: 1px solid #ECECEC;
+            margin-bottom: 5px;
+        }
+
+        .newdv div {
+            flex: 1;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .red {
+          color: red;
+        }
+
+        .boder-bottom {
+          border-bottom: 1px solid #F2F2F2;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav header" id="header">
+        <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">抄表详情</div>
+        <div class="aui-pull-right aui-btn" tapmode data-action="search">
+            <img src="../../image/MeteReading/cbdatiles/sousuo.png" alt="">
+        </div>
+    </header>
+    <div id="center">
+        <div class="dv boder-bottom">
+            <div>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;号:</div>
+            <div class="dv_value" id="YHBH"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>户&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名:</div>
+            <div class="dv_value" id="YHMC"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>用户地址:</div>
+            <div class="dv_value" id="YHDZ"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>水表位置:</div>
+            <div class="dv_value" id="SBWZ"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>用水性质:</div>
+            <div class="dv_value" id="YSXZ"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>水表表号:</div>
+            <div class="dv_value" id="SBBH"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径:</div>
+            <div class="dv_value" id="KJ"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度:</div>
+            <div class="dv_value" id="QD"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>用户状态:</div>
+            <div class="dv_value" id="YHZT"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>是否审核:</div>
+            <div class="dv_value" id="SFSH"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>近3期水量:</div>
+            <div class="dv_value" id="JSYYSL"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>手&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;机:</div>
+            <div class="dv_value" id="YDDH"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>固&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;话:</div>
+            <div class="dv_value" id="GDDH"></div>
+        </div>
+        <div class="dv boder-bottom">
+            <div>近三月平均水量:</div>
+            <div class="dv_value" id="JSYPJL"></div>
+        </div>
+        <!-- <div class="dv">
+            <div>水&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费</div>
+            <div class="dv_value" id="FY"></div>
+        </div> -->
+        <div class="dv boder-bottom">
+            <div>欠&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;费:</div>
+            <div class="dv_value" id="QFJE"></div>
+        </div>
+        <!-- <div class="dv">
+            <div>应&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;收</div>
+            <div class="dv_value" id="FYHJ"></div>
+        </div>
+        <div class="dv">
+            <div>表位图片</div>
+        </div> -->
+        <div id="BWTP">
+
+        </div>
+
+        <div id="center_bottom">
+            <!-- <div id="center_bottom_dv">
+                <div class="active_item active_item1" data-action="openFramGroup2">近期抄表</div>
+                <div class="active_item" data-action="openFramGroup2">近期缴费</div>
+                <div class="active_item" data-action="openFramGroup2">欠费记录</div>
+                <div class="active_item" data-action="openFramGroup2">换表记录</div>
+            </div> -->
+            <div class="tab">
+                <div class="tab_dv check" data-action="openFramGroup">近期抄表</div>
+                <div class="tab_dv" data-action="openFramGroup">近期缴费</div>
+                <div class="tab_dv" data-action="openFramGroup">欠费信息</div>
+                <div class="tab_dv" data-action="openFramGroup">换表记录</div>
+            </div>
+            <div id="center_bottom_dv2">
+                <!-- <div id="top">
+                    <div class="top_first">
+                        <div class="first_one">序号</div>
+                        <div class="first_two">抄表时间</div>
+                        <div class="first_three">抄表读数</div>
+                    </div>
+                </div>
+
+                <div class="center_bottom_dv2_dv">
+                    <div class="first_one">
+                        <div>1</div>
+                    </div>
+                    <div class="first_two">
+                        <div>20200218</div>
+                    </div>
+                    <div class="first_three">
+                        <div>1630</div>
+                    </div>
+                </div> -->
+
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div id="btn" tapmode data-action="OpenEdit">编&nbsp;&nbsp;辑</div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id='recentReaderList'>
+    <!-- <div id="top">
+        <div class="top_first">
+            <div class="first_one">序号</div>
+            <div class="first_two">抄表时间</div>
+            <div class="first_three">抄表读数</div>
+            <div class="first_one">状态</div>
+        </div>
+    </div>
+    {{each datas value i}}
+    <div class="center_bottom_dv2_dv">
+        <div class="first_one">
+            <div>{{i+1}}</div>
+        </div>
+        <div class="first_two">
+            <div>{{value.CBRQ}}</div>
+        </div>
+        <div class="first_three">
+            <div>{{value.ZD}}</div>
+        </div>
+        <div class="first_one">
+            <div>{{value.SBZT}}</div>
+        </div>
+    </div>
+    {{/each}} -->
+    <div class="top_first">
+        <div>序号</div>
+        <div>抄表时间</div>
+        <div>抄表读数</div>
+        <div>状态</div>
+    </div>
+    {{each datas value i}}
+    <div class="newdv">
+        <div class="RQ">{{i+1}}</div>
+        <div class="QD">{{value.CBRQ}}</div>
+        <div class="ZD">{{value.ZD}}</div>
+        <div class="ZT">{{value.SBZT}}</div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id='recentPayList'>
+    <!-- <div id="top">
+        <div class="top_first">
+            <div class="first_one">序号</div>
+            <div class="first_two">缴费时间</div>
+            <div class="first_three">缴费金额</div>
+        </div>
+    </div>
+    {{each datas value i}}
+    <div class="center_bottom_dv2_dv">
+        <div class="first_one">
+            <div>{{i+1}}</div>
+        </div>
+        <div class="first_two">
+            <div>{{value.JFSJ.slice(0,8)}}</div>
+        </div>
+        <div class="first_three">
+            <div>{{value.SFJE}}</div>
+        </div>
+    </div>
+    {{/each}} -->
+    <div class="top_first">
+        <div>序号</div>
+        <div>缴费时间</div>
+        <div>金额</div>
+    </div>
+    {{each datas value i}}
+    <div class="newdv">
+        <div>{{i+1}}</div>
+        <div>{{value.JFSJ.slice(0,8)}}</div>
+        <div>{{value.SFJE}}</div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id='arrearageInfoList'>
+    <!-- <div id="top">
+        <div class="top_first">
+            <div class="first_one2">抄表月份</div>
+            <div class="first_two">欠费水量</div>
+            <div class="first_three">欠费金额</div>
+        </div>
+    </div>
+    {{each datas value i}}
+    <div class="center_bottom_dv2_dv">
+        <div class="first_one2">
+            <div>{{value.CBYF}}</div>
+        </div>
+        <div class="first_two">
+            <div>{{value.CBSL}}</div>
+        </div>
+        <div class="first_three">
+            <div>{{value.QFJE}}</div>
+        </div>
+    </div>
+    {{/each}} -->
+    <div class="top_first">
+        <div>抄表月份</div>
+        <div>欠费水量</div>
+        <div>欠费金额</div>
+    </div>
+    {{each datas value i}}
+    <div class="newdv">
+        <div>{{value.CBYF}}</div>
+        <div>{{value.CBSL}}</div>
+        <div>{{value.QFJE}}</div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id='meterChangeList'>
+    <!-- <div id="top">
+        <div class="top_first">
+            <div class="first_one">序号</div>
+            <div class="first_two">换表时间</div>
+            <div class="first_three">新表起度</div>
+        </div>
+    </div>
+    {{each datas value i}}
+    <div class="center_bottom_dv2_dv">
+        <div class="first_one">
+            <div>{{i+1}}</div>
+        </div>
+        <div class="first_two">
+            <div>{{value.REPLACEDTIME}}</div>
+        </div>
+        <div class="first_three">
+            <div>{{value.OLDAMOUNT}}</div>
+        </div>
+    </div>
+    {{/each}} -->
+    <div class="top_first">
+        <div>序号</div>
+        <div>换表时间</div>
+        <div>新表起度</div>
+    </div>
+    {{each datas value i}}
+    <div class="newdv">
+        <div>{{i+1}}</div>
+        <div>{{value.REPLACEDTIME}}</div>
+        <div>{{value.OLDAMOUNT}}</div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var db, dataList, headerH;
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+
+        $('#center').css('margin-top', '' + (headerH + 20) + 'px');
+        dataList = api.pageParam;
+        db = api.require("db");
+
+        getMRDetail();
+
+        api.addEventListener({
+            name: 'informationDataRefresh'
+        }, function(ret, err) {
+            getMRDetail();
+        });
+
+
+        $("#header .aui-title").text(dataList.YHMC)
+        api.addEventListener({
+            name: 'swiperight'
+        }, function(ret, err) {
+            api.closeWin()
+        });
+
+        querysfsh();
+        RecentReader();
+        //RecentPay();
+        //ArrearageInfo();
+        //MeterChange();
+    };
+
+    function getMRDetail() {
+        db.selectSql({
+            name: 'CBtest',
+            sql: "SELECT * FROM MRM_USER_BEAN WHERE YHBH ='" + dataList.YHBH + "' AND userName ='" + $api.getStorage('loginData').userName + "'"
+        }, function(ret, err) {
+            if (ret.status) {
+                dataList = ret.data[0];
+                handleAnnotData(ret.data[0]);
+            } else {
+                console.log(JSON.stringify(err));
+            }
+        });
+    }
+
+    //获取审核状态
+    function querysfsh() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "yhbh=" + dataList.YHBH + "",
+            "Type": "156"
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    if (Data.length > 0) {
+                        if (Data.SFSH == "0") {
+                            $("#SFSH").text("未审核");
+                            $("#SFSH").addClass("red");
+                        } else {
+                            $("#SFSH").text("已审核");
+                        }
+                    } else {
+                        $("#SFSH").text("未审核");
+                        $("#SFSH").addClass("red");
+                    }
+                } else {
+                    $("#SFSH").text("未审核");
+                    $("#SFSH").addClass("red");
+                }
+            } else {
+                $("#SFSH").text("未审核");
+                $("#SFSH").addClass("red");
+            }
+        })
+    }
+
+    //获取近期抄表
+    function RecentReader() {
+        //0500032700
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "yhbh=" + dataList.YHBH + "",
+            "Type": "121"
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data == null || Data.length == 0) {
+                        $('#center_bottom_dv2 div').remove();
+                        $('#center_bottom_dv2').append("<div style='text-align: center;'>没有近期抄表记录</div>");
+                    } else {
+                        var datas = {
+                            datas: Data
+                        }
+
+                        var str = template('recentReaderList', datas);
+                        //console.log(JSON.stringify(str));
+                        $('#center_bottom_dv2 div').remove();
+                        $('#center_bottom_dv2').append(str);
+                        fnReadyOpenWin();
+                    }
+                } else {
+                    $('#center_bottom_dv2 div').remove();
+                    $('#center_bottom_dv2').append("<div style='text-align: center;'>" + ret.Message + "</div>");
+                }
+            } else {
+                $('#center_bottom_dv2 div').remove();
+                $('#center_bottom_dv2').append("<div style='text-align: center;'>没有近期抄表记录</div>");
+            }
+            var liset = $('.newdv');
+            for (var i = 0; i < liset.length; i += 2) {
+                liset.eq(i).css("background-color", "#D0EBFC");
+            }
+        })
+    }
+
+    //获取近期缴费
+    function RecentPay() {
+        //0500032700
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "yhbh=" + dataList.YHBH + "",
+            "Type": "122"
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data == null || Data.length == 0) {
+                        $('#center_bottom_dv2 div').remove();
+                        $('#center_bottom_dv2').append("<div style='text-align: center;'>没有近期缴费记录</div>");
+                    } else {
+                        var datas = {
+                            datas: Data
+                        }
+
+                        var str = template('recentPayList', datas);
+                        //console.log(JSON.stringify(str));
+                        $('#center_bottom_dv2 div').remove();
+                        $('#center_bottom_dv2').append(str);
+                        fnReadyOpenWin();
+                    }
+                } else {
+                    $('#center_bottom_dv2 div').remove();
+                    $('#center_bottom_dv2').append("<div style='text-align: center;'>" + ret.Message + "</div>");
+                }
+            } else {
+                $('#center_bottom_dv2 div').remove();
+                $('#center_bottom_dv2').append("<div style='text-align: center;'>没有近期缴费记录</div>");
+            }
+            var liset = $('.newdv');
+            for (var i = 0; i < liset.length; i += 2) {
+                liset.eq(i).css("background-color", "#D0EBFC");
+            }
+        })
+    }
+
+    //获取欠费记录
+    function ArrearageInfo() {
+        //0500032700
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "yhbh=" + dataList.YHBH + "",
+            "Type": "123"
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data == null || Data.length == 0) {
+                        $('#center_bottom_dv2 div').remove();
+                        $('#center_bottom_dv2').append("<div style='text-align: center;'>没有欠费记录</div>");
+                    } else {
+                        var datas = {
+                            datas: Data
+                        }
+
+                        var str = template('arrearageInfoList', datas);
+                        //console.log(JSON.stringify(str));
+                        $('#center_bottom_dv2 div').remove();
+                        $('#center_bottom_dv2').append(str);
+                        fnReadyOpenWin();
+                    }
+                } else {
+                    $('#center_bottom_dv2 div').remove();
+                    $('#center_bottom_dv2').append("<div style='text-align: center;'>" + ret.Message + "</div>");
+                }
+            } else {
+                $('#center_bottom_dv2 div').remove();
+                $('#center_bottom_dv2').append("<div style='text-align: center;'>没有欠费记录</div>");
+            }
+            var liset = $('.newdv');
+            for (var i = 0; i < liset.length; i += 2) {
+                liset.eq(i).css("background-color", "#D0EBFC");
+            }
+        })
+    }
+
+    //获取换表记录
+    function MeterChange() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "yhbh=" + dataList.YHBH + "",
+            "Type": "134"
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data == null || Data.length == 0) {
+                        $('#center_bottom_dv2 div').remove();
+                        $('#center_bottom_dv2').append("<div style='text-align: center;'>没有换表记录</div>");
+                    } else {
+                        var datas = {
+                            datas: Data
+                        }
+
+                        var str = template('meterChangeList', datas);
+                        //console.log(JSON.stringify(str));
+                        $('#center_bottom_dv2 div').remove();
+                        $('#center_bottom_dv2').append(str);
+                        fnReadyOpenWin();
+                    }
+                } else {
+                    $('#center_bottom_dv2 div').remove();
+                    $('#center_bottom_dv2').append("<div style='text-align: center;'>" + ret.Message + "</div>");
+                }
+            } else {
+                $('#center_bottom_dv2 div').remove();
+                $('#center_bottom_dv2').append("<div style='text-align: center;'>没有换表记录</div>");
+            }
+            var liset = $('.newdv');
+            for (var i = 0; i < liset.length; i += 2) {
+                liset.eq(i).css("background-color", "#D0EBFC");
+            }
+        })
+    }
+
+    function handleAnnotData(dataList) {
+        $("#YHBH").text(dataList.YHBH);
+        $("#YHMC").text(dataList.YHMC);
+        $("#YHDZ").text(dataList.YHDZ);
+        $("#SBWZ").text(dataList.SBWZ);
+        $("#YSXZ").text(dataList.YSXZ);
+        $("#SBBH").text(dataList.SBBH);
+        $("#KJ").text(dataList.KJ);
+        $("#QD").text(dataList.QD);
+        if (dataList.BYXZT != "") {
+            $("#YHZT").text(dataList.CBZTTEXT);
+        } else {
+            $("#YHZT").text("正常");
+        }
+        $("#JSYYSL").text(dataList.JSYYSL);
+        $("#YDDH").html('<a href="tel:' + dataList.YDDH + '">' + dataList.YDDH + '</a>');
+        $("#GDDH").html('<a href="tel:' + dataList.GDDH + '">' + dataList.GDDH + '</a>');
+        console.log(dataList.JSYYSL);
+        if (dataList.JSYYSL != null && dataList.JSYYSL != 'null' && dataList.JSYYSL != "" && dataList.JSYYSL != " ") {
+            var JSYYSL = dataList.JSYYSL;
+            var JSYPJLs = JSYYSL.split("/");
+            var JSYPJL = (parseInt(JSYPJLs[0]) + parseInt(JSYPJLs[1]) + parseInt(JSYPJLs[2])) / 3;
+            $("#JSYPJL").text(parseInt(JSYPJL));
+        }
+        //$("#JSYPJL").text(dataList.JSYPJL);
+
+        $("#FY").text(dataList.FY);
+        $("#QFJE").text(dataList.QFJE);
+        $("#FYHJ").text(dataList.FYHJ);
+        if (dataList.BWTP != null && dataList.BWTP != "" && dataList.BWTP != " ") {
+            $("#BWTP").html('a<img src="' + dataList.BWTP + '" alt="" tapmode data-action="opneImg">');
+        }
+
+
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin()
+        },
+        'OpenEdit': function() {
+            api.openWin({
+                name: 'MeterReading_Edit',
+                url: './MeterReading_Edit.html',
+                pageParam: dataList
+            });
+
+        },
+        'search': function() {
+            api.openWin({
+                name: 'queryUser',
+                url: './queryUser.html',
+                pageParam: {
+                    name: 'test'
+                }
+            });
+
+        },
+        'opneImg': function() {
+            var path = $(this).attr('src')
+            api.openWin({
+                name: 'photoBrowser_fram',
+                url: './photoBrowser_fram.html',
+                pageParam: {
+                    src: path
+                }
+            });
+        },
+        'openFramGroup': function() {
+            var index = $(this).index();
+            index = parseInt(index, 10);
+
+            $('.tab_dv').removeClass('check');
+            $('.tab_dv').eq(index).addClass('check');
+
+            if (index == 0) {
+                RecentReader();
+            } else if (index == 1) {
+                RecentPay();
+            } else if (index == 2) {
+                ArrearageInfo();
+            } else if (index == 3) {
+                MeterChange();
+            }
+        },
+        'openFramGroup2': function() {
+            var index = $(this).index();
+            index = parseInt(index, 10);
+
+            $('.active_item').removeClass('active_item1');
+            $('.active_item').removeClass('active_item2');
+            $('.active_item').removeClass('active_item3');
+
+            if (index == 0) {
+                $('.active_item').eq(index).addClass('active_item1');
+            } else if (index == 4) {
+                $('.active_item').eq(index).addClass('active_item3');
+            } else {
+                $('.active_item').eq(index).addClass('active_item2');
+            }
+
+            // api.setFrameGroupIndex({
+            //     name: 'group',
+            //     index: index,
+            //     scroll: true,
+            //     reload: false
+            // });
+            if (index == 0) {
+                RecentReader();
+            } else if (index == 1) {
+                RecentPay();
+            } else if (index == 2) {
+                ArrearageInfo();
+            } else if (index == 3) {
+                MeterChange();
+            }
+            //RecentReader();
+            //RecentPay();
+            //ArrearageInfo();
+            //MeterChange();
+        }
+    }
+
+    function qfxq() {
+        api.openWin({
+            name: 'queryOffline',
+            url: '../queryUser/queryOffline.html',
+            slidBackEnabled: false,
+            pageParam: {
+                YHBH: dataList.YHBH
+            }
+        });
+    }
+</script>
+
+</html>

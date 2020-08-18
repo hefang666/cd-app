@@ -1,0 +1,306 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>我的审批首页页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #f5f5f5;
+        }
+
+        .flex-con {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #999;
+            font-weight: 900;
+        }
+
+        .btnBar {
+            background-color: #fff;
+            display: flex;
+            justify-content: space-between;
+            padding: 0.9rem 1.6rem;
+            font-size: 0.7rem;
+            font-family: PingFangSC-Regular;
+            font-weight: 400;
+            letter-spacing: 0.02rem;
+            color: #333333;
+            margin-bottom: 0.5rem;
+            text-align: center;
+        }
+
+        .myApprove,
+        .myInitiate,
+        .myCopy {
+            width: 2rem;
+            height: 2rem;
+            margin: auto;
+            background-size: 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+
+        .btnDiv:active {
+            background-color: #f5f5f5;
+        }
+
+        .myApprove {
+            background-image: url(../../image/approve/myApprove.png);
+        }
+
+        .myInitiate {
+            background-image: url(../../image/approve/myInitiate.png);
+        }
+
+        .myCopy {
+            background-image: url(../../image/approve/myCopy.png);
+        }
+
+        .aui-card-list-header .downArrow {
+            width: 1rem;
+            height: 0.57rem;
+            display: inline-block;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .upArrow {
+            -webkit-transform: rotate(-180deg);
+            transform: rotate(-180deg);
+        }
+
+        .aui-card-list-content,
+        .aui-card-list-content-padded {
+            padding: 0.75rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .card {
+            flex-shrink: 0;
+            width: 5rem;
+            height: 5rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #cccccc;
+            color: #333;
+            padding: 0 0.7rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <header class="aui-bar aui-bar-nav" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action="back">
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">审批</div>
+        </header>
+        <div class="btnBar">
+            <div class="btnDiv" tapmode data-action="openMyApprove">
+                <div class="myApprove"></div>
+                <span>我审批的</span>
+            </div>
+            <div class="btnDiv" tapmode data-action="openMyInitiate">
+                <div class="myInitiate"></div>
+                <span>我发起的</span>
+            </div>
+            <div class="btnDiv" tapmode data-action="openMyCopy">
+                <div class="myCopy"></div>
+                <span>抄送我的</span>
+            </div>
+        </div>
+        <div class="flex-con">
+            <div class="aui-card-list">
+                <div class="aui-card-list-header" tapmode data-action="hideCard">客服系统
+                    <div class="imgDiv">
+                        <img src="../../image/main_frame/downarrow.png" class="downArrow" />
+                    </div>
+                </div>
+                <div class="aui-card-list-content">
+                    <div class="card">
+                        创建工单
+                    </div>
+                </div>
+            </div>
+
+            <div class="aui-card-list">
+                <div class="aui-card-list-header" tapmode data-action="hideCard">报装系统
+                    <div class="imgDiv">
+                        <img src="../../image/main_frame/downarrow.png" class="downArrow" />
+                    </div>
+                </div>
+                <div class="aui-card-list-content">
+                    <div class="card">
+                        新装表申请
+                    </div>
+                    <div class="card">
+                        更名申请
+                    </div>
+                    <div class="card">
+                        新增用水计划申请
+                    </div>
+                    <div class="card">
+                        过户申请
+                    </div>
+                    <div class="card">
+                        用水性质变更申请
+                    </div>
+                    <div class="card">
+                        改扩建申请
+                    </div>
+                    <div class="card">
+                        销户申请
+                    </div>
+                </div>
+            </div>
+
+            <div class="aui-card-list">
+                <div class="aui-card-list-header" tapmode data-action="hideCard">办公自动化系统
+                    <div class="imgDiv">
+                        <img src="../../image/main_frame/downarrow.png" class="downArrow" />
+                    </div>
+                </div>
+                <div class="aui-card-list-content">
+                    <div class="card">
+                        劳动合同申请
+                    </div>
+                    <div class="card">
+                        档案阅读申请
+                    </div>
+                    <div class="card">
+                        加班申请
+                    </div>
+                    <div class="card">
+                        离职申请
+                    </div>
+                    <div class="card">
+                        退休申请
+                    </div>
+                    <div class="card">
+                        股权变更申请
+                    </div>
+                    <div class="card">
+                        外出申请
+                    </div>
+                    <div class="card">
+                        用印申请
+                    </div>
+                    <div class="card">
+                        用车申请
+                    </div>
+                    <div class="card">
+                        福利待遇申请
+                    </div>
+                    <div class="card">
+                        接待申请
+                    </div>
+                    <div class="card">
+                        请假申请
+                    </div>
+                    <div class="card">
+                        出差申请
+                    </div>
+                    <div class="card">
+                        请示报告申请
+                    </div>
+                    <div class="card">
+                        外出作业申请
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/moment.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        api.parseTapmode();
+        fnReady();
+    };
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'hideCard': function() {
+            $(this).find('.downArrow').toggleClass('upArrow');
+            if ($(this).find('.downArrow').hasClass('upArrow')) {
+                $(this).next().hide();
+            } else {
+                $(this).next().show();
+            }
+        },
+        'openMyApprove': function() {
+            api.openWin({
+                name: 'myApprove',
+                url: './myApprove.html',
+                pageParam: {
+                    name: 'test'
+                }
+            });
+        },
+        'openMyInitiate': function() {
+            api.openWin({
+                name: 'myInitiate',
+                url: './myInitiate.html',
+                pageParam: {
+                    name: 'test'
+                }
+            });
+        },
+        'openMyCopy': function() {
+            api.openWin({
+                name: 'myCopy',
+                url: './myCopy.html',
+                pageParam: {
+                    name: 'test'
+                }
+            });
+        },
+    }
+</script>
+
+</html>

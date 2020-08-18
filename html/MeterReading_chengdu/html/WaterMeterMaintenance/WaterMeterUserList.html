@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            flex-flow: column;
+            display: flex;
+            background-color: #fff;
+        }
+
+        #header {
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #center {
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+        }
+
+        #dv {
+            width: 100%;
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        .dv {
+            width: 100%;
+            border-bottom: 2px solid #F3F3F3;
+            display: flex;
+            flex-direction: row;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        #dv_left {
+            width: 35px;
+            height: 100%;
+            font-size: 18px;
+            margin-top: 5px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        #dv_right {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 5px;
+        }
+
+        .dv_1 {
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .dv_1_dv1 {
+            flex: 1;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+            /*white-space: nowrap;
+            text-overflow: ellipsis;*/
+            font-size: 18px;
+        }
+
+        .dv_1_dv2 {
+            color: #2F87F8;
+        }
+
+        .dv_1_dv3 {
+            color: #F64A4A;
+        }
+
+        .dv_2 {
+            margin-top: 10px;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_2_dv1 {
+            flex: 1;
+            white-space: nowrap;
+            overflow: scroll;
+        }
+
+        .dv_2_dv2 {
+            color: #F64A4A;
+            text-align: right;
+            white-space: nowrap;
+            overflow: scroll;
+            font-size: 1rem;
+        }
+
+        .dv_2_dv3 {
+            color: #02C05B;
+            text-align: right;
+            white-space: nowrap;
+            overflow: scroll;
+            font-size: 1rem;
+        }
+
+        .dv_3 {
+            margin-top: 10px;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+            margin-bottom: 10px;
+        }
+
+        .dv_4_dv2 img {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">水表接收列表</div>
+        <div class="aui-pull-right aui-btn" tapmode data-action="CodeScanning">
+            <img src="../../image/MeteReading/cbdatiles/saoma.png" alt="">
+        </div>
+    </header>
+    <div id="center">
+        <div id="dv">
+
+        </div>
+    </div>
+    <div id="footer">
+
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/bzremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/template" id='userList'>
+    {{each datas value i}}
+    <div class="dv">
+        <div id="dv_left" onclick="openuser(this)" data-id="{{value.SBBH}}">
+            {{i+1}}
+        </div>
+        <div id="dv_right">
+            <div class="dv_1" onclick="openuser(this)" data-id="{{value.SBBH}}">
+                <div class="dv_1_dv1">{{value.YHMC}}</div>
+                {{if value.SFXG == 0}}
+                <div class="dv_2_dv2">未接收</div>
+                {{else}}
+                <div class="dv_2_dv3">已接收</div>
+                {{/if}}
+            </div>
+            <div class="dv_1" onclick="openuser(this)" data-id="{{value.SBBH}}">
+                <div class="dv_1_dv1">{{value.YHBH}}</div>
+            </div>
+            <div class="dv_1">
+                <div class="dv_1_dv1" onclick="openuser(this)" data-id="{{value.SBBH}}">{{value.YHDZ}}</div>
+                {{if value.SFSC == 0 && value.SFXG == 1}}
+                <div class="dv_4_dv2">
+                    <img src="../../image/MeteReading/tupian/shanchu.png" onclick="deletework(this)" data-id="{{value.SBBH}}" />
+                </div>
+                {{/if}}
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var headerH;
+    var userlist = [];
+    var book;
+
+    apiready = function() {
+        LoginName = $api.getStorage('loginData').userName;
+        db = api.require('db');
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        // $('#book').css('margin-top', '' + headerH + 'px');
+        queryUser()
+
+        api.addEventListener({
+            name: 'WaterMeterUserEdit'
+        }, function(ret, err) {
+            queryUser();
+        });
+    };
+
+    function queryUser() {
+        var db = api.require('db');
+        var bookdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_WATER_METER_BOOK where BZBH="' + api.pageParam.BZBH + '" AND userName = "' + LoginName + '"'
+        });
+        book = bookdata.data[0];
+
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_WATER_METER_USER where BZBH="' + book.BZBH + '" AND userName = "' + LoginName + '" ORDER BY cast(CBXH as int)'
+        });
+        if (userdata.status) {
+            if (userdata.data.length == book.BBCYHZS) {
+                //userlist.push(userdata.data[0]);
+                userlist = userdata.data;
+                var datas = {
+                    datas: userlist,
+                }
+
+                var str = template('userList', datas);
+                $('#dv div').remove();
+                $('#dv').append(str);
+                fnReadyOpenWin();
+            } else {
+                api.alert({
+                    title: '提示',
+                    msg: '数据未下载完成,请前往下载',
+                }, function(ret, err) {
+                    if (ret) {
+                        api.closeWin();
+                    } else {}
+                });
+            }
+        }
+    }
+
+    function openuser(el) {
+        var SBBH = $(el).attr('data-id');
+
+        api.openWin({
+            name: 'WaterMeterUser',
+            url: './WaterMeterUser.html',
+            pageParam: {
+                SBBH: SBBH
+            }
+        });
+    }
+
+    function deletework(el) {
+        api.confirm({
+            title: '提示消息',
+            msg: '确认重置为未修改？',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index == 1) {
+                var SBBH = $(el).attr("data-id");
+                var db = api.require('db');
+                var ret = db.executeSqlSync({
+                    name: 'CBtest',
+                    sql: 'update MRM_WATER_METER_USER set SFXG="0" where SBBH="' + SBBH + '" and userName="' + LoginName + '"'
+                });
+                if (ret.status) {
+                    queryUser();
+                }
+            }
+        });
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'CodeScanning': function() {
+            var userCode
+            var FNScanner = api.require('FNScanner');
+            FNScanner.open({
+                autorotation: true
+            }, function(ret, err) {
+                if (ret) {
+                    if (ret.eventType == 'success') {
+                        SBBH = ret.content;
+                        var userdata = db.selectSqlSync({
+                            name: 'CBtest',
+                            sql: 'select * from MRM_WATER_METER_USER where SBBH="' + SBBH + '" and BZBH="' + book.BZBH + '" AND userName = "' + LoginName + '"'
+                        });
+                        if (userdata.status) {
+                            if (userdata.data.length > 0) {
+                                api.openWin({
+                                    name: 'WaterMeterUser',
+                                    url: './WaterMeterUser.html',
+                                    pageParam: {
+                                        SBBH: SBBH
+                                    }
+                                });
+                            } else {
+                              api.toast({
+                                  msg: '当前报装编号下没有对应的水表接收数据',
+                                  duration: 2000,
+                                  location: 'bottom'
+                              });
+                            }
+                        }
+                    }
+                } else {
+                    console.log(JSON.stringify(err));
+                }
+            });
+        }
+    }
+</script>
+
+</html>

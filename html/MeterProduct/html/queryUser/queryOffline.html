@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>用户查询</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            flex-flow: column;
+            display: flex;
+            background-color: #fff;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+        }
+
+        #center {
+            width: 100%;
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        #footer {
+            width: 100%;
+            height: 60px;
+            position: fixed;
+            bottom: 0;
+            display: flex;
+            flex-direction: row;
+        }
+
+        #footer div {
+            float: left;
+            flex: 1;
+            text-align: center;
+            line-height: 40px;
+        }
+
+        #center_top {
+            background-color: #F3F3F3;
+            padding: 10px;
+        }
+
+        .center_top_dv {
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .dv {
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv_tow {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_tow div {
+            flex: 1;
+            float: left;
+        }
+
+        #daohang {
+            width: 100px;
+            height: 35px;
+            background-color: #2F87F8;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 18px;
+        }
+
+        #chaobiao {
+            width: 100px;
+            height: 35px;
+            background-color: #FC5959;
+            color: #fff;
+            border-radius: 20px;
+            font-size: 18px;
+        }
+
+        #center_div {
+            width: 100%;
+            height: 5px;
+            background-color: #F3F3F3;
+        }
+
+        #center_bottom {
+            margin: 20px;
+            border: 1px solid #ececec;
+            border-radius: 10px;
+        }
+
+        #center_bottom_dv {
+            display: flex;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .active_item {
+            text-align: center;
+            width: 150px;
+            height: 40px;
+            color: #949295;
+            font-size: 16px;
+            line-height: 40px;
+            border-bottom: 1px solid #ececec;
+        }
+
+        .active_item1 {
+            color: #2F7FF6;
+            border-right: 1px solid #ececec;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        .active_item2 {
+            color: #2F7FF6;
+            border-left: 1px solid #ececec;
+            border-right: 1px solid #ececec;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        .active_item3 {
+            color: #2F7FF6;
+            border-left: 1px solid #ececec;
+            border-bottom: 1px solid #ffffff;
+        }
+
+        #center_bottom_dv2 {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">用户详情</div>
+    </header>
+    <div id="center">
+        <div id="center_top">
+            <div class="center_top_dv">
+                <div id="YHMC" class="dv">用户名称：</div>
+                <div id="YHBH" class="dv">用户编号：</div>
+                <div id="YHDZ" class="dv">用户地址：</div>
+                <div id="YSXZ" class="dv">用水性质：</div>
+                <div class="dv dv_tow">
+                    <div id="XZXF">性质细分：</div>
+                    <div id="KJ">口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径：</div>
+                </div>
+                <div class="dv dv_tow">
+                    <div id="QD">起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度：</div>
+                    <div id="ZD">止&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度：</div>
+                </div>
+            </div>
+        </div>
+
+        <div id="center_bottom">
+            <div id="center_bottom_dv">
+                <div class="active_item active_item1" data-action="openFramGroup2">基本信息</div>
+                <div class="active_item" data-action="openFramGroup2">近期抄表</div>
+                <div class="active_item" data-action="openFramGroup2">近期缴费</div>
+                <div class="active_item" data-action="openFramGroup2">换表记录</div>
+            </div>
+            <div id="center_bottom_dv2">
+
+            </div>
+        </div>
+    </div>
+    <div id="footer">
+        <div><button id="daohang" onclick="openMap()">查看导航</button></div>
+        <div><button id="chaobiao" onclick="userchaobiao()">开始抄表</button></div>
+    </div>
+</body>
+
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/bzremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript">
+    var bodyH, bodyW;
+    var headerH;
+    var footerH, footerW;
+    var center_topH, center_topW;
+    var center_bottomH, center_bottomW;
+
+    var YHBH;
+    var userList = [];
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        $('#center').css('margin-top', '' + headerH + 'px');
+
+        var body = $api.byId('bd');
+        bodyH = $api.offset(body).h;
+        bodyW = $api.offset(body).w;
+
+        var footer = $api.byId('footer');
+        footerH = $api.offset(footer).h;
+        footerW = $api.offset(footer).w;
+
+        var pageParam = api.pageParam;
+        YHBH = pageParam.YHBH;
+
+        queryUser();
+        show();
+    };
+
+    function queryUser() {
+        var db = api.require('db');
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where YHBH="' + YHBH + '"'
+        });
+        if (userdata.status) {
+            if (userdata.data.length > 0) {
+                userList = userdata.data
+
+                $('#YHMC').html("用户名称：" + userList[0].YHMC);
+                $('#YHBH').html("用户编号：" + userList[0].YHBH);
+                $('#YHDZ').html("用户地址：" + userList[0].YHDZ);
+                $('#YSXZ').html("用水性质：" + userList[0].YSXZ);
+                $('#XZXF').html("性质细分：" + userList[0].XZXF);
+                $('#KJ').html("口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径：" + userList[0].KJ);
+                $('#QD').html("起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度：" + userList[0].QD);
+                $('#ZD').html("止&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度：" + userList[0].ZD);
+                $('#QFJE').html("历史欠费：" + userList[0].QFJE);
+                $('#YCYE').html("账户余额：" + userList[0].YCYE);
+            }
+        }
+        var center_top = $api.byId('center_top');
+        center_topH = $api.offset(center_top).h;
+        center_topW = $api.offset(center_top).w;
+
+        var a = bodyH - headerH - footerH - center_topH
+            //$('#center_bottom').css('height', '' + (bodyH - headerH - center_topH - footerH - 40) + 'px');
+        $('#center_bottom_dv2').css('height', '' + (bodyH - headerH - center_topH - footerH - 100) + 'px');
+
+        var center_bottom = $api.byId('center_bottom');
+        center_bottomH = $api.offset(center_bottom).h;
+        center_bottomW = $api.offset(center_bottom).w;
+    }
+
+    function show() {
+        api.openFrameGroup({
+            name: 'group',
+            scrollEnabled: false,
+            rect: {
+                x: 21,
+                y: headerH + center_topH + 61,
+                w: center_bottomW - 2,
+                h: center_bottomH - 45
+            },
+            frames: [{
+                name: 'baseInfo_Fragment',
+                url: './baseInfo_Fragment.html',
+                pageParam: {
+                    YHBH: YHBH
+                },
+                bounces: false
+            }, {
+                name: 'recentReader_Fragment',
+                url: './recentReader_Fragment.html',
+                pageParam: {
+                    YHBH: YHBH
+                },
+                bounces: false
+            }, {
+                name: 'recentPay_Fragment',
+                url: './recentPay_Fragment.html',
+                pageParam: {
+                    YHBH: YHBH
+                },
+                bounces: false
+            }, {
+                name: 'meterChange_Fragment',
+                url: './meterChange_Fragment.html',
+                pageParam: {
+                    YHBH: YHBH
+                },
+                bounces: false
+            }]
+        }, function(ret, err) {
+            var index = ret.index;
+        });
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'openFramGroup': function() {
+            var index = $(this).index();
+            toggleDownloadTab(index);
+            api.setFrameGroupIndex({
+                name: 'group',
+                index: index,
+                scroll: true,
+                reload: false
+            });
+        },
+        'openFramGroup2': function() {
+            var index = $(this).index();
+            index = parseInt(index, 10);
+
+            $('.active_item').removeClass('active_item1');
+            $('.active_item').removeClass('active_item2');
+            $('.active_item').removeClass('active_item3');
+
+            if (index == 0) {
+                $('.active_item').eq(index).addClass('active_item1');
+            } else if (index == 3) {
+                $('.active_item').eq(index).addClass('active_item3');
+            } else {
+                $('.active_item').eq(index).addClass('active_item2');
+            }
+
+            api.setFrameGroupIndex({
+                name: 'group',
+                index: index,
+                scroll: true,
+                reload: false
+            });
+        }
+    }
+
+    function toggleDownloadTab(index) {
+        index = parseInt(index, 10);
+        if (index) {
+            $('#atab .aui-tab-item').addClass('toggle');
+        } else {
+            $('#tab .aui-tab-item').removeClass('toggle');
+        }
+        $('#tab .aui-tab-item').removeClass('aui-active2');
+        $('#tab .aui-tab-item').eq(index).addClass('aui-active2');
+    }
+
+    function openMap() {
+        api.openWin({
+            name: 'baiduMap',
+            url: './../baiduMap/baiduMap.html',
+            slidBackEnabled: false,
+            animation: {
+                type: "push",
+                subType: "from_left",
+                duration: 300
+            },
+            pageParam: {
+                YHBH: userList[0].YHBH
+            }
+        });
+    }
+
+    function userchaobiao() {
+        api.openWin({
+            name: 'cbhome',
+            url: '../cbwork/MeterReading_details.html',
+            slidBackEnabled: false,
+            animation: {
+                type: "push",
+                subType: "from_left",
+                duration: 300
+            },
+            pageParam: {
+                name: 'cbqueryUser',
+                userCode: userList[0].CBCH,
+                useryhbh: userList[0].YHBH
+            }
+        });
+    }
+</script>
+
+</html>

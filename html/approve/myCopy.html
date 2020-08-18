@@ -1,0 +1,955 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>抄送给我的页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <link rel=stylesheet type=text/css href=../../css/rolldate.css />
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 3;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            border: none;
+            background-size: 100% 1px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-image: linear-gradient(0, #dddddd, #dddddd 50%, transparent 50%);
+            background-image: -webkit-linear-gradient(90deg, #dddddd, #dddddd 50%, transparent 50%);
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .flex-con {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .border-t:before,
+        .border-b:after {
+            border-color: #F1F1F1;
+        }
+
+        .aui-searchbar {
+            background-color: #fff !important;
+            padding: 0.55rem 0.78rem;
+            width: auto;
+            height: auto;
+            color: #212121;
+            z-index: 3;
+        }
+
+        .aui-searchbar span {
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        .aui-searchbar .arrow {
+            width: 0.8rem;
+            height: 0.8rem;
+            background: url(../../image/main_frame/orgDownArrow.png);
+            background-size: 0.7rem 0.38rem;
+            background-position: center center;
+            background-repeat: no-repeat;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .aui-searchbar-input input {
+            height: 1rem;
+            line-height: 1rem;
+        }
+
+        .aui-searchbar {
+            border: none;
+            background-size: 100% 1px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-image: linear-gradient(0, #dddddd, #dddddd 50%, transparent 50%);
+            background-image: -webkit-linear-gradient(90deg, #dddddd, #dddddd 50%, transparent 50%);
+        }
+
+        .aui-searchbar-input {
+            height: 1.6rem;
+            background-color: #f0f0f0;
+            border-radius: 0.8rem;
+            line-height: 1.6rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+            display: flex;
+            align-items: center;
+        }
+
+        .aui-searchbar-clear-btn {
+            background-color: #999999;
+            position: initial;
+            width: 0.8rem;
+            height: 0.8rem;
+        }
+
+        .aui-searchbar-clear-btn .aui-iconfont {
+            color: #FFF !important;
+            top: -5px;
+            font-size: var(--fontsize5);
+        }
+
+        .aui-list {
+            background-image: none !important;
+        }
+
+        .aui-media-list .aui-list-item {
+            display: flex;
+            padding-left: 0.78rem;
+        }
+
+        .aui-media-list-item-inner {
+            width: 100vw;
+        }
+
+        .aui-list .aui-list-item-inner {
+            padding-right: 0.78rem;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+
+        .aui-list .aui-list-item-title {
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+            width: 60vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .aui-list .aui-list-item-text {
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+        }
+
+        .aui-list .aui-list-item-right {
+            font-size: var(--fontsize65);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+            margin-left: 0;
+        }
+
+        .sendUser span {
+            width: calc(100% - 0.5rem)
+        }
+
+        .aui-dot {
+            width: 0.5rem !important;
+            height: 0.5rem !important;
+            border-radius: 50% !important;
+            position: initial;
+            z-index: 1;
+        }
+
+        .aui-tab button {
+            background-color: #FFF;
+            outline: none;
+            box-sizing: content-box;
+            border-radius: 0;
+        }
+
+        .aui-radio {
+            display: inline-table;
+            margin: auto;
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.78rem;
+            box-sizing: border-box;
+        }
+
+        .aui-radio:checked,
+        .aui-radio.aui-checked,
+        .aui-checkbox:checked,
+        .aui-checkbox.aui-checked {
+            background-color: #4f79e8;
+            border: solid 1px #4f79e8;
+        }
+
+        .filterDiv {
+            position: absolute;
+            width: 100%;
+            top: -2000px;
+            -webkit-transition: all 0.25s;
+            transition: all 0.25s;
+            z-index: 2;
+            max-height: 50vh;
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .filterDiv input {
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+            height: auto !important;
+            line-height: inherit !important;
+            text-align: right;
+        }
+
+        .filterDiv .aui-list .aui-list-item:active {
+            background-color: #fff !important;
+        }
+
+        .filterDiv .flex-vertical {
+            max-height: 50vh
+        }
+
+        .filterDiv .aui-card-list {
+            padding: 0 0.75rem;
+            margin-bottom: 0
+        }
+
+        .filterDiv .aui-card-list-header {
+            padding: 0.5rem 0;
+        }
+
+        .filterDiv .aui-card-list-content {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0.75rem 0;
+        }
+
+        .labelDiv {
+            width: calc((100vw - 1.5rem)/3);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .label {
+            padding: 0.5rem 0.75rem;
+            background-color: #cccccc;
+            color: #fff;
+            width: 25vw;
+            height: 2rem;
+            flex-shrink: 0;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 0.3rem;
+        }
+
+        .label.active {
+            background-color: #4f79e8;
+        }
+
+        .arrow.active {
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+        .aui-list .aui-list-item-text {
+            width: 100%;
+        }
+
+        .shade {
+            background: rgba(0, 0, 0, 0.4);
+            position: absolute;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .aui-list-buttons {
+            padding-left: 0 !important;
+            padding: 0.55rem 1.85rem !important;
+            display: flex !important;
+            background-color: #fff;
+            justify-content: space-between;
+            height: 4rem;
+        }
+
+        .filterDiv .aui-btn {
+            border-radius: 4.4vw;
+            justify-content: center;
+            height: 1.65rem;
+            line-height: 1.65rem;
+            width: 37.33vw;
+            display: flex;
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.08rem;
+            outline: none;
+        }
+
+        .sureBtn {
+            background: #4f79e8 !important;
+            color: #fff;
+        }
+
+        .cancelBtn {
+            background: #fff;
+            color: #4f79e8;
+        }
+
+        .cancelBtn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 1px solid #4f79e8;
+            border-radius: 2.5rem !important;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 200%;
+            height: 200%;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+            -webkit-transform-origin: left top;
+            transform-origin: left top;
+            pointer-events: none;
+        }
+
+        .aui-list .aui-list-item-media.systemIcon {
+            width: auto;
+            padding: 0.75rem 0.5rem 0.75rem 0;
+            align-items: flex-start;
+        }
+
+        .baozhuang {
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            background-color: #4b77be;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+
+        <header class="aui-bar aui-bar-nav" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">抄送给我的</div>
+        </header>
+
+        <div class="aui-searchbar" id="searchMyMessage">
+            <span tapmode onclick="showFilter()">筛选</span>
+            <div class="arrow" id="myArrow" tapmode onclick="showFilter()"></div>
+            <div class="aui-searchbar-input aui-border-radius">
+                <i class="aui-iconfont aui-icon-search"></i>
+                <input type="search" placeholder="请输入关键词搜索" id="mySearchInput">
+                <div class="aui-searchbar-clear-btn">
+                    <i class="aui-iconfont aui-icon-close"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filterDiv" id="myMessageFilter">
+            <div class="flex-wrap flex-vertical">
+                <div class="flex-con">
+                    <div class="aui-card-list">
+                        <div class="aui-card-list-header aui-border-b">
+                            客服系统
+                        </div>
+                        <div class="aui-card-list-content">
+                            <div class="labelDiv">
+                                <div class="label allLabel active" tapmode data-action="selectAll">
+                                    全部
+                                </div>
+                            </div>
+                            <div class="labelDiv">
+                                <div class="label" tapmode data-action="select">
+                                    创建工单
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="aui-card-list">
+                        <div class="aui-card-list-header aui-border-b">
+                            报装系统
+                        </div>
+                        <div class="aui-card-list-content">
+                            <div class="labelDiv">
+                                <div class="label allLabel active" tapmode data-action="selectAll">
+                                    全部
+                                </div>
+                            </div>
+                            <div class="labelDiv">
+                                <div class="label" tapmode data-action="select">
+                                    新装表申请
+                                </div>
+                            </div>
+                            <div class="labelDiv">
+                                <div class="label" tapmode data-action="select">
+                                    更名申请
+                                </div>
+                            </div>
+                            <div class="labelDiv">
+                                <div class="label" tapmode data-action="select">
+                                    新增用水计划申请
+                                </div>
+                            </div>
+                            <div class="labelDiv">
+                                <div class="label" tapmode data-action="select">
+                                    过户申请
+                                </div>
+                            </div>
+                            <div class="labelDiv">
+                                <div class="label" tapmode data-action="select">
+                                    用水性质变更申请
+                                </div>
+                            </div>
+                            <div class="labelDiv">
+                                <div class="label" tapmode data-action="select">
+                                    改扩建申请
+                                </div>
+                            </div>
+                            <div class="labelDiv">
+                                <div class="label" tapmode data-action="select">
+                                    销户申请
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="aui-card-list">
+                        <div class="aui-card-list-header aui-border-b">
+                            办公自动化系统
+                        </div>
+                        <div class="aui-card-list-content">
+                            <div class="labelDiv">
+                                <div class="label allLabel active" tapmode data-action="selectAll">
+                                    全部
+                                </div>
+                            </div>
+                            <div class="labelDiv">
+                                <div class="label" tapmode data-action="select">
+                                    创建工单
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="aui-list-buttons">
+                    <div class="aui-btn sureBtn">
+                        确定
+                    </div>
+                    <div class="aui-btn cancelBtn">
+                        重置
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="shade" id="myShade">
+
+        </div>
+
+        <div class="flex-con" id="myMessage">
+            <div class="aui-content">
+                <ul class="aui-list aui-media-list">
+                    <li class="aui-list-item aui-list-item-middle">
+                        <div class="aui-list-item-media systemIcon">
+                            <div class="baozhuang">
+                                报装
+                            </div>
+                        </div>
+                        <div class="aui-media-list-item-inner">
+                            <div class="aui-list-item-inner">
+                                <div class="aui-list-item-text">
+                                    <div class="aui-list-item-title">报装编号：14325378473</div>
+                                    <div class="aui-list-item-right">14:40:07</div>
+                                </div>
+                                <div class="aui-list-item-text">
+                                    <span>工程名称：连芳花园临时用水</span>
+                                </div>
+                                <div class="aui-list-item-text">
+                                    <span>办理环节：查勘设计</span>
+                                </div>
+                                <div class="aui-list-item-text">
+                                    <span>接收时间：2018-11-12  19:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="aui-list-item aui-list-item-middle">
+                        <div class="aui-list-item-media systemIcon">
+                            <div class="baozhuang">
+                                客服
+                            </div>
+                        </div>
+                        <div class="aui-media-list-item-inner">
+                            <div class="aui-list-item-inner">
+                                <div class="aui-list-item-text">
+                                    <div class="aui-list-item-title">工单编号：2135431645</div>
+                                    <div class="aui-list-item-right">14:40:07</div>
+                                </div>
+                                <div class="aui-list-item-text">
+                                    <span>工程名称：连芳花园临时用水</span>
+                                </div>
+                                <div class="aui-list-item-text">
+                                    <span>办理环节：查勘设计</span>
+                                </div>
+                                <div class="aui-list-item-text">
+                                    <span>接收时间：2018-11-12  19:00</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="aui-list-item aui-list-item-middle">
+                        <div class="aui-list-item-media systemIcon">
+                            <div class="baozhuang">
+                                OA
+                            </div>
+                        </div>
+                        <div class="aui-media-list-item-inner">
+                            <div class="aui-list-item-inner">
+                                <div class="aui-list-item-text">
+                                    <div class="aui-list-item-title">张三提交的用印申请</div>
+                                    <div class="aui-list-item-right">14:40:07</div>
+                                </div>
+                                <div class="aui-list-item-text">
+                                    <span>用印部门：产品设计部</span>
+                                </div>
+                                <div class="aui-list-item-text">
+                                    <span>经办人：张三</span>
+                                </div>
+                                <div class="aui-list-item-text">
+                                    <span>日期：2018-10-01</span>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../script/hammer.min.js"></script>
+<script type="text/javascript" src="../../script/fx.js"></script>
+<script type="text/javascript" src="../../script/fx_methods.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/rolldateMin.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript">
+    var pageIndex = 1;
+    var noData = false;
+    var finished = true;
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        if (api.systemType == 'ios') {
+            api.setStatusBarStyle({
+                style: 'dark',
+            });
+        }
+        if (api.systemType != 'ios') {
+            $('.aui-list-item-arrow').addClass('change');
+        } else {}
+        var header = $api.byId('header');
+        var mySearch = $api.byId('searchMyMessage');
+        var myFilter = $api.byId('myMessageFilter');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        // 计算header和tab元素的高度
+        headerH = $api.offset(header).h;
+        mySearchH = $api.offset(mySearch).h;
+        myFilterH = $api.offset(myFilter).h;
+        topH = headerH + mySearchH;
+        topHide = topH - myFilterH + 'px';
+        topActive = topH + 'px';
+        $('.filterDiv').css('top', '' + topHide + '');
+        $('.shade').css('height', 'calc( 100% - ' + topActive + ' )');
+        $('.shade').css('top', '' + topActive + '');
+        $('.shade').hide();
+        $api.rmStorage('editMessage');
+        // getMyMessageList(false, 1);
+        checkAllLabel();
+        noMyMessageData = false;
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#F0F0F0',
+            textColor: '#999999',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err) {
+            pageIndex = 1;
+            // getMyMessageList(true, pageIndex);
+            api.refreshHeaderLoadDone()
+        });
+        var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
+        var nScrollTop = 0; //滚动到的当前位置
+        var nmyDivHight = $("#myMessage").height();
+
+        $("#myMessage").scroll(function() {
+            nScrollHight = $(this)[0].scrollHeight;
+            nScrollTop = $(this)[0].scrollTop;
+            if (finished && nScrollTop + nmyDivHight >= nScrollHight) {
+                finished = false;
+                if (!noMyMessageData) {
+                    ++pageIndex;
+                    // getMyMessageList(false, pageIndex);
+                } else {
+                    setTimeout(function() {
+                        finished = true
+                    }, 2100);
+                    pageIndex = 1;
+                }
+
+            }
+        });
+
+        $('.filterDiv').on('touchstart', function() {
+            //触摸开始，屏蔽滑动
+            api.setWinAttr({
+                name: 'myApprove',
+                bounces: false
+            });
+        });
+        $('.filterDiv').on('touchmove', function() {
+            //触摸滚动，屏蔽滑动
+            api.setWinAttr({
+                name: 'myApprove',
+                bounces: false
+            });
+        });
+        $('.filterDiv').on('touchend', function() {
+            //触摸结束，释放滑动
+            api.setWinAttr({
+                name: 'myApprove',
+                bounces: true
+            });
+        });
+        fnReady()
+    };
+
+    function checkAllLabel() {
+        var allLabelList = $('.allLabel');
+        for (var i = 0; i < allLabelList.length; i++) {
+            var nextList = $(allLabelList[i]).parent().nextAll();
+            if ($(allLabelList[i]).hasClass('active')) {
+                for (var j = 0; j < nextList.length; j++) {
+                    $(nextList[j]).children().addClass('active');
+                }
+            } else {
+                for (var k = 0; k < nextList.length; k++) {
+                    $(nextList[k]).children().removeClass('active');
+                }
+            }
+        }
+    }
+
+    var actionList = {
+            'back': function() {
+                api.closeWin();
+            },
+            'close': function() {
+                fnCloseCheckBox();
+            },
+            'selectAll': function() {
+                $(this).toggleClass('active');
+                var nextList = $(this).parent().nextAll();
+                if ($(this).hasClass('active')) {
+                    for (var i = 0; i < nextList.length; i++) {
+                        $(nextList[i]).children().addClass('active');
+                    }
+                } else {
+                    for (var i = 0; i < nextList.length; i++) {
+                        $(nextList[i]).children().removeClass('active');
+                    }
+                }
+            },
+            'select': function() {
+                var preNum = 0;
+                var nextNum = 0;
+                var preAllSelect = false;
+                var nextAllSelect = false;
+                var preList = $(this).parent().prevAll();
+                for (var i = 0; i < preList.length; i++) {
+                    if ($(preList[i]).children().hasClass('active')) {
+                        preNum++;
+                    }
+                }
+                if (preNum == preList.length - 1) {
+                    preAllSelect = true;
+                }
+                var nextList = $(this).parent().nextAll();
+                for (var i = 0; i < nextList.length; i++) {
+                    if ($(nextList[i]).children().hasClass('active')) {
+                        nextNum++
+                    }
+                }
+                if (nextNum == nextList.length) {
+                    nextAllSelect = true;
+                }
+                $(this).toggleClass('active');
+                if ($(this).hasClass('active')) {
+                    if (preAllSelect && nextAllSelect) {
+                        $(this).parents('.aui-card-list-content').find('.allLabel').addClass('active');
+                    }
+                } else {
+                    $(this).parents('.aui-card-list-content').find('.allLabel').removeClass('active');
+                }
+            }
+        }
+        //重置条件
+    function clearFilter() {
+        // getMyMessageList(false, 1);
+    }
+
+    //搜索条设置
+    var mysearchBar = document.querySelector("#searchMyMessage");
+    var mysearchBarInput = document.querySelector("#searchMyMessage input");
+    var mysearchBarClearBtn = document.querySelector("#searchMyMessage .aui-searchbar-clear-btn");
+    if (mysearchBar) {
+        mysearchBarInput.oninput = function() {
+            if (this.value.length) {
+                mysearchBarClearBtn.style.display = 'block';
+            } else {
+                mysearchBarClearBtn.style.display = 'none';
+            }
+        }
+    }
+    mysearchBarClearBtn.onclick = function() {
+        this.style.display = 'none';
+        mysearchBarInput.value = '';
+        myKeyWord = "";
+        // getMyMessageList(false, 1);
+    }
+
+    var myKeyWord = "";
+    //站内消息关键词搜索
+    // $('#mySearchInput').on('input', function(e) {
+    //     if (isCloseShow) {
+    //         $('#myMessage .aui-radio').fadeOut(100);
+    //         $('.close').hide();
+    //     }
+    //     myKeyWord = $(this).val();
+    //     getMyMessageList(false, 1);
+    // })
+
+    var flag = false;
+    $('#mySearchInput').on({
+        'compositionstart': function() {
+            flag = true;
+        },
+        'compositionend': function() {
+            flag = false;
+            if (!flag) {
+                if (isCloseShow) {
+                    $('#myMessage .aui-radio').fadeOut(100);
+                    $('.close').hide();
+                }
+                myKeyWord = $(this).val();
+                // getMyMessageList(false, 1);
+            }
+        },
+        'input propertychange': function() {
+            if (!flag) {
+                if (isCloseShow) {
+                    $('#myMessage .aui-radio').fadeOut(100);
+                    $('.close').hide();
+                }
+                myKeyWord = $(this).val();
+                // getMyMessageList(false, 1);
+            }
+        }
+    });
+
+
+    //向下滑动显示筛选
+    function showFilter() {
+        $('#myArrow').toggleClass('active');
+        if ($('#myArrow').hasClass('active')) {
+            $('#myMessageFilter').css('top', '' + topActive + ' !important');
+            $('#myShade').show();
+        } else {
+            $('#myShade').hide();
+            $('#myMessageFilter').css('top', '' + topHide + ' !important');
+        }
+    }
+
+    //点击遮罩层隐藏筛选
+    $('.shade').on('touchstart', function() {
+        if ($('#myArrow').hasClass('active')) {
+            $('#myShade').hide();
+            $('#myMessageFilter').css('top', '' + topHide + ' !important');
+            $('#myArrow').removeClass('active');
+        }
+    })
+
+    //时间展示，今天不显示年月日，昨天将年月日替换为昨天，今年的只展示月日，非今年展示年月日
+    function getDayName(d) {
+        var td = new Date();
+        td = new Date(td.getFullYear(), td.getMonth(), td.getDate());
+        var od = new Date(d);
+        od = new Date(od.getFullYear(), od.getMonth(), od.getDate());
+        if (od.getFullYear() == td.getFullYear()) {
+            var xc = (od - td) / 1000 / 60 / 60 / 24;
+            if (xc == -1) {
+                return "昨天 ";
+            } else if (xc == 0) {
+                return "";
+            } else {
+                var date = (od.getMonth() + 1) + '/' + od.getDate();
+                return date + ' '
+            }
+        } else {
+            var date = od.getFullYear() + '/' + (od.getMonth() + 1) + '/' + od.getDate();
+            return date + ' '
+        }
+
+    }
+
+    //下拉刷新
+    function getList(pullrefresh) {
+        noMyMessageData = false;
+        if (isCloseShow) {
+            $('#myMessage .aui-radio').fadeOut(100);
+            $('.close').hide();
+        }
+        // getMyMessageList(pullrefresh, 1);
+    }
+
+    //获取站内消息
+    function getMyMessageList(pullrefresh, PageIndex) {
+        var url = 'services/app/Message/GetMessageList?MessageType=1&PageIndex=' + PageIndex + '&MaxResultCount=20';
+        if (myKeyWord != "") {
+            url = url + "&KeyWord=" + myKeyWord;
+        }
+        fnGet(url, {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    // alert(JSON.stringify(ret));
+                    var data = ret.result.items;
+                    if (ret.result.totalPages == PageIndex) {
+                        noMyMessageData = true;
+                    } else {
+                        noMyMessageData = false;
+                    }
+                    finished = true;
+                    var html = ""
+                    for (var i = 0; i < data.length; i++) {
+                        var sendTime = data[i].sendTime;
+                        var time = getTime(sendTime);
+                        sendTime = sendTime.replace('T', ' ').replaceAll('-', '/');
+                        sendTime = getDayName(sendTime) + time;
+                        if (data[i].isRead == 0) {
+                            var li =
+                                '<li class="aui-list-item aui-list-item-middle auiMessageList" data-id="' + data[i].id +
+                                '"><div class="aui-media-list-item-inner"><div class="aui-list-item-inner"><div class="aui-list-item-text"><div class="aui-list-item-title">' +
+                                data[i].title + '</div><div class="aui-list-item-right">' + sendTime + '</div></div><div class="aui-list-item-text sendUser"><span>发送人：' + data[i].sendUserName +
+                                '</span><div class="aui-dot"></div></div></div></div><div class="aui-radio"></div></li>';
+                        } else {
+                            var li =
+                                '<li class="aui-list-item aui-list-item-middle auiMessageList" data-id="' + data[i].id +
+                                '"><div class="aui-media-list-item-inner"><div class="aui-list-item-inner"><div class="aui-list-item-text"><div class="aui-list-item-title">' +
+                                data[i].title + '</div><div class="aui-list-item-right">' + sendTime + '</div></div><div class="aui-list-item-text sendUser"><span>发送人：' + data[i].sendUserName +
+                                '</span></div></div></div><div class="aui-radio"></div></li>';
+                        }
+
+                        html += li;
+                    }
+                    if (PageIndex == 1) {
+                        $('#myMessage ul').html('');
+                        $('#myMessage ul').append(html);
+                        var ele = document.getElementById('myMessage');
+                        ele.scrollTop = 0;
+                    } else {
+                        $('#myMessage ul').append(html);
+                    }
+                    $('#myMessage .aui-radio').hide();
+                    if (pullrefresh == true) {
+                        api.refreshHeaderLoadDone()
+                    }
+                    //安卓点击内容区滚动时，屏蔽下拉刷新造成的页面滑动
+                    $('#myMessage').on('touchstart', function() {
+                        //触摸开始，屏蔽滑动
+                        api.setWinAttr({
+                            name: 'message',
+                            bounces: false
+                        });
+                    });
+                    $('#myMessage').on('touchmove', function() {
+                        //触摸滚动，屏蔽滑动
+                        api.setWinAttr({
+                            name: 'message',
+                            bounces: false
+                        });
+                    });
+                    $('#myMessage').on('touchend', function() {
+                        //触摸结束，释放滑动
+                        api.setWinAttr({
+                            name: 'message',
+                            bounces: true
+                        });
+                    });
+                }
+            }
+            if (err) {
+                if (pullrefresh == true) {
+                    api.refreshHeaderLoadDone()
+                }
+            }
+        })
+    }
+</script>
+
+</html>

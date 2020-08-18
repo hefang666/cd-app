@@ -1,0 +1,334 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>照片删除</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style media="screen">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+        }
+
+        .flex-wrap-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            /*position: fixed;
+      top:0;*/
+            width: 100%;
+            background: #000;
+            opacity: 0.3;
+            height: 12rem;
+        }
+
+        #selectdata {
+            flex: 1;
+        }
+        .selectdatabok{
+
+        }
+        .selectdatabok>li {
+            background: #000;
+            opacity: 0.3;
+            float: left;
+            width: 10%;
+            background: #000;
+            opacity: 0.3;
+        }
+
+        .selectdatabok>li::before {
+            display: table;
+            content: "";
+        }
+
+        .selectdatabok>li:after {
+            display: table;
+            content: "";
+            clear: both;
+        }
+
+        .selectdatabok>li:nth-child(2) {
+            width: 80%;
+            background: #FFF!important;
+            opacity: 1!important;
+            height: 18rem!important;
+            overflow: hidden;
+            border-radius: 1rem;
+        }
+
+        .selectdatabok>li .title {
+            text-align: center;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(90, 90, 90, 1);
+            line-height: 3.09rem;
+        }
+
+        .selectdatabok>li .br {
+            margin-left: 1.5rem;
+            margin-right: 1.5rem;
+            background: rgba(196, 196, 196, 1);
+            height: 1px;
+        }
+
+        .aui-padded-r-10 {
+            padding-right: 1.5rem !important
+        }
+
+        .aui-padded-r-10 {
+            padding-left: 1.5rem !important
+        }
+
+        .aui-padded-r-10 span {
+            font-size: 1rem;
+            padding-right: 0.3rem;
+        }
+
+        .suerAad {
+          width: 100%;
+            /*position:absolute;*/
+            /*bottom: 0.5rem;*/
+            /*margin-top: 1rem;
+            margin-left: 1.5rem;
+            margin-right: 1.5rem;*/
+        }
+        .suerAad:active {
+            background: #E4E4E4;
+        }
+
+        .suerAad>div {
+            width: 100%;
+            text-align: center;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(47, 125, 245, 1);
+
+            line-height: 2rem;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0.01rem;
+            width: 100%;
+            background: #000;
+            opacity: 0.3;
+            z-index: 1000;
+        }
+        .body_bottom {
+            width: 100%;
+            opacity: 1;
+            height: 70%;
+            background: #fff;
+            display: flex;
+            flex-flow: column;
+            border-top: 1px solid #F4F4F4;
+            border-bottom: 1px solid #F4F4F4;
+        }
+
+        #header1 {
+            width: 100%;
+
+        }
+
+        .header_dv {
+            color: #3E7BF3;
+            font-size: 18px;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+        .header_wile {
+            flex: 1;
+        }
+
+        #center {
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        .center_dv {
+            width: 90%;
+            margin: auto auto;
+            height: auto;
+            line-height: 50px;
+            display: flex;
+            border-bottom: 1px solid #F4F4F4;
+            font-size: 18px;
+        }
+        .center_colorone{
+          color: #5A5A5A;
+        }
+        .center_colortwo{
+          color: #3E7BF3;
+        }
+        .center_dv:active {
+            background: #E4E4E4;
+        }
+
+        .center_dv2 {
+            flex: 1;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+
+        }
+        .center_right{
+          padding-left: 0.5rem;
+        }
+
+        .center_dv5 {
+            width: 100%;
+            height: 50px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 18px;
+            color: #5A5A5A;
+            background: #F4F4F4;
+        }
+
+        .center_dv5:active {
+            background: #E4E4E4;
+        }
+
+        .aui-icon-down {
+            color: #3A87F7;
+        }
+
+        #footer1 {
+            position: fixed;
+            bottom: 0;
+            height: 60px;
+            line-height: 60px;
+            background: #fff;
+            display: flex;
+            border-bottom: 10px solid #F4F4F4;
+        }
+    </style>
+</head>
+
+<body id="body">
+    <div class="flex-wrap-box">
+        <div class="header" id="header"></div>
+        <div id="selectdata">
+            <ul class="selectdatabok">
+                <li class="content_one"></li>
+                <li class="content" id="content">
+                    <div class="title">抄表本</div>
+                    <div class="body_bottom" id="body_bottom">
+                        <div id="header1">
+                        </div>
+
+                        <div id="center">
+                          <!-- <div class="center_holie">
+                              <div class="center_dv" params="{{value.CBCH}}" tapmode data-action="closeStatse">
+                                  <div class="center_dv2">{{value.CBCMC}}fgfgfgdt{{value.CBCMC}}fgfgfgdt</div>
+                                  <div class="center_right">(123)</div>
+                              </div>
+                          </div> -->
+
+                        </div>
+
+                        <div id="footer1">
+                        </div>
+                    </div>
+
+                    <div class="suerAad">
+                        <div class="suer" tapmode onclick="no()">取消</div>
+                    </div>
+                </li>
+                <li class="content_one"></li>
+            </ul>
+        </div>
+        <div class="footer" id="footer"></div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id="bookList">
+    {{each list value i}}
+    <div class="center_holie">
+        {{if value.YXZ!="0"}}
+        <div class="center_dv center_colortwo" params="{{value}}" tapmode data-action="closeStatse">
+            <div class="center_dv2">{{value.CBCMC}}</div>
+            <div class="center_right">({{value.BBCYHZS}})</div>
+        </div>
+        {{else}}
+        <div class="center_dv center_colorone" params="{{value.CBCH}}" tapmode data-action="closeStatse">
+            <div class="center_dv2">{{value.CBCMC}}</div>
+            <div class="center_right">({{value.BBCYHZS}})</div>
+        </div>
+        {{/if}}
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var dataList
+    apiready = function() {
+        var deviceId = api.deviceId
+        var deviceName = api.deviceName
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        var headerH = $api.offset(header).h;
+        var content = $api.byId('content');
+        var contentH = $api.offset(content).h;
+
+        $('.content_one').css("height", contentH)
+        var body = $api.byId('body');
+        var bodyH = $api.offset(body).h;
+        var footerH = bodyH - contentH - headerH
+        $('#footer').css("height", footerH)
+        show();
+    };
+    function show() {
+      var dataList = api.pageParam
+      console.log(JSON.stringify(api.pageParam))
+      var list = {
+          list: dataList
+      }
+      var str = template('bookList', list)
+      $api.append($api.byId('center'), str);
+      fnReady();
+      operationDom();
+      api.hideProgress();
+    }
+    var actionList = {
+        'closeStatse': function() {
+          // console.log(JSON.stringify($(this).attr('params')))
+            api.sendEvent({
+                name: 'closeBooks',
+                extra: {
+                    key1: JSON.parse($(this).attr('params'))
+                }
+            });
+            api.closeFrame({});
+        }
+    }
+
+    function no() {
+        api.closeFrame({});
+    }
+
+</script>
+
+</html>

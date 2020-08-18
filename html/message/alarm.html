@@ -1,0 +1,1225 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>报警消息页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <link rel=stylesheet type=text/css href=../../css/rolldate.css />
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 3;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            border: none;
+            background-size: 100% 1px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-image: linear-gradient(0, #dddddd, #dddddd 50%, transparent 50%);
+            background-image: -webkit-linear-gradient(90deg, #dddddd, #dddddd 50%, transparent 50%);
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .flex-con {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #footer {
+            background-color: rgba(255, 255, 255, 0.9);
+            position: absolute;
+            height: 2.43rem;
+            bottom: 2rem;
+            width: 86%;
+            left: 7%;
+            box-shadow: 0rem 0rem 0.23rem 0rem rgba(0, 0, 0, 0.28);
+            border-radius: 5rem;
+        }
+
+        #footer ul li {
+            padding-top: 1.25rem;
+            margin-top: 0.25rem;
+            font-size: var(--fontsize6);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+            background: url() no-repeat center 0;
+            background-size: auto 1rem;
+            text-align: center;
+        }
+
+        #footer ul li:nth-child(1) {
+            background-image: url(../../image/message_frame/delete.png);
+        }
+
+        #footer ul li:nth-child(2) {
+            background-image: url(../../image/message_frame/yidu.png);
+        }
+
+        #footer ul li:nth-child(3) {
+            background-image: url(../../image/message_frame/selectAll.png);
+        }
+
+        .delete_active {
+            background-image: url(../../image/message_frame/delete_active.png) !important;
+        }
+
+        .yidu_active {
+            background-image: url(../../image/message_frame/yidu_active.png) !important;
+        }
+
+        .selectAll_active {
+            background-image: url(../../image/message_frame/selectAll_active.png) !important;
+        }
+
+        #footer ul {
+            padding: 0 1rem;
+        }
+
+        .border-t:before,
+        .border-b:after {
+            border-color: #F1F1F1;
+        }
+
+        .aui-searchbar {
+            background-color: #fff !important;
+            padding: 0.55rem 0.78rem;
+            width: auto;
+            height: auto;
+            color: #212121;
+            z-index: 3;
+        }
+
+        .aui-searchbar span {
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        .aui-searchbar .arrow {
+            width: 0.8rem;
+            height: 0.8rem;
+            background: url(../../image/main_frame/orgDownArrow.png);
+            background-size: 0.7rem 0.38rem;
+            background-position: center center;
+            background-repeat: no-repeat;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .aui-searchbar-input input {
+            height: 1rem;
+            line-height: 1rem;
+        }
+
+        .aui-searchbar {
+            border: none;
+            background-size: 100% 1px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-image: linear-gradient(0, #dddddd, #dddddd 50%, transparent 50%);
+            background-image: -webkit-linear-gradient(90deg, #dddddd, #dddddd 50%, transparent 50%);
+        }
+
+        .aui-searchbar-input {
+            height: 1.6rem;
+            background-color: #f0f0f0;
+            border-radius: 0.8rem;
+            line-height: 1.6rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+            display: flex;
+            align-items: center;
+        }
+
+        .aui-searchbar-clear-btn {
+            background-color: #999999;
+            position: initial;
+            width: 0.8rem;
+            height: 0.8rem;
+        }
+
+        .aui-searchbar-clear-btn .aui-iconfont {
+            color: #FFF !important;
+            top: -5px;
+            font-size: var(--fontsize5);
+        }
+
+        .aui-list {
+            background-image: none !important;
+        }
+
+        .aui-media-list .aui-list-item {
+            display: flex;
+            padding-left: 0.78rem;
+        }
+
+        .aui-media-list-item-inner {
+            width: 100%;
+        }
+
+        .aui-media-list-item-inner.radioShow {
+            width: calc(100% - 1.78rem)
+        }
+
+        .aui-list .aui-list-item-inner {
+            padding-right: 0.78rem;
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+
+        .aui-list .aui-list-item-title {
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+            width: 40vw;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .aui-list .aui-list-item-text {
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+        }
+
+        .aui-list .aui-list-item-right {
+            font-size: var(--fontsize65);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+            margin-left: 0;
+        }
+
+        .sendUser span {
+            width: calc(100% - 1rem);
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+        }
+
+        .aui-dot {
+            width: 0.5rem !important;
+            height: 0.5rem !important;
+            border-radius: 50% !important;
+            position: initial;
+            z-index: 1;
+        }
+
+        .aui-tab button {
+            background-color: #FFF;
+            outline: none;
+            box-sizing: content-box;
+            border-radius: 0;
+        }
+
+        .aui-radio {
+            display: inline-table;
+            margin: auto;
+            width: 1rem;
+            height: 1rem;
+            margin-right: 0.78rem;
+            box-sizing: border-box;
+        }
+
+        .aui-radio:checked,
+        .aui-radio.aui-checked,
+        .aui-checkbox:checked,
+        .aui-checkbox.aui-checked {
+            background-color: #4f79e8;
+            border: solid 1px #4f79e8;
+        }
+
+        .filterDiv {
+            position: absolute;
+            width: 100%;
+            top: -2000px;
+            -webkit-transition: all 0.5s;
+            transition: all 0.5s;
+            z-index: 2;
+        }
+
+        .filterDiv input {
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+            height: auto !important;
+            line-height: inherit !important;
+            text-align: right;
+        }
+
+        .filterDiv .aui-list .aui-list-item:active {
+            background-color: #fff !important;
+        }
+
+        .arrow.active {
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+        .filterDiv .aui-content {
+            width: 100%
+        }
+
+        .filterDiv .aui-list-item-inner {
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #262626;
+        }
+
+        .aui-list .aui-list-item-text {
+            width: 100%;
+        }
+
+        .filterDiv .aui-list .aui-list-item-inner {
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .selectTime {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .selectTime span {
+            float: right;
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .close {
+            float: right;
+            width: 16px;
+            height: 16px;
+            background: url(../../image/message_frame/close2.png);
+            background-size: 16px 16px;
+            background-position: center center;
+            background-repeat: no-repeat;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .filterDiv .aui-list .aui-list-item-right,
+        .aui-list-item-title-row em {
+            margin-right: 15% !important;
+            max-width: 100% !important;
+        }
+
+        .aui-list-item-arrow:before {
+            border-color: #A2A2A2 !important;
+        }
+
+        .aui-list-item-arrow.change:before {
+            border-color: #A2A2A2 !important;
+            right: 0.6rem !important;
+            margin-top: -0.3rem !important;
+        }
+
+        .aui-list:after {
+            border: none !important;
+        }
+
+        .shade {
+            background: rgba(0, 0, 0, 0.4);
+            position: absolute;
+            width: 100%;
+            z-index: 1;
+        }
+
+        .aui-list-buttons {
+            padding-left: 0 !important;
+            padding: 0.55rem 1.85rem !important;
+            display: flex !important;
+        }
+
+        .filterDiv button {
+            border-radius: 4.4vw;
+            justify-content: center;
+            height: 1.65rem;
+            line-height: 1.65rem;
+            width: 37.33vw;
+            display: flex;
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.08rem;
+            outline: none;
+        }
+
+        .sureBtn {
+            background: #4f79e8 !important;
+            color: #fff;
+        }
+
+        .cancelBtn {
+            background: #fff;
+            color: #4f79e8;
+        }
+
+        .cancelBtn::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            border: 1px solid #4f79e8;
+            border-radius: 2.5rem !important;
+            -webkit-box-sizing: border-box;
+            box-sizing: border-box;
+            width: 200%;
+            height: 200%;
+            -webkit-transform: scale(0.5);
+            transform: scale(0.5);
+            -webkit-transform-origin: left top;
+            transform-origin: left top;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+
+        <header class="aui-bar aui-bar-nav" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">报警消息</div>
+            <div class="aui-pull-right aui-btn closeBtn" tapmode data-action='close'>
+                <span class="aui-iconfont aui-icon-close"></span>
+            </div>
+        </header>
+
+        <div class="aui-searchbar" id="searchWarningMessage">
+            <span tapmode onclick="showFilter()">筛选</span>
+            <div class="arrow" id="warningArrow" tapmode onclick="showFilter()"></div>
+            <div class="aui-searchbar-input aui-border-radius">
+
+                <i class="aui-iconfont aui-icon-search"></i>
+                <input type="search" placeholder="请输入关键词搜索" id="warningSearchInput">
+                <div class="aui-searchbar-clear-btn">
+                    <i class="aui-iconfont aui-icon-close"></i>
+                </div>
+            </div>
+        </div>
+
+        <div class="filterDiv" id="warningMessageFilter">
+            <div class="aui-content">
+                <ul class="aui-list aui-media-list">
+                    <li class="aui-list-item aui-list-item-middle">
+                        <div class="aui-media-list-item-inner">
+                            <div class="aui-list-item-inner" id="warningBeginTime">
+                                <div class="aui-col-xs-4">开始时间：</div>
+                                <div class="aui-col-xs-7"><input tapmode placeholder="请选择" type="text" name="input_date" id='warningBeginTimeVal' readonly="readonly" /></div>
+                                <div class="aui-col-xs-1">
+                                    <div class="selectTime" id="warningBeginClose" tapmode onclick="TimeInit('warningBeginTimeVal','warningBeginClose',1,'div')">
+                                        <span class="aui-iconfont aui-icon-right"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="selectTime aui-list-item-arrow" tapmode onclick="showTimePicker(1,'warn')">
+                                请选择
+                            </div> -->
+                        </div>
+                    </li>
+                    <li class="aui-list-item aui-list-item-middle">
+                        <div class="aui-media-list-item-inner">
+                            <div class="aui-list-item-inner" id="warningEndTime">
+                                <div class="aui-col-xs-4">结束时间：</div>
+                                <div class="aui-col-xs-7"><input tapmode placeholder="请选择" type="text" name="input_date" id='warningEndTimeVal' readonly="readonly" /></div>
+                                <div class="aui-col-xs-1">
+                                    <div class="selectTime" id="warningEndClose" tapmode onclick="TimeInit('warningEndTimeVal','warningEndClose',2,'div')">
+                                        <span class="aui-iconfont aui-icon-right"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="selectTime aui-list-item-arrow" tapmode onclick="showTimePicker(2,'warn')">
+                                请选择
+                            </div> -->
+                        </div>
+
+                    </li>
+                    <li class="aui-list-item aui-list-item-middle aui-list-buttons">
+                        <button type="button" class="sureBtn" name="button" tapmode onclick="searchByTime()">确认</button>
+                        <button type="button" class="cancelBtn" name="button" tapmode onclick="clearFilter()">重置条件</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="shade" id="warningShade">
+
+        </div>
+
+        <div class="flex-con" id="warningMessage">
+            <div class="aui-content">
+                <ul class="aui-list aui-media-list">
+                    <!-- <li class="aui-list-item aui-list-item-middle auiMessageList" data-id="' + data[i].id +'">
+                        <div class="aui-media-list-item-inner">
+                            <div class="aui-list-item-inner">
+                                <div class="aui-list-item-text">
+                                    <div class="aui-list-item-title">' + data[i].typeString + '
+                                    </div>
+                                    <div class="aui-list-item-right">' + sendTime + '</div>
+                                </div>
+                                <div class="aui-list-item-text sendUser"><span class="contentText">cnsdjcnljsdnvjfdnvljndfvjnldfkjvnfdcnsdjcnljsdnvjfdnvljndfvjnldfkjvnfdcnsdjcnljsdnvjfdnvljndfvjnldfkjvnfdcnsdjcnljsdnvjfdnvljndfvjnldfkjvnfd</span>
+                                    <div class="aui-dot"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="aui-radio"></div>
+                    </li> -->
+                </ul>
+            </div>
+        </div>
+
+        <div class="flex-con" id="searchResult">
+            <div class="aui-content">
+                <ul class="aui-list aui-media-list">
+                </ul>
+            </div>
+        </div>
+
+        <div id="footer">
+            <ul class="flex-wrap">
+                <li tapmode="hover" class="flex-con" id="delete">删除</li>
+                <li tapmode="hover" class="flex-con" id="yidu">设为已读</li>
+                <li tapmode="hover" class="flex-con" id="selectAll" tapmode onclick="selectAll()">全选</li>
+            </ul>
+        </div>
+
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/aui-tab.js"></script>
+<script type="text/javascript" src="../../script/hammer.min.js"></script>
+<script type="text/javascript" src="../../script/fx.js"></script>
+<script type="text/javascript" src="../../script/fx_methods.js"></script>
+<!-- <script type="text/javascript" src="../../script/date.format.js"></script> -->
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/rolldate.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript">
+    var warningPageIndex = 1;
+    // var noWarningData = false;
+    var finished = true;
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        if (api.systemType == 'ios') {
+            api.setStatusBarStyle({
+                style: 'dark',
+            });
+        }
+        if (api.systemType != 'ios') {
+            $('.aui-list-item-arrow').addClass('change');
+        }
+        var header = $api.byId('header');
+        var mySearch = $api.byId('searchWarningMessage');
+        var myFilter = $api.byId('warningMessageFilter');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        // 计算header和tab元素的高度
+        headerH = $api.offset(header).h;
+        mySearchH = $api.offset(mySearch).h;
+        myFilterH = $api.offset(myFilter).h;
+        topH = headerH + mySearchH;
+        topHide = topH - myFilterH + 'px';
+        topActive = topH + 'px';
+        $('.filterDiv').css('top', '' + topHide + '');
+        $('.shade').css('height', 'calc( 100% - ' + topActive + ' )');
+        $('.shade').css('top', '' + topActive + '');
+        $('.shade').hide();
+        $('.closeBtn').hide();
+        $('#warningMessage .aui-radio').hide();
+        $('#searchResult').hide();
+        // clearTime(1);
+        // clearTime(2);
+        $api.rmStorage('editMessage');
+        getWarningMessageList(false, 1);
+
+        noWarningData = false;
+        api.setRefreshHeaderInfo({
+            visible: true,
+            bgColor: '#F0F0F0',
+            textColor: '#999999',
+            textDown: '下拉刷新...',
+            textUp: '松开刷新...',
+            showTime: true
+        }, function(ret, err) {
+            warningPageIndex = 1;
+            getWarningMessageList(true, warningPageIndex);
+        });
+        var nScrollHight = 0; //滚动距离总长(注意不是滚动条的长度)
+        var nScrollTop = 0; //滚动到的当前位置
+        var nwarningDivHight = $("#warningMessage").height();
+
+        $("#warningMessage").scroll(function() {
+            nScrollHight = $(this)[0].scrollHeight;
+            nScrollTop = $(this)[0].scrollTop;
+            if (finished && nScrollTop + nwarningDivHight >= nScrollHight) {
+                finished = false;
+                if (!noWarningData) {
+                    ++warningPageIndex;
+                    // console.log(warningPageIndex);
+                    getWarningMessageList(false, warningPageIndex);
+                } else {
+                    // console.log(1111);
+                    setTimeout(function() {
+                        finished = true
+                    }, 2000);
+                    warningPageIndex = 1;
+                }
+            }
+        });
+        fnReady();
+        // checkboxSelect();
+
+        api.addEventListener({
+            name: 'deleteMessage'
+        }, function(ret, err) {
+            deleteMessage();
+        });
+
+        var ajpush = api.require('ajpush');
+        ajpush.setListener(
+            function(ret) {
+                var id = ret.id;
+                var title = ret.title;
+                var content = ret.content;
+                var extra = ret.extra;
+                //弹出状态栏通知
+                api.notification({
+                    notify: {
+                        title: title,
+                        content: content
+                    }
+                });
+                getWarningMessageList(false, 1);
+            }
+        );
+    };
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'close': function() {
+            fnCloseCheckBox();
+        }
+    }
+
+    TimeInit('warningBeginTimeVal', 'warningBeginClose', 1, 'input');
+    TimeInit('warningEndTimeVal', 'warningEndClose', 2, 'input');
+
+    var warningBeginTime = "";
+    var warningEndTime = "";
+
+    //时间选择器
+    function TimeInit(inputId, operationId, type, tapFrom) {
+        var el = '#' + inputId;
+        var format = 'YYYY-MM-DD hh:mm:ss';
+        if (tapFrom == 'div') {
+            el = '#' + operationId;
+        }
+        var dateError = false;
+        new rolldate.Date({
+            el: el,
+            format: format,
+            beginYear: 2000,
+            endYear: 2100,
+            tapBefore: function(el) {
+                // console.log('插件开始触发');
+                api.setWinAttr({
+                    name: 'alarm',
+                    bounces: false
+                });
+            },
+            moveEnd: function(el, iscroll) {
+                // console.log('滚动结束');
+            },
+            confirmBefore: function(el, date) {
+                if (type == 1) {
+                    warningBeginTime = date;
+                } else if (type == 2) {
+                    warningEndTime = date;
+                }
+                if (warningBeginTime != "" && warningEndTime != "" && warningBeginTime > warningEndTime) {
+                    dateError = true;
+                    api.toast({
+                        msg: '结束日期不能小于开始日期',
+                        duration: 2000,
+                        location: 'top'
+                    });
+                    return false
+                }
+                if (tapFrom == 'div') {
+                    $('#' + inputId + '').val(date);
+                }
+                var closeHtml = '<div class="aui-list-item-right close" tapmode onclick="clearTime(&quot;' + inputId + '&quot;,&quot;' + operationId + '&quot;,' + type + ')"></div>';
+                $('#' + operationId + '').parent().html(closeHtml);
+            },
+            confirmEnd: function(el, date) {
+                if (!dateError) {
+                    api.setWinAttr({
+                        name: 'alarm',
+                        bounces: true
+                    });
+                }
+
+                if (tapFrom == 'div') {
+                    var close = $('#' + inputId + '').parent().next().children('.close');
+                    if (!close) {
+                        var closeHtml = '<div class="aui-list-item-right close" tapmode onclick="clearTime(&quot;' + inputId + '&quot;,&quot;' + operationId + '&quot;,' + type + ' )"></div>';
+                        $('#' + operationId + '').parent().html(closeHtml);
+                    }
+                }
+            }
+        })
+    }
+
+    //点击关闭图标删除时间
+    function clearTime(inputId, operationId, type) {
+        var selectTime = '<div class="selectTime" id="' + operationId + '" tapmode onclick=""><span class="aui-iconfont aui-icon-right"></span></div>'
+        $('#' + inputId + '').val("");
+        $('#' + inputId + '').parent().next().html(selectTime);
+        $('#' + operationId + '').on('touchstart', function() {
+            TimeInit(inputId, operationId, type, "div");
+        })
+        if (type == 1) {
+            warningBeginTime = "";
+        } else if (type == 2) {
+            warningEndTime = "";
+        }
+    }
+
+    //点击确认筛选
+    function searchByTime() {
+        if (warningBeginTime == "") {
+            api.toast({
+                msg: '请选择开始日期',
+                duration: 2000,
+                location: 'top'
+            });
+            return
+        }
+        if (warningEndTime == "") {
+            api.toast({
+                msg: '请选择结束日期',
+                duration: 2000,
+                location: 'top'
+            });
+            return
+        }
+        $('#warningShade').hide();
+        $('#warningMessageFilter').css('top', '' + topHide + ' !important');
+        $('#warningArrow').removeClass('active');
+        getWarningMessageList(false, 1);
+    }
+
+
+    //重置条件
+    function clearFilter() {
+        clearTime('warningBeginTimeVal', 'warningBeginClose', 1, 'warn');
+        clearTime('warningEndTimeVal', 'warningEndClose', 2, 'warn');
+        getWarningMessageList(false, 1);
+    }
+
+    var searchBar = document.querySelector("#searchWarningMessage");
+    var searchBarInput = document.querySelector("#searchWarningMessage input");
+    var searchBarClearBtn = document.querySelector("#searchWarningMessage .aui-searchbar-clear-btn");
+    if (searchBar) {
+        searchBarInput.oninput = function() {
+            if (this.value.length) {
+                searchBarClearBtn.style.display = 'block';
+            } else {
+                searchBarClearBtn.style.display = 'none';
+            }
+        }
+    }
+    searchBarClearBtn.onclick = function() {
+        this.style.display = 'none';
+        searchBarInput.value = '';
+        warnKeyWord = "";
+        getWarningMessageList(false, 1);
+    }
+
+    var warnKeyWord = "";
+    //报警消息关键词搜索
+    // $("#warningSearchInput").on('input', function(e) {
+    //     if (isCloseShow) {
+    //         $('#warningMessage .aui-radio').fadeOut(100);
+    //         $('.closeBtn').hide();
+    //     }
+    //     warnKeyWord = $(this).val();
+    //     getWarningMessageList(false, 1);
+    // })
+
+    var flag = false;
+    $('#warningSearchInput').on({
+        'compositionstart': function() {
+            flag = true;
+        },
+        'compositionend': function() {
+            flag = false;
+            if (!flag) {
+                if (isCloseShow) {
+                    $('#warningMessage .aui-radio').fadeOut(100);
+                    $('.closeBtn').hide();
+                }
+                warnKeyWord = $(this).val();
+                getWarningMessageList(false, 1);
+            }
+        },
+        'input propertychange': function() {
+            if (!flag) {
+                if (isCloseShow) {
+                    $('#warningMessage .aui-radio').fadeOut(100);
+                    $('.closeBtn').hide();
+                }
+                warnKeyWord = $(this).val();
+                getWarningMessageList(false, 1);
+            }
+        }
+    });
+
+    //向下滑动显示筛选
+    function showFilter() {
+        $('#warningArrow').toggleClass('active');
+        if ($('#warningArrow').hasClass('active')) {
+            $('#warningMessageFilter').css('top', '' + topActive + ' !important');
+            $('#warningShade').show();
+        } else {
+            $('#warningShade').hide();
+            $('#warningMessageFilter').css('top', '' + topHide + ' !important');
+        }
+    }
+
+    //点击遮罩层隐藏筛选
+    $('.shade').on('touchstart', function() {
+        if ($('#warningArrow').hasClass('active')) {
+            $('#warningShade').hide();
+            $('#warningMessageFilter').css('top', '' + topHide + ' !important');
+            $('#warningArrow').removeClass('active');
+        }
+    })
+
+    //时间展示，今天不显示年月日，昨天将年月日替换为昨天，今年的只展示月日，非今年展示年月日
+    function getDayName(d) {
+        var td = new Date();
+        td = new Date(td.getFullYear(), td.getMonth(), td.getDate());
+        var od = new Date(d);
+        od = new Date(od.getFullYear(), od.getMonth(), od.getDate());
+        if (od.getFullYear() == td.getFullYear()) {
+            var xc = (od - td) / 1000 / 60 / 60 / 24;
+            if (xc == -1) {
+                return "昨天 ";
+            } else if (xc == 0) {
+                return "";
+            } else {
+                var date = (od.getMonth() + 1) + '/' + od.getDate();
+                return date + ' '
+            }
+        } else {
+            var date = od.getFullYear() + '/' + (od.getMonth() + 1) + '/' + od.getDate();
+            return date + ' '
+        }
+
+    }
+
+    //下拉刷新
+    function getList(pullrefresh) {
+        noWarningData = false;
+        if (isCloseShow) {
+            $('#warningMessage .aui-radio').fadeOut(100);
+            $('.closeBtn').hide();
+        }
+        getWarningMessageList(pullrefresh, 1);
+    }
+
+
+    //获取报警消息
+    function getWarningMessageList(pullrefresh, PageIndex) {
+        var url = 'services/app/Message/GetMessageAlarmList?PageIndex=' + PageIndex + '&MaxResultCount=20';
+        if (warnKeyWord != "") {
+            url = url + '&Key=' + warnKeyWord;
+        }
+        if (warningBeginTime != "" && warningEndTime != "") {
+            url = url + '&BeginTime=' + warningBeginTime + '&EndTime=' + warningEndTime;
+        }
+        fnGet(url, {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    // alert(JSON.stringify(ret));
+                    var html = ""
+                    var data = ret.result.items;
+                    if (ret.result.totalPages == PageIndex) {
+                        noWarningData = true;
+                    } else {
+                        noWarningData = false;
+                    }
+                    finished = true;
+                    for (var i = 0; i < data.length; i++) {
+                        var sendTime = data[i].sendTime;
+                        var time = getTime(sendTime);
+                        sendTime = sendTime.replace('T', ' ').replaceAll('-', '/');
+                        sendTime = getDayName(sendTime) + time;
+                        if (data[i].isRead == 0) {
+                            var li = '<li class="aui-list-item aui-list-item-middle auiMessageList" data-id="' + data[i].id +
+                                '"><div class="aui-media-list-item-inner"><div class="aui-list-item-inner"><div class="aui-list-item-text"><div class="aui-list-item-title">' + data[i].typeString +
+                                '</div><div class="aui-list-item-right">' + sendTime + '</div></div><div class="aui-list-item-text sendUser"><span class="contentText">' + data[i].content +
+                                '</span><div class="aui-dot"></div></div></div></div><div class="aui-radio"></div></li>';
+                        } else {
+                            var li = '<li class="aui-list-item aui-list-item-middle auiMessageList" data-id="' + data[i].id +
+                                '"><div class="aui-media-list-item-inner"><div class="aui-list-item-inner"><div class="aui-list-item-text"><div class="aui-list-item-title">' + data[i].typeString +
+                                '</div><div class="aui-list-item-right">' + sendTime + '</div></div><div class="aui-list-item-text sendUser"><span class="contentText">' + data[i].content +
+                                '</span></div></div></div><div class="aui-radio"></div></li>';
+                        }
+                        html += li;
+                    }
+                    if (PageIndex == 1) {
+                        $('#warningMessage ul').html('');
+                        $('#warningMessage ul').append(html);
+                        var ele = document.getElementById('warningMessage');
+                        ele.scrollTop = 0;
+                    } else {
+                        // var list = $('#warningMessage ul').html();
+                        $('#warningMessage ul').append(html);
+                    }
+                    if (!$api.getStorage('editMessage')) {
+                        $('#warningMessage .aui-radio').hide();
+                    }
+                    checkAllRead();
+                    longpress();
+                    openDetail();
+                    if (pullrefresh == true) {
+                        api.refreshHeaderLoadDone()
+                    };
+                    //安卓点击section内容区滚动时，屏蔽下拉刷新造成的页面滑动
+                    $('#warningMessage').on('touchstart', function() {
+                        //触摸开始，屏蔽滑动
+                        api.setWinAttr({
+                            name: 'alarm',
+                            bounces: false
+                        });
+                    });
+                    $('#warningMessage').on('touchmove', function() {
+                        //触摸滚动，屏蔽滑动
+                        api.setWinAttr({
+                            name: 'alarm',
+                            bounces: false
+                        });
+                    });
+                    $('#warningMessage').on('touchend', function() {
+                        //触摸结束，释放滑动
+                        api.setWinAttr({
+                            name: 'alarm',
+                            bounces: true
+                        });
+                    });
+                }
+            }
+            if (err) {
+                if (pullrefresh == true) {
+                    api.refreshHeaderLoadDone()
+                }
+            }
+        })
+    }
+
+    //点击进入消息详情后设置为已读
+    function setMessageRead(id) {
+        var messages = $api.domAll('#warningMessage ul li');
+        for (var i = 0; i < messages.length; i++) {
+            if ($(messages[i]).attr('data-id') == id) {
+                $(messages[i]).find('.aui-dot').remove();
+            }
+        }
+        checkAllRead();
+    }
+
+    //判断是否所有消息已读
+    function checkAllRead() {
+        api.sendEvent({
+            name: 'changeMessageNum',
+            extra: {
+
+            }
+        });
+    }
+
+    //点击checkbox时，已读和删除图标置于可用状态，如果没有选中任何消息时，置于不可用状态
+    function checkboxSelect() {
+        var checkbox = $api.domAll('.aui-radio');
+        var num = 0;
+        for (var i = 0; i < checkbox.length; i++) {
+            if ($api.hasCls(checkbox[i], 'aui-checked')) {
+                num += 1;
+            }
+        }
+        if (num == 0) {
+            $('#footer').find('#delete').removeClass('delete_active');
+            $('#footer').find('#yidu').removeClass('yidu_active');
+        } else {
+            $('#footer').find('#delete').addClass('delete_active');
+            $('#footer').find('#yidu').addClass('yidu_active');
+        }
+    }
+
+    //点击消息时，打开消息详情页面
+
+    function openDetail() {
+        var auiList = $api.domAll('#warningMessage .auiMessageList');
+        for (var i = 0; i < auiList.length; i++) {
+            var hammer = new Hammer(auiList[i]);
+            hammer.on("tap", function(ret) {
+                var dom = $(ret.target);
+                var domCls = dom.attr('class');
+                var domId = dom.parents('.flex-con').attr('id');
+                var id = dom.parents('.aui-list-item').attr('data-id');
+                if (!$api.getStorage('editMessage')) {
+                    api.openWin({
+                        name: 'messageDetails',
+                        url: './messageDetails.html',
+                        pageParam: {
+                            type: 'warnList',
+                            id: id
+                        }
+                    })
+                } else {
+                    dom.parents('.aui-list-item').find('.aui-radio').toggleClass('aui-checked');
+                    var checkboxArr = $api.domAll('#warningMessage .aui-radio');
+                    var checkedNum = 0;
+                    for (var i = 0; i < checkboxArr.length; i++) {
+                        if (!$(checkboxArr[i]).hasClass('aui-checked')) {
+                            $('#selectAll').removeClass('selectAll_active');
+                        } else {
+                            ++checkedNum;
+                        }
+                    }
+                    if (checkedNum == checkboxArr.length) {
+                        $('#selectAll').addClass('selectAll_active');
+                    }
+                    checkboxSelect();
+                }
+            })
+        }
+    }
+
+    var isCloseShow = false; //关闭图标是否存在，用来判断全选时是否显示关闭图标以及checkbox
+    //长按消息时进入编辑模式
+    function longpress() {
+        var list = $api.domAll('.auiMessageList');
+        for (var i = 0; i < list.length; i++) {
+            var hammer = new Hammer(list[i]);
+            hammer.get('press').set({
+                time: 300
+            });
+            hammer.on("press", function(e) {
+                var dom = $(e.target);
+                dom.parents('.aui-list-item').find('.aui-radio').addClass('aui-checked');
+                $('#footer').find('#delete').addClass('delete_active');
+                $('#footer').find('#yidu').addClass('yidu_active');
+                $('#delete').on('touchstart', function() {
+                    if ($(this).hasClass('delete_active')) {
+                        api.openFrame({
+                            name: 'delete_frame',
+                            url: '../delete_frame.html',
+                            rect: {
+                                x: 0,
+                                y: 0,
+                                w: 'auto',
+                                h: 'auto'
+                            },
+                            pageParam: {
+                                msg: '确定要删除吗？',
+                                winName: 'alarm',
+                                frameName: '',
+                                jsfun: "deleteMessage()"
+                            },
+                            bounces: false,
+                            bgColor: 'rgba(0,0,0,0.1)',
+                        });
+                    }
+                })
+                $('#yidu').on('touchstart', function() {
+                    if ($(this).hasClass('yidu_active')) {
+                        iconSetMessageRead();
+                    }
+                })
+                $('.closeBtn').show();
+                isCloseShow = true;
+                $api.setStorage('editMessage', true);
+                $('#warningMessage .aui-radio').fadeIn(100);
+                $('#warningMessage .aui-media-list-item-inner').addClass('radioShow');
+            })
+        };
+
+    }
+
+    //全选
+    function selectAll() {
+        var radio = $api.domAll('#warningMessage .aui-radio');
+        if (radio.length != 0) {
+            $('#selectAll').toggleClass('selectAll_active');
+            $api.setStorage('editMessage', true);
+            if (!isCloseShow) {
+                $('#warningMessage .aui-radio').fadeIn(100);
+                $('#warningMessage .aui-media-list-item-inner').addClass('radioShow');
+                $('.closeBtn').show();
+            }
+            if ($('#selectAll').hasClass('selectAll_active')) {
+                $('#warningMessage .aui-radio').addClass('aui-checked');
+                $('#footer').find('#delete').addClass('delete_active');
+                $('#footer').find('#yidu').addClass('yidu_active');
+                $('#delete').on('touchstart', function() {
+                    if ($(this).hasClass('delete_active')) {
+                        api.openFrame({
+                            name: 'delete_frame',
+                            url: '../delete_frame.html',
+                            rect: {
+                                x: 0,
+                                y: 0,
+                                w: 'auto',
+                                h: 'auto'
+                            },
+                            pageParam: {
+                                msg: '确定要删除吗？',
+                                winName: 'alarm',
+                                jsfun: "deleteMessage()"
+                            },
+                            bounces: false,
+                            bgColor: 'rgba(0,0,0,0.38)',
+                        });
+                    }
+                });
+                $('#yidu').on('touchstart', function() {
+                    if ($(this).hasClass('yidu_active')) {
+                        iconSetMessageRead();
+                    }
+                })
+            } else {
+                $('#warningMessage .aui-radio').removeClass('aui-checked');
+                $('#footer').find('#delete').removeClass('delete_active');
+                $('#footer').find('#yidu').removeClass('yidu_active');
+            }
+        }
+    }
+
+    //删除站内消息
+    function deleteMessage() {
+        var checkboxs = $api.domAll('#warningMessage .aui-radio');
+        var ids = [];
+        for (var i = 0; i < checkboxs.length; i++) {
+            if ($(checkboxs[i]).hasClass('aui-checked')) {
+                var id = parseInt($(checkboxs[i]).parents('.auiMessageList').attr('data-id'));
+                ids.push(id);
+            }
+        }
+        var deleteIds = '';
+        for (var i = 0; i < ids.length; i++) {
+            if (i == 0) {
+                deleteIds = 'Ids=' + ids[i];
+            } else {
+                deleteIds = deleteIds + '&Ids=' + ids[i]
+            }
+        }
+        fnGet('services/app/Message/DeleteMessageAlarm?' + deleteIds + '', {}, true, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    api.toast({
+                        msg: '删除成功！',
+                        duration: 2000,
+                        location: 'top'
+                    });
+                    getWarningMessageList(false, 1);
+                }
+            }
+        })
+        fnCloseCheckBox();
+    }
+
+    //点击工具栏图标设为已读
+    function iconSetMessageRead() {
+        var checkboxs = $api.domAll('#warningMessage .aui-radio');
+        var ids = [];
+        for (var i = 0; i < checkboxs.length; i++) {
+            if ($(checkboxs[i]).hasClass('aui-checked')) {
+                var id = $(checkboxs[i]).parents('.auiMessageList').attr('data-id');
+                ids.push(id);
+            }
+        }
+        fnPost('services/app/Message/UpdateMessageAlarmIsRead', {
+            body: JSON.stringify(ids)
+        }, 'application/json', true, true, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    getWarningMessageList(false, 1);
+                }
+            }
+        })
+        fnCloseCheckBox();
+    }
+
+    //进入编辑模式时，点击左上角关闭图标退出编辑模式
+    function fnCloseCheckBox() {
+        $('.closeBtn').hide();
+        isCloseShow = false;
+        $api.rmStorage('editMessage');
+        $('#warningMessage .aui-radio').fadeOut(100);
+        $('#warningMessage .aui-media-list-item-inner').removeClass('radioShow');
+        $('#selectAll').removeClass('selectAll_active');
+        $('.aui-list-item .aui-radio').removeClass('aui-checked');
+        $('#footer').find('#delete').removeClass('delete_active');
+        $('#footer').find('#yidu').removeClass('yidu_active');
+    }
+</script>
+
+</html>

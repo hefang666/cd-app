@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>添加导航图片</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+        }
+
+        #center_top {
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: #ffffff;
+            display: flex;
+            border-radius: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .center_top1 {
+            line-height: 35px;
+            color: #666666;
+        }
+
+        .center_top2 {
+            flex: 1;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .center_top3 {
+            padding-left: 20px;
+            padding-right: 20px;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            background-color: #2AAEFF;
+            color: #ffffff;
+            border-radius: 5px;
+        }
+
+        #one {
+            width: 100%;
+            height: 30px;
+            caret-color: red;
+            border-bottom: 2px solid red;
+        }
+
+        #center {
+            margin-top: 20px;
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: #ffffff;
+            display: flex;
+            border-radius: 5px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            padding-left: 10px;
+            padding-right: 10px;
+        }
+
+        .icon {
+            max-width: 70%;
+        }
+
+        .center2 {
+            color: #666666;
+        }
+
+        #center_bottom {
+            flex: 1;
+            margin-top: 20px;
+            margin-bottom: 70px;
+            margin-left: 10px;
+            margin-right: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            color: #666666;
+            background-color: #ffffff;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        .img-item {
+            width: 100%;
+            height: 65px;
+            display: flex;
+            margin-bottom: 10px;
+        }
+
+        .item2 {
+            flex: 1;
+            height: 65px;
+            overflow: auto;
+            margin-left: 10px;
+        }
+
+        .photo {
+            width: 85px;
+            height: 65px;
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 60px;
+            background-color: #ffffff;
+        }
+
+        #btn {
+            width: 80%;
+            height: 40px;
+            margin-left: 10%;
+            margin-top: 10px;
+            border-radius: 5px;
+            background-color: #2AAEFF;
+            color: #fff;
+            text-align: center;
+            line-height: 40px;
+        }
+
+        .border_color {
+            border: 1px solid red;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">导航图片</div>
+        <div class="aui-pull-right aui-btn" data-action='update'>编辑</div>
+    </header>
+
+    <div id="center_top">
+        <div class="center_top1">用户编号：</div>
+        <div class="center_top2"><input id="one" type="number" pattern="\d*" /></div>
+        <div class="center_top3" onclick="queryPhoto()">查询</div>
+    </div>
+
+    <div id="center_bottom">
+
+    </div>
+
+    <div id="footer">
+        <div id="btn" onclick="uploadPhoto()">上传图片</div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id='photolist'>
+    <div>导航图片</div>
+    {{each datas value i}}
+    <div class="img-item">
+        <div class="item1"><img src="{{value.ZPLJ}}" onclick="showPhoto({{value._id}})" data-id={{value._id}} id="img{{value._id}}" class="photo"></img>
+        </div>
+        <div class="item2">{{value.REMARK}}</div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id='photolist2'>
+    <div>导航图片</div>
+    {{each datas value i}}
+    <div class="img-item" id="item{{value._id}}">
+        <div class="item1"><img src="{{value.ZPLJ}}" onclick="updatePhoto(this)" data-id={{value._id}} id="img{{value._id}}" class="photo border_color"></img>
+        </div>
+        <div class="item2 border_color" onclick="updateRemark(this)" data-id={{value._id}}>{{value.REMARK}}</div>
+    </div>
+    {{/each}}
+    <div class="img-item">
+        <div class="item1"><img src="../../image/MeteReading/tupian/zhaopian_daohang.png" onclick="addPhoto(this)" data-id=0 class="photo"></img>
+        </div>
+        <div class="item2"></div>
+    </div>
+</script>
+<script type="text/javascript">
+    var user;
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+
+        $('#center_top').css('margin-top', '' + (headerH + 10) + 'px');
+
+        $('#one').val(api.pageParam.YHBH);
+
+        queryPhoto()
+    };
+
+    function queryPhoto() {
+        var yhbh = $('#one').val();
+        var db = api.require('db');
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_NAVIPHOTOS_BEAN where YHBH="' + yhbh + '"'
+        });
+        if (ret.status) {
+            if (ret.data.length > 0) {
+                var datas = {
+                    datas: ret.data
+                }
+
+                var str = template('photolist', datas);
+                $('#center_bottom div').remove();
+                $('#center_bottom').append(str);
+                fnReadyOpenWin();
+            } else {
+                var data = [];
+                var datas = {
+                    datas: data
+                }
+
+                var str = template('photolist', datas);
+                $('#center_bottom div').remove();
+                $('#center_bottom').append(str);
+                fnReadyOpenWin();
+            }
+        }
+    }
+
+    function queryPhoto2() {
+        var yhbh = $('#one').val();
+        var db = api.require('db');
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_NAVIPHOTOS_BEAN where YHBH="' + yhbh + '"'
+        });
+        if (ret.status) {
+            if (ret.data.length > 0) {
+                var datas = {
+                    datas: ret.data
+                }
+
+                var str = template('photolist2', datas);
+                $('#center_bottom div').remove();
+                $('#center_bottom').append(str);
+                fnReadyOpenWin();
+            } else {
+                var data = [];
+                var datas = {
+                    datas: data
+                }
+
+                var str = template('photolist2', datas);
+                $('#center_bottom div').remove();
+                $('#center_bottom').append(str);
+                fnReadyOpenWin();
+            }
+        }
+    }
+
+    function upload() {
+
+    }
+
+    function addPhoto(el) {
+        api.actionSheet({
+            buttons: ['拍照', '相册选取']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index == 1) {
+                getCamera("camera");
+            } else if (index == 2) {
+                getCamera("album");
+            }
+        });
+    }
+
+    function updatePhoto(el) {
+        var data_id = $(el).attr('data-id');
+        api.actionSheet({
+            buttons: ['拍照', '相册选取', '查看大图', '删除']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index == 1) {
+                getCamera2("camera", data_id);
+            } else if (index == 2) {
+                getCamera2("album", data_id);
+            } else if (index == 3) {
+                showPhoto(data_id);
+            } else if (index == 4) {
+                deletePhoto(data_id);
+            }
+        });
+    }
+
+    function getCamera(sourceType) {
+        var yhbh = $('#one').val();
+        api.getPicture({
+            sourceType: sourceType,
+            encodingType: 'jpg',
+            mediaValue: 'pic',
+            destinationType: 'url',
+            quality: 50,
+            saveToPhotoAlbum: false,
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.data == "") {
+                    return;
+                }
+                var year = Time("year"); //获取系统的年；
+                var month = Time("month"); //获取系统月份，由于月份是从0开始计算，所以要加1
+                var day = Time("day"); //获取系统日
+                var hour = Time("hour"); //获取系统时间
+                var minute = Time("minute"); //分
+                var second = Time("second"); //秒
+                var ZPMC = year + month + day + hour + minute + second + "_" + yhbh + ".jpg"
+                var naviphoto = {
+                    "ID": $api.getStorage('cbOperatorId'),
+                    "YHBH": yhbh,
+                    "ZPMC": ZPMC,
+                    "ZPLX": "2",
+                    "ZPLJ": ret.data,
+                    "ZPJD": " ",
+                    "ZPWD": " ",
+                    "SFSC": "0"
+                }
+                var db = api.require('db');
+                var naviphotodata = db.executeSqlSync({
+                    name: 'CBtest',
+                    sql: "INSERT INTO MRM_NAVIPHOTOS_BEAN " +
+                        "(ID, YHBH, ZPMC, ZPLJ, ZPLX, ZPJD, ZPWD, SFSC) VALUES " +
+                        "('" + naviphoto.ID +
+                        "', '" + naviphoto.YHBH +
+                        "', '" + naviphoto.ZPMC +
+                        "', '" + naviphoto.ZPLJ +
+                        "', '" + naviphoto.ZPLX +
+                        "', '" + naviphoto.ZPJD +
+                        "', '" + naviphoto.ZPWD +
+                        "', '" + naviphoto.SFSC + "')"
+                });
+                if (naviphotodata.status) {
+                    queryPhoto2();
+                }
+            } else {
+                alert(JSON.stringify(err.msg));
+            }
+        });
+    }
+
+    function getCamera2(sourceType, id) {
+        api.getPicture({
+            sourceType: sourceType,
+            encodingType: 'jpg',
+            mediaValue: 'pic',
+            destinationType: 'url',
+            quality: 50,
+            saveToPhotoAlbum: false,
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.data == "") {
+                    return;
+                }
+
+                var src = $('#img' + id).attr('src');
+                var fs = api.require('fs');
+                fs.remove({
+                    path: src
+                }, function(ret, err) {
+
+                });
+
+                var db = api.require('db');
+                var naviphotodata = db.executeSqlSync({
+                    name: 'CBtest',
+                    sql: 'update MRM_NAVIPHOTOS_BEAN set ZPLJ="' + ret.data + '",SFSC="0" where _id="' + id + '"'
+                });
+                if (naviphotodata.status) {
+                    queryPhoto2();
+                }
+            } else {
+                alert(JSON.stringify(err.msg));
+            }
+        });
+    }
+
+    function deletePhoto(id) {
+        var src = $('#img' + id).attr('src');
+        var fs = api.require('fs');
+        fs.remove({
+            path: src
+        }, function(ret, err) {
+
+        });
+        var db = api.require('db');
+        var naviphotodata = db.executeSqlSync({
+            name: 'CBtest',
+            sql: 'delete from MRM_NAVIPHOTOS_BEAN where _id="' + id + '"'
+        });
+        if (naviphotodata.status) {
+            queryPhoto2();
+        }
+    }
+
+    function showPhoto(id) {
+        var paths = [];
+        var captions = [];
+        var index = 0;
+
+        var yhbh = $('#one').val();
+        var db = api.require('db');
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_NAVIPHOTOS_BEAN where YHBH="' + yhbh + '"'
+        });
+        if (ret.status) {
+            if (ret.data.length > 0) {
+                for (var i = 0; i < ret.data.length; i++) {
+                    paths.push(ret.data[i].ZPLJ);
+                    captions.push(ret.data[i].REMARK);
+                    if (ret.data[i]._id == id) {
+                        index = i;
+                    }
+                }
+            }
+        }
+        api.openWin({
+            name: 'showNavigationImage',
+            url: './showNavigationImage.html',
+            pageParam: {
+                paths: paths,
+                captions: captions,
+                index: index
+            }
+        });
+    }
+
+    function updateRemark(el) {
+        var data_id = $(el).attr('data-id');
+        api.prompt({
+            title: '输入备注信息',
+            buttons: ['确定', '取消']
+        }, function(ret, err) {
+            var index = ret.buttonIndex;
+            if (index == 1) {
+                var text = ret.text;
+                var db = api.require('db');
+                var naviphotodata = db.executeSqlSync({
+                    name: 'CBtest',
+                    sql: 'update MRM_NAVIPHOTOS_BEAN set REMARK="' + text + '" where _id="' + data_id + '"'
+                });
+                if (naviphotodata.status) {
+                    $(el).html(text);
+                }
+            }
+        });
+    }
+
+    var uploadPhotoList = [];
+    var uploadPhotoIndex = 0;
+
+    function uploadPhoto() {
+        uploadPhotoList = [];
+        uploadPhotoIndex = 0;
+        var yhbh = $('#one').val();
+        var db = api.require('db');
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_NAVIPHOTOS_BEAN where YHBH="' + yhbh + '" and SFSC="0"'
+        });
+        if (ret.data) {
+            if (ret.data.length > 0) {
+                uploadPhotoList = ret.data;
+                api.showProgress({
+                    title: '图片上传中...',
+                    text: '请稍后...',
+                    modal: true
+                });
+                upload();
+            } else {
+                api.toast({
+                    msg: '导航图片已上传',
+                    duration: 2000,
+                    location: 'middle'
+                });
+            }
+        } else {
+            alert(JSON.stringify(err.msg));
+        }
+    }
+
+    function upload() {
+        if (uploadPhotoIndex < uploadPhotoList.length) {
+            var PhotoInfo = "";
+            var trans = api.require('trans');
+            trans.decodeImgToBase64({
+                imgPath: uploadPhotoList[uploadPhotoIndex].ZPLJ
+            }, function(ret, err) {
+                if (ret.status) {
+                    PhotoInfo = ret.base64Str;
+                    var Parameter = {
+                        "ClientId": api.deviceId,
+                        "ClientName": api.deviceModel,
+                        "OperatorId": $api.getStorage('cbOperatorId'),
+                        "OperatorName": $api.getStorage('cbOperatorName'),
+                        "Yhbh": uploadPhotoList[uploadPhotoIndex].YHBH,
+                        "PhotoName": uploadPhotoList[uploadPhotoIndex].ZPMC,
+                        "PhotoType": uploadPhotoList[uploadPhotoIndex].ZPLX,
+                        "Longitude": uploadPhotoList[uploadPhotoIndex].ZPJD,
+                        "Latitude": uploadPhotoList[uploadPhotoIndex].ZPWD,
+                        "OrderNo": uploadPhotoList[uploadPhotoIndex].ORDERNO,
+                        "Errtype": "",
+                        "Remark": uploadPhotoList[uploadPhotoIndex].REMARK,
+                        "Type": "302",
+                        "PhotoInfo": PhotoInfo
+                    };
+                    var body = {
+                        body: JSON.stringify({
+                            "UserName": $api.getStorage('cbOperatorName'),
+                            "Password": $api.getStorage('cbPassword'),
+                            "SerialNo": dataTime(),
+                            "Method": "R999",
+                            "Parameter": JSON.stringify(Parameter)
+                        })
+                    }
+                    console.log(JSON.stringify(body));
+                    fnPost('', body, 'application/json', false, function(ret, err) {
+                        if (ret) {
+                            if (ret.Status == 0) {
+                                //上传成功
+                                uploadPhotoList[uploadPhotoIndex].SFSC = "1";
+                                var db = api.require('db');
+                                var naviphotodata1 = db.executeSqlSync({
+                                    name: 'CBtest',
+                                    sql: "update MRM_NAVIPHOTOS_BEAN set SFSC='1' where _id=" + uploadPhotoList[uploadPhotoIndex]._id + ""
+                                });
+                                uploadPhotoIndex++;
+
+                                upload();
+                            } else {
+                                //上传失败
+                                uploadPhotoIndex++;
+                                upload();
+                            }
+                        } else {
+                            api.hideProgress();
+                            api.alert({
+                                msg: JSON.stringify(ret.Message)
+                            });
+                        }
+                    })
+                } else {
+                    api.hideProgress();
+                    alert(JSON.stringify(err.msg));
+                }
+            });
+
+        } else {
+            api.hideProgress();
+            alert("上传成功");
+        }
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'update': function() {
+            if ($(this).html() == "编辑") {
+                var yhbh = $('#one').val();
+                if (yhbh == null || yhbh == "") {
+                    api.toast({
+                        msg: '请输入用户编号',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                } else {
+                    queryPhoto2();
+                    $(this).html("完成");
+                }
+            } else {
+                queryPhoto();
+                $(this).html("编辑");
+            }
+        }
+    }
+</script>
+
+</html>

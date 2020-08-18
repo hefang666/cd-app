@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>图片预览页面</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/aui.css" />
+    <link rel="stylesheet" type="text/css" href="../css/vant.css" />
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #fff;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+            color: #FFF;
+            font-size: 0.95rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #FFF;
+            font-size: 0.95rem;
+        }
+
+        .aui-bar-nav .aui-pull-right {
+            font-size: 0.95rem;
+        }
+        .browserPicture{
+          margin-top: 2rem;
+        }
+
+    </style>
+</head>
+
+<body>
+
+</body>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript" src="../script/vue/vue.min.js"></script>
+<script type="text/javascript" src="../script/vue/vant.min.js"></script>
+<script type="text/javascript" src="../script/vue/vueTouch.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        initPictureBrowser();
+    };
+    function initPictureBrowser(){
+      vant.ImagePreview({
+          images:api.pageParam.images,
+          startPosition: api.pageParam.index,
+          className:'browserPicture',
+          onClose(){
+            api.closeWin({
+                name:'pictureBrowser',
+                animation:{
+                    type: "fade", //动画类型（详见动画类型常量）
+                    duration: 300 //动画过渡时间，默认300毫秒
+                }
+            });
+
+          }
+      });
+    }
+
+</script>
+
+</html>

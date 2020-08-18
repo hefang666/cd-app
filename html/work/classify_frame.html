@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>分类frame页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            height: 100%;
+            background-color: transparent;
+        }
+
+        .aui-content {
+            position: absolute;
+            width: 250px;
+            height: auto;
+            top: 40%;
+            left: calc( (100% - 250px)/2);
+            border-radius: 5px;
+        }
+
+        .aui-content ul li:last-child,
+        .aui-content ul {
+            background-image: none !important;
+        }
+
+        .aui-list-item {
+            background-position: 0 bottom !important;
+        }
+
+        input {
+            outline: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="aui-content aui-margin-b-15" id="bbb">
+        <ul class="aui-list aui-list-in">
+            <li class="aui-list-item" id="new" tapmode onclick="addClassify()">
+                <div class="aui-list-item-inner">
+                    新增分类
+                </div>
+            </li>
+            <li class="aui-list-item" id="update" tapmode onclick="editClassify()">
+                <div class="aui-list-item-inner">
+                    修改分类
+                </div>
+            </li>
+            <li class="aui-list-item" id="delete" tapmode onclick="deleteClassify()" style="display:none">
+                <div class="aui-list-item-inner">
+                    删除分类
+                </div>
+            </li>
+        </ul>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/diy/aui-dialog.js"></script>
+<script>
+    var myDiv = document.getElementById("bbb");
+    var dialog = new auiDialog();
+    var id;
+    var title;
+    var sort;
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        id = api.pageParam.id;
+        title = api.pageParam.title;
+        sort = api.pageParam.sort;
+        notDelete = api.pageParam.notDelete;
+        if (!notDelete) {
+            $('#delete').show();
+        }
+        document.addEventListener("touchstart", function() {
+            api.closeFrame({});
+        });
+        $api.setStorage('addClassify', true);
+        myDiv.addEventListener("touchstart", function(event) {
+            event = event || window.event;
+            event.stopPropagation();
+        });
+
+    };
+
+    //点击新增分类，弹出带输入框的对话框
+    function addClassify() {
+        dialog.prompt({
+            title: "新增分类",
+            text: '默认内容',
+            type: 'number',
+            buttons: ['确定', '取消']
+        }, function(ret) {
+            if (ret.buttonIndex == 1) {
+                if (ret.text != "") {
+                    var fun = "addClassify('" + ret.text + "')";
+                    api.execScript({
+                        name: 'main',
+                        frameName: 'main_frame',
+                        script: fun
+                    });
+                    api.closeFrame({
+                        name: 'classify_frame'
+                    });
+                } else {
+                    api.toast({
+                        msg: '新增失败，分类名不能为空！',
+                        duration: 2000,
+                        location: 'top'
+                    });
+                    return
+                }
+
+            }
+
+        })
+    }
+
+    //点击修改分类，弹出带输入框的对话框，输入框的值为当前分类名
+    function editClassify() {
+        dialog.prompt({
+            title: "修改分类",
+            text: '默认内容',
+            type: 'number',
+            buttons: ['确定', '取消'],
+            inputValue: title
+        }, function(ret) {
+            if (ret.buttonIndex == 1) {
+                if (ret.text != "") {
+                    var fun = "editClassify('" + title + "','" + ret.text + "','" + id + "','" + sort + "')";
+                    api.execScript({
+                        name: 'main',
+                        frameName: 'main_frame',
+                        script: fun
+                    });
+                    api.closeFrame({
+                        name: 'classify_frame'
+                    });
+                } else {
+                    api.toast({
+                        msg: '修改失败，分类名不能为空！',
+                        duration: 2000,
+                        location: 'top'
+                    });
+                    return
+                }
+
+            }
+        })
+    }
+
+    //点击删除分类，弹出确认提示框
+    function deleteClassify() {
+        dialog.alert({
+            msg: '确定删除吗',
+            buttons: ['确定', '取消']
+        }, function(ret) {
+            if (ret.buttonIndex == 1) {
+                var fun = "deleteClassify('" + id + "')";
+                api.execScript({
+                    name: 'main',
+                    frameName: 'main_frame',
+                    script: fun
+                });
+                api.closeFrame({
+                    name: 'classify_frame'
+                });
+            }
+        })
+    }
+</script>
+
+</html>

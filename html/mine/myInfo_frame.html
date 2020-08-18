@@ -1,0 +1,384 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>我的资料frame页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+        }
+
+        .aui-list:after {
+            display: none;
+        }
+
+        .aui-list {
+            background-image: none !important;
+        }
+
+        .aui-list-item-arrow:before {
+            border-color: #A2A2A2;
+        }
+
+        .mine_List .aui-list .aui-list-item-media {
+            width: 2rem;
+            height: 2rem;
+            padding: 0;
+            margin-right: 0.5rem;
+        }
+
+        .mine_List .aui-list .aui-list-item {
+            min-height: 2.7rem !important;
+            font-size: var(--fontsize75);
+        }
+
+        .aui-list-item-Noarrow {
+            overflow: hidden;
+            padding-right: 1.5rem !important;
+        }
+
+        .aui-toast {
+            left: 40% !important;
+            width: 11.5em !important;
+        }
+
+        .headImgDiv {
+            border: 1px solid;
+            border-radius: 50%;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .headImgDiv img {
+            height: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="aui-content mine_List" id='myInfoDemo'>
+
+    </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../script/aui-toast.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/template" id='myInfoList'>
+    <ul class="aui-list">
+        <li class="aui-list-item" tapmode onclick="selectHead()">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    头像
+                    <div class="aui-list-item-media">
+                        <div class="headImgDiv">
+                            <img src={{logoUrl}} class="aui-img-round">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-Noarrow">
+                    姓名
+                    <div class="aui-list-item-text">
+                        {{trueName}}
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-Noarrow">
+                    账号
+                    <div class="aui-list-item-text">
+                        {{loginAccount}}
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="aui-list-item" tapmode onclick="changeSex()">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    性别
+                    <div class="aui-list-item-text">
+                        {{genderString}}
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-Noarrow">
+                    员工号
+                    <div class="aui-list-item-text">
+                        {{workNo}}
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="aui-list-item" tapmode onclick="changeIDNumber()">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    身份证号
+                    <div class="aui-list-item-text" id="IDnumber">
+                        {{cardNumber}}
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-Noarrow">
+                    组织机构
+                    <div class="aui-list-item-text">
+                        {{orgNameList}}
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="aui-list-item" tapmode onclick="changeTel()">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-arrow">
+                    电话
+                    <div class="aui-list-item-text" id="tel">
+                        {{tel}}
+
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-Noarrow">
+                    手机
+                    <div class="aui-list-item-text" id="mobile">
+                        {{mobile}}
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-Noarrow">
+                    微信
+                    <div class="aui-list-item-text" id="weixin">
+                        {{wexin}}
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-Noarrow">
+                    QQ
+                    <div class="aui-list-item-text" id="QQ">
+                        {{qq}}
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-Noarrow">
+                    邮箱
+                    <div class="aui-list-item-text" id="email">
+                        {{email}}
+                    </div>
+                </div>
+            </div>
+        </li>
+
+        <li class="aui-list-item">
+            <div class="aui-list-item-inner">
+                <div class="aui-list-item-inner aui-list-item-Noarrow">
+                    钉钉
+                    <div class="aui-list-item-text" id="dingding">
+                        {{dingding}}
+                    </div>
+                </div>
+            </div>
+        </li>
+
+    </ul>
+</script>
+<script type="text/javascript">
+    var myInfoData = [];
+      var sex;
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+
+        api.parseTapmode();
+        setMyInfo();
+
+        api.addEventListener({
+            name: 'changedInfo'
+        }, function(ret, err) {
+
+          location.reload()
+        });
+
+    };
+    var tel = "";
+    var idCard = "";
+
+    function setMyInfo() {
+        fnGet('services/app/User/GetCurrentUserDetail', {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    var data = ret.result;
+                    if (ret.result.logoUrl != null) {
+                        // $('#headImg').attr('src', apiUrl + ret.result.logoUrl);
+                        data.logoUrl = apiUrl + ret.result.logoUrl;
+                    } else {
+                        data.logoUrl = '../../image/mine_frame/mine_head.png';
+                    }
+                    sex = data.gender;
+                    var str = template('myInfoList', data);
+                    $('#myInfoDemo').append(str);
+                }
+            }
+        })
+    }
+
+    //修改头像操作
+    function selectHead() {
+        api.actionSheet({
+            cancelTitle: '取消',
+            buttons: ['手机相册', '拍照']
+        }, function(ret, err) {
+            // console.log(ret.buttonIndex);
+            if (ret.buttonIndex == 1) {
+                api.getPicture({
+                    sourceType: 'library',
+                    encodingType: 'jpg',
+                    mediaValue: 'pic',
+                    destinationType: 'url',
+                    allowEdit: false,
+                    quality: 100,
+                    saveToPhotoAlbum: false
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.data != "") {
+                            api.openFrame({
+                                name: 'headCut_frm',
+                                url: './headCut_frm.html',
+                                rect: {
+                                    x: 0,
+                                    y: 0,
+                                    w: 'auto',
+                                    h: 'auto'
+                                },
+                                pageParam: {
+                                    img_src: ret.data
+                                },
+                                bounces: false,
+                                bgColor: 'rgba(0,0,0,0)',
+                            });
+                        }
+
+                    } else {
+                        alert(JSON.stringify(err));
+                    }
+                });
+            } else if (ret.buttonIndex == 2) {
+                api.getPicture({
+                    sourceType: 'camera',
+                    encodingType: 'jpg',
+                    mediaValue: 'pic',
+                    destinationType: 'url',
+                    allowEdit: false,
+                    quality: 100,
+                    saveToPhotoAlbum: false
+                }, function(ret, err) {
+                    if (ret) {
+                        if (ret.data != "") {
+                            api.openFrame({
+                                name: 'headCut_frm',
+                                url: './headCut_frm.html',
+                                rect: {
+                                    x: 0,
+                                    y: 0,
+                                    w: 'auto',
+                                    h: 'auto'
+                                },
+                                pageParam: {
+                                    img_src: ret.data
+                                },
+                                bounces: false,
+                                bgColor: 'rgba(0,0,0,0)',
+                            });
+                        }
+                    } else {
+                        // alert(JSON.stringify(err));
+                    }
+                });
+
+            }
+        });
+    }
+    //修改性别
+    function changeSex() {
+        api.openWin({
+            name: 'changeSex',
+            url: './changeSex.html',
+            pageParam: {
+                sex: sex
+            }
+        });
+    }
+
+    //修改身份证号码
+    function changeIDNumber() {
+        api.openWin({
+            name: 'changeIDNumber',
+            url: './changeIDNumber.html',
+            pageParam: {
+                idCard: idCard
+            }
+        });
+    }
+
+    //修改电话
+    function changeTel() {
+        api.openWin({
+            name: 'changeTel',
+            url: './changeTel.html',
+            pageParam: {
+                tel: tel
+            }
+        });
+    }
+</script>
+
+</html>

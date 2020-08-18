@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>在线查询</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            flex-flow: column;
+            display: flex;
+            background-color: #FAFAFA;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+        }
+
+        #top {
+            color: #909090;
+        }
+
+        #center {
+            width: 100%;
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        #footer {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            position: fixed;
+            bottom: 0;
+            text-align: center;
+            background-color: #2AAEFF;
+        }
+
+        .center_dv1 {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            padding-left: 10px;
+            border-bottom: 1px solid #E4E4E4;
+            background-color: #FAFAFA;
+            color: #909090;
+        }
+
+        .center_dv1:active {
+            background: #bec5d0;
+        }
+
+        .center_dv1 i {
+            margin-right: 5px;
+            line-height: 50px;
+        }
+
+        .center_dv1 img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+
+        .cone {
+            margin-top: 5px;
+        }
+
+        .center_dv2 {
+            padding-left: 30px;
+            padding-right: 30px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #E4E4E4;
+            color: #909090;
+        }
+
+        .center_dv3 {
+            display: flex;
+        }
+
+        .center_dv3_left {
+            flex: 1;
+        }
+
+        .detailed {
+            height: 48px;
+            line-height: 48px;
+            font-size: 20px;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: #000000;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left">返回</span>
+        </div>
+        <div class="aui-title">在线查询</div>
+        <div class="aui-pull-right aui-btn" data-action='query'>
+            <img src="../../image/MeteReading/tupian/filter.png" style="width:1.2rem;height:1.2rem" alt="">
+        </div>
+    </header>
+    <div id="top">
+        查询总数：
+    </div>
+    <div id="center">
+        <!-- <div class="center_dv">
+            <div class="center_dv1" onclick="dianji('0101000101')" param="0101000101">
+                <i class="aui-iconfont aui-icon-down" id="i-1001"></i>
+                <img src="../../image/MeteReading/drawable/weichao.png" class="img" id="img-1001">
+                <div class="cone">
+                    <div>0101000101</div>
+                    <div>张飞</div>
+                </div>
+            </div>
+            <div class="center_dv2" onclick="open('0101000101')" id="center_dv2_1001">
+                <div>户号：0101000101</div>
+                <div>户名：张飞</div>
+                <div>地址：重庆的</div>
+                <div>表位：厨房</div>
+                <div>固话：42560021</div>
+                <div>手机：</div>
+                <div>读数：100</div>
+                <div>用量：10</div>
+                <div class="center_dv3">
+                    <div class="center_dv3_left">
+                        <div>状态：正常</div>
+                        <div>日期：2020-04-10 09:37:00</div>
+                    </div>
+                    <div class="detailed">详细</div>
+                </div>
+
+            </div>
+        </div> -->
+    </div>
+    <div id="footer" onclick="limitquery()">
+        点击加载更多
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/template" id='userList'>
+    {{each datas value i}}
+    <div class="center_dv">
+        <div class="center_dv1" onclick="dianji('{{value}}')">
+            <i class="aui-iconfont aui-icon-down" id="i-{{value.YHBH}}"></i> {{if value.CBBZ!="1"}}
+            <img src="../../image/MeteReading/drawable/weichao.png" class="img" id="img-{{value.YHBH}}"> {{else}}
+            <img src="../../image/MeteReading/drawable/yichao.png" class="img" id="img-{{value.YHBH}}"> {{/if}}
+            <div class="cone">
+                <div>{{value.YHBH}}</div>
+                <div>{{value.YHMC}}</div>
+            </div>
+        </div>
+        <div class="center_dv2" onclick="cbopen('{{value}}')" id="center_dv2_{{value.YHBH}}">
+
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id='userData'>
+    <div>户号：{{user.YHBH}}</div>
+    <div>户名：{{user.YHMC}}</div>
+    <div>地址：{{user.YHDZ}}</div>
+    <div>区域：{{user.YYQY}}</div>
+    <div>欠费：{{user.QFJE}}</div>
+    <div>余额：{{user.YCYE}}</div>
+</script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+    var db;
+
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        $('#top').css('margin-top', '' + headerH + 'px');
+
+        var body = $api.byId('bd');
+        bodyH = $api.offset(body).h;
+        bodyW = $api.offset(body).w;
+
+        db = api.require('db');
+
+        $("#footer").hide();
+
+        api.openFrame({
+            name: 'onlineQueryParameter',
+            url: './onlineQueryParameter.html',
+            rect: {
+                x: 0,
+                y: headerH,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: {
+                name: 'test'
+            }
+        });
+
+        query();
+    };
+
+    var sql;
+    var pagesize = 10; //每页条数。
+    var pageindex = 1; //当前页码。
+    var pagemax; //最大分页数
+    var userList = []; //用户数组
+    var PageCode = 1;
+    function query() {
+        api.addEventListener({
+            name: 'onlineMeterRing'
+        }, function(ret, err) {
+            if (ret) {
+                YHBH = ret.value.YHBH;
+                YHMC = ret.value.YHMC;
+                YDDH = ret.value.YDDH;
+                var Parameter = {
+                    "ClientId": api.deviceId,
+                    "ClientName": api.deviceModel,
+                    "OperatorId": $api.getStorage('cbOperatorId'),
+                    "OperatorName": $api.getStorage('cbOperatorName'),
+                    "Required": "YHBH="+YHBH+"&YHMC="+YHMC+"&YHDZ=&YHDH="+YDDH+"&SBBH=&PAGECODE="+PageCode,
+                    "Type": "138"
+                };
+                var body = {
+                    body: JSON.stringify({
+                        "UserName": $api.getStorage('cbOperatorName'),
+                        "Password": $api.getStorage('cbPassword'),
+                        "SerialNo": dataTime(),
+                        "Method": "R999",
+                        "Parameter": JSON.stringify(Parameter)
+                    })
+                }
+                fnPost('', body, 'application/json', false, function(ret, err) {
+                    if (ret) {
+                        if (ret.Status == 0) {
+                            var summar = ret.Summary;
+                            var summars = summar.split("&");
+                            var count = summars[2];
+                            var counts = count.split("=");
+                            var max = counts[1];
+                            $('#top').html('查询总数：' + max);
+                            var Data = [];
+                            if (ret.Data != "" && ret.Data != " ") {
+                                Data = JSON.parse(ret.Data);
+                            }
+
+                            if (Data.length < 100) {
+                                $("#footer").hide();
+                            } else {
+                                $("#footer").show();
+                            }
+
+                            var datas = {
+                                datas: Data
+                            }
+                            var str = template('userList', datas);
+                            $('#center div').remove();
+                            $('#center').append(str);
+                            fnReady();
+                            fnReadyOpenWin();
+                        }
+                    }
+                })
+            } else {
+                
+            }
+        });
+    }
+
+    function show() {
+        var users = [];
+
+        for (var i = 0; i < userList.length; i++) {
+            users.push(userList[i]);
+            if (i == 19) {
+                break;
+            }
+        }
+
+        var datas = {
+            datas: users
+        }
+
+        var str = template('userList', datas);
+        $('#center div').remove();
+        $('#center').append(str);
+        fnReady();
+        fnReadyOpenWin();
+    }
+
+    function dianji(value) {
+        var data = JSON.parse(value);
+
+        var bool = $("#i-" + data.YHBH).is('.aui-icon-down'); //.attr("aui-icon-down");
+        if (bool) {
+            $("#i-" + data.YHBH).removeClass("aui-icon-down")
+            $("#i-" + data.YHBH).addClass("aui-icon-top")
+            var datas = {
+                user: data
+            }
+
+            var str = template('userData', datas);
+            $('#center_dv2_' + data.YHBH).append(str);
+        } else {
+            $("#i-" + data.YHBH).removeClass("aui-icon-top")
+            $("#i-" + data.YHBH).addClass("aui-icon-down")
+            $('#center_dv2_' + data.YHBH + ' div').remove();
+        }
+        fnReady();
+        fnReadyOpenWin();
+        //$("#i-1001").removeClass("aui-icon-down")
+        //$(this).addClass('changeDegrees')
+    }
+
+    function cbopen(value) {
+        api.openWin({
+            name: 'onlineDetails',
+            url: './onlineDetails.html',
+            slidBackEnabled: false,
+            pageParam: JSON.parse(value)
+        });
+    }
+
+    function limitquery() {
+        PageCode++;
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "YHBH="+YHBH+"&YHMC="+YHMC+"&YHDZ=&YHDH="+YDDH+"&SBBH=&PAGECODE="+PageCode,
+            "Type": "138"
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+
+                    if (Data.length < 100) {
+                        $("#footer").hide();
+                    }
+
+                    var datas = {
+                        datas: Data
+                    }
+                    var str = template('userList', datas);
+                    $('#center').append(str);
+                    fnReady();
+                    fnReadyOpenWin();
+                }
+            }
+        })
+
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'query': function() {
+            api.openFrame({
+                name: 'onlineQueryParameter',
+                url: './onlineQueryParameter.html',
+                rect: {
+                    x: 0,
+                    y: headerH,
+                    w: 'auto',
+                    h: 'auto'
+                },
+                pageParam: {
+                    name: 'test'
+                }
+            });
+        }
+    }
+</script>
+
+</html>

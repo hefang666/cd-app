@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+            background-color: #F3F3F3;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #center {
+            margin-left: 20px;
+            margin-right: 20px;
+            margin-bottom: 40px;
+            background-color: #ffffff;
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+        }
+
+        #name {
+            height: 60px;
+            margin-left: 20px;
+            margin-right: 20px;
+            font-size: 20px;
+            line-height: 60px;
+            background-color: #ffffff;
+            color: #3088FD;
+            text-align: center;
+            border-bottom: 2px solid #3088FD;
+        }
+
+        .dv {
+            display: flex;
+            flex-direction: row;
+            margin-top: 20px;
+            margin-left: 20px;
+            margin-right: 20px;
+            font-size: 18px;
+        }
+
+        .dv div {
+            flex: 1;
+        }
+
+        .dv_right {
+            text-align: right;
+            color: #676767;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">抄表统计</div>
+    </header>
+
+    <div id="name"></div>
+    <div id="center">
+        <div class="dv">
+            <div>抄表率</div>
+            <div class="dv_right" id="CBL"></div>
+        </div>
+        <div class="dv">
+            <div>抄见率</div>
+            <div class="dv_right" id="CJL"></div>
+        </div>
+        <div class="dv">
+            <div>已&nbsp;&nbsp;&nbsp;&nbsp;抄</div>
+            <div class="dv_right" id="YC"></div>
+        </div>
+        <div class="dv">
+            <div>未&nbsp;&nbsp;&nbsp;&nbsp;抄</div>
+            <div class="dv_right" id="WC"></div>
+        </div>
+        <div class="dv">
+            <div>正常数</div>
+            <div class="dv_right" id="ZCC"></div>
+        </div>
+        <div class="dv">
+            <div>估抄数</div>
+            <div class="dv_right" id="GC"></div>
+        </div>
+        <div class="dv">
+            <div>总户数</div>
+            <div class="dv_right" id="ZHS"></div>
+        </div>
+        <div class="dv">
+            <div>金&nbsp;&nbsp;&nbsp;&nbsp;额</div>
+            <div class="dv_right" id="JE"></div>
+        </div>
+        <div class="dv">
+            <div>正常水量</div>
+            <div class="dv_right" id="ZCSL"></div>
+        </div>
+        <div class="dv">
+            <div>估抄水量</div>
+            <div class="dv_right" id="GCSL"></div>
+        </div>
+        <div class="dv">
+            <div>总抄表水量</div>
+            <div class="dv_right" id="ZSL"></div>
+        </div>
+    </div>
+
+    <div id="footer">
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript">
+    var headerH;
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+
+        $('#name').css('margin-top', '' + (headerH + 20) + 'px');
+
+        var pageParam = api.pageParam;
+        if (pageParam.TYPE == "CBC") {
+            $('#name').html(pageParam.Data.CBB);
+            $('#CBL').html(pageParam.Data.CBL);
+            $('#CJL').html(pageParam.Data.CJL);
+            $('#YC').html(pageParam.Data.YC);
+            $('#WC').html(pageParam.Data.WC);
+            $('#ZCC').html(pageParam.Data.ZCC);
+            $('#GC').html(pageParam.Data.GC);
+            $('#ZHS').html(pageParam.Data.ZHS);
+            $('#JE').html(pageParam.Data.JE);
+            $('#ZCSL').html(pageParam.Data.ZCSL);
+            $('#GCSL').html(pageParam.Data.GCSL);
+            $('#ZSL').html(pageParam.Data.ZSL);
+        } else {
+            $('#name').html(pageParam.Data.KJ);
+            $('#CBL').html(pageParam.Data.CBL);
+            $('#CJL').html(pageParam.Data.CJL);
+            $('#YC').html(pageParam.Data.YC);
+            $('#WC').html(pageParam.Data.WC);
+            $('#ZCC').html(pageParam.Data.ZCC);
+            $('#GC').html(pageParam.Data.GC);
+            $('#ZHS').html(pageParam.Data.ZHS);
+            $('#JE').html(pageParam.Data.JE);
+            $('#ZCSL').html(pageParam.Data.ZCSL);
+            $('#GCSL').html(pageParam.Data.GCSL);
+            $('#ZSL').html(pageParam.Data.ZSL);
+        }
+    };
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        }
+    }
+</script>
+
+</html>

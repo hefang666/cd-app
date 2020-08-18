@@ -1,0 +1,923 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>登录页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            /*background: url(../../image/login/login_backgroud.png);
+            background-repeat: no-repeat;
+            background-size: 100% 100%;*/
+        }
+
+        .logo {
+            margin: 0 auto;
+            width: 50.93vw;
+            height: 45.59vw;
+            /*background: url(../../image/login/logo.png);
+            background-repeat: no-repeat;
+            background-size: 100%*/
+        }
+
+        .logoDiv {
+            width: 100%;
+            padding: 35.53vw 0 0 0;
+            /*margin: 20vw auto;*/
+        }
+
+        .row {
+            width: 80vw;
+            height: 44px;
+            border-radius: 1.57rem;
+            line-height: 44px;
+            margin: 0 auto;
+            margin-bottom: 1.07rem;
+            border: solid 1px rgba(255, 255, 255, 0.6);
+            padding: 0 4.8vw;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+
+        .userRow {
+            width: 75vw;
+            height: 44px;
+            line-height: 44px;
+            margin: 0 auto;
+            margin-bottom: 1.07rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            color: rgba(255, 255, 255, 0.6);
+            padding: 0 4.8vw;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+
+        .input {
+            width: calc( 100% - 5.07vw);
+            margin-right: 10px;
+            height: 6.2vw;
+            border: none;
+            outline: none;
+            font-size: 4.26vw;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.36vw;
+            color: #fefefe !important;
+            opacity: 0.6;
+            line-height: 6.2vw;
+            /*color: rgba(255, 255, 255, 0.6);*/
+        }
+
+        input::-webkit-input-placeholder {
+            color: #fefefe !important;
+            opacity: 0.6;
+        }
+
+        .loginDiv {
+            width: 100%;
+            height: 37vh;
+        }
+
+        .userSelect {
+            width: 5.07vw;
+            height: 2.67vw;
+            background: url(../../image/login/userSelect.png);
+            background-repeat: no-repeat;
+            background-size: 100%;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .active {
+            -webkit-transform: rotate(180deg);
+            transform: rotate(180deg);
+        }
+
+        .hidePassword {
+            width: 5.07vw;
+            height: 3.07vw;
+            background: url(../../image/login/hidePassword.png);
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+
+        .showPassword {
+            width: 5.07vw;
+            height: 3.07vw;
+            background: url(../../image/login/showPassword.png);
+            background-repeat: no-repeat;
+            background-size: 100%;
+        }
+
+        .login {
+            width: 80vw;
+            height: 44px;
+            line-height: 44px;
+            margin: 0 auto;
+            margin-bottom: 1.07rem;
+            font-size: var(--fontsize8);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.36vw;
+            color: #4c87b9;
+            border: 1px solid #fff;
+            border-radius: 1.57rem;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            background-color: #fff;
+        }
+
+        .self {
+            padding: 0 10vw;
+            height: 4vw;
+            /*display: flex;*/
+            align-items: center;
+            /*justify-content: space-between;*/
+        }
+
+        #self-p {
+            width: 4vw;
+            height: 4vw;
+            display: inline-block;
+            border: none;
+            outline: none;
+            margin-right: 1.87vw;
+        }
+
+        .uncheck {
+            background: url(../../image/login/unchecked.png) no-repeat center;
+            background-size: 100% 100%;
+        }
+
+        .checked {
+            background: url(../../image/login/checked.png) no-repeat center;
+            background-size: 100% 100%;
+        }
+
+        .self label {
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            display: inline;
+            letter-spacing: 0.32vw;
+            color: rgba(255, 255, 255, 0.4);
+            vertical-align: text-top;
+        }
+
+        .self a {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0.32vw;
+            cursor: pointer;
+        }
+
+        .left {
+            float: left;
+            width: 26vw;
+            height: 4vw;
+            line-height: 4vw;
+        }
+
+        .right {
+            float: right;
+            height: 4vw;
+            line-height: 4vw;
+        }
+
+        .otherLogin {
+            width: 100%;
+            height: 16px;
+            line-height: 16px;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            padding-top: 15%;
+        }
+
+        .otherLogin label {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.3);
+            vertical-align: text-top;
+        }
+
+        .leftLine {
+            float: left;
+            width: 24%;
+            height: 1px;
+            margin-right: 6.9%;
+            background: url(../../image/login/xian.png) no-repeat center;
+            background-size: 100% 1px;
+        }
+
+        .rightLine {
+            float: right;
+            width: 24%;
+            height: 1px;
+            margin-left: 6.9%;
+            background: url(../../image/login/xian.png) no-repeat center;
+            background-size: 100% 100%;
+        }
+
+        .icon {
+            height: auto;
+            padding: 0;
+            margin-top: 8%;
+            display: flex;
+            justify-content: center;
+        }
+
+        .icon .list {
+            float: left;
+            width: 39px;
+            height: 39px;
+            margin: 0 15px;
+        }
+
+        .icon .list:first-child {
+            margin: 0 15px 0 0;
+        }
+
+        .icon .list:last-child {
+            margin: 0 0 0 15px;
+        }
+
+        .list img {
+            width: 100%;
+        }
+
+        .footer {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 2%;
+            width: 100%;
+            font-size: 12px;
+            color: rgba(255, 255, 255, 0.3);
+            text-align: center;
+        }
+
+        .loginedUsers {
+            height: 50%;
+            overflow-y: auto;
+        }
+
+        .close {
+            width: 20px;
+            height: 20px;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-align-items: center;
+            align-items: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+        }
+
+        .notchilk {
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap">
+
+        <div class="logoDiv">
+            <div class="logo">
+            </div>
+        </div>
+
+        <div class="row">
+            <input id="username" class="input" type="text" placeholder="用户名">
+            <i class="userSelect" tapmode onclick="showRememberedUser()"></i>
+        </div>
+
+        <div class="loginedUsers" style="display:none">
+
+        </div>
+
+        <div class="row" id="pwInput">
+            <input id="password" class="input" type="password" placeholder="密码">
+            <i class="hidePassword" id="whetherShow" tapmode onclick="ShowOrHidePassword()"></i>
+        </div>
+        <!--
+        <div class="row">
+            <input id="IP" class="input" type="text" placeholder="服务器地址">
+        </div> -->
+
+        <div class="login" id="loginBtn" tapmode onclick="Login()">
+            立即登录
+        </div>
+
+        <div class="self" id="autoAndforget">
+            <div id="select" class="left">
+                <div class="uncheck checked" id="self-p" tapmode onclick="autoLogin()"></div>
+                <label>自动登录</label>
+            </div>
+            <div class="right"><a onclick="openServiceAddress()">设置服务器</a>
+                <!-- <a onclick="passwordBack()">忘记密码</a></div> -->
+
+            </div>
+
+            <!-- <div class="otherLogin" id="otherLogin">
+            <div class="leftLine"></div>
+            <label>第三方登录</label>
+            <div class="rightLine"></div>
+        </div>
+
+        <div class="icon" id="icon">
+            <div class="list">
+                <img src="../../image/login/qq.png" />
+            </div>
+            <div class="list">
+                <img src="../../image/login/weixin.png" />
+            </div>
+            <div class="list">
+                <img src="../../image/login/youxiang.png" />
+            </div>
+            <div class="list">
+                <img src="../../image/login/dingding.png" />
+            </div>
+        </div> -->
+
+            <!-- <div class="footer flex-con" id="footer">广西百色右江水务有限责任公司</div> -->
+        </div>
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript">
+    var remember = false;
+    var checkbox = $api.byId('self-p');
+    var first = null;
+    var apiUrl;
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        // $('#password').val('');
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            cancelAjax();
+            if (!first) {
+                first = new Date().getTime();
+                api.toast({
+                    msg: '再按一次退出',
+                    duration: 1500,
+                    location: 'bottom'
+                });
+                setTimeout(function() {
+                    first = null;
+                }, 2000);
+            } else {
+                if (new Date().getTime() - first < 2000) {
+                    api.closeWidget({
+                        silent: true
+                    });
+                }
+            }
+        });
+        // if (winHeight > 700) {
+        //     $api.css(otherLogin, 'margin-top:20%');
+        // };
+        $('.loginedUsers').hide();
+        isAutoLogin();
+        setRememberedUser();
+        //  监听是否设置了服务器
+        // 监听是否修改了服务器地址
+        api.addEventListener({
+            name: 'changeApiUrl'
+        }, function(ret, err) {
+            if (ret) {
+                var serviceAddress = $api.getStorage('apiUrl');
+                apiUrl = 'http://' + serviceAddress;
+            }
+        });
+    };
+
+    function cancelAjax() {
+        api.cancelAjax({
+            tag: 'getTenantCode'
+        });
+        api.cancelAjax({
+            tag: 'login'
+        });
+        api.hideProgress();
+    }
+
+    var flag = false;
+    $('#username').on({
+        'compositionstart': function() {
+            flag = true;
+        },
+        'compositionend': function() {
+            flag = false;
+            if (!flag) {
+                cancelAjax();
+            }
+        },
+        'input propertychange': function() {
+            if (!flag) {
+                cancelAjax();
+            }
+        }
+    });
+
+    $('#password').on({
+        'compositionstart': function() {
+            flag = true;
+        },
+        'compositionend': function() {
+            flag = false;
+            if (!flag) {
+                cancelAjax();
+            }
+        },
+        'input propertychange': function() {
+            if (!flag) {
+                cancelAjax();
+            }
+        }
+    });
+
+    //点击图标，查看密码
+    function ShowOrHidePassword() {
+        var eyes = $api.byId('whetherShow');
+        var pass = $api.byId('password');
+        $api.toggleCls(eyes, 'showPassword');
+        if ($api.hasCls(eyes, 'showPassword')) {
+            $api.attr(pass, 'type', 'text');
+        } else {
+            $api.attr(pass, 'type', 'password');
+        }
+    }
+
+    //自动登录勾选
+    function autoLogin() {
+        $api.toggleCls(checkbox, 'checked');
+        if ($api.hasCls(checkbox, 'checked')) {
+            remember = true;
+            $api.setStorage('autoLogin', 1);
+        } else {
+            remember = false;
+            $api.setStorage('autoLogin', 2);
+            $api.rmStorage('loginInfo');
+        }
+    }
+
+    //判断上次是否选择自动登录并默认设置自动登录的checkbox
+    function isAutoLogin() {
+        if (!$api.getStorage('autoLogin')) {
+            $api.setStorage('autoLogin', 1);
+            $api.addCls(checkbox, 'checked');
+        } else if ($api.getStorage('autoLogin') == 2) {
+            $api.removeCls(checkbox, 'checked');
+        }
+    }
+
+    //获取租户code，取账号@后的字符
+    function getTenantCode(data) {
+        var str = data;
+        var num = str.indexOf("@");
+        if (num != -1) {
+            str = str.substr(num + 1);
+            return str;
+        } else {
+            return "";
+        }
+    }
+
+    //获取用户名，取账号@前的字符
+    function getUsername(data) {
+        var str = data;
+        var num = str.indexOf("@");
+        if (num != -1) {
+            str = str.substring(0, num);
+            return str;
+        } else {
+            return "";
+        }
+    }
+
+    var isValued = false;
+    var recentUser = {
+        account: "",
+        password: ""
+    };
+    //记录登录过的用户，点击可以选择，点删除图标可以删除
+    function setRememberedUser() {
+        if ($api.getStorage('loginUsers')) {
+            var data = $api.getStorage('loginUsers');
+            var recentUserData = $api.getStorage('recentUser');
+            var url = $api.getStorage('apiUrl');
+            if (recentUserData) {
+                $('#username').val(recentUserData.account);
+                // $('#password').val(recentUserData.password);
+            }
+            // if (url) {
+            //     $('#IP').val(url);
+            // }
+            var html = "";
+            $('.loginedUsers').html('');
+            for (var i = 0; i < data.length; i++) {
+                var row = '<div class="userRow"><span class="input" id="user' + i + '">' + data[i].account + '</span><span style="display:none" id="pw' + i + '">' + data[i].password + '</span><img src="../../image/login/close.png" id="close' + i +
+                    '" class="close"></div>';
+                html += row;
+            };
+            $('.loginedUsers').append(html);
+            for (var j = 0; j < data.length; j++) {
+                $('#user' + j + '').on('touchstart', function() {
+                    $('#username').val($(this).html());
+                    // $('#password').val($(this).next().html());
+                    isValued = true;
+                    $('.userSelect').removeClass('active');
+                    $('.loginedUsers').hide();
+                    $('#username').removeAttr('readonly');
+                    $('#pwInput').show();
+                    $('#loginBtn').show();
+                    $('#autoAndforget').show();
+                    $('#otherLogin').show();
+                    $('#icon').show();
+                    $('#footer').show();
+                    $('#password').focus(function() {
+                        if (isValued) {
+                            $('#password').blur();
+                            isValued = false;
+                        }
+                    });
+                });
+                $('#close' + j + '').on('touchstart', function() {
+                    var log = $api.getStorage('loginUsers');
+                    var account = $(this).prev().prev().html();
+                    for (var i = 0; i < log.length; i++) {
+                        if (log[i].account == account) {
+                            log.splice(i, 1);
+                            $api.setStorage('loginUsers', log);
+                            break
+                        }
+                    }
+                    $(this).parents('.userRow').remove();
+                });
+            }
+        }
+    }
+
+    //下拉显示登录过的用户
+    function showRememberedUser() {
+        $('.userSelect').toggleClass('active');
+        if ($('.userSelect').hasClass('active')) {
+            $('.loginedUsers').show();
+            $('#username').attr('readonly', 'true');
+            $('#pwInput').hide();
+            $('#loginBtn').hide();
+            $('#autoAndforget').hide();
+            $('#otherLogin').hide();
+            $('#icon').hide();
+            $('#footer').hide();
+        } else {
+            $('.loginedUsers').hide();
+            $('#username').removeAttr('readonly');
+            $('#pwInput').show();
+            $('#loginBtn').show();
+            $('#autoAndforget').show();
+            $('#otherLogin').show();
+            $('#icon').show();
+            $('#footer').show();
+        }
+
+    }
+
+    function openFrameGroup() {
+        api.openTabLayout({
+            name: 'main',
+            url: 'widget://html/main.html',
+            bounces: false,
+            reload: true,
+            slidBackEnabled: false,
+            animation: {
+                type: "reveal",
+                subType: "from_bottom",
+                duration: 300
+            },
+            hideTabBar: false,
+            tabBar: {
+                height: 50,
+                selectedColor: '#4f79e8',
+                shadow: '#e6e6e6',
+                fontSize: 12,
+                textOffset: 6,
+                scrollEnabled: false,
+                list: [{
+                    text: "首页",
+                    iconPath: "widget://image/main/main.png",
+                    selectedIconPath: "widget://image/main/main_active.png"
+                }, {
+                    text: "消息",
+                    iconPath: "widget://image/main/message.png",
+                    selectedIconPath: "widget://image/main/message_active.png"
+                }, {
+                    text: "我的",
+                    iconPath: "widget://image/main/mine.png",
+                    selectedIconPath: "widget://image/main/mine_active.png"
+                }],
+                frames: [{
+                    name: "main_frame",
+                    url: "widget://html/work/main_frame.html"
+                }, {
+                    name: "message_frame",
+                    url: "widget://html/message/message_frame.html"
+                }, {
+                    name: "mine_frame",
+                    url: "widget://html/mine/mine_frame.html"
+                }]
+            }
+        });
+    }
+
+    //登陆过的用户数据存放
+    var loginedData = [];
+
+    //点击登录，请求接口
+    // function Login() {
+    //     var userName = $api.byId('username').value;
+    //     var password = $api.byId('password').value;
+    //     // var url = $api.byId('IP').value;
+    //     var serviceAddress = $api.getStorage('apiUrl');
+    //     if (serviceAddress == null || serviceAddress == undefined || serviceAddress == ' ') {
+    //         api.toast({
+    //             msg: '请先设置服务器',
+    //             duration: 2000,
+    //             location: 'middle'
+    //         });
+    //         return false;
+    //     }
+    //     if (isEmpty(userName) || isEmpty(password)) {
+    //         api.toast({
+    //             msg: '用户名或密码不能为空',
+    //             duration: 2000,
+    //             location: 'top'
+    //         });
+    //         return;
+    //     }
+    //     // var tenantcode = getTenantCode(userName);
+    //     // var username = getUsername(userName);
+    //     // var loginData = {
+    //     //     userName: userName,
+    //     //     password: password,
+    //     //     rememberMe: remember,
+    //     //     tenantCode: "",
+    //     //     encryptPassword: ""
+    //     // };
+    //     var loginData = {
+    //         userName: userName,
+    //         password: password,
+    //         validCode: "",
+    //         rememberMe: false,
+    //         tenantCode: "cqzls",
+    //         IsVerificationCode: false,
+    //         sessionId: "",
+    //         loginType: ""
+    //     };
+    //     // apiUrl= 'http://' + url;
+    //     app.apipath = apiUrl + '/api/';
+    //     fnGet('services/app/Tenant/GetTenantAll', {}, false, function(ret, err) {
+    //         if (ret && ret.success) {
+    //             if (ret.result.length > 0) {
+    //                 loginData.tenantCode = ret.result[0].identifier;
+    //             }
+    //             fnPost('TokenAuth/Authenticate', {
+    //                 body: JSON.stringify(loginData)
+    //             }, 'application/json', false, false, function(ret, err) {
+    //                 // fnPost('TokenAuth/APPAuthenticate', {
+    //                 //     body: JSON.stringify(loginData)
+    //                 // }, 'application/json', false, false, function(ret, err) {
+    //                 if (ret) {
+    //                     if (ret.success) {
+    //                         var Authorization = 'Bearer ' + ret.result.accessToken;
+    //                         $api.setStorage('loginInfo', Authorization);
+    //                         // $api.setStorage('allTenants', ret.result.allTenants);
+    //                         $api.setStorage('tenantId', ret.result.tenantId);
+    //                         $api.setStorage('loginData', loginData);
+    //                         loginedData = $api.getStorage('loginUsers');
+    //                         var userData = {
+    //                             account: userName,
+    //                             password: password
+    //                         }
+    //                         var bindData = {
+    //                             userId: ret.result.userId,
+    //                             machineCode: $api.getStorage('registrationId')
+    //                         }
+    //                         fnPost('services/app/User/UpdateMachineCode', {
+    //                             body: JSON.stringify(bindData)
+    //                         }, 'application/json', true, true, function(ret, err) {})
+    //                         recentUser.account = userName;
+    //                         recentUser.password = password;
+    //                         $api.setStorage('recentUser', recentUser);
+    //                         if (loginedData == undefined) {
+    //                             loginedData = [];
+    //                         }
+    //                         if (loginedData.length == 0) {
+    //                             loginedData.push(userData);
+    //                         } else {
+    //                             for (var i = 0; i < loginedData.length; i++) {
+    //                                 if (loginedData[i].account == userData.account) {
+    //                                     break
+    //                                 }
+    //                                 if (i == loginedData.length - 1) {
+    //                                     loginedData.push(userData);
+    //                                 }
+    //                             }
+    //                         }
+    //                         $api.setStorage('loginUsers', loginedData);
+    //                         api.openWin({
+    //                             name: 'main',
+    //                             url: '../../html/main.html',
+    //                             bounces: false,
+    //                             reload: true,
+    //                             slidBackEnabled: false,
+    //                             animation: {
+    //                                 type: "reveal", //动画类型（详见动画类型常量）
+    //                                 subType: "from_bottom", //动画子类型（详见动画子类型常量）
+    //                                 duration: 300 //动画过渡时间，默认300毫秒
+    //                             }
+    //                         });
+    //                         // openFrameGroup();
+    //                         setRememberedUser();
+    //                     }
+    //                 }
+    //             }, 'login');
+    //         } else {
+    //             api.hideProgress();
+    //         }
+    //     }, true, 'getTenantCode')
+    // }
+
+    function Login() {
+        var userName = $api.byId('username').value;
+        var password = $api.byId('password').value;
+        // var url = $api.byId('IP').value;
+        var serviceAddress = $api.getStorage('apiUrl');
+        if (serviceAddress == null || serviceAddress == undefined || serviceAddress == ' ') {
+            api.toast({
+                msg: '请先设置服务器',
+                duration: 2000,
+                location: 'middle'
+            });
+            return false;
+        }
+        if (isEmpty(userName) || isEmpty(password)) {
+            api.toast({
+                msg: '手机号或密码不能为空',
+                duration: 2000,
+                location: 'top'
+            });
+            return;
+        }
+        // var tenantcode = getTenantCode(userName);
+        // var username = getUsername(userName);
+        // 用户登录信息 （用于租户token过期后重新自动登录）zxf 2019.12.9
+        var userLoginInformation = new Object();
+        var CurrentLocation = $api.getStorage('CurrentLocation');
+        // console.log(JSON.stringify(CurrentLocation));
+        var loginData = {
+            userName: userName,
+            password: password,
+            rememberMe: remember,
+            tenantCode: "",
+            encryptPassword: "",
+            lng: "",
+            lat: "",
+            account: "",
+            passWord: ""
+        };
+        var loginDataPc = {
+            userName: userName,
+            password: password,
+            rememberMe: remember,
+            validCode: "",
+            tenantCode: "opengis",
+            sessionId: "",
+            isVerificationCode: true,
+            loginType: ""
+        };
+        // apiUrl= 'http://' + url;
+        app.apipath = apiUrl + '/api/';
+        userLoginInformation.loginData = loginData;
+        userLoginInformation.loginUrl = app.apipath + 'TokenAuth/APPAuthenticate';
+        userLoginInformation.newVersionRemark = [];
+        userLoginInformation.newVersionNumber = 0;
+        // app
+        fnPost('TokenAuth/APPAuthenticate', {
+            body: JSON.stringify(loginData)
+        }, 'application/json', false, false, function(ret, err) {
+
+            //  pc
+            //  fnPost('TokenAuth/Authenticate', {
+            //      body: JSON.stringify(loginDataPc)
+            //  }, 'application/json', false, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    // 保存用户登录成功后所有信息 zxf 2019.12.9
+                    userLoginInformation.loginSuccessData = ret.result;
+                    $api.setStorage('userLoginInformation', userLoginInformation);
+
+                    var Authorization = 'Bearer ' + ret.result.accessToken;
+                    $api.setStorage('loginInfo', Authorization);
+                    $api.setStorage('allTenants', ret.result.allTenants);
+                    $api.setStorage('tenantId', ret.result.tenantId);
+                    $api.setStorage('loginData', loginData);
+                    loginedData = $api.getStorage('loginUsers');
+                    var userData = {
+                        account: userName,
+                        password: password
+                    }
+                    var bindData = {
+                        userId: ret.result.userId,
+                        machineCode: $api.getStorage('registrationId') //手机唯一编码 index中
+                    }
+                    fnPost('services/app/User/UpdateMachineCode', {
+                        body: JSON.stringify(bindData)
+                    }, 'application/json', true, true, function(ret, err) {})
+                    recentUser.account = userName;
+                    recentUser.password = password;
+                    $api.setStorage('recentUser', recentUser);
+                    if (loginedData == undefined) {
+                        loginedData = [];
+                    }
+                    if (loginedData.length == 0) {
+                        loginedData.push(userData);
+                    } else {
+                        for (var i = 0; i < loginedData.length; i++) {
+                            if (loginedData[i].account == userData.account) {
+                                break
+                            }
+                            if (i == loginedData.length - 1) {
+                                loginedData.push(userData);
+                            }
+                        }
+                    }
+                    $api.setStorage('loginUsers', loginedData);
+                    api.openWin({
+                        name: 'main',
+                        url: '../../html/main.html',
+                        bounces: false,
+                        reload: true,
+                        slidBackEnabled: false,
+                        animation: {
+                            type: "reveal", //动画类型（详见动画类型常量）
+                            subType: "from_bottom", //动画子类型（详见动画子类型常量）
+                            duration: 300 //动画过渡时间，默认300毫秒
+                        }
+                    });
+                    // openFrameGroup();
+                    setRememberedUser();
+                }
+            }
+        })
+
+    }
+    //  设置服务器
+    function openServiceAddress() {
+        //首先先判断是否设置了服务器，没设置则提示设置服务器
+        api.openWin({
+            name: 'settingService',
+            url: '../mine/settingService.html',
+        });
+
+
+    }
+</script>
+
+</html>

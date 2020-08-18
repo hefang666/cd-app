@@ -1,0 +1,699 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>考勤页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #FFF;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 3;
+            font-size: 0.9rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            font-weight: 900;
+        }
+
+        .flex-con {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .aui-list .aui-list-item-title {
+            font-size: 0.85rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .aui-list .aui-list-item-text:first-child,
+        .aui-list .aui-list-item-text:last-child {
+            margin-bottom: 0;
+        }
+
+        .aui-list .aui-list-item-text {
+            font-size: 0.7rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+            margin-bottom: 0.65rem;
+        }
+
+        .aui-media-list .aui-list-item-inner {
+            padding: 0;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .Title {
+            width: 4rem;
+            display: inline-flex;
+            justify-content: flex-end;
+            font-size: 0.75rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        .Text {
+            width: calc(100% - 3.6rem);
+            display: inline-flex;
+            font-size: 0.75rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+        }
+
+        .text {
+            font-size: 0.65rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999 !important;
+            border: none;
+            background-size: 100% 1px;
+            background-repeat: no-repeat;
+            background-position: top;
+            background-image: linear-gradient(0, #e6e6e6, #e6e6e6 50%, transparent 50%);
+            background-image: -webkit-linear-gradient(90deg, #e6e6e6, #e6e6e6 50%, transparent 50%);
+        }
+
+        .title {
+            font-size: 0.75rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333 !important;
+            background-color: #f1f1f1;
+            margin-top: 0.75rem !important;
+            border: none;
+            background-size: 100% 1px;
+            background-repeat: no-repeat;
+            background-position: top;
+            background-image: linear-gradient(0, #e6e6e6, #e6e6e6 50%, transparent 50%);
+            background-image: -webkit-linear-gradient(90deg, #e6e6e6, #e6e6e6 50%, transparent 50%);
+        }
+
+        .aui-content {
+            padding-top: 1rem;
+        }
+
+        .aui-list .aui-list-item:after {
+            border-bottom: none;
+        }
+
+        .aui-list:after {
+            border-top: none
+        }
+
+        .aui-list .aui-list-item {
+            padding-left: 0rem;
+        }
+
+        .aui-list .aui-list-item:active {
+            background-color: transparent
+        }
+
+        .aui-media-list-item-inner {
+            padding: 0.3rem 0.75rem;
+        }
+
+        .text .aui-media-list-item-inner {
+            padding: 0.5rem 0.75rem;
+        }
+
+        ul li:first-child .aui-media-list-item-inner {
+            padding-bottom: 0
+        }
+
+        .attend-map {
+            width: 100%;
+            background: #666;
+            height: 200px;
+            border-radius: 5px;
+            border: 1px solid #03a9f4;
+        }
+
+        .refreshBtn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            padding: 0 0.3rem;
+            font-size: 0.6rem;
+            color: #03a9f4;
+        }
+
+        .aui-iconfont.aui-icon-refresh {
+            font-size: 0.55rem;
+            margin-right: 0;
+        }
+
+        .aui-list .aui-list-item-inner,
+        .aui-list .aui-list-item {
+            min-height: 0;
+        }
+
+        .qiandao {
+            position: absolute;
+            width: 4rem;
+            height: 3.67rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            right: 0;
+            bottom: 0.1rem;
+            background-color: #fff;
+            z-index: 999
+        }
+
+        .QDBtn {
+            padding: 0;
+            width: 3.17rem;
+            height: 3.17rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 3rem;
+            background-color: #03a9f4;
+            color: #fff;
+        }
+
+        #footer {
+            background-color: #f8f8f8;
+            height: 2.5rem;
+        }
+
+        #footer ul li {
+            padding-top: 1.3rem;
+            margin-top: 0.3rem;
+            font-size: 0.6rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #666666;
+            background: url() no-repeat center 0;
+            background-size: auto 1.1rem;
+            text-align: center;
+        }
+
+        #footer ul li.active {
+            color: #4f79e8;
+        }
+
+        #footer ul li:nth-child(1) {
+            background-image: url(../../image/mine_frame/refresh.png);
+        }
+
+        #footer ul li:nth-child(2) {
+            background-image: url(../../image/mine_frame/record.png);
+        }
+
+        .timeText {
+            font-size: 0.65rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333 !important;
+        }
+
+        .lag,
+        .leave_early {
+            color: red;
+            margin-right: 5rem;
+        }
+
+        .hide {
+            color: transparent
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <header class="aui-bar aui-bar-nav aui-border-b" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action="back">
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">我的考勤</div>
+        </header>
+
+        <div class="flex-con">
+            <div class="aui-content">
+                <ul class="aui-list aui-media-list aui-border-b" id="kaoqinList">
+
+                    <li class="aui-list-item aui-list-item-middle" style="margin-top:220px">
+                        <div class="aui-media-list-item-inner">
+                            <div class="aui-list-item-inner aui-border-b">
+                                <span class="Title">今天日期：</span>
+                                <span class="Text" id="date"></span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="aui-list-item aui-list-item-middle">
+                        <div class="aui-media-list-item-inner">
+                            <div class="aui-list-item-inner">
+                                <span class="Title">考勤地址：</span>
+                                <span class="Text" id="address">定位中...</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <!-- <li class="aui-list-item aui-list-item-middle">
+                        <div class="aui-media-list-item-inner">
+                            <div class="attend-map" id="mapContainer">
+
+                            </div>
+                            <div class="aui-btn refreshBtn" id="refreshBtn">
+                                <span class="aui-iconfont aui-icon-refresh"></span>
+                                <span id="btnText">正在定位</span>
+                            </div>
+                        </div>
+                    </li> -->
+
+                    <!-- <li class="aui-list-item aui-list-item-middle title">
+                        <div class="aui-media-list-item-inner">
+                            <div class="aui-list-item-inner">
+                                {{shiftName}}(今天)
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="aui-list-item aui-list-item-middle text">
+                        <div class="aui-media-list-item-inner">
+                            <div class="aui-list-item-inner">
+                                上班[08:15]
+                                <span class="timeText" id="onDuty">08:00</span>
+                                <span class="lag" id="lag">迟到</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li class="aui-list-item aui-list-item-middle text">
+                        <div class="aui-media-list-item-inner">
+                            <div class="aui-list-item-inner">
+                                下班[17:45]
+                                <span class="timeText" id="offDuty">18:00</span>
+                                <span class="leave_early hide" id="leave_early">早退</span>
+                            </div>
+                        </div>
+                    </li>
+
+                    <div class="qiandao">
+                        <div class="aui-btn QDBtn" id="QDBtn" data-action="qiandao">签到</div>
+                    </div> -->
+
+                </ul>
+            </div>
+        </div>
+
+        <div id="footer">
+            <ul class="flex-wrap">
+                <li tapmode="hover" class="flex-con" id="delete" tapmode data-action="refreshPage">刷新</li>
+                <li tapmode="hover" class="flex-con" id="add" tapmode data-action="record">打卡记录</li>
+            </ul>
+        </div>
+    </div>
+</body>
+<!-- <script src="https://webapi.amap.com/maps?v=1.4.13&key=451b85cfeafac1f820f8da9866bc989b"></script> -->
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/moment.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/template" id="signTimeTpl">
+    <li class="aui-list-item aui-list-item-middle title">
+        <div class="aui-media-list-item-inner">
+            <div class="aui-list-item-inner">
+                {{if !shift}} 休息 {{else}} {{shiftName}}(今天) {{/if}}
+            </div>
+        </div>
+    </li>
+
+    {{if !shift}}
+    <li class="aui-list-item aui-list-item-middle text">
+        <div class="aui-media-list-item-inner">
+            <div class="aui-list-item-inner">
+                上班[--]
+                <span class="timeText" id="onDuty">{{sign_time.sign_in_time}}</span>
+                <span class="lag hide" id="lag">迟到</span>
+            </div>
+        </div>
+    </li>
+    <li class="aui-list-item aui-list-item-middle text">
+        <div class="aui-media-list-item-inner">
+            <div class="aui-list-item-inner">
+                下班[--]
+                <span class="timeText" id="offDuty">{{sign_time.sign_out_time}}</span>
+                <span class="leave_early hide" id="leave_early">早退</span>
+            </div>
+        </div>
+    </li>
+    {{else}}
+    <li class="aui-list-item aui-list-item-middle text">
+        <div class="aui-media-list-item-inner">
+            <div class="aui-list-item-inner">
+                上班[{{sign_time.sign_in_time}}]
+                <span class="timeText" id="onDuty">
+                {{if sign_time.result.sign_in_time != undefined}}
+                {{sign_time.result.sign_in_time}}
+                {{/if}}
+                </span> {{if sign_time.result.lag != undefined && sign_time.result.lag}}
+                <span class="lag" id="lag">迟到</span> {{else}}
+                <span class="lag hide" id="lag">迟到</span> {{/if}}
+            </div>
+        </div>
+    </li>
+    <li class="aui-list-item aui-list-item-middle text">
+        <div class="aui-media-list-item-inner">
+            <div class="aui-list-item-inner">
+                下班[{{sign_time.sign_out_time}}]
+                <span class="timeText" id="offDuty">
+              {{if sign_time.result.sign_out_time != undefined}}
+              {{sign_time.result.sign_out_time}}{{/if}}
+            </span> {{if sign_time.result.leave_early != undefined && sign_time.result.leave_early}}
+                <span class="leave_early" id="leave_early">早退</span> {{else}}
+                <span class="leave_early hide" id="leave_early">早退</span> {{/if}}
+            </div>
+        </div>
+    </li>
+    {{/if}}
+
+    <div class="qiandao">
+        <div class="aui-btn QDBtn" id="QDBtn" data-action="qiandao">
+            {{if !shift}} {{if sign_time.sign_in_time != ""}}签退{{else}}签到{{/if}} {{else}} {{if sign_time.result.sign_in_time != undefined}}签退{{else}}签到{{/if}} {{/if}}
+        </div>
+    </div>
+</script>
+<script type="text/javascript">
+    var url;
+    apiready = function() {
+        api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        fnReady();
+        var date = moment().format('YYYY-MM-DD  dddd');
+        dateForSign = moment().format('YYYY-MM-DD');
+        $('#date').html(date);
+        aMap = api.require('aMap');
+        aMap.open({
+            rect: {
+                x: 20,
+                y: headerH + 20,
+                w: api.winWidth - 40,
+                h: 200
+            },
+            showUserLocation: true,
+            zoomLevel: 18,
+            fixedOn: api.frameName,
+            fixed: true,
+            showsAccuracyRing: false
+        }, function(ret, err) {
+            if (ret.status) {
+                getLocation();
+            }
+        });
+        api.openFrame({
+            name: 'resetLoactionBtn_frm',
+            url: './resetLoactionBtn_frm.html',
+            rect: {
+                x: api.winWidth - 100,
+                y: headerH + 180,
+                w: 74,
+                h: 30
+            },
+            bounces: false,
+            bgColor: 'rgba(0,0,0,0)',
+        });
+
+        // var map = new AMap.Map('mapContainer', {
+        //     resizeEnable: true
+        // })
+        //
+        // map.plugin('AMap.Geolocation', function() {
+        //     var geolocation = new AMap.Geolocation({
+        //         GeoLocationFirst: true,
+        //         noIpLocate: 1,
+        //         noGeoLocation: 0,
+        //         // 是否使用高精度定位，默认：true
+        //         enableHighAccuracy: true,
+        //         // 设置定位超时时间，默认：无穷大
+        //         timeout: 10000,
+        //         // 定位按钮的停靠位置的偏移量，默认：Pixel(10, 20)
+        //         buttonOffset: new AMap.Pixel(10, 20),
+        //         //  定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+        //         zoomToAccuracy: true,
+        //         //  定位按钮的排放位置,  RB表示右下
+        //         buttonPosition: 'RB',
+        //         showButton: false,
+        //     });
+        //     map.addControl(geolocation);
+        //     geolocation.getCurrentPosition();
+        //     AMap.event.addListener(geolocation, 'complete', onComplete)
+        //     AMap.event.addListener(geolocation, 'error', onError)
+        //     var btn = document.getElementById("refreshBtn");
+        //     // 绑定事件
+        //     var listener = AMap.event.addDomListener(btn, "click", function(ev) {
+        //         // DOM 被点击时触发，ev 为原生事件
+        //         $('#address').html('定位中...');
+        //         $('#btnText').html('正在定位');
+        //         geolocation.getCurrentPosition();
+        //         AMap.event.addListener(geolocation, 'complete', onComplete)
+        //         AMap.event.addListener(geolocation, 'error', onError)
+        //     });
+        // })
+        getSignTime();
+        api.addEventListener({
+            name: 'resetLocation'
+        }, function(ret, err) {
+            if (ret) {
+                $('#address').html('定位中...');
+                getLocation();
+            }
+        });
+
+    };
+
+    function getLocation() {
+        aMap.getLocation(function(ret, err) {
+            if (ret.status) {
+                aMap.getNameFromCoords({
+                    lon: ret.lon,
+                    lat: ret.lat
+                }, function(ret, err) {
+                    if (ret.status) {
+                        $('#address').html(ret.address);
+                        signData.address = ret.address;
+                        api.sendEvent({
+                            name: 'setLoaction',
+                            extra: {}
+                        });
+                    }
+                });
+                signData.lat = ret.lat;
+                signData.long = ret.lon;
+                aMap.setCenter({
+                    coords: {
+                        lon: ret.lon,
+                        lat: ret.lat
+                    },
+                    animation: true
+                });
+            }
+        });
+    }
+
+    function getSignTime() {
+        fnGet('services/Report/Eoffice/GetMineLasttwoday', {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    var sign_time;
+                    var shiftName = "";
+                    if (!ret.result.today.shift) {
+                        sign_time = ret.result.today.result
+                    } else {
+                        sign_time = ret.result.today.sign_time[0];
+                        shiftName = ret.result.today.shift.shift_name;
+                    }
+                    var list = {
+                        shiftName: shiftName,
+                        sign_time: sign_time,
+                        shift: ret.result.today.shift
+                    };
+                    var str = template('signTimeTpl', list);
+                    $('#kaoqinList').append(str);
+                    api.parseTapmode();
+                    operationDom();
+                }
+            }
+        })
+    }
+
+    // function onComplete(data) {
+    //     // data是具体的定位信息
+    //     $('#address').html(data.formattedAddress);
+    //     signData.address = data.formattedAddress;
+    //     signData.lat = data.position.lat;
+    //     signData.long = data.position.lng;
+    //     $('#btnText').html('重新定位');
+    // }
+    //
+    // function onError(data) {
+    //     // 定位出错
+    //     alert(data.message)
+    // }
+
+    var signData = {
+        "address": "",
+        "lat": 0,
+        "long": 0,
+        "platform": "mobile_app",
+        "signDate": "",
+        "signTimes": 1,
+        "attendWifiName": "",
+        "attendWifiMac": ""
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'refreshPage': function() {
+            location.reload();
+        },
+        'record': function() {
+            fnGet('services/Report/Eoffice/GetEofficeApiUrl', {}, false, function(ret, err) {
+                if (ret) {
+                    if (ret.success) {
+                        url = ret.result + 'eoffice10/client/app/mobile/#/home/profile/sign-records';
+                        api.openWin({
+                            name: 'OA',
+                            url: '../work/OA.html',
+                            pageParam: {
+                                url: url,
+                            }
+                        });
+                    }
+                }
+            })
+        },
+        'qiandao': function() {
+            var time = moment().format('HH:mm:ss');
+            var that = this;
+            signData.signDate = dateForSign;
+            if ($('#address').html() == '定位中...') {
+                api.toast({
+                    msg: '正在定位中，请稍候再进行操作',
+                    duration: 2000,
+                    location: 'top'
+                });
+            } else {
+                if ($(this).text().trim() == '签到') {
+                    fnPost('services/Report/Eoffice/PostSignInAsync', { //签到
+                            body: JSON.stringify(signData)
+                        }, 'application/json', true, false, function(ret, err) {
+                            if (ret) {
+                                if (ret.success) {
+                                    fnGet('services/Report/Eoffice/GetMineLasttwoday', {}, false, function(ret, err) {
+                                        if (ret) {
+                                            if (ret.success) {
+                                                var sign_in_time;
+                                                var lag;
+                                                if (!ret.result.today.shift) {
+                                                    sign_in_time = ret.result.today.result.sign_in_time
+                                                } else {
+                                                    sign_in_time = ret.result.today.sign_time[0].result.sign_in_time;
+                                                    lag = ret.result.today.sign_time[0].result.lag;
+                                                }
+                                                if (sign_in_time != undefined) {
+                                                    $('#onDuty').text(sign_in_time);
+                                                }
+                                                if (lag != undefined && lag) {
+                                                    $('#lag').removeClass('hide');
+                                                } else {
+                                                    $('#lag').addClass('hide');
+                                                }
+                                                $(this).text('签退');
+                                                api.toast({
+                                                    msg: '签到成功！签到时间：' + sign_in_time + '',
+                                                    duration: 2000,
+                                                    location: 'top'
+                                                });
+                                            }
+                                        }
+                                    })
+                                }
+                            }
+                        })
+                        // $('#onDuty').text(time);
+                } else if ($(this).text().trim() == '签退') {
+                    fnPost('services/Report/Eoffice/PostSignOutAsync', { //签退
+                        body: JSON.stringify(signData)
+                    }, 'application/json', true, false, function(ret, err) {
+                        if (ret) {
+                            if (ret.success) {
+                                fnGet('services/Report/Eoffice/GetMineLasttwoday', {}, false, function(ret, err) {
+                                    if (ret) {
+                                        if (ret.success) {
+                                            var sign_out_time;
+                                            var leave_early;
+                                            if (!ret.result.today.shift) {
+                                                sign_out_time = ret.result.today.result.sign_out_time
+                                            } else {
+                                                sign_out_time = ret.result.today.sign_time[0].result.sign_out_time;
+                                                leave_early = ret.result.today.sign_time[0].result.leave_early;
+                                            }
+                                            if (sign_out_time != undefined) {
+                                                $('#offDuty').text(sign_out_time);
+                                            }
+                                            if (leave_early != undefined && leave_early) {
+                                                $('#leave_early').removeClass('hide');
+                                            } else {
+                                                $('#leave_early').addClass('hide');
+                                            }
+                                            api.toast({
+                                                msg: '签退成功！签退时间：' + sign_out_time + '',
+                                                duration: 2000,
+                                                location: 'top'
+                                            });
+                                        }
+                                    }
+                                })
+
+
+                            }
+                        }
+                    })
+                }
+            }
+        }
+    }
+</script>
+
+</html>

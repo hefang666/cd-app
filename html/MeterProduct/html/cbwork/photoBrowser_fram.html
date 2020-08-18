@@ -1,0 +1,144 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>图片阅览</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style media="screen">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(243, 243, 243.1);
+        }
+
+        .flex-wrap-box {
+            height: 100%;
+            overflow: hidden;
+        }
+    </style>
+    </style>
+</head>
+
+<body tapmode data-action="back">
+    <div class="flex-wrap-box flex-vertical">
+
+
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/template" id="Booksdata">
+
+</script>
+<script type="text/javascript">
+    var db,yhbh,srcOnlien,secImg;
+    apiready = function() {
+      db = api.require("db");
+
+        //api.parseTapmode();
+        yhbh = api.pageParam.statu;
+        secImg = api.pageParam.src;
+        var ret1 = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_USER_BEAN WHERE YHBH="' + yhbh + '"'
+        });
+        var UserDetails = ret1.data[0];
+        srcOnlien = secImg.substring(0,4)
+        console.log(srcOnlien);
+        var photoBrowser = api.require("photoBrowser");
+        photoBrowser.open({
+            images: [
+                api.pageParam.src
+            ],
+            // placeholderImg: 'widget://res/img/apicloud.png',
+            bgColor: '#000'
+        }, function(ret, err) {
+            if (ret) {
+                if (ret.eventType == 'show') {
+
+                }
+                if (ret.eventType == 'click') {
+
+
+
+                    api.closeWin()
+                }
+                if(yhbh!=undefined){//判断是否为表位图片是如果本地就删除网络不删除
+                  if (ret.eventType == 'longPress') {
+                      if(srcOnlien!="http" && UserDetails.CBBZ != "1"){
+                        api.confirm({
+                            title: '图片删除',
+                            msg: '是否删除表位图片',
+                            buttons: ['确定', '取消']
+                        }, function(ret, err){
+                            if( ret ){
+                                var index = ret.buttonIndex;
+                                if(index==1){
+                                  // 修改用户表表位图片
+                                  var DELETEimg = db.executeSqlSync({
+                                      name: 'CBtest',
+                                      sql: 'DELETE FROM MRM_PHOTOS_BEAN WHERE YHBH ="' + yhbh + '" AND NotLoction="1"'
+                                  });
+                                  console.log(JSON.stringify(DELETEimg))
+                                  var ret = db.executeSqlSync({
+                                      name: 'CBtest',
+                                      sql: 'UPDATE MRM_USER_BEAN SET PATH=" " WHERE YHBH="' + yhbh + '"'
+                                  });
+                                  api.sendEvent({
+                                      name: 'LocationImg_myEvent',
+                                      extra: {
+                                          key1: 'value1',
+                                          key2: 'value2'
+                                      }
+                                  });
+
+                                  api.closeWin()
+                                }
+                            }else{
+                                 alert( JSON.stringify( err ) );
+                            }
+                        });
+                      }else {
+                        alert("此用户表位图片无法修改")
+                      }
+
+
+
+                  }
+                }else {
+
+                }
+
+            } else {
+                alert(JSON.stringify(err));
+            }
+        });
+
+
+
+    };
+
+
+    var actionList = {
+        'back': function() {
+            photoBrowser.clearCache();
+            // api.closeWin()
+        }
+
+    }
+</script>
+
+</html>

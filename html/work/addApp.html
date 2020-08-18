@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>添加应用win界面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #f0f0f0;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 1;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .title3 {
+            margin: 0.65rem 0;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+        }
+
+        .border-t:before,
+        .border-b:after {
+            background: none !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- <div class="main" id="main">
+
+    </div>
+
+    <footer class="title3">
+
+    </footer> -->
+
+    <div id="wrap" class="flex-wrap flex-vertical">
+        <header class="aui-bar aui-bar-nav" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">添加应用</div>
+        </header>
+        <div id="main" class="flex-con">
+
+        </div>
+        <div id="footer" class="title3 border-t">
+            <span style="margin:0 auto">已经添加<span id="number">0</span>个应用</span>
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        var header = $api.byId('header');
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+        api.openFrame({
+            name: 'addApp_frame',
+            url: './addApp_frame.html',
+            rect: {
+                x: 0,
+                y: headerH,
+                w: 'auto',
+                h: $api.dom('#main').offsetHeight
+            },
+            pageParam: {
+                id: api.pageParam.id
+            }
+        });
+        //监听安卓的返回键，关闭当前win
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            fnCloseWin();
+        })
+    };
+
+    var actionList = {
+        'back': function() {
+            fnCloseWin();
+        }
+    }
+
+    //返回上一层，如果改变了数据则刷新首页数据
+    function fnCloseWin() {
+        api.closeWin({});
+        if ($api.getStorage('isChanged')) {
+            api.execScript({
+                name: 'main',
+                frameName: 'main_frame',
+                script: 'getAPPList();'
+            });
+            $api.rmStorage('isChanged');
+        }
+    }
+
+    //底部已添加应用的数量刷新
+    function changeNumber(data) {
+        $('#number').html(data);
+    }
+</script>
+
+</html>

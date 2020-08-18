@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            flex-flow: column;
+            display: flex;
+            background-color: #F3F3F3;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #center {
+            display: flex;
+            flex-direction: row;
+            background-color: #fff;
+            padding: 20px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        .center_dv1 {
+            font-size: 20px;
+            font-weight: 400;
+        }
+
+        .center_dv2 {
+            flex: 1;
+            font-size: 20px;
+            color: #626262;
+            margin-left: 20px;
+        }
+
+        .center_dv3 i {
+            width: 20px;
+            height: 20px;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">申报工单</div>
+    </header>
+    <div id="center">
+        <div class="center_dv1" id="YCLXNAME">类型</div>
+        <div class="center_dv2"></div>
+        <div class="center_dv3" id="JLSJ"></div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+    var centerH, centerW;
+
+    var onlineName = []; //异常类型名称数据。
+    var onlineId = []; //异常类型值数据。
+    var workorderbean; //工单数据
+
+    var YHBH;
+    var YCLXID = ""; //异常类型编码
+    var YCLXNAME = ""; //异常类型名称
+    var pageParam;
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+
+        var body = $api.byId('bd');
+        bodyH = $api.offset(body).h;
+        bodyW = $api.offset(body).w;
+
+        var body = $api.byId('center');
+        centerH = $api.offset(body).h;
+        centerW = $api.offset(body).w;
+
+        $('#center').css('margin-top', '' + headerH + 'px');
+
+        pageParam = api.pageParam;
+        YHBH = api.pageParam.YHBH;
+
+        //返回键监听
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            if (pageParam != null && pageParam != "") {
+                if (pageParam.WinName == "userWorkOrder" || pageParam.WinName == "workOrderList") {
+                    var jsfun = 'show();';
+                    api.execScript({
+                        name: pageParam.WinName,
+                        script: jsfun
+                    });
+                }
+            }
+            api.closeWin();
+        });
+
+        show();
+    };
+
+    function show() {
+        var db = api.require('db');
+
+        //获取工单数据
+        var workorderdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_WORKORDER_BEAN where YHBH="' + YHBH + '"'
+        });
+        if (workorderdata.status) {
+            if (workorderdata.data.length > 0) {
+                //有工单
+                workorderbean = workorderdata.data[0];
+                $('#YCLXNAME').html(workorderbean.YCLXNAME);
+                $('#JLSJ').html(workorderbean.JLSJ);
+                YCLXID = workorderbean.YCLXID;
+                YCLXNAME = workorderbean.YCLXNAME;
+
+                openFrames(YCLXID, YCLXNAME);
+            } else {
+                //没有工单
+
+            }
+        }
+    }
+
+    function openFrames(YCLXID, YCLXNAME) {
+        if (YCLXID == "3") {
+            api.openFrame({
+                name: 'workOrder2_navFragment',
+                url: './workOrder2_navFragment.html',
+                scrollEnabled: false,
+                bounces: false,
+                reload: true,
+                rect: {
+                    x: 0,
+                    y: headerH + centerH,
+                    w: "auto",
+                    h: "auto"
+                },
+                pageParam: {
+                    YHBH: YHBH,
+                    YCLXID: YCLXID,
+                    YCLXNAME: YCLXNAME
+                }
+            });
+        } else if (YCLXID == "15") {
+            api.openFrame({
+                name: 'workOrder2_navFragment2',
+                url: './workOrder2_navFragment2.html',
+                scrollEnabled: false,
+                bounces: false,
+                reload: true,
+                rect: {
+                    x: 0,
+                    y: headerH + centerH,
+                    w: "auto",
+                    h: "auto"
+                },
+                pageParam: {
+                    YHBH: YHBH,
+                    YCLXID: YCLXID,
+                    YCLXNAME: YCLXNAME
+                }
+            });
+        } else if (YCLXID == "13") {
+            api.openFrame({
+                name: 'workOrder2_navFragment3',
+                url: './workOrder2_navFragment3.html',
+                scrollEnabled: false,
+                bounces: false,
+                reload: true,
+                rect: {
+                    x: 0,
+                    y: headerH + centerH,
+                    w: "auto",
+                    h: "auto"
+                },
+                pageParam: {
+                    YHBH: YHBH,
+                    YCLXID: YCLXID,
+                    YCLXNAME: YCLXNAME
+                }
+            });
+        } else {
+            api.openFrame({
+                name: 'workOrder2_navFragment4',
+                url: './workOrder2_navFragment4.html',
+                scrollEnabled: false,
+                bounces: false,
+                reload: true,
+                rect: {
+                    x: 0,
+                    y: headerH + centerH,
+                    w: "auto",
+                    h: "auto"
+                },
+                pageParam: {
+                    YHBH: YHBH,
+                    YCLXID: YCLXID,
+                    YCLXNAME: YCLXNAME
+                }
+            });
+        }
+    }
+
+    var actionList = {
+        'back': function() {
+            if (pageParam != null && pageParam != "") {
+                if (pageParam.WinName == "userWorkOrder" || pageParam.WinName == "workOrderList") {
+                    var jsfun = 'show();';
+                    api.execScript({
+                        name: pageParam.WinName,
+                        script: jsfun
+                    });
+                }
+            }
+            api.closeWin();
+        }
+    }
+</script>
+
+</html>

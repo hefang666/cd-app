@@ -1,0 +1,234 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>抄表详情</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style media="screen">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+        }
+
+        .flex-wrap-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            /*position: fixed;
+      top:0;*/
+            width: 100%;
+            background: #000;
+            opacity: 0.3;
+            height: 12rem;
+        }
+
+        #selectdata {
+            flex: 1;
+        }
+
+        .selectdatabok>li {
+            background: #000;
+            opacity: 0.3;
+            float: left;
+            width: 10%;
+            background: #000;
+            opacity: 0.3;
+        }
+
+        .selectdatabok>li::before {
+            display: table;
+            content: "";
+        }
+
+        .selectdatabok>li:after {
+            display: table;
+            content: "";
+            clear: both;
+        }
+
+        .selectdatabok>li:nth-child(2) {
+            width: 80%;
+            background: #FFF!important;
+            opacity: 1!important;
+        }
+
+        .selectdatabok>li .title {
+            text-align: center;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(90, 90, 90, 1);
+            line-height: 3.09rem;
+        }
+
+        .selectdatabok>li .br {
+            margin-left: 1.5rem;
+            margin-right: 1.5rem;
+            background: rgba(196, 196, 196, 1);
+            height: 1px;
+        }
+
+        .aui-padded-r-10 {
+            padding-right: 1.5rem !important
+        }
+
+        .aui-padded-r-10 {
+            padding-left: 1.5rem !important
+        }
+
+        .aui-padded-r-10 span {
+            font-size: 1rem;
+            padding-right: 0.3rem;
+        }
+
+        .suerAad {
+            margin-left: 1.5rem;
+            margin-right: 1.5rem;
+        }
+
+        .suerAad>div {
+            float: left;
+            width: 50%;
+            text-align: center;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(47, 125, 245, 1);
+            line-height: 3.09rem;
+        }
+
+        .suerAad>.printing {
+            border-left: 1px solid rgba(196, 196, 196, 1);
+        }
+
+        .suerAad>div::before {
+            display: table;
+            content: "";
+        }
+
+        .suerAad>div:after {
+            display: table;
+            content: "";
+            clear: both;
+        }
+
+        .suerAad>div:active {
+            background: rgba(196, 196, 196, 1);
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0.01rem;
+            width: 100%;
+            background: #000;
+            opacity: 0.3;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body id="body">
+    <div class="flex-wrap-box">
+        <div class="header" id="header"></div>
+        <div id="selectdata">
+            <ul class="selectdatabok">
+                <li class="content_one"></li>
+                <li class="content" id="content">
+                    <div class="title" style="font-size:0.9rem">水量异常</div>
+                    <div class="br"></div>
+                    <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
+                        <div class="aui-info-item">
+                            <span style="line-height:3.6rem;font-size:0.8rem">该用户水量异常请提交工单</span>
+                        </div>
+                    </div>
+                    <div class="br"></div>
+                    <div class="suerAad">
+                        <div class="suer" tapmode data-action='back'>初次提交</div>
+                        <div class="printing" tapmode data-action='printing'>上次提交过工单</div>
+                    </div>
+                </li>
+                <li class="content_one"></li>
+            </ul>
+        </div>
+        <div class="footer" id="footer"></div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../public/script/aui-collapse.js"></script>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+
+<script type="text/javascript">
+    var dataList
+    apiready = function() {
+        var deviceId = api.deviceId
+        var deviceName = api.deviceName
+        //api.parseTapmode();
+
+        var header = $api.byId('header');
+        var headerH = $api.offset(header).h;
+        var content = $api.byId('content');
+        var contentH = $api.offset(content).h;
+
+        $('.content_one').css("height", contentH)
+        var body = $api.byId('body');
+        var bodyH = $api.offset(body).h;
+        var footerH = bodyH - contentH - headerH
+        $('#footer').css("height", footerH)
+        dataList = api.pageParam
+    };
+
+    var actionList = {
+
+        'back': function() {
+            api.openWin({
+                name: 'workOrder',
+                url: '../workOrder/workOrder.html',
+                pageParam: {
+                    YHBH: api.pageParam.YHBH,
+                    WinName: 'MeterReading_details'
+                }
+            });
+            api.closeFrame({
+                name: 'WaterVolume_fram'
+            });
+        },
+        'printing': function() {
+            api.openFrame({
+                name: 'Waterdetails_fram',
+                url: './Waterdetails_fram.html',
+                rect: {
+                    x: 0,
+                    y: 0,
+                    w: "auto",
+                    h: "auto"
+                },
+                pageParam: api.pageParam,
+                bounces: false,
+                bgColor: 'rgba(243,243,243.1)',
+                vScrollBarEnabled: true,
+                hScrollBarEnabled: true,
+            });
+
+        }
+    }
+</script>
+
+</html>

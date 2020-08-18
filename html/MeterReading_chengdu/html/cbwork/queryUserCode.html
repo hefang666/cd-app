@@ -1,0 +1,841 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>搜索根据用户编号</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(243, 243, 243.1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .flex-wrap-box {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            /*position: fixed;*/
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        .header .aui-pull-left {
+            padding-left: 1.2rem;
+        }
+
+        .header .aui-title {
+            font-size: 1.14rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .flex-wrap {
+            display: flex;
+            flex-flow: row;
+            width: 100%;
+            background: #fff;
+            /*height: 5.85rem;*/
+            background: rgba(243, 243, 243.1);
+            padding-bottom: 1rem;
+        }
+        /*搜索*/
+
+        .aui-searchbar {
+            /*margin-top: 3rem;*/
+            padding-right: 1rem;
+            padding-top: 0.5rem;
+            padding-bottom: 0.5rem;
+        }
+
+        .aui-searchbar-input {
+            /*margin: 0 0.8rem;*/
+            width: 10rem;
+            margin-left: 1.3rem;
+            /*padding-right: 1.3rem;*/
+            background-color: #eee;
+            border-radius: 0.25rem;
+            height: 2.3rem;
+            line-height: 2.3rem;
+            font-size: 0.7rem;
+            position: relative;
+            padding-left: 1rem;
+            display: -webkit-box;
+            -webkit-box-flex: 1;
+        }
+
+        .aui-searchbar-input input {
+            height: 2.3rem;
+            font-size: 1rem;
+            /*width: 60%;*/
+        }
+
+        .aui-searchbar .aui-searchbar-btn {
+            height: 2.2rem;
+            font-size: 1rem;
+            line-height: 2.2rem;
+            width: 2.5rem;
+        }
+
+        .aui-searchbar .aui-iconfont {
+            line-height: 2.2rem;
+        }
+
+        .aui-text-info {
+            color: rgba(49, 89, 235, 1)!important;
+        }
+
+        .aui-searchbar {
+            display: -webkit-box;
+            -webkit-box-pack: center;
+            -webkit-box-align: center;
+            height: 3rem;
+            overflow: hidden;
+            width: 100%;
+            background-color: #f8f8f8;
+            color: #9e9e9e;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+        }
+
+        .aui-searchbar-btn,
+        .cancel {
+            display: none
+        }
+
+        .header .flex-wrap li {
+            background: #fff;
+            flex: 1;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header .flex-wrap li p:nth-child(1) {
+            /*padding-left: 2.01rem;*/
+            /*text-align: left;*/
+            padding-top: 1.56rem;
+            font-size: 2.33rem;
+            font-family: Arial;
+            font-weight: 400;
+            color: rgba(71, 71, 71, 1);
+            line-height: 1rem;
+        }
+
+        .header .flex-wrap li p:nth-child(2) {
+            /*font-size:1.83rem;*/
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+            font-size: 1.23rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(134, 134, 134, 1);
+        }
+
+        .header .flex-wrap li:nth-child(2) {
+            flex: none;
+            width: 0.2rem;
+            padding-top: 1.38rem;
+        }
+
+        .header .flex-wrap li:nth-child(4) div {
+            margin-top: 1.38rem;
+            margin-left: 0.5rem;
+        }
+
+        .header .flex-wrap li:nth-child(2) .layers_item {
+            /*width: 0.2rem;*/
+            width: 0.683px;
+            height: 4rem;
+            background: #c2c2c2;
+        }
+
+        .header .aui-list .item {
+            margin-left: 1.2rem;
+            margin-right: 1.2rem;
+            border-bottom: 0.6px solid #dddddd;
+        }
+
+        .header .aui-list .item label {
+            font-size: 1.16rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(58, 58, 58, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .aui-list .aui-checkbox {
+            margin-right: 0.4rem;
+        }
+
+        .header .aui-list .aui-checkbox:checked {
+            /*background: #4f78fc;*/
+            background-color: #4f78fc;
+            border: solid 1px #4f78fc;
+        }
+
+        .All_download_btn {
+            background: #c2c2c2;
+            border-radius: 20px;
+            width: 4.73rem;
+            height: 2.92rem;
+            text-align: center;
+            line-height: 2.92rem;
+            font-size: 1.2rem;
+        }
+
+        .All_download_active {
+            background: rgb(36, 208, 137);
+        }
+
+        .aui-icon-menu:before {
+            color: white;
+            width: 1.83rem;
+            height: 1.17rem;
+            padding-left: 2rem;
+        }
+
+        .content {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+            /*margin-top: 6.8rem;*/
+            padding-bottom: 7rem;
+        }
+
+        .storingList {
+            position: fixed;
+            left: 1.3rem;
+            padding-top: 0.3rem;
+            overflow: hidden;
+            width: 86%;
+            margin: 0 auto;
+            background: rgba(243, 243, 243, 1);
+        }
+
+        #LISHI {
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        #LISHI>span {
+            color: rgba(153, 153, 153, 1);
+            font-size: 0.8rem;
+        }
+
+        .storingList>ul>li::before {
+            display: table;
+            content: "";
+        }
+
+        .storingList>ul>li:after {
+            display: table;
+            content: "";
+            clear: both;
+        }
+
+        .storingList>ul>li {
+            float: left;
+            background: #dddddd;
+            border-radius: 10px;
+            margin-right: 0.5rem;
+            margin-top: 0.5rem;
+            padding: 0.2rem 0.3rem;
+            padding-left: 0;
+            color: rgba(153, 153, 153, 1);
+            font-size: 0.8rem;
+            font-weight: normal;
+            width: 45%;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .serchList {
+            flex: 1;
+            margin-top: 2rem;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .serchList>li {
+            margin-bottom: 0.5rem;
+        }
+
+        .serchList>li:active {
+            background: #f5f5f5;
+        }
+
+        .dv {
+            width: 86%;
+            margin: 0 auto;
+            border-top: 1px solid #ececec;
+            display: flex;
+            flex-direction: row;
+            background-color: #ffffff;
+            /*padding-left: 0.5rem;*/
+            padding-right: 1rem;
+            border-radius: 1rem;
+        }
+
+        .sp {
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        #query {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            flex-direction: row;
+            background-color: #fff;
+        }
+
+        #query_dv1 {
+            width: 80px;
+            height: 100%;
+            font-size: 15px;
+            display: flex;
+            flex-direction: row;
+            line-height: 60px;
+        }
+
+        #query_dv2 {
+            flex: 1;
+            background-color: #fff;
+        }
+
+        #query_dv3 {
+            width: 80px;
+            height: 100%;
+            font-size: 18px;
+            background-color: #fff;
+            text-align: center;
+            line-height: 60px;
+            color: #85CB7E;
+        }
+
+        #search {
+            height: 100%;
+            font-size: 15px;
+        }
+
+        .LS_dv {
+            float: left;
+            width: 45%;
+            margin-left: 15px;
+            font-size: 15px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background: #eee;
+            border-radius: 0.5rem;
+            margin-bottom: 0.2rem;
+        }
+
+        #query_dv1_div {
+            color: #2F7FF6;
+            width: 40px;
+            height: 100%;
+            margin-left: 15px;
+            font-size: 18px;
+        }
+
+        #query_dv1_img {
+            width: 10px;
+            height: 100%;
+        }
+
+        #query_dv1_img img {
+            float: left;
+            margin-top: 28px;
+        }
+
+        #error {
+            width: 100%;
+            margin-top: 10px;
+            text-align: center;
+            color: #666666;
+        }
+
+        #dv_left {
+            width: 35px;
+            height: 100%;
+            font-size: 18px;
+            margin-top: 5px;
+        }
+
+        #dv_right {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-top: 5px;
+        }
+
+        .dv_1 {
+            display: flex;
+            flex-direction: row;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .dv_1_dv1 {
+            flex: 1;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            font-size: 18px;
+        }
+
+        .dv_1_dv2 {
+            color: #02C05B;
+        }
+
+        .dv_1_dv3 {
+            color: #F64A4A;
+        }
+
+        .dv_2 {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_2_dv1 {
+            color: #6091F5
+        }
+
+        .dv_2 div {
+            flex: 1;
+        }
+
+        .dv_2_dv2 {
+            text-align: right;
+        }
+
+        .dv_3 {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_3_dv1 {
+            flex: 1;
+            white-space: nowrap;
+            overflow: scroll;
+        }
+
+        .dv_3_dv2 {
+            flex: 1;
+            white-space: nowrap;
+            overflow: scroll;
+        }
+
+        .dv_3_dv3 {
+            text-align: right;
+            white-space: nowrap;
+            overflow: scroll;
+        }
+
+        .dv_4 {
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            margin-bottom: 10px;
+        }
+
+        .footer {
+            background: rgba(255, 255, 255, 1);
+            width: 100%;
+            overflow: hidden;
+            box-shadow: 0 -5px 5px rgba(000, 000, 000, 0.1);
+        }
+
+        .flex-con {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .yesdownload {
+            color: rgb(36, 208, 137)!important;
+        }
+
+        .footer>.Allsave {
+            overflow: hidden;
+            width: 100%;
+        }
+        /*.footer .Allsave>div:active{
+      background: #757575;
+    }*/
+
+        .footer>.Allsave>div {
+            margin: 1rem auto;
+            background: rgb(255, 65, 65);
+            width: 70%;
+            border-radius: 0.5rem;
+            line-height: 2rem;
+            text-align: center;
+            padding-top: 0.3rem;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: #FFF;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap-box flex-vertical">
+        <header class="aui-bar aui-bar-nav header" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">搜索</div>
+            <div class="aui-searchbar" id="search">
+                <div class="aui-searchbar-input aui-border-radius">
+                    <i class="aui-iconfont aui-icon-search"></i>
+                    <input style="font-size:0.8rem" type="search" placeholder="请输入表册名称关键字查询" id="search-input" class="keyword">
+                    <div class="aui-searchbar-clear-btn">
+                        <i class="aui-iconfont aui-icon-close"></i>
+                    </div>
+                </div>
+                <div class="aui-searchbar-btn cancel aui-text-info">搜索</div>
+            </div>
+        </header>
+        <div class="content" id="content">
+            <div class="storingList">
+                <div id="LISHI">搜索历史 &nbsp;&nbsp;<span>自动保留最近10条搜索历史</span></div>
+                <ul id="storingList">
+
+                </ul>
+            </div>
+            <ul class="serchList" id="serchList">
+                <!-- <li>
+                <div class="dv" onclick="returntuwendaohang(this)" data-id="{{value.YHBH}}">
+                    <div id="dv_left">
+                    </div>
+                    <div id="dv_right">
+                        <div class="dv_1">
+                            <div class="dv_1_dv1">方法{{value.YHMC}}</div>
+                            <div class="dv_1_dv2">已抄</div></div>
+                        <div class="dv_3">
+                            <div class="dv_3_dv1">起度:{{value.QD}}</div>
+                            <div class="dv_3_dv2">止度:{{value.ZD}}</div>
+                            <div class="dv_3_dv3">户号:{{value.YHBH}}</div>
+                        </div>
+                        <div class="dv_4">{{value.YHDZ}}</div>
+                    </div>
+                </div>
+            </li> -->
+            </ul>
+        </div>
+        <div class="footer" id="footer">
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/template" id="Booksdata">
+    {{each list value i}}
+    <li>
+        <div class="dv" tapmode data-action='strongList' data-id="{{value.CBCH}}" data-yhbh="{{value.CBCMC}}">
+            <div id="dv_left">
+                {{i+1}}
+            </div>
+            <div id="dv_right">
+                <div class="dv_1">
+                    <div class="dv_1_dv1">{{value.CBCMC}}</div>
+                    {{if value.NOTDOWNLOAD!=1}}
+                    <div class="dv_1_dv2">未下载</div>
+                    {{else}}
+                    <div class="dv_1_dv2">已下载</div>
+                    {{/if}}
+                </div>
+                <div class="dv_3">
+                    {{if value.YC==""}}
+                    <div class="dv_3_dv1">已抄:0</div>
+                    {{else}}
+                    <div class="dv_3_dv1">已抄:{{value.YC}}</div>
+                    {{/if}} {{if value.YC==""}}
+                    <div class="dv_3_dv2">未抄:0</div>
+                    {{else}}
+                    <div class="dv_3_dv2">未抄:{{value.WC}}</div>
+                    {{/if}}
+                    <div class="dv_3_dv3">总表数:{{value.BBCYHZS}}</div>
+                </div>
+                {{if value.CBNUMER!=''}}
+                <div class="dv_4">下载:{{value.CBNUMER}}</div>
+                {{else}}
+                <div class="dv_4">下载:0</div>
+                {{/if}}
+            </div>
+        </div>
+    </li>
+    {{/each}}
+</script>
+<script type="text/template" id="strongdata">
+    {{each list value i}}
+    <li tapmode data-action="strongClick">{{value.CXCS}}</li>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var db;
+    apiready = function() {
+        db = api.require("db");
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        var footer = $api.byId('footer');
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        // 计算header和tab元素的高度
+        headerH = $api.offset(header).h;
+        $api.fixTabBar(footer);
+        // fnReady()
+        // downloadBooks()
+        strongSerch()
+
+    };
+    var searchBar = document.querySelector(".aui-searchbar");
+    var searchBarInput = document.querySelector(".aui-searchbar input");
+    var searchBarBtn = document.querySelector(".aui-searchbar .aui-searchbar-btn");
+    var searchBarClearBtn = document.querySelector(".aui-searchbar .aui-searchbar-clear-btn");
+    if (searchBar) {
+
+        searchBarInput.oninput = function() {
+            $("#det-content").empty();
+            if (this.value.length) {
+                searchBarBtn.style.marginRight = 0;
+                searchBarBtn.style.opacity = 1;
+                searchBarClearBtn.style.display = 'block';
+                searchBarBtn.style.display = 'block';
+                // searchBarBtn.textContent = "搜索";
+                $("#storingList").empty();
+                $('#serchList').empty();
+            } else {
+                searchBarClearBtn.style.display = 'none';
+                // searchBarBtn.textContent = "取消";
+                $("#storingList").empty();
+                strongSerch();
+            }
+        }
+    }
+    searchBarClearBtn.onclick = function() {
+        this.style.display = 'none';
+        searchBarInput.value = '';
+        searchBarBtn.style.opacity = 0;
+        searchBarBtn.style.display = 'none';
+        // searchBarBtn.textContent = "取消";
+        // selctData()
+        strongSerch();
+        $('#serchList').empty()
+
+    }
+    searchBarBtn.onclick = function() {
+            var keywords = searchBarInput.value;
+            if (keywords.length) {
+                searchBarInput.blur();
+                seachInserHome()
+            } else {
+                this.style.marginRight = "-" + this.offsetWidth + "px";
+                this.style.opacity = 0
+                searchBarInput.value = '';
+                searchBarInput.blur();
+                strongSerch()
+            }
+        }
+        // 键盘搜素监听
+    $(".keyword").on('keypress', function(e) {
+            var keycode = e.keyCode;
+            var searChname = $(this).val();
+            if (keycode == '13') {
+                e.preventDefault();
+                seachInserHome()
+                    // GetAnnotData('','','','',searChname)
+            }
+        })
+        // 搜索展示抄表本
+    function seachInserHome() {
+        api.showProgress({
+            style: 'default',
+            animationType: 'fade',
+            title: '加载中...',
+            modal: false
+        });
+
+        var db = api.require("db");
+        var numer = $("#search-input").val()
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_BOOKS_BEAN WHERE CBCH LIKE "%' + numer + '%" or CBCMC LIKE "%' + numer + '%"'
+        }, function(ret, err) {
+            api.hideProgress();
+            console.log(JSON.stringify(ret))
+            if (ret.status) {
+                if (ret.data != "") {
+                    $("#serchList").empty();
+                    $("#storingList").empty()
+
+                    if (numer != "") {
+                        db.selectSql({
+                            name: 'CBtest',
+                            sql: `SELECT * FROM MRM_HISTORYS_BEAN where CXCS = "${numer}"`
+                        }, function(ret, err) {
+                            if (ret.status) {
+                                if (ret.data.length == 0) {
+                                    db.executeSql({
+                                        name: 'CBtest',
+                                        sql: 'INSERT INTO MRM_HISTORYS_BEAN (LSLX,CXCS) VALUES ("抄表册查询",\'' + numer + '\')'
+                                    }, function(ret, err) {
+                                        if (ret.status) {
+                                            // alert( JSON.stringify( ret ) );
+                                        } else {
+                                            // alert( JSON.stringify( err ) );
+                                        }
+                                    });
+                                }
+                            }
+                        });
+
+                    }
+
+                    console.log(JSON.stringify(ret.data))
+                    var dataList = ret.data
+                    handleAnnotData(dataList)
+                } else {
+                    api.toast({
+                        msg: '此条信息不存在',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+                }
+            } else {
+                api.toast({
+                    msg: '输入错误,请重新输入',
+                    duration: 2000,
+                    location: 'top'
+                });
+
+            }
+        });
+
+    }
+
+    function strongSerch() {
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'select * from MRM_HISTORYS_BEAN where LSLX="抄表册查询" ORDER BY _id DESC limit 10'
+        }, function(ret, err) {
+            if (ret.status) {
+                var dataList = ret.data;
+                handstrongData(dataList)
+            } else {
+                // alert( JSON.stringify( err ) );
+            }
+        });
+
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'strongList': function() {
+
+            var userCode = $(this).attr('data-id');
+            var useryhbh = $(this).attr('data-yhbh');
+            var jsfun = 'show(' + userCode + ')'
+            api.execScript({
+                name: 'cbhome',
+                script: jsfun
+            });
+            api.closeWin({});
+
+        },
+        'strongClick': function() {
+            api.showProgress({
+                style: 'default',
+                animationType: 'fade',
+                title: '加载中...',
+                modal: false
+            });
+            var numer = $(this).text();
+            $('#search-input').val(numer);
+            $('.aui-searchbar-clear-btn').show();
+            db.selectSql({
+                name: 'CBtest',
+                sql: 'SELECT * FROM MRM_BOOKS_BEAN WHERE CBCH LIKE "%' + numer + '%" or CBCMC LIKE "%' + numer + '%"'
+            }, function(ret, err) {
+                api.hideProgress();
+                if (ret.status) {
+                    if (ret.data != "") {
+                        $("#serchList").empty();
+                        $("#storingList").empty()
+                        var dataList = ret.data
+                        console.log(JSON.stringify(dataList))
+                        handleAnnotData(dataList)
+                    } else {
+                        api.toast({
+                            msg: '此条信息不存在',
+                            duration: 2000,
+                            location: 'bottom'
+                        });
+                    }
+                } else {
+                    api.toast({
+                        msg: '输入错误,请重新输入',
+                        duration: 2000,
+                        location: 'top'
+                    });
+
+                }
+            });
+        }
+    }
+
+    function handleAnnotData(dataList) {
+        var list = {
+            list: dataList
+        }
+        var str = template('Booksdata', list)
+        $api.append($api.byId('serchList'), str);
+        fnReady();
+        // operationDom();
+        operationDom();
+        api.hideProgress();
+    }
+
+    function handstrongData(dataList) {
+        var list = {
+            list: dataList
+        }
+        var str = template('strongdata', list)
+        $api.append($api.byId('storingList'), str);
+        fnReady();
+        // operationDom();
+        operationDom();
+        api.hideProgress();
+    }
+</script>
+
+</html>

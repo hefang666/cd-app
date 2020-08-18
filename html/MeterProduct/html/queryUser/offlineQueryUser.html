@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>离线查询</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+            flex-flow: column;
+            display: flex;
+            background-color: #FAFAFA;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: #40aaf8;
+        }
+
+        #top {
+            color: #909090;
+        }
+
+        #center {
+            width: 100%;
+            margin-bottom: 40px;
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置
+        }
+
+        #footer {
+            width: 100%;
+            height: 40px;
+            line-height: 40px;
+            position: fixed;
+            bottom: 0;
+            text-align: center;
+            background-color: #2AAEFF;
+        }
+
+        .center_dv1 {
+            width: 100%;
+            height: 60px;
+            display: flex;
+            padding-left: 10px;
+            border-bottom: 1px solid #E4E4E4;
+            background-color: #FAFAFA;
+            color: #909090;
+        }
+
+        .center_dv1:active {
+            background: #bec5d0;
+        }
+
+        .center_dv1 i {
+            margin-right: 5px;
+            line-height: 50px;
+        }
+
+        .center_dv1 img {
+            width: 50px;
+            height: 50px;
+            margin-right: 10px;
+            margin-top: 5px;
+        }
+
+        .cone {
+            margin-top: 5px;
+        }
+
+        .center_dv2 {
+            padding-left: 30px;
+            padding-right: 30px;
+            background-color: #ffffff;
+            border-bottom: 1px solid #E4E4E4;
+            color: #909090;
+        }
+
+        .center_dv3 {
+            display: flex;
+        }
+
+        .center_dv3_left {
+            flex: 1;
+        }
+
+        .detailed {
+            height: 48px;
+            line-height: 48px;
+            font-size: 20px;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: #000000;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left">返回</span>
+        </div>
+        <div class="aui-title">离线查询</div>
+        <div class="aui-pull-right aui-btn" data-action='query'>
+            <img src="../../image/MeteReading/drawable-xxhdpi/filter.png" style="width:1.2rem;height:1.2rem" alt="">
+        </div>
+    </header>
+    <div id="top">
+        查询总数：
+    </div>
+    <div id="center">
+        <!-- <div class="center_dv">
+            <div class="center_dv1" onclick="dianji('0101000101')" param="0101000101">
+                <i class="aui-iconfont aui-icon-down" id="i-1001"></i>
+                <img src="../../image/MeteReading/drawable/weichao.png" class="img" id="img-1001">
+                <div class="cone">
+                    <div>0101000101</div>
+                    <div>张飞</div>
+                </div>
+            </div>
+            <div class="center_dv2" onclick="open('0101000101')" id="center_dv2_1001">
+                <div>户号：0101000101</div>
+                <div>户名：张飞</div>
+                <div>地址：重庆的</div>
+                <div>表位：厨房</div>
+                <div>固话：42560021</div>
+                <div>手机：</div>
+                <div>读数：100</div>
+                <div>用量：10</div>
+                <div class="center_dv3">
+                    <div class="center_dv3_left">
+                        <div>状态：正常</div>
+                        <div>日期：2020-04-10 09:37:00</div>
+                    </div>
+                    <div class="detailed">详细</div>
+                </div>
+
+            </div>
+        </div> -->
+    </div>
+    <div id="footer" onclick="limitquery()">
+        点击加载更多
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/template" id='userList'>
+    {{each datas value i}}
+    <div class="center_dv">
+        <div class="center_dv1" onclick="dianji('{{value.YHBH}}')">
+            <i class="aui-iconfont aui-icon-down" id="i-{{value.YHBH}}"></i> {{if value.CBBZ!="1"}}
+            <img src="../../image/MeteReading/drawable/weichao.png" class="img" id="img-{{value.YHBH}}"> {{else}}
+            <img src="../../image/MeteReading/drawable/yichao.png" class="img" id="img-{{value.YHBH}}"> {{/if}}
+            <div class="cone">
+                <div>{{value.YHBH}}</div>
+                <div>{{value.YHMC}}</div>
+            </div>
+        </div>
+        <div class="center_dv2" onclick="cbopen('{{value.YHBH}}')" id="center_dv2_{{value.YHBH}}">
+
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/template" id='userData'>
+    <div>户号：{{user.YHBH}}</div>
+    <div>户名：{{user.YHMC}}</div>
+    <div>地址：{{user.YHDZ}}</div>
+    <div>表位：{{user.SBBW}}</div>
+    <div>固话：{{user.GDDH}}</div>
+    <div>手机：{{user.YDDH}}</div>
+    <div>读数：{{user.QD}}</div>
+    <div>用量：{{user.YL}}</div>
+    <div class="center_dv3">
+        <div class="center_dv3_left">
+            <div>状态：{{user.YHBH}}</div>
+            <div>日期：{{user.CBRQ}}</div>
+        </div>
+        <div class="detailed">详细</div>
+    </div>
+</script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+    var db;
+
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        headerH = $api.offset(header).h;
+        $('#top').css('margin-top', '' + headerH + 'px');
+
+        var body = $api.byId('bd');
+        bodyH = $api.offset(body).h;
+        bodyW = $api.offset(body).w;
+
+        db = api.require('db');
+
+        $("#footer").hide();
+
+        api.openFrame({
+            name: 'offlineQueryParameter',
+            url: './offlineQueryParameter.html',
+            rect: {
+                x: 0,
+                y: headerH,
+                w: 'auto',
+                h: 'auto'
+            },
+            pageParam: {
+                name: 'test'
+            }
+        });
+
+        query();
+    };
+
+    var sql;
+    var pagesize = 20; //每页条数。
+    var pageindex = 1; //当前页码。
+    var pagemax; //最大分页数
+    var userList = []; //用户数组
+    function query() {
+        api.addEventListener({
+            name: 'offlineMeterRing'
+        }, function(ret, err) {
+            if (ret) {
+                sql = ret.value.sql;
+                var ret = db.selectSqlSync({
+                    name: 'CBtest',
+                    sql: sql
+                });
+                if (ret.status) {
+                    userList = ret.data;
+                    pagemax = Math.ceil(userList.length / pagesize);
+                    if (userList.length > 20 && pagemax > 1) {
+                        $("#footer").show();
+                    } else {
+                        $("#footer").hide();
+                    }
+                    $('#top').html('查询总数：' + userList.length);
+                    show();
+                }
+            } else {
+                //  console.log( JSON.stringify( err ) );
+            }
+        });
+    }
+
+    function show() {
+        var users = [];
+
+        for (var i = 0; i < userList.length; i++) {
+            users.push(userList[i]);
+            if (i == 19) {
+                break;
+            }
+        }
+
+        var datas = {
+            datas: users
+        }
+
+        var str = template('userList', datas);
+        $('#center div').remove();
+        $('#center').append(str);
+        fnReady();
+        fnReadyOpenWin();
+    }
+
+    function dianji(yhbh) {
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where YHBH="' + yhbh + '"'
+        });
+
+        var bool = $("#i-" + yhbh).is('.aui-icon-down'); //.attr("aui-icon-down");
+        if (bool) {
+            $("#i-" + yhbh).removeClass("aui-icon-down")
+            $("#i-" + yhbh).addClass("aui-icon-top")
+            var datas = {
+                user: ret.data[0]
+            }
+
+            var str = template('userData', datas);
+            $('#center_dv2_' + yhbh).append(str);
+        } else {
+            $("#i-" + yhbh).removeClass("aui-icon-top")
+            $("#i-" + yhbh).addClass("aui-icon-down")
+            $('#center_dv2_' + yhbh + ' div').remove();
+        }
+        fnReady();
+        fnReadyOpenWin();
+        //$("#i-1001").removeClass("aui-icon-down")
+        //$(this).addClass('changeDegrees')
+    }
+
+    function cbopen(yhbh) {
+        var ret = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where YHBH="' + yhbh + '"'
+        });
+        api.openWin({
+            name: 'cbhome',
+            url: '../cbwork/MeterReading_details.html',
+            slidBackEnabled: false,
+            pageParam: {
+                name: 'cbqueryUser',
+                userCode: ret.data[0].CBCH,
+                useryhbh: ret.data[0].YHBH
+            }
+        });
+    }
+
+    function limitquery() {
+        api.showProgress({
+            title: '加载中',
+            modal: false
+        });
+
+        if (pageindex < pagemax) {
+            pageindex++;
+
+            var users = [];
+
+            for (var i = (pagesize * (pageindex - 1)); i < userList.length; i++) {
+                users.push(userList[i]);
+                if (i == (pagesize * pageindex)) {
+                    break;
+                }
+            }
+
+            var datas = {
+                datas: users
+            }
+
+            var str = template('userList', datas);
+            $('#center').append(str);
+            fnReady();
+            fnReadyOpenWin();
+
+            if (pageindex >= pagemax) {
+                $("#footer").hide();
+            }
+            api.hideProgress();
+        }
+
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        },
+        'query': function() {
+            api.openFrame({
+                name: 'offlineQueryParameter',
+                url: './offlineQueryParameter.html',
+                rect: {
+                    x: 0,
+                    y: headerH,
+                    w: 'auto',
+                    h: 'auto'
+                },
+                pageParam: {
+                    name: 'test'
+                }
+            });
+        }
+    }
+</script>
+
+</html>

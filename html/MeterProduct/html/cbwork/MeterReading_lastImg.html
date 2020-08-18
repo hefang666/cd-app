@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>上月照片</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="../../../css/rolldate.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: rgba(243, 243, 243.1);
+        }
+
+        .flex-wrap-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        .header .aui-pull-left {
+            padding-left: 1.2rem;
+        }
+
+        .header .aui-title {
+            font-size: 1.14rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(255, 255, 255, 1);
+            /*line-height:5.48rem;*/
+        }
+
+        .header .flex-wrap {
+            width: 100%;
+            background: #fff;
+            /*height: 5.85rem;*/
+            background: rgba(243, 243, 243.1);
+            padding-bottom: 1rem;
+        }
+
+        .aui-bar-nav .aui-pull-right {
+            padding-right: 0.7rem;
+        }
+
+        .aui-btn>img {
+            max-width: 80%;
+        }
+
+        .content {
+            flex: 1;
+            margin-top: 3.5rem;
+            margin-bottom: 50px;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+        }
+        .aui-content{
+          /*background: skyblue;*/
+        }
+        .aui-content .aui-card-list{
+          /*background: pink;*/
+        }
+        .aui-content .aui-card-list .aui-card-list-header{
+          position: relative;
+          background: #f3f3f3;
+          /*color: #377eff;*/
+          font-size: 0.9rem;
+
+        }
+        .aui-content .aui-card-list .aui-card-list-header img{
+          position: absolute;
+          right: 1rem;
+          width: 1.6rem;
+        }
+        /*照片*/
+        .close {
+            width: 1.6rem;
+            height: 1.6rem;
+            background-size: 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-image: url(../../image/MeteReading/home/close.png);
+            position: absolute;
+            top: -0.5rem;
+            right: -0.1rem;
+        }
+
+        .ImgOrVideo {
+            width: 100%;
+            padding-bottom: 5px;
+            display: table !important;
+            padding: 0.5rem 0.75rem;
+        }
+        .imgDiv{
+          margin-right: 0.6rem;
+          margin-bottom: 0.6rem;
+        }
+        .ImgOrVideo img {
+            width: 2.5rem !important;
+            height:2.5rem !important;
+        }
+
+        .ImgOrVideo .aui-col-xs-4 {
+            margin-bottom: 0.5rem;
+        }
+
+        /*底部*/
+        footer {
+            position: flex;
+            bottom: 2rem;
+        }
+
+        .footer .Allsave {
+            width: 100%;
+            margin: 0 0.25rem;
+        }
+
+        .footer .Allsave>div:active {
+            background: rgba(55, 126, 255, 0.4);
+        }
+
+        .footer .Allsave>div {
+            margin: 0 auto;
+            width: 70%;
+            border-radius: 0.5rem;
+            line-height: 2rem;
+            text-align: center;
+            padding-top: 0.3rem;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            background: rgba(55, 126, 255, 1);
+            border-radius: 1rem;
+            color: #fff;
+        }
+        .looksave{
+          background: #9e9e9e!important;
+          color: #fff;
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap-box flex-vertical">
+        <header class="aui-bar aui-bar-nav header" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">上月照片</div>
+        </header>
+
+        <div class="content" id="content">
+          <section class="aui-content" id="aui-contentOne">
+            <div class="aui-card-list">
+                <div class="aui-card-list-header">
+                    上月照片
+                </div>
+                <div class="ImgOrVideo" id="ImgOrVideoOne">
+                  <!-- <div class="aui-col-xs-2 imgDiv">
+                      <img src="https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/qrcode/zbios_old-09b6296ee6.png" tapmode data-action="fnOpenFile">
+                  </div>
+                  <div class="aui-col-xs-2 imgDiv">
+                      <img src="https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/qrcode/zbios_old-09b6296ee6.png" tapmode data-action="fnOpenFile">
+                  </div> -->
+                </div>
+            </div>
+          </section>
+        </div>
+
+        <!-- <footer class="footer">
+            <div class="Allsave" tapmode data-action="saveNoteData">
+                <div id="Allsave">提交</div>
+            </div>
+        </footer> -->
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../script/rolldateMin.js"></script>
+<script type="text/template" id="orderHistoryTpl">
+    {{each items value i}}
+    <div class="aui-col-xs-2 imgDiv">
+        <img src="{{value.URL}}" tapmode data-action="fnOpenFile">
+        <!-- <div class="close closeHide" data-param="{{value.ZPLJ}}" tapmode data-action="clearImg"></div> -->
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var yhbh,cbch,db;
+    var onlineName = [];
+    var onlineId = [];
+    var gpsmodel;
+    var notSave = 0;
+    apiready = function() {
+        db = api.require("db");
+        gpsmodel = api.require('gpsState');
+
+        var header = $api.byId('header');
+        var footer = $api.byId('footer');
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        // 计算header和tab元素的高度
+        headerH = $api.offset(header).h;
+
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        $api.fixTabBar(footer);
+        console.log(JSON.stringify(api.pageParam))
+        var Data = api.pageParam.Data
+      //
+      //   var a =[{URL:"https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/qrcode/zbios_old-09b6296ee6.png"},
+      //     {URL:"https://dss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/qrcode/zbios_old-09b6296ee6.png"}
+      //   ]
+      // Data.Data = a
+
+
+        showimg(Data)
+
+
+
+    }
+
+    var actionList = {
+            'back': function() {
+
+                api.closeWin()
+            },
+            'fnOpenFile': function() {
+                // 图片放大阅览功能
+                var path = $(this).attr('src')
+                api.openWin({
+                    name: 'photoBrowser_framone',
+                    url: './photoBrowser_framone.html',
+                    pageParam: {
+                        src: path
+                    }
+                });
+            }
+        }
+        function showimg(Data) {
+          if (Data.length > 0) {
+              var items = {
+                  items: Data
+              }
+              var str = template('orderHistoryTpl', items)
+              $api.html($api.byId('ImgOrVideoOne'), str);
+              fnReady();
+              // operationDom();
+              operationDom();
+              api.hideProgress();
+          }else {
+            // $('#aui-contentOne').addClass("aui-hide")
+          }
+
+        }
+
+</script>
+
+</html>

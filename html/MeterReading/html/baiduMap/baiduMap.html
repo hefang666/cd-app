@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no,email=no,date=no,address=no">
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            flex-flow: column;
+            display: flex;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #center {
+            flex: 1;
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            height: 80px;
+            background-color: #FFFFFF;
+            display: flex;
+            flex-direction: row;
+            line-height: 80px;
+        }
+
+        #footer div {
+            flex: 1;
+            text-align: center;
+        }
+
+        #footer div button {
+            width: 120px;
+            height: 40px;
+            background-color: #2F7FF6;
+            border-radius: 20px;
+            color: #fff;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body id="bd">
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">抄表导航</div>
+        <div class="aui-pull-right aui-btn" data-action='select'>
+            <span class="aui-iconfont aui-icon-search"></span>
+        </div>
+    </header>
+
+    <div id="center"></div>
+
+    <div id="footer">
+        <div id="footer-dv1"><button onclick="mapNavigation()">第三方导航</button></div>
+        <!-- <div id="footer-dv2"><button onclick="photoNavigation()">图片导航</button></div> -->
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript">
+    var headerH;
+    var bodyH, bodyW;
+    var pageParam; //水表经纬度。
+    var YHBH;
+
+    var originJD, originWD;
+    var userbean;
+    var LoginName = "";
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        // 计算header和tab元素的高度
+        headerH = $api.offset(header).h;
+        LoginName = $api.getStorage('loginData').userName;
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        var body = $api.byId('bd');
+        bodyH = $api.offset(body).h;
+        bodyW = $api.offset(body).w;
+
+        pageParam = api.pageParam; //比如： {"JD":"106.556878","WD":"29.554127"}
+        if (pageParam != null && pageParam != "") {
+            YHBH = pageParam.YHBH;
+            queryUser(YHBH);
+        } else {
+            queryUserAll();
+        }
+        openmap();
+    };
+
+    function queryUser(yhbh) {
+        var db = api.require('db');
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where YHBH="' + yhbh + '" and userName="' + LoginName + '"'
+        });
+        if (userdata.status) {
+            if (userdata.data.length > 0) {
+                userbean = userdata.data[0];
+            }
+        }
+    }
+
+    function queryUserAll() {
+        var db = api.require('db');
+        var userdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_USER_BEAN where userName="' + LoginName + '"'
+        });
+        if (userdata.status) {
+            if (userdata.data.length > 0) {
+                userbean = userdata.data[0];
+                YHBH = userbean.YHBH;
+                //userbean.JWD = "106.556581,29.559389";
+            }
+        }
+    }
+
+    function openmap() {
+        var bMap = api.require('bMap');
+        bMap.getLocation({
+            accuracy: '100m',
+            autoStop: true,
+            filter: 1
+        }, function(ret, err) {
+            if (ret.status) {
+                originJD = ret.lon;
+                originWD = ret.lat;
+                bMap.open({
+                    rect: {
+                        x: 0,
+                        y: headerH,
+                        w: bodyW,
+                        h: bodyH - headerH - 80
+                    },
+                    center: {
+                        lon: ret.lon,
+                        lat: ret.lat
+                    },
+                    zoomLevel: 15,
+                    showUserLocation: true,
+                    fixedOn: api.frameName,
+                    fixed: true
+                }, function(ret2) {
+                    if (ret2.status) {
+                        if (userbean != null && userbean != "") {
+                            if (userbean.JWD != null && userbean.JWD != "null" && userbean.JWD != "" && userbean.JWD != " ") {
+                                var strs = userbean.JWD.split(",");
+                                bMap.addAnnotations({
+                                    annotations: [{
+                                        id: 1,
+                                        lon: strs[0],
+                                        lat: strs[1],
+                                        size: 40,
+                                    }],
+                                    icon: '../../image/MeteReading/tupian/meter_unchoosed.png',
+                                    draggable: true
+                                }, function(ret) {
+
+                                });
+                                bMap.setCenter({
+                                    coords: {
+                                        lon: strs[0],
+                                        lat: strs[1]
+                                    },
+                                    animation: true
+                                });
+                            }
+                        }
+                    }
+                });
+            } else {
+                alert(err.code);
+            }
+        });
+    }
+
+    //第三方导航
+    function mapNavigation() {
+        if (userbean != null && userbean != "") {
+            if (userbean.JWD != null && userbean.JWD != "null" && userbean.JWD != " ") {
+                var strs = userbean.JWD.split(",");
+                var navigator = api.require('navigator');
+                navigator.installed({
+                    target: 'bMap'
+                }, function(ret, err) {
+                    if (ret.status) {
+                        navigator.bMapNavigation({
+                            start: {
+                                lon: originJD,
+                                lat: originWD,
+                                name: ''
+                            },
+                            end: {
+                                lon: strs[0],
+                                lat: strs[1],
+                                name: userbean.YHDZ
+                            },
+                            mode: 'transit'
+                        });
+                    } else {
+                        alert("当前手机没有安装百度地图，无法导航");
+                    }
+                });
+            } else {
+                api.toast({
+                    msg: '当前用户没有定位信息',
+                    duration: 2000,
+                    location: 'bottom'
+                });
+            }
+        } else {
+            api.toast({
+                msg: '没有用户信息',
+                duration: 2000,
+                location: 'bottom'
+            });
+        }
+    }
+
+    //图文导航
+    function photoNavigation() {
+        if (userbean != null && userbean != "") {
+            api.openWin({
+                name: 'tuwendaohang',
+                url: './tuwendaohang.html',
+                slidBackEnabled: false,
+                animation: {
+                    type: "push",
+                    subType: "from_left",
+                    duration: 300
+                },
+                pageParam: {
+                    YHBH: YHBH
+                }
+            });
+        } else {
+            api.toast({
+                msg: '没有用户信息,请下载用户信息',
+                duration: 2000,
+                location: 'bottom'
+            });
+        }
+    }
+
+    //通过搜索
+    function showUser(yhbh) {
+        if (yhbh != YHBH) {
+            YHBH = yhbh
+            queryUser(yhbh);
+            var bMap = api.require('bMap');
+            bMap.removeAnnotations({
+                ids: [1]
+            });
+            if (userbean != null && userbean != "") {
+                if (userbean.JWD != null && userbean.JWD != "null" && userbean.JWD != "" && userbean.JWD != " ") {
+                    var strs = userbean.JWD.split(",");
+                    bMap.addAnnotations({
+                        annotations: [{
+                            id: 1,
+                            lon: strs[0],
+                            lat: strs[1],
+                            size: 40,
+                        }],
+                        icon: '../../image/MeteReading/tupian/meter_unchoosed.png',
+                        draggable: true
+                    }, function(ret) {
+
+                    });
+                    bMap.setCenter({
+                        coords: {
+                            lon: strs[0],
+                            lat: strs[1]
+                        },
+                        animation: true
+                    });
+                }
+            }
+        }
+
+    }
+
+    var actionList = {
+        'select': function() {
+            api.openWin({
+                name: 'userQuery',
+                url: './userQuery.html',
+                slidBackEnabled: false,
+                animation: {
+                    type: "push",
+                    subType: "from_left",
+                    duration: 300
+                }
+            });
+        },
+        'back': function() {
+            api.closeWin();
+        }
+    }
+</script>
+
+</html>

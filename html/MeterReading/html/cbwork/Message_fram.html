@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>短信模板选择</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style media="screen">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+        }
+
+        .flex-wrap-box {
+            bottom: 0;
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            width: 100%;
+            background: #000;
+            opacity: 0.3;
+            height: 25rem;
+        }
+
+        section {
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch;
+            width: 100%;
+            height: auto;
+            margin-bottom: 3rem;
+        }
+        /*.city{
+      width: 100%;
+      height: 55px;
+      text-align: center;
+      font-size: 0.9rem;
+    }*/
+
+        #selectdata>.aui-card-list {
+            margin-bottom: 0;
+            border-top: 1px solid rgba(237, 237, 237, 1);
+        }
+
+        #selectdata>.aui-card-list:active {
+            background: rgba(244, 244, 244, 1);
+        }
+
+        #selectdata>.aui-card-list>.list-header {
+            padding: 0.3rem 0;
+            text-align: center!important;
+            width: 100%;
+            font-size: 1rem;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            padding: 1rem 0;
+            background: #fff;
+            border-top: 1px solid rgba(237, 237, 237, 1);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap-box">
+        <div class="header"></div>
+        <section id="selectdata">
+          <div class="aui-card-list" tapmode data-action="closeStatse" params="{{value}}">
+              <div class="list-header">
+                  {{value.MBMC}}
+              </div>
+          </div>
+        </section>
+        <div class="footer" tapmode data-action='back'>取消</div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../public/script/aui-collapse.js"></script>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/template" id="Booksdata">
+    <!-- {{each list value i}}
+    <div class="aui-card-list" tapmode data-action="closeStatse" params="{{value}}">
+        <div class="list-header">
+            {{value.MBMC}}
+        </div>
+    </div>
+    {{/each}} -->
+</script>
+<script type="text/javascript">
+    apiready = function() {
+        db = api.require("db");
+
+        var deviceId = api.deviceId
+        var deviceName = api.deviceName
+        //api.parseTapmode();
+
+        var footer = $api.byId('footer');
+
+        $api.fixTabBar(footer);
+        db.selectSql({
+            name: 'CBtest',
+            sql: 'SELECT * FROM MRM_SHORT_MEESSAGE_BEAN'
+        }, function(ret, err) {
+            if (ret.status) {
+                console.log(JSON.stringify(ret))
+                var dataList = ret.data
+                handleAnnotData(dataList)
+            } else {
+                // alert( JSON.stringify( err ) +222);
+            }
+        });
+
+    };
+    var actionList = {
+        'closeStatse': function() {
+            var StatseValue = $(this).attr('params')
+            api.openWin({
+                name: 'Messageing_fram',
+                url: './Messageing_fram.html',
+                pageParam: {
+                    StatseValue: StatseValue,
+                    telpone: api.pageParam.telpone,
+                    userCode: api.pageParam.userCode
+                }
+            });
+
+
+
+        },
+        'back': function() {
+            api.closeFrame({});
+
+        }
+    }
+
+    function handleAnnotData(dataList) {
+        var list = {
+            list: dataList
+        }
+        var str = template('Booksdata', list)
+        $api.append($api.byId('selectdata'), str);
+        fnReady();
+        // operationDom();
+        operationDom();
+        api.hideProgress();
+        var collapse = new auiCollapse({
+            autoHide: false //是否自动隐藏已经展开的容器
+        });
+    }
+</script>
+
+</html>

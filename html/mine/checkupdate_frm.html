@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>检查更新frame页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <style>
+        html,
+        body {
+            height: 100%;
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .aui-dialog {
+            width: 70.53vw;
+            height: 75.33vw;
+            position: relative;
+            left: initial;
+            top: inherit;
+            margin-left: 0;
+            border-radius: 1.33vw;
+            background-color: transparent;
+        }
+
+        .aui-dialog-header {
+            /*width: 10.83rem;*/
+            height: 29.2vw;
+            /*padding: 1.25rem 3.08rem 1.25rem 3.1rem;*/
+            padding: 0;
+            background-color: transparent;
+            border-top-left-radius: 0.6em;
+            border-top-right-radius: 0.6em;
+            background: url(../../image/mine_frame/update.png);
+            background-size: 100% 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+        }
+        /*.deleteIcon {
+            width: 70.53vw;
+            height: 29.2vw;
+        }*/
+
+        .aui-dialog-body {
+            height: 29.19vw;
+            padding: 3.07vw 4.67vw;
+            background-color: #fff;
+        }
+
+        .aui-dialog-footer {
+            height: 10.67vw;
+            background-color: #fff;
+            border-bottom-left-radius: 1.33vw;
+            border-bottom-right-radius: 1.33vw;
+        }
+
+        .version {
+            font-size: 4.53vw;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0vw;
+            color: #4f79e8;
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .versionText {
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0vw;
+            color: #333333;
+            width: 100%;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .aui-dialog-btn {
+            color: #4f79e8;
+            font-size: var(--fontsize7);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0vw;
+            height: 100%;
+        }
+
+        .cancelBtn {
+            color: #666666 !important;
+        }
+
+        .progressDiv {
+            width: 70.53vw;
+            height: 29.19vw;
+            display: flex;
+            align-items: center;
+            background: #fff;
+            padding: 3vw;
+            color: #4f79e8;
+        }
+
+        .progressDiv .aui-card-list {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .progressDiv .aui-card-list-user-name {
+            justify-content: center;
+            font-size: 4.53vw;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0vw;
+            color: #4f79e8;
+        }
+
+        .num {
+            display: flex;
+            justify-content: center;
+            margin-top: 3vw;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="aui-dialog aui-dialog-in" id="dialog">
+        <div class="aui-dialog-header">
+            <div class="deleteIcon">
+
+            </div>
+        </div>
+        <div class="aui-dialog-body">
+            <div class="version">
+                新版本<span id="version"></span>全新上线
+            </div>
+            <div class="versionText" id="updateTip">
+                <!-- 1.更新<br> 2.更新
+                <br> -->
+            </div>
+        </div>
+        <div class="aui-dialog-footer">
+            <div class="aui-dialog-btn" tapmode data-action="sureUpdate">立即更新</div>
+            <div class="aui-dialog-btn cancelBtn" tapmode data-action="cancel">取消</div>
+        </div>
+    </div>
+
+    <div class="progressDiv" id="progress" style="display:none">
+        <div class="aui-card-list">
+
+            <div class="aui-card-list-header aui-card-list-user">
+                <div class="aui-card-list-user-name">
+                    <div class="left">
+                        下载进度
+                    </div>
+                </div>
+            </div>
+
+            <div class="aui-card-list-content-padded">
+                <div class="aui-progress aui-progress-sm">
+                    <div class="aui-progress-bar" style="width: 0%;"></div>
+                </div>
+                <div class="num">
+                    <span id="num">0</span>%
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script>
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        $('#progress').hide();
+        fnReady();
+        checkUpdate();
+    };
+
+    var actionList = {
+        'sureUpdate': function() {
+            $('#dialog').hide();
+            $('#progress').show();
+            api.download({
+                url: api.pageParam.source,
+                report: true
+            }, function(ret, err) {
+                if (ret) { /* 下载进度 */
+                    var timer = setInterval(function() {
+                        clearInterval(timer);
+                        //修改参数
+                        setProgress(ret.percent);
+                    }, 200);
+                    if (ret.state == 1) {
+                        clearInterval(timer);
+                        var savePath = ret.savePath;
+                        api.installApp({
+                            appUri: savePath
+                        });
+                        api.closeFrame({});
+                    }
+                }
+            });
+        },
+        'cancel': function() {
+            setTimeout(function() {
+                api.closeFrame({});
+            }, 100);
+        }
+    }
+
+    function checkUpdate() {
+        $('#version').html(api.pageParam.version);
+        $('#updateTip').html(api.pageParam.updateTip);
+    }
+
+    //设置进度条进度
+    function setProgress(value) {
+        $('.aui-progress-bar').css('width', value + '%');
+        $('#num').html(value);
+    }
+</script>
+
+</html>

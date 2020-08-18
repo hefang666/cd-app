@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>title</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-flow: column;
+        }
+
+        #header {
+            position: fixed;
+            top: 0;
+            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
+        }
+
+        #center {
+            flex: 1;
+            overflow: scroll;
+            -webkit-overflow-scrolling: touch; //移动端滑动流畅设置。
+        }
+
+        #footer {
+            position: fixed;
+            bottom: 0;
+        }
+
+        .dv {
+            background-color: #ffffff;
+            border-bottom: 1px solid #F3F3F3;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            font-size: 18px;
+        }
+
+        .dv_top {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .dv_top_dv1 {
+            flex: 1;
+            color: #2aaeff;
+        }
+    </style>
+</head>
+
+<body>
+    <header class="aui-bar aui-bar-nav" id="header">
+        <div class="aui-pull-left aui-btn" data-action='back'>
+            <span class="aui-iconfont aui-icon-left"></span>
+        </div>
+        <div class="aui-title">操作日志</div>
+    </header>
+
+    <div id="center">
+
+    </div>
+
+    <div id="footer">
+
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/template" id='logList'>
+    {{each datas value i}}
+    <div class="dv">
+        <div class="dv_top">
+            <div class="dv_top_dv1">{{value.EVENT}}</div>
+            <div class="dv_top_dv2">{{value.TIME}}</div>
+        </div>
+        <div class="dv_bottom">
+            {{value.INFORMATION}}
+        </div>
+    </div>
+    {{/each}}
+</script>
+<script type="text/javascript">
+    var LoginName = "";
+    apiready = function() {
+        //api.parseTapmode();
+        var header = $api.byId('header');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        var headerH = $api.offset(header).h;
+        LoginName = $api.getStorage('loginData').userName;
+        $('#center').css('margin-top', '' + headerH + 'px');
+
+        queryLogs();
+    };
+
+    function queryLogs() {
+        var db = api.require('db');
+        var logdata = db.selectSqlSync({
+            name: 'CBtest',
+            sql: 'select * from MRM_LOGS_BEAN where userName="' + LoginName + '"'
+        });
+        if (logdata.status) {
+            if (logdata.data.length > 0) {
+                var datas = {
+                    datas: logdata.data
+                }
+
+                var str = template('logList', datas);
+                //console.log(JSON.stringify(str));
+                $('#center div').remove();
+                $('#center').append(str);
+                fnReadyOpenWin();
+            }
+        }
+    }
+
+    var actionList = {
+        'back': function() {
+            api.closeWin();
+        }
+    }
+</script>
+
+</html>

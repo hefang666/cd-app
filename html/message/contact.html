@@ -1,0 +1,1221 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>接收人页面</title>
+    <link rel="stylesheet" type="text/css" href="../../css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/dialog.css" />
+    <style>
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: #F1F1F1;
+        }
+
+        .aui-bar-nav {
+            top: 0;
+            z-index: 3;
+            background-color: #fff;
+            color: #333333;
+            font-size: var(--fontsize9);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            border: none;
+            background-size: 100% 1px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-image: linear-gradient(0, #dddddd, #dddddd 50%, transparent 50%);
+            background-image: -webkit-linear-gradient(90deg, #dddddd, #dddddd 50%, transparent 50%);
+        }
+
+        .aui-bar-nav .aui-btn .aui-iconfont {
+            color: #333333;
+            font-weight: 900;
+        }
+
+        .flex-con {
+            overflow: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .aui-searchbar {
+            background-color: #fff !important;
+            padding: 0.43rem 0.75rem;
+            width: auto;
+            height: auto;
+            color: #212121;
+            z-index: 3;
+        }
+
+        .aui-searchbar span {
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        .aui-searchbar .arrow {
+            width: 0.8rem;
+            height: 0.8rem;
+            background: url(../../image/main_frame/orgDownArrow.png);
+            background-size: 0.7rem 0.38rem;
+            background-position: center center;
+            background-repeat: no-repeat;
+            -webkit-transition: 200ms;
+            transition: 200ms;
+        }
+
+        .aui-searchbar-input input {
+            height: 1rem;
+            line-height: 1rem;
+        }
+
+        .aui-searchbar {
+            border: none;
+            background-size: 100% 1px;
+            background-repeat: no-repeat;
+            background-position: bottom;
+            background-image: linear-gradient(0, #dddddd, #dddddd 50%, transparent 50%);
+            background-image: -webkit-linear-gradient(90deg, #dddddd, #dddddd 50%, transparent 50%);
+        }
+
+        .aui-searchbar-input {
+            height: 1.6rem;
+            background-color: #f0f0f0;
+            border-radius: 0.8rem;
+            line-height: 1.6rem;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #999999;
+            display: flex;
+            align-items: center;
+            margin: 0;
+        }
+
+        .aui-searchbar-clear-btn {
+            background-color: #999999;
+            position: initial;
+            width: 0.8rem;
+            height: 0.8rem;
+        }
+
+        .aui-searchbar-clear-btn .aui-iconfont {
+            color: #FFF !important;
+            top: -5px;
+            font-size: var(--fontsize5);
+        }
+
+        .aui-card-list-header,
+        .aui-media-list .aui-list-item-inner {
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+            display: flex;
+            justify-content: flex-start !important;
+            align-items: center;
+        }
+
+        .aui-media-list .aui-list-item-inner {
+            padding-right: 0 !important;
+        }
+
+        .aui-radio {
+            margin-right: 0.5rem;
+            width: 0.8rem;
+            height: 0.8rem;
+        }
+
+        .aui-radio:checked,
+        .aui-radio.aui-checked,
+        .aui-checkbox:checked,
+        .aui-checkbox.aui-checked {
+            background-color: #4f79e8;
+            border: solid 1px #4f79e8;
+        }
+
+        .aui-radio:checked:before,
+        .aui-radio.aui-checked:before,
+        .aui-checkbox:checked:before,
+        .aui-checkbox.aui-checked:before,
+        .aui-radio:checked:after,
+        .aui-radio.aui-checked:after,
+        .aui-checkbox:checked:after,
+        .aui-checkbox.aui-checked:after {
+            width: 0.4rem;
+            height: 0.24rem;
+            margin-left: -0.2125rem;
+            margin-top: -0.2125rem;
+        }
+
+        .junior {
+            display: flex;
+            align-items: center;
+        }
+
+        .junior span {
+            color: #aaaaaa;
+            font-size: var(--fontsize65);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+        }
+
+        .superior {
+            color: #4f79e8;
+        }
+
+        li {
+            -webkit-tap-highlight-color: rgba(255, 0, 0, 0);
+        }
+
+        .junior .juniorImg {
+            width: 0.78rem;
+            height: 0.7rem;
+            background: url(../../image/message_frame/junior_pre.png);
+            background-size: 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            margin-right: 0.23rem;
+        }
+
+        .junior.active span {
+            color: #4f79e8 !important;
+        }
+
+        .junior.active .juniorImg {
+            width: 0.78rem;
+            height: 0.7rem;
+            background: url(../../image/message_frame/junior.png);
+            background-size: 100%;
+            background-position: center center;
+            background-repeat: no-repeat;
+            margin-right: 0.23rem;
+        }
+
+        .contactList {
+            -webkit-box-flex: 1;
+            -webkit-flex: 1;
+            flex: 1;
+        }
+
+        .aui-list {
+            background-image: none;
+        }
+
+        .contactList .aui-list .aui-list-item-inner,
+        .aui-list .aui-list-item {
+            min-height: 0;
+            padding-left: 0.75rem;
+        }
+
+        .contactList .hasJunior .aui-list-item-inner,
+        .contactList .hasJunior .aui-list-item {
+            padding-right: 4.03rem;
+            padding-left: 0.75rem;
+        }
+
+        .contactList .aui-list .aui-list-item:active {
+            background-color: transparent;
+        }
+
+        .contactList .aui-media-list-item-inner:active {
+            background-color: #f5f5f5;
+        }
+
+        .contactList .aui-media-list-item-inner {
+            padding: 0.78rem 0;
+        }
+
+        .contactList .aui-media-list .aui-list-item-inner {
+            padding: 0;
+        }
+
+        .contactList ul {
+            margin-bottom: 0.5rem;
+        }
+
+        .contactList ul li:last-child {
+            background-image: none !important;
+        }
+
+        .aui-list .aui-list-item-text {
+            display: -webkit-box;
+            font-size: var(--fontsize75) !important;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            -webkit-box-orient: horizontal;
+            -webkit-box-pack: center;
+        }
+
+        .aui-list .aui-list-item-right,
+        .aui-list-item-title-row em {
+            margin-left: 0;
+            position: absolute;
+            right: 0.75rem;
+            top: 0;
+            height: 100%;
+        }
+
+        .sureBtn {
+            border-radius: 2.5rem !important;
+            justify-content: center;
+            height: 1.48rem !important;
+            line-height: 1.48rem !important;
+            width: auto;
+            display: flex !important;
+            background: #4f79e8 !important;
+            color: #fff;
+            font-size: var(--fontsize75) !important;
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            float: right;
+        }
+
+        #footer .selectedSpan {
+            font-size: var(--fontsize75);
+            font-weight: normal;
+            font-stretch: normal;
+            letter-spacing: 0rem;
+            color: #333333;
+        }
+
+        #footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0.75rem;
+            background-color: #fff;
+        }
+
+        #orgReturn {
+            overflow-y: hidden;
+            overflow-x: auto;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        #orgReturn .iconRight {
+            display: inline-block;
+        }
+
+        .orgOrName {
+            width: calc(100% - 0.8rem - 0.5rem) !important;
+        }
+
+        .hasJunior .orgOrName {
+            border-right: solid 0.03rem #e6e6e6;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wrap" class="flex-wrap flex-vertical">
+
+        <header class="aui-bar aui-bar-nav" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">接收人</div>
+        </header>
+
+        <div class="aui-searchbar" id="search">
+            <div class="aui-searchbar-input aui-border-radius">
+
+                <i class="aui-iconfont aui-icon-search"></i>
+                <input type="search" placeholder="搜索" id="search-input">
+                <div class="aui-searchbar-clear-btn">
+                    <i class="aui-iconfont aui-icon-close"></i>
+                </div>
+            </div>
+        </div>
+        <div class="aui-card-list">
+            <div class="aui-card-list-header" id="orgReturn">
+                <!-- <span id=" + 'span' + contactData.orgId + " data-param='" + data + "' tapmode data-action='return'>联系人</span> -->
+            </div>
+        </div>
+
+        <div id="main" class="flex-con">
+            <section id="contact">
+                <!-- <div class="aui-card-list">
+                    <div class="aui-card-list-header" tapmode data-action="selectAll">
+                        <div class="aui-radio"></div>全选
+                    </div>
+                </div>
+                <div class="aui-content contactList">
+                    <ul class="aui-list aui-media-list hasJunior">
+                        <li class="aui-list-item aui-list-item-middle">
+                            <div class="aui-media-list-item-inner" id="{{value.orgId}}" tapmode data-action="select" data-param="{{value}}" data-param2="{{items}}">
+                                <div class="aui-list-item-inner">
+                                    <div class="aui-radio"></div>
+                                    <div class="aui-list-item-inner orgOrName">部门 （<span class="countNum">1/10</span>）
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aui-list-item-right junior active" tapmode data-action="selectJunior" data-param="{{value}}">
+                                <div class="juniorImg"></div>
+                                <span>下级</span>
+                            </div>
+                        </li>
+                        <li class="aui-list-item aui-list-item-middle">
+                            <div class="aui-media-list-item-inner" id="{{value.orgId}}" tapmode data-action="select" data-param="{{value}}" data-param2="{{items}}">
+                                <div class="aui-list-item-inner">
+                                    <div class="aui-radio"></div>
+                                    <div class="aui-list-item-inner orgOrName">部门 （<span class="countNum">1/10</span>）
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aui-list-item-right junior active" tapmode data-action="selectJunior" data-param="{{value}}">
+                                <div class="juniorImg"></div>
+                                <span>下级</span>
+                            </div>
+                        </li>
+                        <li class="aui-list-item aui-list-item-middle">
+                            <div class="aui-media-list-item-inner" id="{{value.orgId}}" tapmode data-action="select" data-param="{{value}}" data-param2="{{items}}">
+                                <div class="aui-list-item-inner">
+                                    <div class="aui-radio"></div>
+                                    <div class="aui-list-item-inner orgOrName">部门 （<span class="countNum">1/10</span>）
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="aui-list-item-right junior active" tapmode data-action="selectJunior" data-param="{{value}}">
+                                <div class="juniorImg"></div>
+                                <span>下级</span>
+                            </div>
+                        </li>
+                    </ul>
+                    <ul class="aui-list aui-media-list noJunior">
+                        <li class="aui-list-item aui-list-item-middle">
+                            <div class="aui-media-list-item-inner" id="{{value.userId}}" tapmode data-action="select" data-param="{{value}}" data-param2="{{items}}">
+                                <div class="aui-list-item-inner">
+                                    <div class="aui-radio"></div>
+                                    <div class="aui-list-item-inner orgOrName">张三</div>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                </div> -->
+            </section>
+        </div>
+        <div id="footer" class="border-t">
+            <span class="selectedSpan" tapmode data-action="openSelect">已选择：<span class="selectedNum">0</span>人</span>
+            <div class="aui-btn sureBtn" tapmode data-action="sure">确定（<span class="selectedNum">0</span>/<span id="totalCount"></span>）</div>
+
+        </div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../script/api.js"></script>
+<script type="text/javascript" src="../../script/common.js"></script>
+<script type="text/javascript" src="../../script/zepto.js"></script>
+<script type="text/javascript" src="../../script/remote.js"></script>
+<script type="text/javascript" src="../../script/diy/template.js"></script>
+<script type="text/javascript" src="../../script/diy/public.js"></script>
+<script type="text/javascript" src="../../script/aui-dialog.js"></script>
+<script type="text/template" id="hasJuniorList">
+    <div class="aui-card-list">
+        <div class="aui-card-list-header" tapmode data-action="selectAll">
+            <div class="aui-radio"></div>全选
+        </div>
+    </div>
+    <div class="aui-content contactList">
+        <ul class="aui-list aui-media-list hasJunior">
+            {{each children value i}} {{if value.peopleCount!=0}}
+            <li class="aui-list-item aui-list-item-middle">
+                <div class="aui-media-list-item-inner" id="{{value.orgId}}" tapmode data-param="{{value}}" data-param2="{{items}}">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-radio"></div>
+                        <div class="aui-list-item-inner orgOrName">{{value.orgName}} {{if value.selectedCount!=0}}（<span class="countNum">{{value.selectedCount}}/{{value.peopleCount}}</span>） {{else }}（<span class="countNum">{{value.peopleCount}}人</span>） {{/if}}
+                        </div>
+                    </div>
+                </div>
+                <div class="aui-list-item-right junior active" tapmode data-param="{{value}}">
+                    <div class="juniorImg"></div>
+                    <span>下级</span>
+                </div>
+            </li>
+            {{/if}} {{/each}}
+        </ul>
+        <ul class="aui-list aui-media-list noJunior">
+            {{each personnels value i}}
+            <li class="aui-list-item aui-list-item-middle">
+                <div class="aui-media-list-item-inner" id="{{value.userId}}" tapmode data-param="{{value}}" data-param2="{{items}}">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-radio"></div>
+                        <div class="aui-list-item-inner orgOrName">{{value.name}}</div>
+                    </div>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+</script>
+<script type="text/template" id="searchList">
+    <div class="aui-content contactList">
+        <ul class="aui-list aui-media-list noJunior searchResult">
+            {{each items value i}}
+            <li class="aui-list-item aui-list-item-middle">
+                <div class="aui-media-list-item-inner" id="{{value.userId}}" tapmode data-param="{{value}}">
+                    <div class="aui-list-item-inner">
+                        <div class="aui-radio"></div>
+                        <div class="aui-list-item-inner orgOrName">{{value.name}}</div>
+                    </div>
+                </div>
+            </li>
+            {{/each}}
+        </ul>
+    </div>
+</script>
+<script type="text/javascript">
+    var dialogShow = false;
+    apiready = function() {
+        api.addEventListener({
+            name: 'changedFontSize'
+        }, function(ret, err) {
+            if (ret) {
+                changeFontSize();
+            }
+        });
+        api.parseTapmode();
+        var header = $api.byId('header');
+        var search = $api.byId('search');
+        // 实现沉浸式状态栏效果
+        $api.fixStatusBar(header);
+        // if ($api.getStorage('closeToMessage')) {
+        //     $('.closeToWin').show();
+        // } else {
+        //     $('.closeToWin').hide();
+        // }
+        // 计算header和tab元素的高度
+        headerH = $api.offset(header).h;
+        contactIds = api.pageParam.contactIds;
+        selectedPerson = api.pageParam.selectedPerson;
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            var dialog = new auiDialog();
+            if (!dialogShow) {
+                dialog.alert({
+                    title: '确定退出选择接收人？',
+                    buttons: ['确定', '取消']
+                }, function(ret) {
+                    if (ret) {
+                        if (ret.buttonIndex == 1) {
+                            api.closeWin({});
+                        } else if (ret.buttonIndex == 2) {
+                            dialogShow = false
+                        }
+                    }
+                })
+                dialogShow = true;
+            }
+        });
+        getContactList([], 'win');
+        fnReady();
+    };
+
+    function dgClear(data) {
+        for (var index = 0; index < data.length; index++) {
+            var item = data[index];
+            item.selectedCount = 0;
+            dgClear(item.children);
+        }
+    }
+
+    var persons = [];
+
+    function getPersons(data) {
+        persons = [];
+        for (var i = 0; i < selectedPerson.length; i++) {
+            if (selectedPerson[i].data.hasOwnProperty('orgId')) {
+                persons = persons.concat(selectedPerson[i].data.personnels);
+                dgCount(selectedPerson[i].data.children);
+            } else {
+                persons.push(selectedPerson[i].data);
+            }
+        }
+    }
+
+    function dgCount(data) {
+        for (var index = 0; index < data.length; index++) {
+            persons = persons.concat(data[index].personnels);
+            dgCount(data[index].children);
+        }
+    }
+
+    function reduce(arr) {
+        var newArr = [];
+        for (var i in arr) {
+            if (newArr.indexOf(arr[i]) == -1) {
+                newArr.push(arr[i])
+            }
+        }
+        return newArr;
+    }
+
+    function unique(songs) {
+        var result = {};
+        var finalResult = [];
+        for (var i = 0; i < songs.length; i++) {
+            result[songs[i].userId] = songs[i];
+        }
+        for (item in result) {
+            finalResult.push(result[item]);
+        }
+        return finalResult;
+    }
+
+    operationDom();
+    var selectedPerson = [];
+    var actionList = {
+        'back': function() {
+            var dialog = new auiDialog();
+            dialog.alert({
+                title: '确定退出选择接收人？',
+                buttons: ['确定', '取消']
+            }, function(ret) {
+                if (ret) {
+                    if (ret.buttonIndex == 1) {
+                        api.closeWin({});
+                    }
+                }
+            })
+        },
+        'openSelect': function() {
+            api.openWin({
+                name: 'selectedContacts',
+                url: './selectedContacts.html',
+                pageParam: {
+                    selectedPerson: selectedPerson,
+                    contactData: [contactData],
+                    allUsers: allUsers
+                },
+                slidBackEnabled: false
+            });
+        },
+        'sure': function() {
+            api.closeWin({});
+            api.execScript({
+                name: 'sendMessage',
+                script: 'getSelectedPersons(' + JSON.stringify(selectedPerson) + ');'
+            });
+        },
+        'selectAll': function() {
+            $(this).find('.aui-radio').toggleClass('aui-checked');
+            var liList = $('.contactList .aui-radio');
+            for (var i = 0; i < liList.length; i++) {
+                var li = $(liList[i]).parents('.aui-media-list-item-inner');
+                var data = JSON.parse(li.attr('data-param'));
+                var data2 = JSON.parse(li.attr('data-param2'));
+                if ($(this).find('.aui-radio').hasClass('aui-checked')) {
+                    $('.contactList .aui-radio').addClass('aui-checked');
+                    $('.contactList .junior').removeClass('active');
+                    if (data.hasOwnProperty('orgId')) {
+                        for (var o = 0; o < allUsers.length; o++) {
+                            if (allUsers[o].hasOwnProperty('o' + data.orgId)) {
+                                selectedPerson.push(allUsers[o]);
+                            }
+                        };
+                        data2.selectedCount += data.peopleCount;
+                        data.selectedCount = data.peopleCount;
+                        li.find('.countNum').html(data.peopleCount + '/' + data.peopleCount);
+                    } else {
+                        for (var e = 0; e < allUsers.length; e++) {
+                            if (allUsers[e].userId == data.userId) {
+                                selectedPerson.push(allUsers[e]);
+                            }
+                        };
+                        var radioList = $('.contactList .aui-radio');
+                        var num = 0;
+                        for (var l = 0; l < radioList.length; l++) {
+                            if ($(radioList[l]).hasClass('aui-checked')) {
+                                num++;
+                            }
+                        }
+                        data.selectedCount = num;
+                        data2.selectedCount = num;
+                    }
+
+                } else {
+                    $('.contactList .aui-radio').removeClass('aui-checked');
+                    $('.contactList .junior').addClass('active');
+                    if (data.hasOwnProperty('orgId')) {
+                        data2.selectedCount -= data.peopleCount;
+                        data.selectedCount = 0;
+                        dgClear(data.children);
+                        li.find('.countNum').html(data.peopleCount + '人');
+                    } else {
+                        var radioList = $('.contactList .aui-radio');
+                        var num = 0;
+                        for (var j = 0; j < radioList.length; j++) {
+                            if ($(radioList[j]).hasClass('aui-checked')) {
+                                num++;
+                            }
+                        }
+                        data2.selectedCount = num;
+                    }
+                    var index;
+                    if (data.hasOwnProperty('orgId')) {
+                        var testData = selectedPerson;
+                        for (var b = 0; b < testData.length; b++) {
+                            if (testData[b].hasOwnProperty('o' + data.orgId)) {
+                                selectedPerson.splice(b, 1);
+                                b--;
+                            }
+                        }
+                    } else {
+                        index = selectedPerson.findIndex(function(p) {
+                            return p.userId == data.userId;
+                        });
+                        selectedPerson.splice(index, 1);
+                    }
+                }
+            };
+            if (data.hasOwnProperty('orgId')) {
+                $('.hasJunior .aui-media-list-item-inner').attr('data-param2', JSON.stringify(data2));
+            } else {
+                $('.noJunior .aui-media-list-item-inner').attr('data-param2', JSON.stringify(data2));
+            }
+            li.attr('data-param', JSON.stringify(data));
+            li.next().attr('data-param', JSON.stringify(data));
+            $('#span' + data2.orgId + '').attr('data-param', JSON.stringify(data2));
+            selectedPerson = unique(selectedPerson);
+            $('.selectedNum').html(selectedPerson.length);
+        },
+        'return': function() {
+            if ($(this).hasClass('superior')) {
+                api.showProgress({
+                    title: '加载中',
+                    modal: false
+                });
+                var that = this;
+                setTimeout(function() {
+                    api.hideProgress();
+                    var spanList = $('#orgReturn span');
+                    for (var i = spanList.length - 1; i > -1; i--) {
+                        if (i != 0) {
+                            var pdata = JSON.parse($(spanList[i - 1]).attr('data-param'));
+                            var kidData = JSON.parse($(spanList[i]).attr('data-param'));
+                            var num = 0;
+                            for (var j = 0; j < pdata.children.length; j++) {
+                                if (pdata.children[j].orgId == kidData.orgId) {
+                                    pdata.children[j] = kidData;
+                                }
+                            }
+                            for (var j = 0; j < pdata.children.length; j++) {
+                                num += pdata.children[j].selectedCount;
+                            }
+                            pdata.selectedCount = num;
+                            $(spanList[i - 1]).attr('data-param', JSON.stringify(pdata));
+                        }
+                    }
+                    var data = JSON.parse($(that).attr('data-param'));
+                    var list = {
+                        children: data.children,
+                        personnels: data.personnels,
+                        items: data
+                    };
+                    $(that).nextAll().remove();
+                    var ele = document.getElementById('orgReturn');
+                    ele.scrollLeft = ele.scrollWidth;
+                    $(that).removeClass('superior');
+                    var str = template('hasJuniorList', list);
+                    $('#contact').html(str);
+                    for (var i = 0; i < data.children.length; i++) {
+                        if (data.children[i].selectedCount == data.children[i].peopleCount) {
+                            $('#' + data.children[i].orgId + '').find('.aui-radio').addClass('aui-checked');
+                            $('#' + data.children[i].orgId + '').next().removeClass('active');
+                        }
+                    }
+                    for (var i = 0; i < data.personnels.length; i++) {
+                        for (var j = 0; j < selectedPerson.length; j++) {
+                            if (data.personnels[i].userId == selectedPerson[j].userId) {
+                                $('#' + data.personnels[i].userId + '').find('.aui-radio').addClass('aui-checked');
+                            }
+                        }
+                    }
+                    if (data.children.length == 0) {
+                        $('.hasJunior').remove();
+                    }
+                    operationDom();
+                    api.parseTapmode();
+                    select();
+                    selectJunior();
+                }, 300);
+            }
+        }
+    }
+
+    var touchEvent;
+
+    function select() {
+        $('.contactList .aui-media-list-item-inner').on('touchstart', function(e) {
+            e.preventDefault;
+        });
+
+        $('.contactList .aui-media-list-item-inner').on('touchmove', function(e) {
+            touchEvent = true;
+        });
+
+        $('.contactList .aui-media-list-item-inner').on('touchend', function(e) {
+            if (!touchEvent) {
+                $(this).find('.aui-radio').toggleClass('aui-checked');
+                if ($(this).find('.aui-radio').hasClass('aui-checked')) {
+                    $(this).next().removeClass('active');
+                } else {
+                    $(this).next().addClass('active');
+                }
+                var data = JSON.parse($(this).attr('data-param'));
+                var data2 = JSON.parse($(this).attr('data-param2'));
+                if ($(this).find('.aui-radio').hasClass('aui-checked')) {
+                    if (data.hasOwnProperty('orgId')) {
+                        for (var i = 0; i < allUsers.length; i++) {
+                            if (allUsers[i].hasOwnProperty('o' + data.orgId)) {
+                                selectedPerson.push(allUsers[i]);
+                            }
+                        };
+                        data2.selectedCount += data.peopleCount;
+                        data.selectedCount = data.peopleCount;
+                        $(this).find('.countNum').html(data.peopleCount + '/' + data.peopleCount);
+                    } else {
+                        for (var i = 0; i < allUsers.length; i++) {
+                            if (allUsers[i].userId == data.userId) {
+                                selectedPerson.push(allUsers[i]);
+                            }
+                        };
+                        var radioList = $('.contactList .aui-radio');
+                        var num = 0;
+                        for (var i = 0; i < radioList.length; i++) {
+                            if ($(radioList[i]).hasClass('aui-checked')) {
+                                num++;
+                            }
+                        }
+                        data.selectedCount = num;
+                        data2.selectedCount = num;
+                    }
+                } else {
+                    if (data.hasOwnProperty('orgId')) {
+                        data2.selectedCount -= data.peopleCount;
+                        data.selectedCount = 0;
+                        dgClear(data.children);
+                        $(this).find('.countNum').html(data.peopleCount + '人');
+                    } else {
+                        var radioList = $('.contactList .aui-radio');
+                        var num = 0;
+                        for (var i = 0; i < radioList.length; i++) {
+                            if ($(radioList[i]).hasClass('aui-checked')) {
+                                num++;
+                            }
+                        }
+                        data2.selectedCount = num;
+                    }
+                    var index;
+                    if (data.hasOwnProperty('orgId')) {
+                        var testData = selectedPerson;
+                        for (var i = 0; i < testData.length; i++) {
+                            if (testData[i].hasOwnProperty('o' + data.orgId)) {
+                                selectedPerson.splice(i, 1);
+                                i--;
+                            }
+                        }
+                    } else {
+                        index = selectedPerson.findIndex(function(p) {
+                            return p.userId == data.userId;
+                        });
+                        selectedPerson.splice(index, 1);
+                    }
+                }
+                var radioArr = $('.contactList .aui-radio');
+                var checkedNum = 0;
+                for (var i = 0; i < radioArr.length; i++) {
+                    if ($(radioArr[i]).hasClass('aui-checked')) {
+                        checkedNum++;
+                    }
+                }
+                for (var i = 0; i < data2.children.length; i++) {
+                    if (data2.children[i].orgId == data.orgId) {
+                        data2.children[i] = data;
+                    }
+                }
+                if (checkedNum == radioArr.length) {
+                    $('.aui-card-list-header').find('.aui-radio').addClass('aui-checked');
+                } else {
+                    $('.aui-card-list-header').find('.aui-radio').removeClass('aui-checked');
+                }
+                if (data.hasOwnProperty('orgId')) {
+                    $('.hasJunior .aui-media-list-item-inner').attr('data-param2', JSON.stringify(data2));
+                } else {
+                    $('.noJunior .aui-media-list-item-inner').attr('data-param2', JSON.stringify(data2));
+                }
+                $(this).attr('data-param', JSON.stringify(data));
+                $(this).next().attr('data-param', JSON.stringify(data));
+                $('#span' + data2.orgId + '').attr('data-param', JSON.stringify(data2));
+                selectedPerson = unique(selectedPerson);
+                $('.selectedNum').html(selectedPerson.length);
+            }
+            touchEvent = false;
+        })
+    }
+
+    var isClick = true;
+    //选择下级
+    function selectJunior() {
+        $('.junior').on('touchstart', function(e) {
+            e.preventDefault;
+        });
+
+        $('.junior').on('touchmove', function(e) {
+            touchEvent = true;
+        });
+
+        $('.junior').on('touchend', function(e) {
+            if (!touchEvent) {
+                if ($(this).hasClass('active')) {
+                    if (isClick) {
+                        isClick = false;
+                        api.showProgress({
+                            title: '加载中',
+                            modal: false
+                        });
+                        var that = this;
+                        setTimeout(function() {
+                            api.hideProgress();
+                            var data = JSON.parse($(that).attr('data-param'));
+                            var list = {
+                                children: data.children,
+                                personnels: data.personnels,
+                                items: data
+                            };
+                            var html = $('#orgReturn').html();
+                            html = html.replaceAll('<span', '<span class="superior"');
+                            html += "<div class='iconRight'>></div><span id=" + 'span' + data.orgId + " data-param=' " + JSON.stringify(data) + "' tapmode data-action='return'>" + data.orgName + "</span>";
+                            $('#orgReturn').html(html);
+                            var ele = document.getElementById('orgReturn');
+                            ele.scrollLeft = ele.scrollWidth;
+                            var str = template('hasJuniorList', list);
+                            $('#contact').html(str);
+                            for (var i = 0; i < data.children.length; i++) {
+                                if (data.children[i].selectedCount == data.children[i].peopleCount) {
+                                    $('#' + data.children[i].orgId + '').find('.aui-radio').addClass('aui-checked');
+                                    $('#' + data.children[i].orgId + '').next().removeClass('active');
+                                    $('#' + data.children[i].orgId + '').find('.countNum').html(data.children[i].peopleCount + '/' + data.children[i].peopleCount);
+                                }
+                            }
+                            for (var i = 0; i < data.personnels.length; i++) {
+                                for (var j = 0; j < selectedPerson.length; j++) {
+                                    if (data.personnels[i].userId == selectedPerson[j].userId) {
+                                        $('#' + data.personnels[i].userId + '').find('.aui-radio').addClass('aui-checked');
+                                    }
+                                }
+                            }
+                            var radioList = $('.contactList .aui-radio');
+                            var num = 0;
+                            for (var i = 0; i < radioList.length; i++) {
+                                if ($(radioList[i]).hasClass('aui-checked')) {
+                                    num++;
+                                }
+                            }
+                            if (num == radioList.length) {
+                                $('.aui-card-list-header').find('.aui-radio').addClass('aui-checked');
+                            }
+                            if (data.children.length == 0) {
+                                $('.hasJunior').remove();
+                            }
+                            operationDom();
+                            api.parseTapmode();
+                            select();
+                            selectJunior();
+                        }, 300);
+                        setTimeout(function() {
+                            isClick = true;
+                        }, 1000);
+                    }
+                }
+            }
+            touchEvent = false;
+        })
+    }
+
+    //选择筛选出的用户
+    function selectSearch() {
+        $('.contactList .searchResult .aui-media-list-item-inner').on('touchstart', function(e) {
+            e.preventDefault;
+        });
+
+        $('.contactList .searchResult .aui-media-list-item-inner').on('touchmove', function(e) {
+            touchEvent = true;
+        });
+
+        $('.contactList .searchResult .aui-media-list-item-inner').on('touchend', function(e) {
+            if (!touchEvent) {
+                $(this).find('.aui-radio').toggleClass('aui-checked');
+                var data = JSON.parse($(this).attr('data-param'));
+                if ($(this).find('.aui-radio').hasClass('aui-checked')) {
+                    for (var i = 0; i < allUsers.length; i++) {
+                        if (allUsers[i].userId == data.userId) {
+                            selectedPerson.push(allUsers[i]);
+                            contactIds.push(allUsers[i].userId);
+                        }
+                    };
+                    selectedPerson = unique(selectedPerson);
+                    contactIds = reduce(contactIds);
+                } else {
+                    var index1 = selectedPerson.findIndex(function(p) {
+                        return p.userId == data.userId;
+                    });
+                    var index2 = contactIds.findIndex(function(p) {
+                        return p == data.userId;
+                    });
+                    selectedPerson.splice(index1, 1);
+                    contactIds.splice(index2, 1);
+                }
+                $('.selectedNum').html(selectedPerson.length);
+            }
+            touchEvent = false;
+        })
+    }
+
+    var company = "";
+    var contactIds = [];
+
+    function dg(data) {
+        for (var index = 0; index < data.length; index++) {
+            var item = data[index];
+            item.peopleCount = item.peopleCount + item.personnels.length;
+            item.selectedCount = 0;
+            dg(item.children);
+        }
+    }
+
+    function dgSelect(data) {
+        for (var i = 0; i < data.length; i++) {
+            var id = 'o' + data[i].orgId
+            var sNum = 0;
+            for (var c = 0; c < selectedPerson.length; c++) {
+                if (selectedPerson[c].hasOwnProperty(id)) {
+                    sNum++
+                }
+            }
+            data[i].selectedCount = sNum;
+            dgSelect(data[i].children);
+        }
+    }
+
+    var searchBar = document.querySelector(".aui-searchbar");
+    var searchBarInput = document.querySelector(".aui-searchbar input");
+    var searchBarBtn = document.querySelector(".aui-searchbar .aui-searchbar-btn");
+    var searchBarClearBtn = document.querySelector(".aui-searchbar .aui-searchbar-clear-btn");
+    if (searchBar) {
+        searchBarInput.oninput = function() {
+            if (this.value.length) {
+                searchBarClearBtn.style.display = 'flex';
+            } else {
+                searchBarClearBtn.style.display = 'none';
+            }
+        }
+    }
+    searchBarClearBtn.onclick = function() {
+        this.style.display = 'none';
+        searchBarInput.value = '';
+        KeyWord = "";
+        getContactList(selectedPerson, 'frame');
+    }
+
+    var KeyWord = "";
+
+    var flag = false;
+    $('#search-input').on({
+        'compositionstart': function() {
+            flag = true;
+        },
+        'compositionend': function() {
+            flag = false;
+            if (!flag) {
+                KeyWord = $(this).val();
+                if (KeyWord == "") {
+                    getContactList(selectedPerson, 'frame');
+                } else {
+                    getSearchResultList(KeyWord);
+                }
+            }
+        },
+        'input propertychange': function() {
+            if (!flag) {
+                KeyWord = $(this).val();
+                if (KeyWord == "") {
+                    getContactList(selectedPerson, 'frame');
+                } else {
+                    getSearchResultList(KeyWord);
+                }
+            }
+        }
+    });
+
+    function getSearchResultList(data) {
+        $('#contact').html("");
+        var listData = [];
+        for (var i = 0; i < allUsers.length; i++) {
+            if (allUsers[i].name.indexOf(data) != -1) {
+                listData.push(allUsers[i]);
+            }
+        }
+        var list = {
+            items: listData
+        }
+        var str = template('searchList', list);
+        $('#contact').html(str);
+        for (var i = 0; i < listData.length; i++) {
+            for (var j = 0; j < selectedPerson.length; j++) {
+                if (listData[i].userId == selectedPerson[j].userId) {
+                    $('#' + listData[i].userId + '').find('.aui-radio').addClass('aui-checked')
+                }
+            }
+
+        }
+        operationDom();
+        api.parseTapmode();
+        selectSearch();
+    }
+
+    var org = [];
+
+    function getOrg(data) {
+        for (var index = 0; index < data.length; index++) {
+            var item = data[index];
+            var usercount = 0;
+            //选的人==部门总人数，显示，不递归下一级
+            //选人数
+            for (var n = 0; n < selectedPerson.length; n++) {
+                var element = selectedPerson[n];
+                if (element.hasOwnProperty('o' + item.orgId)) {
+                    usercount += 1;
+                }
+            }
+            if (usercount > 0) {
+                if (usercount == item.peopleCount) {
+                    org.push(item);
+                }
+                if (item.children && item.children.length > 0 && usercount != item.peopleCount) {
+                    getOrg(item.children);
+                }
+            }
+        }
+    }
+
+    var allUsers = [];
+    //递归整理出所有的人
+    function getPersonsWithOrg(data, tempData) {
+        for (var index = 0; index < data.length; index++) {
+            var item = data[index];
+            tempData['o' + item.orgId] = item.orgName;
+            if (item.personnels.length > 0) {
+                //加人
+                for (var i = 0; i < item.personnels.length; i++) {
+                    var user = item.personnels[i];
+                    $.extend(user, tempData);
+                    allUsers.push(user);
+                }
+            }
+            if (item.children && item.children.length > 0) {
+                getPersonsWithOrg(item.children, tempData);
+            } else {
+                delete tempData['o' + item.orgId];
+            }
+            if (index == data.length - 1 && item.parentId != null) {
+                delete tempData['o' + item.parentId];
+            }
+        }
+    }
+
+    function getContactList(data, from) {
+        if (from == 'frame') {
+            selectedPerson = data;
+            org = [];
+            getOrg(contactData);
+        }
+        allUsers = [];
+        fnGet('services/app/Information/GetOrganizationAndPersonnel', {}, false, function(ret, err) {
+            if (ret) {
+                if (ret.success) {
+                    contactData = ret.result.organizationAndPersonnel;
+                    if (contactData == null) {
+                        api.toast({
+                            msg: '没有可选人员',
+                            duration: 2000,
+                            location: 'top'
+                        });
+                    } else {
+                        company = contactData.orgName;
+                        contactData.peopleCount = contactData.peopleCount + contactData.personnels.length;
+                        dg(contactData.children);
+                        dgSelect([contactData]);
+                        getPersonsWithOrg([contactData], {});
+                        var list = {
+                            children: contactData.children,
+                            personnels: contactData.personnels,
+                            items: contactData
+                        };
+                        var str = template('hasJuniorList', list);
+                        $('#contact').html(str);
+                        for (var i = 0; i < contactData.children.length; i++) {
+                            if (contactData.children[i].selectedCount == contactData.children[i].peopleCount) {
+                                $('#' + contactData.children[i].orgId + '').find('.aui-radio').addClass('aui-checked');
+                                $('#' + contactData.children[i].orgId + '').next().removeClass('active');
+                                $('#' + contactData.children[i].orgId + '').find('.countNum').html(contactData.children[i].peopleCount + '/' + contactData.children[i].peopleCount);
+                            }
+                        }
+                        for (var i = 0; i < contactData.personnels.length; i++) {
+                            for (var j = 0; j < selectedPerson.length; j++) {
+                                if (contactData.personnels[i].userId == selectedPerson[j].userId) {
+                                    $('#' + contactData.personnels[i].userId + '').find('.aui-radio').addClass('aui-checked');
+                                }
+                            }
+                        }
+                        var radioArr = $('.contactList .aui-radio');
+                        var checkedNum = 0;
+                        for (var i = 0; i < radioArr.length; i++) {
+                            if ($(radioArr[i]).hasClass('aui-checked')) {
+                                checkedNum++;
+                            }
+                        }
+                        if (checkedNum == radioArr.length) {
+                            $('.aui-card-list-header').find('.aui-radio').addClass('aui-checked');
+                        } else {
+                            $('.aui-card-list-header').find('.aui-radio').removeClass('aui-checked');
+                        }
+                        var data = JSON.stringify(contactData);
+                        $('#orgReturn').html("<span id=" + 'span' + contactData.orgId + " data-param='" + data + "' tapmode data-action='return'>" + company + "</span>");
+                        if (contactData.length == 0) {
+                            $('.hasJunior').remove();
+                        }
+                        var totalCount = contactData.peopleCount;
+                        $('#totalCount').html(totalCount);
+                        $('.selectedNum').html(selectedPerson.length);
+                        operationDom();
+                        api.parseTapmode();
+                        select();
+                        selectJunior();
+                    }
+                }
+            }
+        })
+    }
+
+    function closeWin() {
+        api.closeWin({});
+    }
+</script>
+
+</html>

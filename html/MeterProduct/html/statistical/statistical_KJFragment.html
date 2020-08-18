@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>口径统计</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style>
+        body {
+            height: 100%;
+            width: 100%;
+        }
+
+        .dv {
+            display: flex;
+            color: #8A8A8A;
+        }
+
+        .dv1 div {
+            width: 85px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-right: 0.5px solid #000000;
+            border-bottom: 0.5px solid #000000;
+            background-color: #ffffff;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv1_dv {}
+
+        .dv2 {
+            flex: 1;
+            overflow: scroll;
+            flex-direction: row;
+            white-space: nowrap;
+        }
+
+        .dv3 {
+            width: 850px;
+            height: 40px;
+            display: flex;
+            border-bottom: 0.5px solid #000000;
+        }
+
+        .dv3_dv {
+            width: 85px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-right: 0.5px solid #000000;
+            background-color: #ffffff;
+            border-bottom: 0.5px solid #000000;
+        }
+
+        .dv3_dv2 {
+            width: 85px;
+            height: 40px;
+            line-height: 40px;
+            text-align: center;
+            border-right: 0.5px solid #000000;
+            background-color: #CCCCCC;
+            border-bottom: 0.5px solid #000000;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="center">
+
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-popup-new.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-slide.js"></script>
+<script type="text/javascript" src="../../../public/script/swiper.min.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/template" id='booklist'>
+    <div class="dv">
+        <div class="dv1">
+            <div class="dv1_dv">口径</div>
+            {{each datas value i}}
+            <div class="dv1_dv">{{value.KJ}}</div>
+            {{/each}}
+        </div>
+        <div class="dv2">
+            <div class="dv3">
+                <div class="dv3_dv">抄表率</div>
+                <div class="dv3_dv">已抄</div>
+                <div class="dv3_dv">未抄</div>
+                <div class="dv3_dv">正常数</div>
+                <div class="dv3_dv">估抄数</div>
+                <div class="dv3_dv">总户数</div>
+                <div class="dv3_dv">总抄表水量</div>
+                <div class="dv3_dv">正常水量</div>
+                <div class="dv3_dv">估抄水量</div>
+                <div class="dv3_dv">金额</div>
+            </div>
+            {{each datas value i}}
+            <div class="dv3">
+                <div class="dv3_dv2">{{value.CBL}}</div>
+                <div class="dv3_dv2">{{value.YC}}</div>
+                <div class="dv3_dv2">{{value.WC}}</div>
+                <div class="dv3_dv2">{{value.ZCC}}</div>
+                <div class="dv3_dv2">{{value.GC}}</div>
+                <div class="dv3_dv2">{{value.ZHS}}</div>
+                <div class="dv3_dv2">{{value.ZSL}}</div>
+                <div class="dv3_dv2">{{value.ZCSL}}</div>
+                <div class="dv3_dv2">{{value.GCSL}}</div>
+                <div class="dv3_dv2">{{value.JE}}</div>
+            </div>
+            {{/each}}
+        </div>
+    </div>
+</script>
+<script type="text/javascript">
+    apiready = function() {
+        //api.parseTapmode();
+
+        show();
+    };
+
+    function show() {
+        sql = "SELECT Z.*," + "ROUND(Z.已抄/(Z.总户数*0.01),2) AS 抄表率," +
+            "ROUND(Z.正常抄表数/(Z.总户数*0.01),2) AS 抄见率," +
+            "ROUND(Z.正常抄表数/(Z.总户数*0.01),2) AS 正常抄表率," +
+            "ROUND(Z.估抄抄表数/(Z.总户数*0.01),2) AS 估抄抄表率," +
+            "ROUND(Z.正常抄表数/(Z.已抄*0.01),2) AS 已抄正常抄表率," +
+            "ROUND(Z.估抄抄表数/(Z.已抄*0.01),2) AS 已抄估抄抄表率     " +
+            "  FROM (" + "SELECT A.KJ   AS 口径," +
+            "COUNT(1) AS 总户数," +
+            "SUM(CASE WHEN CBBZ='1' THEN 1 ELSE 0 END ) AS 已抄," +
+            "SUM(CASE WHEN CBBZ='0' THEN 1 ELSE 0 END ) AS 未抄," +
+            "SUM(CASE WHEN ZTSCCG='1' THEN 1 ELSE 0 END ) AS 已上传," +
+            "SUM(CASE WHEN BYXZT='1' AND A.BYXZT<>'null' AND A.BYXZT<>'' AND CBBZ='1' THEN 1 ELSE 0 END ) AS 正常抄表数," +
+            "SUM(CASE WHEN BYXZT<>'1' AND A.BYXZT<>'null' AND A.BYXZT<>'' AND CBBZ='1' THEN 1 ELSE 0 END ) AS 估抄抄表数," +
+            "SUM(CASE WHEN CBBZ='1' THEN A.YL ELSE 0 END ) AS 总抄表水量," +
+            "SUM(CASE WHEN BYXZT='1' AND A.BYXZT<>'null' AND A.BYXZT<>'' AND CBBZ='1' THEN A.YL ELSE 0 END ) AS 正常水量," +
+            "SUM(CASE WHEN BYXZT<>'1' AND A.BYXZT<>'null' AND A.BYXZT<>'' AND CBBZ='1' THEN A.YL ELSE 0 END ) AS 估抄水量," +
+            "SUM(CASE WHEN CBBZ='1' THEN A.FY ELSE 0 END ) AS 总水费金额" +
+            "   FROM MRM_USER_BEAN A GROUP BY A.KJ" + ") Z";
+
+        var db = api.require("db");
+        var data = db.selectSqlSync({
+            name: 'CBtest',
+            sql: sql
+        });
+        var list = [];
+        if (data.status) {
+            if (data.data.length > 0) {
+                var HJZHS = 0;
+                var HJYC = 0;
+                var HJWC = 0;
+                var HJYSC = 0;
+                var HJZCC = 0;
+                var HJGC = 0;
+                var HJZSL = 0;
+                var HJZCSL = 0;
+                var HJGCSL = 0;
+                var HJJE = 0;
+                for (var i = 0; i < data.data.length; i++) {
+                    var num = data.data[i];
+                    var KJ = num["口径"];
+                    var ZHS = num["总户数"];
+                    var YC = num["已抄"];
+                    var WC = num["未抄"];
+                    var YSC = num["已上传"];
+                    var ZCC = num["正常抄表数"];
+                    var GC = num["估抄抄表数"];
+                    var ZSL = num["总抄表水量"];
+                    var ZCSL = num["正常水量"];
+                    var GCSL = num["估抄水量"];
+                    var JE = num["总水费金额"];
+                    var CBL = num["抄表率"] + "%";
+                    var CJL = num["抄见率"] + "%";
+
+                    var map = {};
+                    map["KJ"] = KJ;
+                    map["ZHS"] = ZHS;
+                    map["YC"] = YC;
+                    map["WC"] = WC;
+                    map["YSC"] = YSC;
+                    map["ZCC"] = ZCC;
+                    map["GC"] = GC;
+                    map["ZSL"] = ZSL;
+                    map["ZCSL"] = ZCSL;
+                    map["GCSL"] = GCSL;
+                    map["JE"] = JE;
+                    map["CBL"] = CBL;
+                    map["CJL"] = CJL;
+
+                    HJZHS += parseInt(ZHS);
+                    HJYC += parseInt(YC);
+                    HJWC += parseInt(WC);
+                    HJYSC += parseInt(YSC);
+                    HJZCC += parseInt(ZCC);
+                    HJGC += parseInt(GC);
+                    HJZSL += parseInt(ZSL);
+                    HJZCSL += parseInt(ZCSL);
+                    HJGCSL += parseInt(GCSL);
+                    HJJE += parseFloat(JE);
+
+                    list.push(map);
+                }
+                var map = {};
+                map["KJ"] = "合计";
+                map["ZHS"] = HJZHS;
+                map["YC"] = HJYC;
+                map["WC"] = HJWC;
+                map["YSC"] = HJYSC;
+                map["ZCC"] = HJZCC;
+                map["GC"] = HJGC;
+                map["ZSL"] = HJZSL;
+                map["ZCSL"] = HJZCSL;
+                map["GCSL"] = HJGCSL;
+                map["JE"] = Math.floor(HJJE * 100) / 100;
+                map["CBL"] = Math.floor((HJYC / (HJZHS * 0.01)) * 100) / 100 + "%";
+                map["CJL"] = "";
+                list.push(map);
+
+                var datas = {
+                    datas: list
+                }
+
+                var str = template('booklist', datas);
+                //console.log(JSON.stringify(str));
+                $('#center div').remove();
+                $('#center').append(str);
+                fnReadyOpenWin();
+            }
+        }
+    }
+
+    //获取近期抄表
+    function getRecentReader() {
+        var Parameter = {
+            "ClientId": api.deviceId,
+            "ClientName": api.deviceModel,
+            "OperatorId": $api.getStorage('cbOperatorId'),
+            "OperatorName": $api.getStorage('cbOperatorName'),
+            "Required": "yhbh=" + YHBH + "",
+            "Type": "123"
+        };
+        var body = {
+            body: JSON.stringify({
+                "UserName": $api.getStorage('cbOperatorName'),
+                "Password": $api.getStorage('cbPassword'),
+                "SerialNo": dataTime(),
+                "Method": "R999",
+                "Parameter": JSON.stringify(Parameter)
+            })
+        }
+        fnPost('', body, 'application/json', false, function(ret, err) {
+            if (ret) {
+                if (ret.Status == 0) {
+                    var Data = [];
+                    if (ret.Data != "" && ret.Data != " ") {
+                        Data = JSON.parse(ret.Data);
+                    }
+                    //var Data = JSON.parse(ret.Data);
+                    if (Data == null || Data.length == 0) {
+                        $('#center div').remove();
+                        $('#center').append("<div style='text-align: center;'>没有欠费记录</div>");
+                    } else {
+                        recentReaderList = Data;
+                        var datas = {
+                            datas: recentReaderList
+                        }
+
+                        var str = template('recentReaderList', datas);
+                        //console.log(JSON.stringify(str));
+                        //$('#top div').remove();
+                        $('#center').append(str);
+                        fnReadyOpenWin();
+                    }
+                } else {
+                    $('#center div').remove();
+                    $('#center').append("<div style='text-align: center;'>" + ret.Message + "</div>");
+                }
+            } else {
+                $('#top div').remove();
+                $('#top').append("<div style='text-align: center;'>没有欠费记录</div>");
+            }
+            var liset = $('.dv');
+            for (var i = 0; i < liset.length; i += 2) {
+                liset.eq(i).css("background-color", "#D0EBFC");
+            }
+        })
+    }
+</script>
+
+</html>

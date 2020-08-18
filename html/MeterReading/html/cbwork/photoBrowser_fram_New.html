@@ -1,0 +1,85 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>图片预览页面</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/vant.css" />
+    <style media="screen">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+        }
+
+        .flex-wrap-box {
+            height: 100%;
+        }
+    </style>
+    </style>
+</head>
+
+<body>
+    <div class="flex-wrap-box flex-vertical" id="ImagePreView">
+
+
+    </div>
+</body>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/vue/vue.min.js"></script>
+<script type="text/javascript" src="../../../public/script/vue/vant.min.js"></script>
+<script type="text/javascript">
+    apiready = function() {
+        fnInitVue();
+
+        api.addEventListener({
+            name: 'keyback'
+        }, function(ret, err) {
+            if (ret) {
+                ImagePreViewVue.back();
+            }
+        });
+
+    };
+
+    function fnInitVue() {
+        window.ImagePreViewVue = new Vue({
+            el: "#ImagePreView",
+            data: {
+                images: api.pageParam.images,
+                startPosition: api.pageParam.startPosition,
+            },
+            methods: {
+                openPreView() {
+                    _this = this;
+                    vant.ImagePreview({
+                        images: this.images,
+                        startPosition: this.startPosition,
+                        onClose() {
+                            _this.back();
+                        }
+                    });
+                },
+                back() {
+                    api.closeWin({
+                        animation: {
+                            type: "fade",
+                            subType: "from_right",
+                            duration: 50
+                        }
+                    });
+                }
+            },
+            mounted: function() {
+                this.openPreView();
+            }
+        })
+    }
+</script>
+
+</html>

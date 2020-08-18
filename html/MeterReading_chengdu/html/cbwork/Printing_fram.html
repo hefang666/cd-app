@@ -1,0 +1,337 @@
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="maximum-scale=1.0, minimum-scale=1.0, user-scalable=0, initial-scale=1.0, width=device-width" />
+    <meta name="format-detection" content="telephone=no, email=no, date=no, address=no">
+    <title>抄表详情</title>
+    <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
+    <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <style media="screen">
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background-color: transparent;
+        }
+
+        .flex-wrap-box {
+            display: flex;
+            flex-flow: column;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            /*position: fixed;
+      top:0;*/
+            width: 100%;
+            background: #000;
+            opacity: 0.3;
+            height: 12rem;
+        }
+
+        #selectdata {
+            flex: 1;
+        }
+
+        .selectdatabok>li {
+            background: #000;
+            opacity: 0.3;
+            float: left;
+            width: 10%;
+            background: #000;
+            opacity: 0.3;
+        }
+
+        .selectdatabok>li::before {
+            display: table;
+            content: "";
+        }
+
+        .selectdatabok>li:after {
+            display: table;
+            content: "";
+            clear: both;
+        }
+
+        .selectdatabok>li:nth-child(2) {
+            width: 80%;
+            background: #FFF!important;
+            opacity: 1!important;
+        }
+
+        .selectdatabok>li .title {
+            text-align: center;
+            font-size: 1rem;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(90, 90, 90, 1);
+            line-height: 3.09rem;
+        }
+
+        .selectdatabok>li .br {
+            margin-left: 1.5rem;
+            margin-right: 1.5rem;
+            background: rgba(196, 196, 196, 1);
+            height: 1px;
+        }
+
+        .aui-padded-r-10 {
+            padding-right: 1.5rem !important
+        }
+
+        .aui-padded-r-10 {
+            padding-left: 1.5rem !important
+        }
+
+        .aui-padded-r-10 span {
+            font-size: 1rem;
+            padding-right: 0.3rem;
+        }
+
+        .suerAad {
+            margin-left: 1.5rem;
+            margin-right: 1.5rem;
+        }
+
+        .suerAad>div {
+            float: left;
+            width: 50%;
+            text-align: center;
+            font-family: Source Han Sans SC;
+            font-weight: 400;
+            color: rgba(47, 125, 245, 1);
+            line-height: 3.09rem;
+        }
+
+        .suerAad>.printing {
+            border-left: 1px solid rgba(196, 196, 196, 1);
+        }
+
+        .suerAad>div::before {
+            display: table;
+            content: "";
+        }
+
+        .suerAad>div:after {
+            display: table;
+            content: "";
+            clear: both;
+        }
+
+        .footer {
+            position: fixed;
+            bottom: 0.01rem;
+            width: 100%;
+            background: #000;
+            opacity: 0.3;
+            z-index: 1000;
+        }
+    </style>
+</head>
+
+<body id="body">
+    <div class="flex-wrap-box">
+        <div class="header" id="header"></div>
+        <div id="selectdata">
+            <ul class="selectdatabok">
+                <li class="content_one"></li>
+                <li class="content" id="content">
+                    <div class="title">费用</div>
+                    <div class="br"></div>
+                    <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
+                        <div class="aui-info-item">
+                            <span>水费</span><span class="aui-margin-l-5" id='sfqian'>14</span>
+                        </div>
+                        <div class="aui-info-item qihide"><span>历史欠费</span><span class="aui-margin-l-5" id='qfqian' style="color:red;">14</span></div>
+                    </div>
+                    <div class="qishow aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10 aui-hide">
+                        <div class="aui-info-item">
+                            <span>欠费</span><span class="aui-margin-l-5" id='qfqian' style="color:red;">14</span>
+                        </div>
+                    </div>
+                    <div class="aui-info aui-margin-t-10 aui-padded-l-10 aui-padded-r-10">
+                        <div class="aui-info-item">
+                            <span>应收</span><span class="aui-margin-l-5" id='fyhjqian'>14</span>
+                        </div>
+                    </div>
+                    <div class="br"></div>
+                    <div class="suerAad">
+                        <div class="suer" tapmode data-action='back'>确认</div>
+                        <div class="printing" tapmode data-action='printing'>打印</div>
+                    </div>
+                </li>
+                <li class="content_one"></li>
+            </ul>
+        </div>
+        <div class="footer" id="footer"></div>
+    </div>
+
+</body>
+<script type="text/javascript" src="../../../public/script/aui-collapse.js"></script>
+<script type="text/javascript" src="../../../public/script/api.js"></script>
+<script type="text/javascript" src="../../../public/script/common.js"></script>
+<script type="text/javascript" src="../../script/cbpublic.js"></script>
+<script type="text/javascript" src="../../script/cbremote.js"></script>
+<script type="text/javascript" src="../../../public/script/hammer.min.js"></script>
+<script type="text/javascript" src="../../../public/script/aui-dialog.js"></script>
+<script type="text/javascript" src="../../../public/script/zepto.js"></script>
+<script type="text/javascript" src="../../../public/script/diy/template.js"></script>
+
+<script type="text/javascript">
+    var dataList
+    apiready = function() {
+        var deviceId = api.deviceId
+        var deviceName = api.deviceName
+        //api.parseTapmode();
+
+        dataList = api.pageParam
+        if (dataList.FY.length > 6 || dataList.QFJE.length > 6) {
+            $('.qihide').addClass('aui-hide')
+            $('.qishow').removeClass('aui-hide')
+        }
+        $('#sfqian').text(dataList.FY)
+        $('#qfqian').text(dataList.QFJE)
+        $('#fyhjqian').text(dataList.FYHJ)
+        var header = $api.byId('header');
+        var headerH = $api.offset(header).h;
+        var content = $api.byId('content');
+        var contentH = $api.offset(content).h;
+
+        $('.content_one').css("height", contentH)
+        var body = $api.byId('body');
+        var bodyH = $api.offset(body).h;
+        var footerH = bodyH - contentH - headerH
+        $('#footer').css("height", footerH)
+        console.log(JSON.stringify(dataList))
+            // handleAnnotData(dataList)
+
+
+    };
+    var actionList = {
+
+        'back': function() {
+            api.closeFrame({});
+
+        },
+        'printing': function() {
+            var printModule = api.require('posPrinter');
+            var param = {
+                'status': 'bonded'
+            };
+            printModule.getBluetoothPrinters(param, function(ret, err) {
+                if (ret.length > 0) {
+                    var names = [];
+                    var addresss = [];
+                    for (var i = 0; i < ret.length; i++) {
+                        names.push(ret[i].name);
+                        addresss.push(ret[i].address);
+                    }
+
+                    api.actionSheet({
+                        buttons: names
+                    }, function(ret, err) {
+                        var index = ret.buttonIndex;
+                        if (index <= names.length) {
+                            var name = names[index - 1];
+                            var address = addresss[index - 1];
+
+                            var param = {
+                                printerAddr: address
+                            };
+                            printModule.getPrinterStatus(param, function(ret, err) {
+                                if (!ret.online) {
+                                  alert(name + "未连接");
+                                  return;
+                                }
+                                if (!ret.paper) {
+                                  alert(name + "打印纸已用尽");
+                                  return;
+                                }
+                                //alert("是否联机：" + ret.online + ", 有打印纸：" + ret.paper + ", 钱箱开启：" + ret.cashboxOpen);
+
+                                var orderInfo;
+                                orderInfo = "<CA>通知单</CA><BR>";
+                                orderInfo += " <BR>";
+                                orderInfo += "用户编号:" + dataList.YHBH + "<BR>";
+                                orderInfo += "用户名称:" + dataList.YHMC + "<BR>";
+                                orderInfo += "用户地址:" + dataList.YHDZ + "<BR>";
+                                orderInfo += "表    号:" + dataList.SBBH + "<BR>";
+                                orderInfo += "上月水量:" + dataList.SCSL + "<BR>";
+                                orderInfo += "用 水 量:" + dataList.YL + "<BR>";
+                                orderInfo += "用水性质:" + dataList.YSXZ + "<BR>";
+                                //orderInfo += "污水金额:" + dataList.WSFJE + "<BR>";
+                                //orderInfo += "水费金额:" + dataList.SFJE + "<BR>";
+                                orderInfo += "合计金额:" + dataList.FY + "<BR>";
+                                orderInfo += "欠费金额:" + dataList.QFJE + "<BR>";
+                                orderInfo += "预存余款:" + dataList.YCYE + "<BR>";
+                                orderInfo += "合计应交金额:" + dataList.FYHJ + "<BR>";
+                                orderInfo += " <CUT>";
+
+                                var printModule = api.require('posPrinter');
+                                var param = {
+                                    taskList: [{
+                                        printerAddr: address,
+                                        content: orderInfo,
+                                        keepAlive: true, //蓝牙打印机，建议把keepAlive设为true
+                                        copyNum: 1
+                                    }]
+                                };
+                                printModule.printOnSpecifiedPrinters(param);
+                            });
+                        }
+                    });
+                } else {
+                    api.toast({
+                        msg: '请确定是否连接蓝牙打印机',
+                        duration: 2000,
+                        location: 'bottom'
+                    });
+
+                }
+            });
+            /*
+              var lanyadayin = api.require('lanyadayin');
+
+              var param = {}
+
+              param.appParam = "用户编号:" + dataList.YHBH +
+              "&用户名称:" + dataList.YHMC +
+              "&用户地址:" + dataList.YHDZ +
+              "&表号:" + dataList.SBBH +
+              "&上月水量:" + dataList.SCSL +
+              "&用水量:" + dataList.YL +
+              "&用水性质:" + dataList.YSXZ +
+              "&污水金额:" + dataList.WSFJE +
+                  "&水费金额:" + dataList.SFJE +
+                  "&合计金额:" + dataList.FY +
+                  "&欠费金额:" + dataList.QFJE +
+                  "&预存余款:" + dataList.YCYE +
+                  "&合计应交金额:" + dataList.FYHJ
+
+              lanyadayin.startActivity(param);
+              */
+        }
+    }
+
+    function handleAnnotData(dataList) {
+        var list = {
+            list: dataList
+        }
+        var str = template('Booksdata', list)
+        $api.append($api.byId('selectdata'), str);
+        fnReady();
+        // operationDom();
+        operationDom();
+        api.hideProgress();
+        var collapse = new auiCollapse({
+            autoHide: false //是否自动隐藏已经展开的容器
+        });
+    }
+</script>
+
+</html>
