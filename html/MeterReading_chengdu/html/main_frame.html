@@ -27,6 +27,7 @@
             flex-wrap: wrap;
             justify-content: space-between;
             align-content: flex-start;
+            padding-top: 20px
         }
 
         .flex-wrap-box {
@@ -65,10 +66,10 @@
             background: #fff;
 
 
-            /*height: 5.85rem;*/
+            /*height: 8rem;*/
 
 
-            background: rgba(243, 243, 243.1);
+            background: rgba(243, 243, 243, 0.1);
             padding-bottom: 1rem;
         }
 
@@ -193,7 +194,7 @@
 
         .card2 {
             width: 49.33vw;
-            /*width: 100%;*/
+            /*width: 53vw;*/
             height: 107.48vw;
             /*height: 100%;*/
             background-color: #fff;
@@ -285,23 +286,22 @@
 </head>
 
 <body>
-    <div id="wrap" class="flex-wrap flex-vertical">
+    <div id="wrap" class="flex-wrap flex-vertical" style="background: red;">
         <header class="aui-bar aui-bar-nav header" id="header">
-            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+            <div class="aui-pull-left aui-btn" tapmode data-action='back' style="background: blue;">
                 <span class="aui-iconfont aui-icon-left"></span>
             </div>
-            <div class="aui-title">抄表系统</div>
-
+            <div class="aui-title" style="background: blue;">抄表系统</div>
         </header>
     </div>
 
     <div id="center">
-        <div class="admin" style="border: 1px solid green;  box-sizing: border-box;">
-            <div id="gongneng1" style="float: left; display:flex; width：49.33vw; height: 107.48vw; border: 1px solid red; box-sizing: border-box;">
+        <div class="admin aui-clearfix" style="">
+            <div id="gongneng1" style="float: left; width: 49.33vw;">
 
             </div>
-            <div style="float: left; width：30rem; margin-left:1.34vw; border: 1px solid yellow; box-sizing: border-box;">
-                <div id="gongneng2" style="margin-bottom:1.34vw;">
+            <div style="float: right; width: 49.33vw;">
+                <div id="gongneng2" style="margin-bottom:1.34vw; background: red;">
 
                 </div>
                 <div id="gongneng3" style="margin-bottom:1.34vw;">
