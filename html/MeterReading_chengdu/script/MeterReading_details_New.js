@@ -381,12 +381,19 @@ function fnIntVue() {
                 return true
             },
             clearObjectSpace(obj) { //清除空格
-                Object.keys(obj).forEach(function(key) {　　 // 可进行逻辑判断，或者重新赋值
+
+                // Object.keys(obj).forEach(function(key) {　　 // 可进行逻辑判断，或者重新赋值
+                    // var item = obj[key];
+                    // if (typeof(item) == "string") {
+                    //     obj[key] = item.replace(/\s/g, "");
+                    // }
+                // })
+                for(var key in obj) {      // 可进行逻辑判断，或者重新赋值
                     var item = obj[key];
                     if (typeof(item) == "string") {
                         obj[key] = item.replace(/\s/g, "");
                     }
-                })
+                }
                 return obj;
             },
             initData() { //初始化获取用户数据
@@ -719,7 +726,9 @@ function fnIntVue() {
                 }
                 pGetPicture(options, function(ret, err) {
                     if (ret.status) {
-                        ret.imgList.forEach(function(item, index) {
+                        // ret.imgList.forEach(function(item, index) {
+                        for(var index = 0; index < ret.imgList.length; index++) {
+                            var item = ret.imgList[index];
                             // fs.copyTo({
                             //     oldPath: item,
                             //     newPath: 'fs://MeterReadingPicture'
@@ -813,7 +822,7 @@ function fnIntVue() {
                                     });
                             //     }
                             // });
-                        })
+                        }
                     }
                 });
             },
@@ -2768,11 +2777,18 @@ function fnIntVue() {
                                 name: 'CBtest',
                                 sql: 'update MRM_PHOTOS_BEAN set SFSC=1 where _id="' + photoList._id + '" and userName="' + _this.LoginName + '"'
                             });
-                            _this.ImgData.forEach(function(item) {
+                            for(var c = 0; c < _this.ImgData.length; c++) {
+                                var item = _this.ImgData[c];
                                 if (item.path == photoList.ZPLJ) {
                                     item.isAppend = false;
+                                    _this.ImgData[c].isAppend = false;
                                 }
-                            });
+                            }
+                            // _this.ImgData.forEach(function(item) {
+                            //     if (item.path == photoList.ZPLJ) {
+                            //         item.isAppend = false;
+                            //     }
+                            // });
                             falseNum--;
                         }
                     }

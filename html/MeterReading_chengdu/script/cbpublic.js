@@ -437,20 +437,16 @@ function locationCur(el) {
         if (ret.status) {
             lat = ret.lat;
             lon = ret.lon;
-
-            console.log(JSON.stringify(ret));
             $api.attr(el, 'data-Locations', ret.lat + ',' + ret.lon);
             bMap.getNameFromCoords({
                 lon: lon,
                 lat: lat
             }, function(ret, err) {
                 if (ret.status) {
-                    console.log(JSON.stringify(ret));
                     $api.html(el, ret.address);
                 }
             });
         } else {
-            console.log(JSON.stringify(err));
         }
         api.hideProgress();
     });
