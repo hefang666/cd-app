@@ -465,7 +465,7 @@
         if (CXCS != "") {
             db.selectSql({
                 name: 'CBtest',
-                sql: `SELECT * FROM MRM_HISTORYS_BEAN where LSLX="工单" and CXCS = "${CXCS}" and userName = "${LoginName}"`
+                sql: 'SELECT * FROM MRM_HISTORYS_BEAN where LSLX="工单" and CXCS = "' + CXCS + '" and userName = "' + LoginName + '"'
             }, function(ret, err) {
                 if (ret.status) {
                     if (ret.data.length == 0) {
@@ -481,13 +481,13 @@
         var sql = "";
         switch (true) {
             case CXCS == undefined || CXCS == "":
-                var sql = `select * from MRM_WORKORDER_BEAN where userName = "${LoginName}"`;
+                var sql = 'select * from MRM_WORKORDER_BEAN where userName = "' + LoginName + '"';
                 break;
             case CXLX == 'YHBH':
-                var sql = `select * from MRM_WORKORDER_BEAN where YHBH = "${CXCS}" and userName = "${LoginName}"`;
+                var sql = 'select * from MRM_WORKORDER_BEAN where YHBH = "' + CXCS + '" and userName = "' + LoginName + '"';
                 break;
             case CXLX == 'YHMC':
-                var sql = `select * from MRM_WORKORDER_BEAN where YHMC like "%${CXCS}%" and userName = "${LoginName}"`;
+                var sql = 'select * from MRM_WORKORDER_BEAN where YHMC like "%' + CXCS + '%" and userName = "' + LoginName + '"';
                 break;
 
         }
