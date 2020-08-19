@@ -10,17 +10,9 @@
     <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
     <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/public.css">
     <style>
-        body {
-            width: 100%;
-            height: 100%;
-            flex-flow: column;
-            display: flex;
-        }
-
         #header {
-            position: fixed;
-            top: 0;
             background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
         }
 
@@ -56,15 +48,18 @@
 </head>
 
 <body id="bd">
-    <header class="aui-bar aui-bar-nav" id="header">
-        <div class="aui-pull-left aui-btn" data-action='back'>
-            <span class="aui-iconfont aui-icon-left"></span>
-        </div>
-        <div class="aui-title">抄表导航</div>
-        <div class="aui-pull-right aui-btn" data-action='select'>
-            <span class="aui-iconfont aui-icon-search"></span>
-        </div>
-    </header>
+    <div class="header-box">
+        <header class="aui-bar aui-bar-nav" id="header">
+            <div class="aui-pull-left aui-btn" data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">抄表导航</div>
+            <div class="aui-pull-right aui-btn" data-action='select'>
+                <span class="aui-iconfont aui-icon-search"></span>
+            </div>
+        </header>
+    </div>
+
 
     <div id="center"></div>
 

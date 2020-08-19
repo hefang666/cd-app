@@ -10,20 +10,11 @@
     <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
     <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/public.css">
     <style>
-        body {
-            height: 100%;
-            width: 100%;
-            flex-flow: column;
-            display: flex;
-            background-color: #fff;
-        }
-
         #header {
-            top: 0;
             background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
         }
-
         #center {
             flex: 1;
             overflow: scroll;
@@ -150,8 +141,6 @@
             overflow: scroll;
             flex-direction: row;
             white-space: nowrap;
-            /*white-space: nowrap;
-            text-overflow: ellipsis;*/
             font-size: 18px;
         }
 
@@ -363,55 +352,57 @@
 </head>
 
 <body id="bd">
-    <header class="aui-bar aui-bar-nav" id="header">
-        <div class="aui-pull-left aui-btn" data-action='back'>
-            <span class="aui-iconfont aui-icon-left"></span>
-        </div>
-        <div class="aui-title">抄表列表</div>
-        <div class="aui-pull-right aui-btn" data-action='search'>
-            <span class="aui-iconfont aui-icon-search"></span>
-        </div>
-    </header>
-    <div id="book">
-        <div id="book_dv1">
-            <div class="dv1_one">
-                <div id="ZBS" class="shuzi">0</div>
-                <div class="wenzi">应抄表数</div>
+    <div class="header-box" id="header-box">
+        <header class="aui-bar aui-bar-nav" id="header">
+            <div class="aui-pull-left aui-btn" data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
             </div>
-            <div class="dv1_two"></div>
-            <div class="dv1_one">
-                <div id="YC" class="shuzi">0</div>
-                <div class="wenzi">已&nbsp;&nbsp;抄</div>
+            <div class="aui-title">抄表列表</div>
+            <div class="aui-pull-right aui-btn" data-action='search'>
+                <span class="aui-iconfont aui-icon-search"></span>
             </div>
-            <div class="dv1_two"></div>
-            <div class="dv1_one">
-                <div id="WC" class="shuzi">0</div>
-                <div class="wenzi">未&nbsp;&nbsp;抄</div>
+        </header>
+        <div id="book">
+            <div id="book_dv1">
+                <div class="dv1_one">
+                    <div id="ZBS" class="shuzi">0</div>
+                    <div class="wenzi">应抄表数</div>
+                </div>
+                <div class="dv1_two"></div>
+                <div class="dv1_one">
+                    <div id="YC" class="shuzi">0</div>
+                    <div class="wenzi">已&nbsp;&nbsp;抄</div>
+                </div>
+                <div class="dv1_two"></div>
+                <div class="dv1_one">
+                    <div id="WC" class="shuzi">0</div>
+                    <div class="wenzi">未&nbsp;&nbsp;抄</div>
+                </div>
+            </div>
+
+            <div id="book_dv2">
+                <div id="YSC">0</div>
+                <div id="GDS">0</div>
+            </div>
+
+            <div id="book_dv3"></div>
+
+            <div id="book_bottom">
+                <div><button id="xuchao" onclick="xuchao()">续抄</button></div>
+                <div><button id="chongchao" onclick="chongchao()">重抄</button></div>
             </div>
         </div>
 
-        <div id="book_dv2">
-            <div id="YSC">0</div>
-            <div id="GDS">0</div>
-        </div>
-
-        <div id="book_dv3"></div>
-
-        <div id="book_bottom">
-            <div><button id="xuchao" onclick="xuchao()">续抄</button></div>
-            <div><button id="chongchao" onclick="chongchao()">重抄</button></div>
-        </div>
-    </div>
-
-    <div id="shaixuan">
-        <div class="aui-row">
-            <!--onclick="onClickThree(1)"  -->
-            <div class="aui-col-xs-6" onclick="filterOpen()">
-                <div id='fliterName'>全部任务</div>
-                <div class="aui-iconfont aui-icon-down"></div>
-            </div>
-            <div class="aui-col-xs-6">
-                <div><input type="checkbox" class="aui-checkbox aui-checkbox2" id="checkbox-2" onclick="onClickThree(2)" />未抄</div>
+        <div id="shaixuan">
+            <div class="aui-row">
+                <!--onclick="onClickThree(1)"  -->
+                <div class="aui-col-xs-6" onclick="filterOpen()">
+                    <div id='fliterName'>全部任务</div>
+                    <div class="aui-iconfont aui-icon-down"></div>
+                </div>
+                <div class="aui-col-xs-6">
+                    <div><input type="checkbox" class="aui-checkbox aui-checkbox2" id="checkbox-2" onclick="onClickThree(2)" />未抄</div>
+                </div>
             </div>
         </div>
     </div>
@@ -500,10 +491,14 @@
         db = api.require('db');
         //api.parseTapmode();
         var header = $api.byId('header');
+        var headerBox = $api.byId('header-box');
+
+
         // 实现沉浸式状态栏效果
         $api.fixStatusBar(header);
-        headerH = $api.offset(header).h;
-        // $('#book').css('margin-top', '' + headerH + 'px');
+
+        headerH = $api.offset(headerBox).h;
+        $('#center').css('margin-top', '' + headerH + 'px');
         getWaterStatus(); //获取水表状态
         queryBook();
 
@@ -634,13 +629,9 @@
             sql: 'select * from MRM_USER_BEAN where CBCH="' + param.CBCH + '" AND userName = "' + LoginName + '" ORDER BY CBXH'
         });
         if (userdata.status) {
-          console.log(JSON.stringify(param));
-          console.log((userdata.data.length - param.YC))
-          console.log(param.BBCYHZS);
             if ((userdata.data.length - param.YC) == param.BBCYHZS) {
                 //userlist.push(userdata.data[0]);
                 userlist = userdata.data;
-                console.log(userlist)
                 var data = [];
                 if (userlist.length > pageSize) {
                     for (var i = 0; i < pageSize; i++) {
@@ -1018,10 +1009,10 @@
                 sql = 'select * from MRM_USER_BEAN where CBCH="' + param.CBCH + '" AND userName = "' + LoginName + '" ORDER BY CBXH';
                 break;
             case type == 'SLYC':
-                sql = 'select * from MRM_USER_BEAN where CBCH='+ param.CBCH +' and CBBZ="1" and SLZT IN ("1","2") AND userName = '+ param.CBCH +' ORDER BY CBXH';
+                sql = 'select * from MRM_USER_BEAN where CBCH=' + param.CBCH + ' and CBBZ="1" and SLZT IN ("1","2") AND userName = ' + param.CBCH + ' ORDER BY CBXH';
                 break;
             default:
-                sql = 'select * from MRM_USER_BEAN where CBCH='+ param.CBCH +' and CBBZ="1" and BYXZT="'+type+'" AND userName = '+ LoginName +' ORDER BY CBXH';
+                sql = 'select * from MRM_USER_BEAN where CBCH=' + param.CBCH + ' and CBBZ="1" and BYXZT="' + type + '" AND userName = ' + LoginName + ' ORDER BY CBXH';
 
         }
         var userdata = db.selectSqlSync({
@@ -1081,10 +1072,10 @@
                 sql = 'select * from MRM_USER_BEAN where CBCH="' + param.CBCH + '" AND userName = "' + LoginName + '" ORDER BY CBXH';
                 break;
             case type == 'SLYC':
-                sql = 'select * from MRM_USER_BEAN where CBCH='+ param.CBCH +' and CBBZ="1" and SLZT IN ("1","2") AND userName = '+ LoginName +' ORDER BY CBXH';
+                sql = 'select * from MRM_USER_BEAN where CBCH=' + param.CBCH + ' and CBBZ="1" and SLZT IN ("1","2") AND userName = ' + LoginName + ' ORDER BY CBXH';
                 break;
             default:
-                sql = 'select * from MRM_USER_BEAN where CBCH='+ param.CBCH +' and CBBZ="1" and BYXZT="'+ type +'" AND userName = '+ LoginName +' ORDER BY CBXH';
+                sql = 'select * from MRM_USER_BEAN where CBCH=' + param.CBCH + ' and CBBZ="1" and BYXZT="' + type + '" AND userName = ' + LoginName + ' ORDER BY CBXH';
 
         }
         var userdata = db.selectSqlSync({
