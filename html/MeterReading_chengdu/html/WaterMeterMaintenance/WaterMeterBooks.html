@@ -10,6 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
     <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/public.css" />
     <style>
         html,
         body {
@@ -19,12 +20,11 @@
             flex-flow: column;
             background-color: rgba(243, 243, 243.1);
         }
-
-        #header {
+        /*#header {
             position: fixed;
             top: 0;
             background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
-        }
+        }*/
 
         .flex-wrap2 {
             display: flex;
@@ -187,15 +187,18 @@
 </head>
 
 <body>
-    <header class="aui-bar aui-bar-nav header" id="header">
-        <div class="aui-pull-left aui-btn" tapmode data-action='back'>
-            <span class="aui-iconfont aui-icon-left"></span>
-        </div>
-        <div class="aui-title">水表下载</div>
-        <div class="aui-pull-right aui-btn" tapmode data-action="CodeScanning">
-            <img src="../../image/MeteReading/cbdatiles/saoma.png" alt="">
-        </div>
-    </header>
+    <div class="header-box">
+        <header class="aui-bar aui-bar-nav header" id="header">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                <span class="aui-iconfont aui-icon-left"></span>
+            </div>
+            <div class="aui-title">水表下载</div>
+            <div class="aui-pull-right aui-btn" tapmode data-action="CodeScanning">
+                <img src="../../image/MeteReading/cbdatiles/saoma.png" alt="">
+            </div>
+        </header>
+    </div>
+
     <div id="title">
         <div class="flex-wrap2">
             <div class="flex-con2">
