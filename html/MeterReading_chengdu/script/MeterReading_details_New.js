@@ -431,19 +431,19 @@ function fnIntVue() {
                 if (this.FromPage == "MeterReading_userList") { //抄表列表页面点击进入
                     switch (true) {
                         case userState == "all" || userState == "Duplicate" || userState == "ContinuedCopy": //全部 和 重抄 ，续抄
-                            sql = sql = `SELECT * FROM MRM_USER_BEAN WHERE CBCH=${cbch} and userName='${loginname}' ORDER BY CBXH`;
+                            sql = sql = 'SELECT * FROM MRM_USER_BEAN WHERE CBCH="' + cbch + '" and userName="' + loginname +  '" ORDER BY CBXH';
                             break;
                         case userState == "NotCopied": //未抄
-                            sql = `select * from MRM_USER_BEAN where CBCH=${cbch} and CBBZ=0 and userName='${loginname}' ORDER BY CBXH`;
+                            sql = 'select * from MRM_USER_BEAN where CBCH="' + cbch + '" and CBBZ="0" and userName="' + loginname + '" ORDER BY CBXH';
                             break;
                             // case userState == "Immeasurable": //无量
                             //     sql = `select * from MRM_USER_BEAN where CBCH=${cbch} and CBBZ=1 and YL="0" ORDER BY CBXH`;
                             //     break;
                         case userState == "SLYC": //水量异常
-                            sql = `select * from MRM_USER_BEAN where CBCH=${cbch} AND CBBZ = '1' AND SLZT != '0' and userName='${loginname}' ORDER BY CBXH`;
+                            sql = 'select * from MRM_USER_BEAN where CBCH="' + cbch + '" AND CBBZ = "1" AND SLZT != "0" and userName="' + loginname + '" ORDER BY CBXH';
                             break;
                         default:
-                            sql = `select * from MRM_USER_BEAN where CBCH=${cbch} AND CBBZ = '1' AND BYXZT = ${userState} and userName='${loginname}' ORDER BY CBXH`;
+                            sql = 'select * from MRM_USER_BEAN where CBCH="' + cbch + '" AND CBBZ = "1" AND BYXZT ="' + userState + '" and userName="' + loginname + '" ORDER BY CBXH';
                             break;
                     }
                 } else if (this.FromPage == 1) { //漏抄点击进入
@@ -452,7 +452,7 @@ function fnIntVue() {
                     } else {
                         var louchaoCode = api.pageParam.chCode;
                         var codeList = louchaoCode.join(",");
-                        sql = `SELECT * FROM MRM_USER_BEAN WHERE CBCH IN (${codeList}) AND CBBZ="0" and userName='${loginname}' ORDER BY CBCH,CBXH`;
+                        sql = 'SELECT * FROM MRM_USER_BEAN WHERE CBCH IN ("' + codeList + '") AND CBBZ="0" and userName="' + loginname + '" ORDER BY CBCH,CBXH';
                     }
                 } else if (this.FromPage == "cbqueryUser") {
                     sql = 'SELECT * FROM MRM_USER_BEAN WHERE CBCH="' + cbch + '" and userName="' + loginname + '" ORDER BY CBXH'
@@ -470,6 +470,7 @@ function fnIntVue() {
                         api.closeWin({});
                     })
                 }
+                console.log('1');
                 var UserNumber = this.UserList.findIndex(function(item) {
                     return item.YHBH == _this.YHBH;
                 });
@@ -1151,7 +1152,7 @@ function fnIntVue() {
                                 size: 13,
                             }
                         }
-                    }, (ret, err) => {
+                    }, function(ret, err) {
                         if (ret.eventType == 'success') {
                             var content = ret.content;
                             this.XBBH = content;
@@ -1514,7 +1515,8 @@ function fnIntVue() {
                     callback(ret, err);
                 });
             },
-            getKeyboardNumbers: function(newValue, QDChange = false) {
+            getKeyboardNumbers: function(newValue, QDChange) {
+              QDChange = QDChange || false;
                 //判断是否需要录入换表日期，如果需要录入，就判断换表日期是否填写了。
                 if (this.NeedHBRQ) {
                     if (this.HBRQ == "") {
@@ -1630,7 +1632,7 @@ function fnIntVue() {
             },
             longTapDelete: function() { //长按一直删除
                 this.deleteNumber();
-                this.timer = setInterval(() => {
+                this.timer = setInterval(function() {
                     this.deleteNumber();
                 }, 100);
             },
@@ -3109,7 +3111,7 @@ function fnIntVue() {
                         ClientName: api.deviceModel,
                         OperatorId: $api.getStorage('cbOperatorId'),
                         OperatorName: $api.getStorage('cbOperatorName'),
-                        Required: `yhbh=${_this.UserDetails.YHBH}`,
+                        Required: 'yhbh=' + _this.UserDetails.YHBH,
                         Type: "133"
                     };
                     var body = {
