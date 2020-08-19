@@ -11,6 +11,7 @@
     <link rel="stylesheet" type="text/css" href="../../../public/css/style.css" />
     <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
     <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/public.css" />
     <style>
         body {
             height: 100%;
@@ -19,11 +20,11 @@
             flex-flow: column;
         }
 
-        #header {
+        /*#header {
             position: fixed;
             top: 0;
             background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
-        }
+        }*/
 
         #top {
             background-color: #fff;
@@ -242,7 +243,8 @@
     </style>
 </head>
 
-<body id="bd">
+<body>
+  <div class="header-box">
     <header class="aui-bar aui-bar-nav" id="header">
         <div class="aui-pull-left aui-btn" data-action='back'>
             <span class="aui-iconfont aui-icon-left"></span>
@@ -252,6 +254,8 @@
             <span class="aui-iconfont aui-icon-search"></span>
         </div> -->
     </header>
+  </div>
+
     <!-- <div id="top">
         <div class="top_dv">
             <div id="daohang" onclick="querWork1()">

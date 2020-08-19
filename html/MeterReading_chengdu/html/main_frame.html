@@ -10,77 +10,8 @@
     <link rel="stylesheet" type="text/css" href="../../public/css/swiper.min.css" />
     <link rel="stylesheet" type="text/css" href="../../public/css/home.css" />
     <link rel="stylesheet" type="text/css" href="../../public/css/style.css" />
+    <link rel="stylesheet" type="text/css" href="../css/public.css">
     <style>
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            background-color: rgba(243, 243, 243.1);
-        }
-
-        #center {
-            overflow: auto;
-            -webkit-overflow-scrolling: touch;
-            background-color: #F5F5F5;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            align-content: flex-start;
-            padding-top: 20px
-        }
-
-        .flex-wrap-box {
-            /*display: flex;
-      flex-flow: column;*/
-            height: 100%;
-            overflow: hidden;
-        }
-
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
-        }
-
-        .header .aui-pull-left {
-            padding-left: 1.2rem;
-        }
-
-        .header .aui-title {
-            font-size: 1.14rem;
-            font-family: Source Han Sans SC;
-            font-weight: 400;
-            color: rgba(255, 255, 255, 1);
-            /*line-height:5.48rem;*/
-        }
-
-        .header .flex-wrap {
-
-            /*display: flex;*/
-            /*flex-flow: row;*/
-
-
-            width: 100%;
-            background: #fff;
-
-
-            /*height: 8rem;*/
-
-
-            background: rgba(243, 243, 243, 0.1);
-            padding-bottom: 1rem;
-        }
-
-        .body {
-            background: transparent;
-        }
-
-        #main {
-            margin-top: 3.5rem;
-        }
-
         .aui-card-list-content #AppView img {
             margin: 0 auto;
             width: 4.125rem;
@@ -286,16 +217,16 @@
 </head>
 
 <body>
-    <div id="wrap" class="flex-wrap flex-vertical" style="background: red;">
+    <div class="header-box">
         <header class="aui-bar aui-bar-nav header" id="header">
-            <div class="aui-pull-left aui-btn" tapmode data-action='back' style="background: blue;">
+            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
                 <span class="aui-iconfont aui-icon-left"></span>
             </div>
-            <div class="aui-title" style="background: blue;">抄表系统</div>
+            <div class="aui-title">抄表系统</div>
         </header>
     </div>
 
-    <div id="center">
+    <div id="center" class="main-box">
         <div class="admin aui-clearfix" style="">
             <div id="gongneng1" style="float: left; width: 49.33vw;">
 
@@ -309,6 +240,8 @@
                 </div>
             </div>
         </div>
+
+
         <!-- <div class="admin">
             <div style="margin-right:1.34vw;">
                 <div class="card2" onclick="openWin('开始抄表')">
@@ -406,51 +339,6 @@
 <script type="text/javascript" src="../../public/script/template.js"></script>
 <script type="text/javascript" src="../../public/script/swiper.min.js"></script>
 <script type="text/javascript" src="../../public/script/aui-collapse.js"></script>
-<script type="text/template" id='appList'>
-    {{each list value i}} {{if value.NAME=="开始抄表"}}
-    <div class="aui-col-xs-6 open-win" win='cbwork/cbhome'>
-        <div class="appRow">
-            <img src="../image/MeteReading/home/chaobiao.png" />抄表
-        </div>
-    </div>
-    {{else if value.NAME =="上传数据"}}
-    <div class="aui-col-xs-6 open-win" win='userUpload/userUpload'>
-        <div class="appRow shangchuan">
-            <img src="../image/MeteReading/home/shangchaun.png" / class="shangchuanimg">上传
-        </div>
-    </div>
-    {{else if value.NAME =="导航图片"}}
-    <div class="aui-col-xs-6 open-win" win='baiduMap/baiduMap'>
-        <div class="appRow">
-            <img src="../image/MeteReading/home/daohang.png" />导航
-        </div>
-    </div>
-    {{else if value.NAME =="抄表统计"}}
-    <div class="aui-col-xs-6 open-win" win='statistical/statistical'>
-        <div class="appRow">
-            <img src="../image/MeteReading/home/tongji.png" />统计
-        </div>
-    </div>
-    {{else if value.NAME =="查询用户"}}
-    <div class="aui-col-xs-6 open-win" win='queryUser/queryUser'>
-        <div class="appRow">
-            <img src="../image/MeteReading/home/yonghuchauxn.png" />查询
-        </div>
-    </div>
-    {{else if value.NAME =="操作日志"}}
-    <div class="aui-col-xs-6 open-win" win='log/log'>
-        <div class="appRow">
-            <img src="../image/MeteReading/home/rzhi.png" />日志
-        </div>
-    </div>
-    {{else if value.NAME =="申报工单"}}
-    <div class="aui-col-xs-6 open-win" win='workOrder/workOrderList'>
-        <div class="appRow">
-            <img src="../image/MeteReading/home/shenbaogongdan.png" />申报工单
-        </div>
-    </div>
-    {{/if}} {{/each}}
-</script>
 <script type="text/javascript">
     var SetupAlldata;
     var UserId = "";
@@ -939,9 +827,7 @@
                 if (mpabret.status) {
                     api.hideProgress();
                     if (mpabret.data.length > 0) {
-                        //alert("b");
                         permissionList = mpabret.data;
-                        console.log(JSON.stringify(permissionList));
                         $(".card").remove();
                         $('.card2').remove();
                         showView();
@@ -1009,7 +895,6 @@
                 $('#center').append(str);
             }
         }
-        console.log(str);
     }
 
     function insertHome() {
@@ -1020,7 +905,6 @@
         }, function(ret, err) {
             if (ret.status) {
                 permissionList = ret.data;
-                console.log(permissionList);
                 $(".card").remove();
                 $('.card2').remove();
                 showView();
