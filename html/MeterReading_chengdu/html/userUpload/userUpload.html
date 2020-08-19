@@ -618,7 +618,7 @@
                     var str = template('bookList', datas);
                     $('#meterReadingList').siblings().remove();
                     $('#meterReadingList').after(str);
-                    setTimeout(() => {
+                    setTimeout(function() {
                         api.hideProgress();
                     }, 500);
                     fnReadyOpenWin();
@@ -627,7 +627,7 @@
                     var str = template('bookList', datas);
                     $('#meterReadingList').siblings().remove();
                     $('#meterReadingList').after(str);
-                    setTimeout(() => {
+                    setTimeout(function() {
                         api.hideProgress();
                     }, 500);
                 }
@@ -682,7 +682,7 @@
                     var str = template('mBookList', datas);
                     $('#waterMeterMaintenanceList').siblings().remove();
                     $('#waterMeterMaintenanceList').after(str);
-                    setTimeout(() => {
+                    setTimeout(function() {
                         api.hideProgress();
                     }, 500);
                     fnReadyOpenWin();
@@ -993,10 +993,8 @@
                 "Parameter": JSON.stringify(Parameter)
             })
         }
-        console.log(body.body);
         fnPost('', body, 'application/json', false, function(ret, err) {
             if (ret) {
-                console.log(JSON.stringify(ret));
                 if (ret.Status == 0) {
                     var Data = [];
                     if (ret.Data != "" && ret.Data != " ") {
@@ -1174,7 +1172,6 @@
         }
         fnPost('', body, 'application/json', false, function(ret, err) {
             if (ret) {
-                console.log(JSON.stringify(ret));
                 if (ret.Status == 0) {
                     var Data = [];
                     if (ret.Data != "" && ret.Data != " ") {
