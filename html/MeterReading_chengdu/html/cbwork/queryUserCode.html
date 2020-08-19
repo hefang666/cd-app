@@ -690,7 +690,6 @@
             sql: 'SELECT * FROM MRM_BOOKS_BEAN WHERE CBCH LIKE "%' + numer + '%" or CBCMC LIKE "%' + numer + '%"'
         }, function(ret, err) {
             api.hideProgress();
-            console.log(JSON.stringify(ret))
             if (ret.status) {
                 if (ret.data != "") {
                     $("#serchList").empty();
@@ -699,7 +698,7 @@
                     if (numer != "") {
                         db.selectSql({
                             name: 'CBtest',
-                            sql: `SELECT * FROM MRM_HISTORYS_BEAN where CXCS = "${numer}"`
+                            sql: 'SELECT * FROM MRM_HISTORYS_BEAN where CXCS = "'+numer+'"'
                         }, function(ret, err) {
                             if (ret.status) {
                                 if (ret.data.length == 0) {
@@ -718,8 +717,6 @@
                         });
 
                     }
-
-                    console.log(JSON.stringify(ret.data))
                     var dataList = ret.data
                     handleAnnotData(dataList)
                 } else {
@@ -792,7 +789,6 @@
                         $("#serchList").empty();
                         $("#storingList").empty()
                         var dataList = ret.data
-                        console.log(JSON.stringify(dataList))
                         handleAnnotData(dataList)
                     } else {
                         api.toast({

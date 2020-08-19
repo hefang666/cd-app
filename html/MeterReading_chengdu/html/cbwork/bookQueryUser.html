@@ -696,7 +696,7 @@
                     if (numer != "") {
                         db.selectSql({
                             name: 'CBtest',
-                            sql: `SELECT * FROM MRM_HISTORYS_BEAN where LSLX="抄表查询" and CXCS = "${numer}"`
+                            sql: 'SELECT * FROM MRM_HISTORYS_BEAN where LSLX="抄表查询" and CXCS = "'+ numer +'"'
                         }, function(ret, err) {
                             if (ret.status) {
                                 if (ret.data.length == 0) {

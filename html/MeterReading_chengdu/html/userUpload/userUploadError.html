@@ -572,7 +572,7 @@
                     var str = template('bookList', datas);
                     $('#meterReadingList').siblings().remove();
                     $('#meterReadingList').after(str);
-                    setTimeout(() => {
+                    setTimeout(function() {
                         api.hideProgress();
                     }, 500);
                     fnReadyOpenWin();
@@ -581,7 +581,7 @@
                     var str = template('bookList', datas);
                     $('#meterReadingList').siblings().remove();
                     $('#meterReadingList').after(str);
-                    setTimeout(() => {
+                    setTimeout(function() {
                         api.hideProgress();
                     }, 500);
                 }
@@ -636,7 +636,7 @@
                     var str = template('mBookList', datas);
                     $('#waterMeterMaintenanceList').siblings().remove();
                     $('#waterMeterMaintenanceList').after(str);
-                    setTimeout(() => {
+                    setTimeout(function() {
                         api.hideProgress();
                     }, 500);
                     fnReadyOpenWin();
@@ -1128,7 +1128,6 @@
         }
         fnPost('', body, 'application/json', false, function(ret, err) {
             if (ret) {
-                console.log(JSON.stringify(ret));
                 if (ret.Status == 0) {
                     //alert("上传成功");
                     var Data = [];

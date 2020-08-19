@@ -358,7 +358,7 @@
     }
 
     function upload() {
-        if (book.SFTX == "1") {
+        if (book && book.SFTX == "1") {
             var db = api.require('db');
             var userdata = db.selectSqlSync({
                 name: 'CBtest',
