@@ -122,7 +122,7 @@ function fnIntVue() {
                     return false;
                 }
             },
-            hasChanged() { //判断双向绑定的数据是否发生了改变
+            hasChanged: function() { //判断双向绑定的数据是否发生了改变
                 if (this.PATH != this.UserDetails.PATH || this.XBBH != this.UserDetails.XBBH || this.BYXZT != this.UserDetails.BYXZT || this.SBYXZT != this.UserDetails.SBYXZT || this.ZD != this.UserDetails.ZD || this.YL != this.UserDetails.YL || this.SJBM != this.UserDetails.SJBM || this.ImgData.length != 0) {
                     return true;
                 } else {
@@ -206,7 +206,7 @@ function fnIntVue() {
                 }
                 return false;
             },
-            hasMeterLocationImg() { //是否添加了表位图片
+            hasMeterLocationImg: function() { //是否添加了表位图片
                 for (var i = 0; i < this.ImgData.length; i++) {
                     if (this.ImgData[i].data.NotLoction != "0") {
                         return true;
@@ -312,7 +312,7 @@ function fnIntVue() {
             }
         },
         methods: {
-            back() { //返回上一个页面
+            back: function() { //返回上一个页面
                 _this = this;
                 var backWinName = "抄表列表";
                 if (this.FromPage == "cbqueryUser") {
@@ -334,7 +334,7 @@ function fnIntVue() {
                     this.closeWin();
                 }
             },
-            closeWin() { //关闭当前页面并刷新抄表列表页面
+            closeWin: function() { //关闭当前页面并刷新抄表列表页面
                 if (api.pageParam.name == "MeterReading_userList") {
                     var jsfun = 'show();';
                     api.execScript({
@@ -344,7 +344,7 @@ function fnIntVue() {
                 };
                 api.closeWin();
             },
-            clearImgData() { //清除图片数据
+            clearImgData: function() { //清除图片数据
                 for (var i = 0; i < _this.ImgData.length; i++) {
                     var path = _this.ImgData[i].path;
                     var zpmc = _this.ImgData[i].data.zpmc;
@@ -358,7 +358,7 @@ function fnIntVue() {
                 };
                 _this.ImgData = [];
             },
-            resetValue() { //切换状态 清空数据
+            resetValue: function() { //切换状态 清空数据
                 this.YL = "0";
                 this.ZD = "0";
                 this.SJBM = "";
@@ -374,13 +374,13 @@ function fnIntVue() {
                 this.XBQD = "0";
                 this.XBZD = "0";
             },
-            isEmptyObject(obj) { //判断是否为空对象
+            isEmptyObject: function(obj) { //判断是否为空对象
                 for (var key in obj) {
                     return false
                 };
                 return true
             },
-            clearObjectSpace(obj) { //清除空格
+            clearObjectSpace: function(obj) { //清除空格
 
                 // Object.keys(obj).forEach(function(key) {　　 // 可进行逻辑判断，或者重新赋值
                     // var item = obj[key];
@@ -396,12 +396,12 @@ function fnIntVue() {
                 }
                 return obj;
             },
-            initData() { //初始化获取用户数据
+            initData: function() { //初始化获取用户数据
                 this.getUserData();
                 this.getImgType();
                 this.setXuChaoUser();
             },
-            getUserData() { //获取用户数据
+            getUserData: function() { //获取用户数据
                 var ret = db.selectSqlSync({
                     name: 'CBtest',
                     sql: 'select * from MRM_DEPLOYS_BEAN where CODE in ("MRM_COMPARED_INCREASE_VALUE","MRM_COMPARED_AMOUNT","MR_SET_FLOATING_VALUE") and userName="' + this.LoginName + '"'
@@ -466,7 +466,7 @@ function fnIntVue() {
                     vant.Dialog.alert({
                         title: "提示",
                         message: "暂无抄表数据请前往下载"
-                    }).then(() => {
+                    }).then(function(){
                         api.closeWin({});
                     })
                 }
@@ -479,7 +479,7 @@ function fnIntVue() {
                     this.UserNumber = UserNumber;
                 }
             },
-            getImgType() { //获取图片类型数据
+            getImgType: function() { //获取图片类型数据
                 _this = this;
                 db.selectSql({
                     name: 'CBtest',
@@ -498,13 +498,13 @@ function fnIntVue() {
                     }
                 });
             },
-            setXuChaoUser() { //设置当前抄表册续抄用户
+            setXuChaoUser: function() { //设置当前抄表册续抄用户
                 var ret = db.executeSqlSync({
                     name: 'CBtest',
                     sql: 'UPDATE MRM_BOOKS_BEAN SET XCYH="' + this.YHBH + '" WHERE CBCH="' + this.cbch + '" and userName="' + this.LoginName + '"'
                 });
             },
-            getMemorandum() { //获取备忘录
+            getMemorandum: function() { //获取备忘录
                 var ret = db.selectSqlSync({
                     name: 'CBtest',
                     sql: 'select * from MRM_THE_MEMO_BEAN2 where YHBH="' + this.UserDetails.YHBH + '" and userName="' + this.LoginName + '"'
@@ -525,21 +525,21 @@ function fnIntVue() {
                     this.Memorandum = [];
                 }
             },
-            openMemorandum() { //提示备忘录信息
+            openMemorandum: function() { //提示备忘录信息
                 var text = this.Memorandum.join("\n");
                 vant.Dialog.alert({
                     title: "备忘录",
                     message: text
                 });
             },
-            openDetails() { //用户信息区域向左滑动打开用户详情页
+            openDetails: function() { //用户信息区域向左滑动打开用户详情页
                 api.openWin({
                     name: 'MeterReading_information2',
                     url: './MeterReading_information2.html',
                     pageParam: this.UserDetails
                 });
             },
-            turnToNextOrPrev(turnFun) {
+            turnToNextOrPrev: function(turnFun) {
                 if (this.hasChanged && this.UserDetails.CBBZ != "1") {
                     vant.Dialog.confirm({
                             title: '提示',
@@ -556,7 +556,7 @@ function fnIntVue() {
                     turnFun();
                 }
             },
-            previousHousehold() { //上一户
+            previousHousehold: function() { //上一户
                 if (this.UserNumber == 0) {
                     api.toast({
                         msg: '没有上一户了',
@@ -568,7 +568,7 @@ function fnIntVue() {
                     this.UserNumber--;
                 }
             },
-            nextHousehold() { //下一户
+            nextHousehold: function() { //下一户
                 if (this.UserNumber == (this.UserList.length - 1)) {
                     api.toast({
                         msg: '没有下一户了',
@@ -580,7 +580,7 @@ function fnIntVue() {
                     this.UserNumber++;
                 }
             },
-            viewLastMonthPhoto() { //查看上月照片
+            viewLastMonthPhoto: function() { //查看上月照片
                 if (api.connectionType != 'none') {
                     this.LoadOrNot = 1
                     api.showProgress({
@@ -623,7 +623,7 @@ function fnIntVue() {
                                     imgData = JSON.parse(ret.Data);
                                 };
                                 if (imgData.length > 0) {
-                                    var images = imgData.map((item) => {
+                                    var images = imgData.map(function(item) {
                                         //  return $api.getStorage('cbapipath') + item.URL;  //开发环境是抄表接口地址
                                         return apiUrl + item.URL; //生产环境是云平台接口地址
                                     });
@@ -661,7 +661,7 @@ function fnIntVue() {
                     vant.Toast("未连接网络,无法查看上月图片");
                 }
             },
-            photograph() { // 抄表拍照图片
+            photograph: function() { // 抄表拍照图片
                 _this = this;
                 gpsmodel.gpsstate(function(ret) {
                     if (ret.gps == true) {
@@ -700,13 +700,13 @@ function fnIntVue() {
                         vant.Dialog.alert({
                             title: "提示",
                             message: "无法进行拍照操作,请先打开gps"
-                        }).then(() => {
+                        }).then(function() {
 
                         })
                     }
                 });
             },
-            getCamera(id, name, state) { //拍照以及添加水印和经纬度
+            getCamera: function(id, name, state) { //拍照以及添加水印和经纬度
                 var _this = this;
                 var NotLoction;
                 if (state == 0) {
@@ -826,7 +826,7 @@ function fnIntVue() {
                     }
                 });
             },
-            insertPhotoIntoDB() { //保存时将图片添加到本地数据库中
+            insertPhotoIntoDB: function() { //保存时将图片添加到本地数据库中
                 for (var i = 0; i < this.ImgData.length; i++) {
                     var item = this.ImgData[i];
                     var photoData = item.data;
@@ -855,7 +855,7 @@ function fnIntVue() {
                     }
                 }
             },
-            getImgData() { //获取本地数据库已保存的图片
+            getImgData: function() { //获取本地数据库已保存的图片
                 this.ImgData = [];
                 _this = this;
                 db.selectSql({
@@ -888,13 +888,13 @@ function fnIntVue() {
                     }
                 });
             },
-            imgPreView(path, index) { //图片预览
+            imgPreView: function(path, index) { //图片预览
                 var images = this.ImgData.map(function(item) {
                     return item.path;
                 });
                 pBrowserPicture(index, images);
             },
-            deleteImg(index) { // 图片删除
+            deleteImg: function(index) { // 图片删除
                 var path = this.ImgData[index].path;
                 var zpmc = this.ImgData[index].data.zpmc;
                 _this = this;
@@ -940,14 +940,14 @@ function fnIntVue() {
                         vant.Dialog.alert({
                             title: "提示",
                             message: "无法进行抄表操作,请先打开gps"
-                        }).then(() => {
+                        }).then(function() {
 
                         })
                     }
                 });
 
             },
-            waterLocationImg() { //表位图片
+            waterLocationImg: function() { //表位图片
                 var _this = this;
                 if ((_this.PATH == ' ' || _this.PATH == '' || _this.PATH == 'null' || _this.PATH == null || _this.PATH.length == 0) && this.UserDetails.CBBZ != "1") {
                     gpsmodel.gpsstate(function(ret) {
@@ -955,16 +955,16 @@ function fnIntVue() {
                             vant.Dialog.confirm({
                                 title: '提示',
                                 message: '是否上传表位照片'
-                            }).then(() => {
+                            }).then(function() {
                                 _this.getCamera(" ", " ", 1);
-                            }).catch(() => {
+                            }).catch(function() {
 
                             });
                         } else {
                             vant.Dialog.alert({
                                 title: "提示",
                                 message: "无法进行抄表操作,请先打开gps"
-                            }).then(() => {
+                            }).then(function() {
 
                             })
                         }
@@ -988,7 +988,7 @@ function fnIntVue() {
                     }
                 }
             },
-            selectMeterStates() { //选择水表状态
+            selectMeterStates: function() { //选择水表状态
                 _this = this;
                 gpsmodel.gpsstate(function(ret) {
                     if (ret.gps == true) {
@@ -1015,13 +1015,13 @@ function fnIntVue() {
                         vant.Dialog.alert({
                             title: "提示",
                             message: "无法进行抄表操作,请先打开gps"
-                        }).then(() => {
+                        }).then(function() {
 
                         })
                     }
                 });
             },
-            changeDegrees(noToast) { //点击读数，切换键盘输入为录入读数
+            changeDegrees: function(noToast) { //点击读数，切换键盘输入为录入读数
                 // 自抄和正常
                 if (this.UserDetails.CBBZ != "1") {
                     if (this.NeedDegrees) {
@@ -1040,7 +1040,7 @@ function fnIntVue() {
                     }
                 }
             },
-            changeConsumption(noToast) { //点击用量，切换键盘输入为录入用量
+            changeConsumption: function(noToast) { //点击用量，切换键盘输入为录入用量
                 //故障：表糊、表停、倒装、表坏、其他、
                 //特殊表位：堆埋、车压、水淹、闭门围挡、其他
                 if (this.UserDetails.CBBZ != "1") {
@@ -1060,7 +1060,7 @@ function fnIntVue() {
                     }
                 }
             },
-            changeSJBM(noToast) { //点击实际表码，切换键盘输入为录入实际表码
+            changeSJBM: function(noToast) { //点击实际表码，切换键盘输入为录入实际表码
                 //故障：倒装
                 //换表
                 //无量：多录多抄、其他
@@ -1081,7 +1081,7 @@ function fnIntVue() {
                     }
                 }
             },
-            changeNewMeterNo(noToast) { //点击新表表号，切换键盘输入为新表表号
+            changeNewMeterNo: function(noToast) { //点击新表表号，切换键盘输入为新表表号
                 //换表-换表
                 if (this.UserDetails.CBBZ != "1") {
                     if (this.NeedXBBH) {
@@ -1099,7 +1099,7 @@ function fnIntVue() {
                     }
                 }
             },
-            changeXBQD(noToast) { //点击新表起度，切换键盘输入为新表起度
+            changeXBQD: function(noToast) { //点击新表起度，切换键盘输入为新表起度
                 //换表-换表
                 if (this.UserDetails.CBBZ != "1") {
                     if (this.NeedXBBH) {
@@ -1117,7 +1117,7 @@ function fnIntVue() {
                     }
                 }
             },
-            changeXBZD(noToast) { //点击新表止度，切换键盘输入为新表止度
+            changeXBZD: function(noToast) { //点击新表止度，切换键盘输入为新表止度
                 //换表-换表
                 if (this.UserDetails.CBBZ != "1") {
                     if (this.NeedXBBH) {
@@ -1135,7 +1135,7 @@ function fnIntVue() {
                     }
                 }
             },
-            ScanCode() { //扫码识别水表表号
+            ScanCode: function() { //扫码识别水表表号
                 if (this.UserDetails.CBBZ != "1") {
                     FNScanner.open({
                         rect: {
@@ -1163,7 +1163,7 @@ function fnIntVue() {
                     });
                 }
             },
-            resetInputActive() { //重置读数、实际表码、用量的输入框状态
+            resetInputActive: function() { //重置读数、实际表码、用量的输入框状态
                 this.editDegrees = false; //编辑读数
                 this.editConsumption = false; //编辑用量
                 this.editSJBM = false; //编辑实际表码
@@ -1184,7 +1184,7 @@ function fnIntVue() {
                     this.editXBZD = true;
                 }
             },
-            openLight() { //打开/关闭手电筒
+            openLight: function() { //打开/关闭手电筒
                 this.showLight = !this.showLight;
                 if (this.showLight) {
                     DVTorch.open({});
@@ -1192,7 +1192,7 @@ function fnIntVue() {
                     DVTorch.close({});
                 }
             },
-            applyWorkOrder() { // 发起异常记录
+            applyWorkOrder: function() { // 发起异常记录
                 _this = this;
                 api.openWin({
                     name: 'workOrder',
@@ -1240,7 +1240,7 @@ function fnIntVue() {
                 //     }
                 // });
             },
-            contactsPhone() { //点击键盘上的更多
+            contactsPhone: function() { //点击键盘上的更多
                 // 电话拨打和短信
                 var telponeNumer = this.UserDetails.YDDH;
                 var userCode = this.UserDetails.YHBH;
@@ -1279,7 +1279,7 @@ function fnIntVue() {
                                     vant.Dialog.alert({
                                         title: "提示",
                                         message: "无法更新表位,请先打开gps"
-                                    }).then(() => {
+                                    }).then(function() {
 
                                     })
                                 }
@@ -1303,7 +1303,7 @@ function fnIntVue() {
                                     vant.Dialog.alert({
                                         title: "提示",
                                         message: "无法修改已抄,请先打开gps"
-                                    }).then(() => {
+                                    }).then(function() {
 
                                     })
                                 }
@@ -1331,7 +1331,7 @@ function fnIntVue() {
                                     vant.Dialog.alert({
                                         title: "提示",
                                         message: "无法导航,请先打开gps"
-                                    }).then(() => {
+                                    }).then(function() {
 
                                     })
                                 }
@@ -1343,7 +1343,7 @@ function fnIntVue() {
                     }
                 });
             },
-            reReadMeter() { //重新抄表，清空数据
+            reReadMeter: function() { //重新抄表，清空数据
                 //  清除数据
                 var yhbh = this.UserDetails.YHBH;
                 // var DELETEimg = db.executeSqlSync({
@@ -1395,7 +1395,7 @@ function fnIntVue() {
                 // this.ImgData = [];
                 this.resetInputActive();
             },
-            upLoction() { //更新表位
+            upLoction: function() { //更新表位
                 //获取当前用户信息
                 _this = this;
                 bMap.getLocation({
@@ -1481,7 +1481,7 @@ function fnIntVue() {
                     }
                 });
             },
-            upLoctionAjax(lon, lat, callback) { //上传表位信息调用接口
+            upLoctionAjax: function(lon, lat, callback) { //上传表位信息调用接口
                 //获取当前用户信息
                 var telponeNumer = this.UserDetails.YHDH;
                 var userCode = this.UserDetails.YHBH;
@@ -1514,7 +1514,7 @@ function fnIntVue() {
                     callback(ret, err);
                 });
             },
-            getKeyboardNumbers(newValue, QDChange = false) {
+            getKeyboardNumbers: function(newValue, QDChange = false) {
                 //判断是否需要录入换表日期，如果需要录入，就判断换表日期是否填写了。
                 if (this.NeedHBRQ) {
                     if (this.HBRQ == "") {
@@ -1628,16 +1628,16 @@ function fnIntVue() {
                 }
                 this.calculateYL();
             },
-            longTapDelete() { //长按一直删除
+            longTapDelete: function() { //长按一直删除
                 this.deleteNumber();
                 this.timer = setInterval(() => {
                     this.deleteNumber();
                 }, 100);
             },
-            stopDelete() { //停止长按删除
+            stopDelete: function() { //停止长按删除
                 clearInterval(this.timer);
             },
-            deleteNumber() { //删除
+            deleteNumber: function() { //删除
                 _this = this;
                 if (this.UserDetails.CBBZ != "1") {
                     if (this.editDegrees) { //读数
@@ -1696,7 +1696,7 @@ function fnIntVue() {
                 }
                 this.calculateYL();
             },
-            setDefaultNumbers() { //设置默认数据
+            setDefaultNumbers: function() { //设置默认数据
                 // if (this.BYXZT == 10 || this.BYXZT == 12 || this.BYXZT == 25 || this.BYXZT == 26 || this.BYXZT == 17) {
                 //     this.YL = 0;
                 // }
@@ -1711,7 +1711,7 @@ function fnIntVue() {
                 this.ZD = 0;
                 this.YL = 0;
             },
-            calculateYL() {
+            calculateYL: function() {
                 var result = 0; //水量
                 var zsl = 0; //周期总水量
                 var sccbrq = ""; //上次抄表日期
@@ -2052,7 +2052,7 @@ function fnIntVue() {
                 //
                 // this.resultType = abnormalWaterVolumeReduce(options);
             },
-            allSave() { //保存数据并上传
+            allSave: function() { //保存数据并上传
                 var sql = 'select * from MRM_USER_BEAN where ZBBH in (select YHBH from MRM_USER_BEAN where YHBH="' + this.UserDetails.YHBH + '" and SBYT="总表") and userName="' + this.LoginName + '" and CBBZ="0"';
                 var ret = db.selectSqlSync({
                     name: 'CBtest',
@@ -2244,7 +2244,7 @@ function fnIntVue() {
                     });
                 }
             },
-            print() { //打印
+            print: function() { //打印
                 _this = this;
                 api.openWin({
                     name: 'CountPrint',
@@ -2254,7 +2254,7 @@ function fnIntVue() {
                     }
                 });
             },
-            saveAndUploadLocation() { //上传保存表位信息
+            saveAndUploadLocation: function() { //上传保存表位信息
                 _this = this;
                 var retUser = db.selectSqlSync({
                     name: 'CBtest',
@@ -2283,7 +2283,7 @@ function fnIntVue() {
                     }
                 });
             },
-            saveAndUploadLocationPublic(JWDData, lon, lat) { //上传和保存表位信息公共方法
+            saveAndUploadLocationPublic: function(JWDData, lon, lat) { //上传和保存表位信息公共方法
                 _this = this;
                 var meterLon = lon;
                 var meterLat = lat;
@@ -2308,7 +2308,7 @@ function fnIntVue() {
                 });
                 this.saveData(lon, lat);
             },
-            saveData(lon, lat) { //保存用户数据到本地
+            saveData: function(lon, lat) { //保存用户数据到本地
                 var yl = Number(this.YL);
                 var qd = this.UserDetails.QD;
                 var zd = Number(this.ZD);
@@ -2394,7 +2394,7 @@ function fnIntVue() {
                     }
                 }
             },
-            save() {
+            save: function() {
                 if (api.connectionType != 'none') {
                     _this.uploaderMeterLocationImg();
                     if (this.sendUpload != "true" && this.sendUploadPicture != "true") {
@@ -2467,7 +2467,7 @@ function fnIntVue() {
                     }
                 }
             },
-            uploader(status) { //上传数据
+            uploader: function(status) { //上传数据
                 _this = this;
                 var statusOne = status;
                 var ret1 = db.selectSqlSync({
@@ -2665,7 +2665,7 @@ function fnIntVue() {
                     });
                 }
             },
-            uploaderImg(showProgress, turnToNext) { //上传抄表图片
+            uploaderImg: function(showProgress, turnToNext) { //上传抄表图片
                 _this = this;
                 if (showProgress) {
                     _this.LoadOrNot = 1
@@ -2711,7 +2711,7 @@ function fnIntVue() {
                     }
                 }
             },
-            uploaderMeterLocationImg() { //上传表位图片
+            uploaderMeterLocationImg: function() { //上传表位图片
                 _this = this;
                 var retimage = db.selectSqlSync({
                     name: 'CBtest',
@@ -2725,7 +2725,7 @@ function fnIntVue() {
                     }
                 }
             },
-            imguploader(loaderdata, loader, n, falseNum, turnToNext, isMeterLocation) { //调用上传图片接口
+            imguploader: function(loaderdata, loader, n, falseNum, turnToNext, isMeterLocation) { //调用上传图片接口
                 var PhotoType;
                 if (loaderdata[n].NotLoction == '0') {
                     PhotoType = '1'; //抄表图片
@@ -2948,7 +2948,7 @@ function fnIntVue() {
                 //     }
                 // });
             },
-            uploadWorkOrder(gzyy) { //上传异常记录
+            uploadWorkOrder: function(gzyy) { //上传异常记录
                 _this = this;
                 if (_this.PhotoIndex < _this.ImgData.length) {
                     if (_this.ImgData[_this.PhotoIndex].data.NotLoction == 1) {
@@ -3084,7 +3084,7 @@ function fnIntVue() {
                     }
                 }
             },
-            appendImg() { //已抄追加图片
+            appendImg: function() { //已抄追加图片
                 this.insertPhotoIntoDB();
                 if (this.sendUploadPicture == "true" && api.connectionType != "none") {
                     this.uploaderImg(true, false);
@@ -3100,7 +3100,7 @@ function fnIntVue() {
                     this.preventRepeatTouch = false;
                 }
             },
-            updateQD() {
+            updateQD: function() {
                 if (api.connectionType == "wifi" || api.connectionType == "4g" || api.connectionType == "5g") {
                     var db = api.require('db');
                     var _this = this;
@@ -3141,7 +3141,7 @@ function fnIntVue() {
                     });
                 }
             },
-            Time(type) {
+            Time: function(type) {
                 var date = new Date()
                 var time = null
                 switch (type) {
@@ -3171,7 +3171,7 @@ function fnIntVue() {
                 }
                 return time
             },
-            datetime() {
+            datetime: function() {
                 var year = Time("year"); //获取系统的年；
                 var month = Time("month"); //获取系统月份，由于月份是从0开始计算，所以要加1
                 var day = Time("day"); //获取系统日
@@ -3181,14 +3181,14 @@ function fnIntVue() {
                 var dayTime = year + month + day + hour + minute + second
                 return dayTime;
             },
-            getDaysBetween(dateString1, dateString2) {
+            getDaysBetween: function(dateString1, dateString2) {
                 //计算两个日期的间隔天数
                 var startDate = Date.parse(dateString1);
                 var endDate = Date.parse(dateString2);
                 var days = (endDate - startDate) / (1 * 24 * 60 * 60 * 1000);
                 return days;
             },
-            tab(date1, date2) {
+            tab: function(date1, date2) {
                 //判断两个时间的大小
                 var oDate1 = new Date(date1);
                 var oDate2 = new Date(date2);
