@@ -479,7 +479,8 @@
     }
 
     //查询用户信息
-    function queryUserOne(type, that = event) {
+    function queryUserOne(type, event) {
+        var that = event;
         if (type == 'h') {
             var CXCS = $(that).text();
             var CXLX = $(that).attr('CXLX');
@@ -520,7 +521,7 @@
         // 重复的查询不在加入表中
         db.selectSql({
             name: 'CBtest',
-            sql: `SELECT * FROM MRM_HISTORYS_BEAN where LSLX="查询用户" and CXCS = "${CXCS}" and userName = "${LoginName}"`
+            sql: 'SELECT * FROM MRM_HISTORYS_BEAN where LSLX="查询用户" and CXCS = '+ CXCS +' and userName = ' + LoginName
         }, function(ret, err) {
             if (ret.status) {
                 if (ret.data.length == 0) {
@@ -535,16 +536,16 @@
             var sql = "";
             switch (true) {
                 case CXLX == 'YHBH' || CXLX == undefined:
-                    var sql = `select * from MRM_USER_BEAN where YHBH = "${CXCS}" and userName = "${LoginName}"`;
+                    var sql = 'select * from MRM_USER_BEAN where YHBH = '+ CXCS +' and userName = ' + LoginName;
                     break;
                 case CXLX == 'KJ':
-                    var sql = `select * from MRM_USER_BEAN where KJ = "${CXCS}" and userName = "${LoginName}"`;
+                    var sql = 'select * from MRM_USER_BEAN where KJ = '+ CXCS +' and userName = ' + LoginName;
                     break;
                 case CXLX == 'YHDZ':
-                    var sql = `select * from MRM_USER_BEAN where YHDZ LIKE "%${CXCS}%" and userName = "${LoginName}"`;
+                    var sql = 'select * from MRM_USER_BEAN where YHDZ LIKE '+ CXCS +' and userName = ' + LoginName;
                     break;
                 case CXLX == 'YHMC':
-                    var sql = `select * from MRM_USER_BEAN where YHMC LIKE "%${CXCS}%" and userName = "${LoginName}"`;
+                    var sql = 'select * from MRM_USER_BEAN where YHMC LIKE '+ CXCS +' and userName = ' + LoginName;
                     break;
             }
             var userdata = db.selectSqlSync({
@@ -595,16 +596,16 @@
             }
             switch (true) {
                 case CXLX == 'YHBH':
-                    var Required = `YHBH=${CXCS}&YHMC=&YHDZ=&YHDH=&SBBH=&PAGECODE=1`;
+                    var Required = 'YHBH=' + CXCS + '&YHMC=&YHDZ=&YHDH=&SBBH=&PAGECODE=1';
                     break;
                 case CXLX == 'YHDZ':
-                    var Required = `YHBH=&YHMC=&YHDZ=${CXCS}&YHDH=&SBBH=&PAGECODE=1`;
+                    var Required = 'YHBH=&YHMC=&YHDZ=' + CXCS + '&YHDH=&SBBH=&PAGECODE=1';
                     break;
                 case CXLX == 'YHDH':
-                    var Required = `YHBH=&YHMC=&YHDZ=&YHDH=${CXCS}&SBBH=&PAGECODE=1`;
+                    var Required = 'YHBH=&YHMC=&YHDZ=&YHDH=' + CXCS + '&SBBH=&PAGECODE=1';
                     break;
                 case CXLX == 'YHMC':
-                    var Required = `YHBH=&YHMC=${CXCS}&YHDZ=&YHDH=&SBBH=&PAGECODE=1`;
+                    var Required = 'YHBH=&YHMC=' + CXCS + '&YHDZ=&YHDH=&SBBH=&PAGECODE=1';
                     break;
             }
             var Parameter = {

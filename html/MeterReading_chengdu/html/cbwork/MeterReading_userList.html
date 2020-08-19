@@ -579,7 +579,7 @@
                 cbch: param.CBCH
             }
         });
-        setTimeout(() => {
+        setTimeout(function() {
             api.showProgress({
                 title: '加载中',
                 modal: false
@@ -965,10 +965,7 @@
         }, function(ret, err) {
             if (ret.status) {
                 var dataList = ret.data
-                console.log(dataList);
-                dataList.forEach(item => {
-                    actionsData.push(item);
-                });
+                actionsData = actionsData.concat(dataList);
                 var data = {
                     list: actionsData
                 }
@@ -1021,10 +1018,10 @@
                 sql = 'select * from MRM_USER_BEAN where CBCH="' + param.CBCH + '" AND userName = "' + LoginName + '" ORDER BY CBXH';
                 break;
             case type == 'SLYC':
-                sql = `select * from MRM_USER_BEAN where CBCH=${param.CBCH} and CBBZ="1" and SLZT IN ("1","2") AND userName = ${LoginName} ORDER BY CBXH`;
+                sql = 'select * from MRM_USER_BEAN where CBCH='+ param.CBCH +' and CBBZ="1" and SLZT IN ("1","2") AND userName = '+ param.CBCH +' ORDER BY CBXH';
                 break;
             default:
-                sql = `select * from MRM_USER_BEAN where CBCH=${param.CBCH} and CBBZ="1" and BYXZT="${type}" AND userName = ${LoginName} ORDER BY CBXH`;
+                sql = 'select * from MRM_USER_BEAN where CBCH='+ param.CBCH +' and CBBZ="1" and BYXZT="'+type+'" AND userName = '+ LoginName +' ORDER BY CBXH';
 
         }
         var userdata = db.selectSqlSync({
@@ -1084,10 +1081,10 @@
                 sql = 'select * from MRM_USER_BEAN where CBCH="' + param.CBCH + '" AND userName = "' + LoginName + '" ORDER BY CBXH';
                 break;
             case type == 'SLYC':
-                sql = `select * from MRM_USER_BEAN where CBCH=${param.CBCH} and CBBZ="1" and SLZT IN ("1","2") AND userName = ${LoginName} ORDER BY CBXH`;
+                sql = 'select * from MRM_USER_BEAN where CBCH='+ param.CBCH +' and CBBZ="1" and SLZT IN ("1","2") AND userName = '+ LoginName +' ORDER BY CBXH';
                 break;
             default:
-                sql = `select * from MRM_USER_BEAN where CBCH=${param.CBCH} and CBBZ="1" and BYXZT="${type}" AND userName = ${LoginName} ORDER BY CBXH`;
+                sql = 'select * from MRM_USER_BEAN where CBCH='+ param.CBCH +' and CBBZ="1" and BYXZT="'+ type +'" AND userName = '+ LoginName +' ORDER BY CBXH';
 
         }
         var userdata = db.selectSqlSync({
