@@ -450,7 +450,7 @@
         // 重复的查询不在加入表中
         db.selectSql({
             name: 'CBtest',
-            sql: `SELECT * FROM MRM_HISTORYS_BEAN where LSLX="导航" and userName="${LoginName}" and CXCS = "${CXCS}"`
+            sql: 'SELECT * FROM MRM_HISTORYS_BEAN where LSLX="导航" and userName="'+LoginName+'" and CXCS = "'+CXCS+'"'
         }, function(ret, err) {
             if (ret.status) {
                 if (ret.data.length == 0) {
@@ -464,13 +464,13 @@
         var sql = "";
         switch (true) {
             case CXCS == undefined || CXCS == "":
-                var sql = `select * from MRM_USER_BEAN where userName="${LoginName}"`;
+                var sql = 'select * from MRM_USER_BEAN where userName="'+LoginName+'"';
                 break;
             case CXLX == 'YHBH':
-                var sql = `select * from MRM_USER_BEAN where YHBH = "${CXCS}" and userName="${LoginName}"`;
+                var sql = 'select * from MRM_USER_BEAN where YHBH = "'+CXCS+'" and userName="'+LoginName+'"';
                 break;
             case CXLX == 'YHMC':
-                var sql = `select * from MRM_USER_BEAN where YHMC like "%${CXCS}%" and userName="${LoginName}"`;
+                var sql = 'select * from MRM_USER_BEAN where YHMC like "%'+CXCS+'%" and userName="'+LoginName+'"';
                 break;
 
         }
