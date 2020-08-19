@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="../../../public/css/api.css" />
     <link rel="stylesheet" type="text/css" href="../../../public/css/aui1.css" />
     <link rel="stylesheet" type="text/css" href="../../../public/css/dialog.css" />
-    <!-- <link rel="stylesheet" type="text/css" href="../../css/public.css"> -->
+    <link rel="stylesheet" type="text/css" href="../../css/public.css">
     <style>
         /*html,
         body {
@@ -25,12 +25,11 @@
             height: 100%;
             overflow: hidden;
         } */
-
-        .header {
+        /*.header {
             position: fixed;
             top: 0;
             background: linear-gradient(90deg, rgba(46, 142, 250, 1), rgba(49, 89, 235, 1));
-        }
+        }*/
 
         .header .aui-pull-left {
             padding-left: 1.2rem;
@@ -43,7 +42,6 @@
         .aui-btn>img {
             max-width: 80%;
         }
-
         /*.header .aui-title {
             font-size: 1.14rem;
             font-family: Source Han Sans SC;
@@ -51,74 +49,56 @@
             color: rgba(255, 255, 255, 1);
             /*line-height:5.48rem;*/
         /*}*/
-
-        .header .flex-wrap {
-            display: flex;
-            flex-flow: row;
-            width: 100%;
-            background: #fff;
-            /*height: 5.85rem;*/
-            background: rgba(243, 243, 243.1);
-            /*padding-bottom: 0.3rem;*/
-        }
-
-        .header .flex-wrap li {
+        /*.header .flex-wrap li {
             background: #fff;
             flex: 1;
             width: 100%;
             overflow: hidden;
-        }
-
-        .header .flex-wrap li p:nth-child(1) {
-            /*padding-left: 2.01rem;*/
-            /*text-align: left;*/
-            padding-top: 0.56rem;
+        }*/
+        /*.header .flex-wrap li p:nth-child(1) {*/
+        /*padding-left: 2.01rem;*/
+        /*text-align: left;*/
+        /*padding-top: 0.56rem;
             font-size: 1.125rem;
             font-family: Arial;
             font-weight: 400;
             color: rgba(71, 71, 71, 1);
             line-height: 1rem;
-        }
-
-        .header .flex-wrap li p:nth-child(2) {
-            /*font-size:1.83rem;*/
-            font-size: 1rem;
+        }*/
+        /*.header .flex-wrap li p:nth-child(2) {*/
+        /*font-size:1.83rem;*/
+        /*font-size: 1rem;
             font-family: Source Han Sans SC;
             font-weight: 400;
             color: rgba(134, 134, 134, 1);
-        }
-
-        .header .flex-wrap li:nth-child(2) {
+        }*/
+        /*.header .flex-wrap li:nth-child(2) {
             flex: none;
             width: 0.2rem;
             padding-top: 0.38rem;
-        }
-
-        .header .flex-wrap li:nth-child(4) div {
+        }*/
+        /*.header .flex-wrap li:nth-child(4) div {
             margin-top: 0.38rem;
             margin-left: 0.5rem;
-        }
-
-        .header .flex-wrap li:nth-child(2) .layers_item {
-            /*width: 0.2rem;*/
-            width: 0.683px;
+        }*/
+        /*.header .flex-wrap li:nth-child(2) .layers_item {*/
+        /*width: 0.2rem;*/
+        /*width: 0.683px;
             height: 3rem;
             background: #c2c2c2;
-        }
-
-        .header .aui-list .item {
+        }*/
+        /*.header .aui-list .item {
             margin-left: 1.2rem;
             margin-right: 1.2rem;
             border-bottom: 0.6px solid #dddddd;
-        }
-
-        .header .aui-list .item label {
+        }*/
+        /*.header .aui-list .item label {
             font-size: 1rem;
             font-family: Source Han Sans SC;
             font-weight: 400;
-            color: rgba(58, 58, 58, 1);
-            /*line-height:5.48rem;*/
-        }
+            color: rgba(58, 58, 58, 1);*/
+        /*line-height:5.48rem;*/
+        /*}*/
 
         .header .aui-list .aui-checkbox {
             margin-right: 0.4rem;
@@ -432,120 +412,68 @@
 </head>
 
 <body>
-    <div class="flex-wrap-box flex-vertical header-box">
-        <header class="aui-bar aui-bar-nav header" id="header">
-            <div class="aui-pull-left aui-btn" tapmode data-action='back'>
-                <span class="aui-iconfont aui-icon-left"></span>
-            </div>
-            <div class="aui-title">我的表册</div>
-            <div class="aui-pull-right aui-btn" tapmode data-action="search">
-                <img src="../../image/MeteReading/cbdatiles/sousuo.png" alt="">
-            </div>
-            <!-- <ul class="flex-wrap">
-                <li class="flex-con">
-                    <p id="ycbooks">27</p>
-                    <p>应抄册数</p>
-                </li>
-                <li class="flex-con">
-                    <div class="layers_item"></div>
-                </li>
-                <li class="flex-con">
-                    <p id="yctable">500</p>
-                    <p>应抄表数</p>
-                </li>
-                <li class="flex-con">
+    <!-- <div class="flex-wrap-box flex-vertical"> -->
+        <div class="header-box" id="header-box">
+            <header class="aui-bar aui-bar-nav header" id="header">
+                <div class="aui-pull-left aui-btn" tapmode data-action='back'>
+                    <span class="aui-iconfont aui-icon-left"></span>
+                </div>
+                <div class="aui-title">我的表册</div>
+                <div class="aui-pull-right aui-btn" tapmode data-action="search">
+                    <img src="../../image/MeteReading/cbdatiles/sousuo.png" alt="">
+                </div>
+            </header>
+            <div id="title">
+                <div class="flex-wrap2">
+                    <div class="flex-con2">
+                        <div id="ycbooks">27</div>
+                        <div>应抄册数</div>
+                    </div>
+                    <div class="flex-con3">
+                        <div class="layers_item"></div>
+                    </div>
+                    <div class="flex-con2">
+                        <div id="yctable">500</div>
+                        <div>应抄表数</div>
+                    </div>
+                    <div class="flex-con3">
+                        <div class="layers_item"></div>
+                    </div>
+                    <div class="flex-con2">
+                        <div id="yczs">27</div>
+                        <div>已抄表数</div>
+                    </div>
+                </div>
+                <div class="flex-wrap2">
+                    <div class="flex-con2">
+                        <div id="wczs">500</div>
+                        <div>未抄表数</div>
+                    </div>
+                    <div class="flex-con3">
+                        <div class="layers_item"></div>
+                    </div>
+                    <div class="flex-con2">
 
-                </li>
-            </ul>
-            <ul class="flex-wrap">
-                <li class="flex-con">
-                    <p id="yczs">27</p>
-                    <p>已抄表数</p>
-                </li>
-                <li class="flex-con">
-                    <div class="layers_item"></div>
-                </li>
-                <li class="flex-con">
-                    <p id="wczs">500</p>
-                    <p>未抄表数</p>
-                </li>
-                <li class="flex-con">
-                  <div class="All_download_btn" tapmode data-action='AllDownload'>
-                      下载
-                  </div>
-                </li>
-            </ul> -->
-
-            <!-- <div class="aui-list aui-list-in clear-boder">
-                <div class="item">
-                    <div class="aui-list-item-inner">
-                        <div class="aui-list-item-title uploadCBC">
-                            <div>
-                                <label><input class="aui-checkbox" type="checkbox" name="demo1" id="parantChexbox">全部</label>
-                            </div>
-                            <div style="flex:1;"></div>
-                            <div class="gxbc" onclick="updateBCB();">更新表册</div>
+                    </div>
+                    <div class="flex-con2">
+                        <div class="All_download_btn" tapmode data-action='AllDownload'>
+                            下载
                         </div>
                     </div>
                 </div>
-            </div> -->
-        </header>
-
-        <div id="title" style="margin-top:45px;">
-            <div class="flex-wrap2">
-                <div class="flex-con2">
-                    <div id="ycbooks">27</div>
-                    <div>应抄册数</div>
-                </div>
-                <div class="flex-con3">
-                    <div class="layers_item"></div>
-                </div>
-                <div class="flex-con2">
-                    <div id="yctable">500</div>
-                    <div>应抄表数</div>
-                </div>
-                <div class="flex-con3">
-                    <div class="layers_item"></div>
-                </div>
-                <div class="flex-con2">
-                    <div id="yczs">27</div>
-                    <div>已抄表数</div>
-                </div>
             </div>
-            <div class="flex-wrap2">
-                <div class="flex-con2">
-                    <div id="wczs">500</div>
-                    <div>未抄表数</div>
-                </div>
-                <div class="flex-con3">
-                    <div class="layers_item"></div>
-                </div>
-                <div class="flex-con2">
-
-                </div>
-                <div class="flex-con2">
-                    <div class="All_download_btn" tapmode data-action='AllDownload'>
-                        下载
+            <div id="Num">
+                <div class="NumShow">
+                    <div>
+                        <label class="label1"><input class="aui-checkbox" type="checkbox" name="demo1" id="parantChexbox">全部</label>
+                    </div>
+                    <div style="flex:1;"></div>
+                    <div>
+                        <div class="gxbc2" onclick="updateBCB();">更新表册</div>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="Num">
-            <div class="NumShow">
-                <div>
-                    <label class="label1"><input class="aui-checkbox" type="checkbox" name="demo1" id="parantChexbox">全部</label>
-                </div>
-                <div style="flex:1;"></div>
-                <div>
-                    <div class="gxbc2" onclick="updateBCB();">更新表册</div>
-                </div>
-            </div>
-        </div>
-
-
-
-
-
         <div class="content" id="content">
             <ul class="aui-list aui-list-in" id="dataListUser">
                 <li class="item parantChexbox one" id="dataListUserOne">
@@ -561,7 +489,7 @@
                 <div>打印</div>
             </div>
         </div>
-    </div>
+    <!-- </div> -->
 </body>
 <script type="text/javascript" src="../../../public/script/api.js"></script>
 <script type="text/javascript" src="../../../public/script/common.js"></script>
@@ -592,29 +520,6 @@
                     {{/if}}
                 </div>
             </div>
-
-            <!-- <div class="aui-list-item-title title-li-dv1" id="{{value.CBCH}}">
-              <input class="aui-checkbox sonCheckBox" type="checkbox" name="demo1" onchange="dianji(this);" value="{{value.CBCH}}"></input>
-              <div class="CBCMC">
-                {{value.CBCMC}}
-              </div>
-                <label>
-                  <input class="aui-checkbox sonCheckBox" type="checkbox" name="demo1" onchange="dianji(this);" value="{{value.CBCH}}"></input>
-                    <span>
-                      <marquee class="datasapn" data="{{value.CBCH}}" direction="left" behavior="scroll" align="left" loop="infinite" scrollamount="1" scrolldelay="3" hspace="0" vspace="0" οnmοuseοver=this.stop() οnmοuseοut=this.start()>
-                          <span style="margin-left:-5.5rem"></span>
-                      </marquee>
-                    </span>
-                  </label>
-            </div>
-
-            <div class="aui-list-item-title SFXZ_{{value.CBCH}}">
-                {{if value.NOTDOWNLOAD!=1}}
-                <div class="li-one notdownload">未下载</div>
-                {{else}}
-                <div class="li-one yesdownload">已下载</div>
-                {{/if}}
-            </div> -->
         </div>
         <div class="list-item-innerbox" onclick="openMeterReading(this)" param="{{value}}">
             <div class="aui-list-item-inner title" style="min-height: 1.2rem;">
@@ -726,8 +631,10 @@
         $api.fixStatusBar(header);
         $api.fixTabBar(footer);
 
-        headerH = $api.offset(header).h;
-        $('#title').css('margin-top', '' + headerH + 'px');
+        var headerBox = $api.byId('header-box');
+
+        headerH = $api.offset(headerBox).h;
+        $('#content').css('margin-top', '' + headerH + 'px');
         LoginName = $api.getStorage('loginData').userName;
         day = Time("day");
         downloadBooks();
@@ -792,7 +699,6 @@
                 $(".YC_" + cbch + "").html(ret.value.yc);
                 $(".WC_" + cbch + "").html(ret.value.wc);
             } else {
-                //  console.log( JSON.stringify( err ) );
             }
         });
 
@@ -866,7 +772,6 @@
                             });
                             var sql = "";
                             if (bookdata.data.length > 0) {
-                              console.log(JSON.stringify(Booksdata[i]));
                                 sql = 'update MRM_BOOKS_BEAN set ' +
                                     'userName="' + LoginName + '" ' +
                                     ',ID="' + Booksdata[i].ID + '" ' +
@@ -1044,7 +949,6 @@
         var list = {
             list: dataList
         }
-        console.log(JSON.stringify(list));
         var str = template('Booksdata', list)
         $('.two').remove();
         $api.append($api.byId('dataListUser'), str);
@@ -2060,7 +1964,6 @@
 
                     downloadUserAll();
                 } else {
-                    // console.log(JSON.stringify(err))
                 }
             });
         }
@@ -2650,7 +2553,6 @@
                 } else {
                     var UIActionProgress = api.require('UIActionProgress');
                     UIActionProgress.close();
-                    // console.log( JSON.stringify( err ) );
                 }
             })
         } else {
@@ -2665,7 +2567,6 @@
 
     function openMeterReading(el) {
         $api.setStorage("newMeterReading", $(el).attr('param'));
-        console.log($api.getStorage('newMeterReading'));
         api.sendEvent({
             name: 'newMeterReading',
             extra: $(el).attr('param')

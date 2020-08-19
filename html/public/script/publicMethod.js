@@ -11,7 +11,8 @@ function pGetLocation(callback) {
 }
 
 //  根据经纬度获取位置信息
-function pGetNameFromCoords(callback, options = undefined) {
+function pGetNameFromCoords(callback, options) {
+    options = options || undefined;
     var map = api.require('bMap');
     if (options != undefined) {
         map.getNameFromCoords({
@@ -37,7 +38,8 @@ function pGetNameFromCoords(callback, options = undefined) {
 }
 
 // 拍照与获取图片
-function pGetPicture(options = undefined, callback) {
+function pGetPicture(options, callback) {
+    options = options || undefined
     var type = 'camera';
 
     switch (true) {
@@ -126,8 +128,8 @@ function pGetPicture(options = undefined, callback) {
                     })
                 });
                 if (waterMark) {
-                    var imageaUrl =[];
-                    for(let i =0;i<paths.length;i++){
+                    var imageaUrl = [];
+                    for(var i = 0;i<paths.length;i++){
                       api.saveMediaToAlbum({
                           path: paths[i].path,
                           groupName: options.from =='cb'?'综合水务平台抄表压缩图':'综合水务平台压缩图'
@@ -135,7 +137,7 @@ function pGetPicture(options = undefined, callback) {
                           if (ret0 && ret0.status) {
                             var imgUrlPre = paths[i].path.substring(0,paths[i].path.lastIndexOf('/'));
                             var picName = paths[i].path.substring(paths[i].path.lastIndexOf('/'),paths[i].path.length);
-                            var imgUrl = `${imgUrlPre}/${options.from =='cb'?'综合水务平台抄表压缩图':'综合水务平台压缩图'}${picName}`;
+                            var imgUrl = imgUrlPre + '/' + (options.from =='cb' ? '综合水务平台抄表压缩图' : '综合水务平台压缩图') + picName;
                             imageaUrl.push({
                                 path: imgUrl
                             });
@@ -199,7 +201,7 @@ function pAddwaterMark(options, callback) {
         "newimgwidth": "1200", //1000
         "fontnum": 0,
     };
-    for (let n = 0; n < waterMarkNumber.length; n++) {
+    for (var n = 0; n < waterMarkNumber.length; n++) {
         var number = n;
         if (number == 0) {
             number = 100;
@@ -207,14 +209,14 @@ function pAddwaterMark(options, callback) {
             number = 100 + (n * 50);
         }
         waterMarkJson["font" + n + "x"] = "50";
-        waterMarkJson["font" + n + "y"] = `${number}`;
+        waterMarkJson["font" + n + "y"] = number;
 
         if (options.waterMarkData[waterMarkNumber[n]].length !== 0) {
             waterMarkJson.fontnum++;
             if (n == 0) {
-                waterMarkJson["font" + n + "words"] = `户号:${options.waterMarkData[waterMarkNumber[n]]}  时间:${time}`;
+                waterMarkJson["font" + n + "words"] = '户号:' + options.waterMarkData[waterMarkNumber[n]] +  '时间:' + time;
             } else {
-                waterMarkJson["font" + n + "words"] = `类型:${options.waterMarkData[waterMarkNumber[n]]}`;
+                waterMarkJson["font" + n + "words"] = '类型:' + options.waterMarkData[waterMarkNumber[n]];
             }
             waterMarkJson["font" + n + "size"] = "40";
             waterMarkJson["font" + n + "color"] = "#FF0000";
@@ -223,7 +225,7 @@ function pAddwaterMark(options, callback) {
 
     }
     if (waterMarkJson.fontnum != 0) {
-        for (let i = 0; i < data.length; i++) {
+        for (var i = 0; i < data.length; i++) {
             waterMarkJson.oldimgurl = data[i].path;
             waterMarkJson.newimgurl = data[i].path;
             mobilePrint.imgPrint(waterMarkJson, function(ret) {
@@ -307,7 +309,9 @@ function pBrowserVideo(url) { //视频播放
     });
 }
 
-function pGetLocationGPS(setGPS = false, callback = undefined) { //判断是否开启了gps
+function pGetLocationGPS(setGPS, callback) { //判断是否开启了gps
+    setGPS = setGPS || false;
+    callback = callback || undefined;
     var gpsmodel = api.require('gpsState');
     if (!setGPS) {
         gpsmodel.gpsstate(function(ret) {
@@ -340,7 +344,7 @@ function pNavigationAppIsExist(callback) {
     var arrays = ['bMap', 'aMap', 'gMap'];
     var callArrays = [];
     var number = 0;
-    for (let i = 0; i < arrays.length; i++) {
+    for (var i = 0; i < arrays.length; i++) {
         navigator.installed({
             target: arrays[i]
         }, function(ret, err) {
