@@ -497,7 +497,6 @@
                                 name: 'CBtest',
                                 sql: 'select * from MRM_BOOKS_BEAN where CBCH="' + Booksdata[i].CBCH + '" and userName="' + LoginName + '"'
                             });
-                            console.log(JSON.stringify(bookdata));
                             var sql = "";
                             if (bookdata.data.length > 0) {
                                 sql = 'update MRM_BOOKS_BEAN set ' +
@@ -595,9 +594,7 @@
                 "Parameter": JSON.stringify(Parameter)
             })
         };
-        console.log(body.body);
         fnPost('', body, 'application/json', false, function(ret, err) {
-            console.log(JSON.stringify(ret));
             if (ret) {
                 if (ret.Status == 0) {
                     deleteboods();
@@ -676,7 +673,6 @@
                     var Data = [];
                     if (ret.Data != "" && ret.Data != " ") {
                         Data = JSON.parse(ret.Data);
-                        console.log(JSON.stringify(Data));
                     }
                     //var Data = JSON.parse(ret.Data);
                     if (Data.length > 0) {

@@ -470,10 +470,9 @@ function fnIntVue() {
                         api.closeWin({});
                     })
                 }
-                console.log('1');
-                var UserNumber = this.UserList.findIndex(function(item) {
-                    return item.YHBH == _this.YHBH;
-                });
+                var UserNumber = this.UserList.findIndexNew(function(item){
+                    return item.YHBH = _this.YHBH;
+                })
                 if (UserNumber == -1) {
                     this.UserNumber = 0;
                 } else {
@@ -2065,7 +2064,7 @@ function fnIntVue() {
                         //当前用户是主表且有未抄表的子表。
                         //跳转到子表
                         this.ZBBH = this.UserDetails.YHBH;
-                        var UserNumber = this.UserList.findIndex(function(item) {
+                        var UserNumber = this.UserList.findIndexNew(function(item) {
                             return item.YHBH == ret.data[0].YHBH;
                         });
                         _this = this;
@@ -2415,7 +2414,7 @@ function fnIntVue() {
                             }
                         } else {
                             //搜索
-                            var UserNumber = this.UserList.findIndex(function(item) {
+                            var UserNumber = this.UserList.findIndexNew(function(item) {
                                 return item.YHBH == _this.ZBBH;
                             });
                             if (UserNumber == -1) {
@@ -2456,7 +2455,7 @@ function fnIntVue() {
                         }
                     } else {
                         //搜索
-                        var UserNumber = this.UserList.findIndex(function(item) {
+                        var UserNumber = this.UserList.findIndexNew(function(item) {
                             return item.YHBH == _this.ZBBH;
                         });
                         if (UserNumber == -1) {
@@ -2622,7 +2621,7 @@ function fnIntVue() {
                                         }
                                     } else {
                                         //搜索
-                                        var UserNumber = this.UserList.findIndex(function(item) {
+                                        var UserNumber = this.UserList.findIndexNew(function(item) {
                                             return item.YHBH == _this.ZBBH;
                                         });
                                         if (UserNumber == -1) {
@@ -2699,7 +2698,7 @@ function fnIntVue() {
                             }
                         } else {
                             //搜索
-                            var UserNumber = this.UserList.findIndex(function(item) {
+                            var UserNumber = this.UserList.findIndexNew(function(item) {
                                 return item.YHBH == _this.ZBBH;
                             });
                             if (UserNumber == -1) {
@@ -2818,7 +2817,7 @@ function fnIntVue() {
                                     }
                                 } else {
                                     //搜索
-                                    var UserNumber = this.UserList.findIndex(function(item) {
+                                    var UserNumber = this.UserList.findIndexNew(function(item) {
                                         return item.YHBH == _this.ZBBH;
                                     });
                                     if (UserNumber == -1) {
@@ -2846,7 +2845,7 @@ function fnIntVue() {
                                             }
                                         } else {
                                             //搜索
-                                            var UserNumber = this.UserList.findIndex(function(item) {
+                                            var UserNumber = this.UserList.findIndexNew(function(item) {
                                                 return item.YHBH == _this.ZBBH;
                                             });
                                             if (UserNumber == -1) {

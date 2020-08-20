@@ -33,6 +33,23 @@ Date.prototype.Format = function(fmt) {   
     return fmt;
 }
 
+/**
+ * 查找数组中符合第一个条件的小标替换findIndex, 替换原因是vue中的数据不能使用findIndex
+ * @param fmt
+ * @returns
+ */
+Array.prototype.findIndexNew = function(callback) {
+    var indexNumber = -1, list = this;
+    for(var i = 0; i < list.length; i++ ) {
+        console.log(JSON.stringify(list[i]))
+        if(callback(list[i])) {
+            indexNumber = i;
+            break;
+        }
+    }
+    return indexNumber
+}
+
 //获取时分秒
 function getTime(data) {
     var str = data;
