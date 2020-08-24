@@ -319,17 +319,28 @@ function fnIntVue() {
                     backWinName = "用户详情";
                 }
                 if (this.hasChanged && this.UserDetails.CBBZ != "1") {
-                    vant.Dialog.confirm({
-                            title: '提示',
-                            message: '当前用户数据尚未保存，是否回到' + backWinName + '？',
-                        })
-                        .then(function() {
-                            _this.clearImgData();
-                            _this.closeWin();
-                        })
-                        .catch(function() {
-                            return
-                        });
+                    // vant.Dialog.confirm({
+                    //         title: '提示',
+                    //         message: '当前用户数据尚未保存，是否回到' + backWinName + '？',
+                    //     })
+                    //     .then(function() {
+                    //         _this.clearImgData();
+                    //         _this.closeWin();
+                    //     })
+                    //     .catch(function() {
+                    //         return
+                    //     });
+                    api.confirm({
+                        title: '提示',
+                        msg: '当前用户数据尚未保存，是否回到' + backWinName + '？',
+                        buttons: ['取消', '确定']
+                    }, function(ret, err){
+                        var index = ret.buttonIndex;
+                        if( index==2 ){
+                           _this.clearImgData();
+                           _this.closeWin();
+                        }else{return}
+                    });
                 } else {
                     this.closeWin();
                 }
@@ -541,17 +552,29 @@ function fnIntVue() {
             },
             turnToNextOrPrev: function(turnFun) {
                 if (this.hasChanged && this.UserDetails.CBBZ != "1") {
-                    vant.Dialog.confirm({
-                            title: '提示',
-                            message: '当前用户数据尚未保存，是否跳转？',
-                        })
-                        .then(function() {
-                            _this.clearImgData();
-                            turnFun();
-                        })
-                        .catch(function() {
-                            return
-                        });
+                    // vant.Dialog.confirm({
+                    //         title: '提示',
+                    //         message: '当前用户数据尚未保存，是否跳转？',
+                    //     })
+                    //     .then(function() {
+                    //         _this.clearImgData();
+                    //         turnFun();
+                    //     })
+                    //     .catch(function() {
+                    //         return
+                    //     });
+
+                    api.confirm({
+                        title: '提示',
+                        msg: '当前用户数据尚未保存，是否跳转？',
+                        buttons: ['取消', '确定']
+                    }, function(ret, err){
+                        var index = ret.buttonIndex;
+                        if( index==2 ){
+                           _this.clearImgData();
+                           turnFun();
+                        }else{return}
+                    });
                 } else {
                     turnFun();
                 }
@@ -952,14 +975,38 @@ function fnIntVue() {
                 if ((_this.PATH == ' ' || _this.PATH == '' || _this.PATH == 'null' || _this.PATH == null || _this.PATH.length == 0) && this.UserDetails.CBBZ != "1") {
                     gpsmodel.gpsstate(function(ret) {
                         if (ret.gps == true) {
-                            vant.Dialog.confirm({
+                            var dialog=new auiDialog();
+                            // aui
+                            // dialog.alert({
+                            //   title:"提示",
+                            //   msg:'是否上传表位照片',
+                            //   buttons:["取消","确定"]
+                            // },function(ret){
+                            //   var index = ret.buttonIndex;
+                            //   if( index==2 ){
+                            //     _this.getCamera(" ", " ", 1);
+                            //   }
+                            // })
+                            // 原生
+                            api.confirm({
                                 title: '提示',
-                                message: '是否上传表位照片'
-                            }).then(function() {
-                                _this.getCamera(" ", " ", 1);
-                            }).catch(function() {
-
+                                msg: '是否上传表位照片',
+                                buttons: ['取消', '确定']
+                            }, function(ret, err){
+                                var index = ret.buttonIndex;
+                                if( index==2 ){
+                                  _this.getCamera(" ", " ", 1);
+                                }else{}
                             });
+                            // vant
+                            // vant.Dialog.confirm({
+                            //     title: '提示',
+                            //     message: '是否上传表位照片'
+                            // }).then(function() {
+                            //     _this.getCamera(" ", " ", 1);
+                            // }).catch(function() {
+                            //
+                            // });
                         } else {
                             vant.Dialog.alert({
                                 title: "提示",
@@ -1289,23 +1336,41 @@ function fnIntVue() {
                             // 重新抄表
                             gpsmodel.gpsstate(function(ret) {
                                 if (ret.gps == true) {
-                                    vant.Dialog.confirm({
-                                            title: '修改提示',
-                                            message: '确认修改将清空抄表录入',
-                                        })
-                                        .then(function() {
-                                            _this.reReadMeter();
-                                        })
-                                        .catch(function() {
-                                            return
-                                        });
-                                } else {
-                                    vant.Dialog.alert({
-                                        title: "提示",
-                                        message: "无法修改已抄,请先打开gps"
-                                    }).then(function() {
+                                    // vant.Dialog.confirm({
+                                    //         title: '修改提示',
+                                    //         message: '确认修改将清空抄表录入',
+                                    //     })
+                                    //     .then(function() {
+                                    //         _this.reReadMeter();
+                                    //     })
+                                    //     .catch(function() {
+                                    //         return
+                                    //     });
 
-                                    })
+                                    api.confirm({
+                                        title: '修改提示',
+                                        msg: '确认修改将清空抄表录入',
+                                        buttons: ['取消', '确定']
+                                    }, function(ret, err){
+                                        var index = ret.buttonIndex;
+                                        if( index==2 ){
+                                           _this.reReadMeter();
+                                        }else{return}
+                                    });
+                                } else {
+                                    // vant.Dialog.alert({
+                                    //     title: "提示",
+                                    //     message: "无法修改已抄,请先打开gps"
+                                    // }).then(function() {
+                                    //
+                                    // })
+
+                                    api.alert({
+                                        title: '提示',
+                                        msg: '无法修改已抄,请先打开gps',
+                                    }, function(ret, err) {
+
+                                    });
                                 }
                             });
                         }
@@ -2205,22 +2270,41 @@ function fnIntVue() {
                     gpsmodel.gpsstate(function(ret) {
                         if (ret.gps == true) {
                             if (!_this.AbnormalStatus.status) {
-                                vant.Dialog.confirm({
-                                        title: '提示',
-                                        message: '当前用户水量' + _this.AbnormalStatus.text + ',确认保存？',
-                                    })
-                                    .then(function() {
-                                        _this.LoadOrNot = 1
-                                        api.showProgress({
-                                            title: '保存中',
-                                            modal: false
-                                        });
-                                        _this.saveAndUploadLocation();
-                                    })
-                                    .catch(function() {
-                                        _this.preventRepeatTouch = false;
-                                        return;
-                                    });
+                                // vant.Dialog.confirm({
+                                //         title: '提示',
+                                //         message: '当前用户水量' + _this.AbnormalStatus.text + ',确认保存？',
+                                //     })
+                                //     .then(function() {
+                                //         _this.LoadOrNot = 1
+                                //         api.showProgress({
+                                //             title: '保存中',
+                                //             modal: false
+                                //         });
+                                //         _this.saveAndUploadLocation();
+                                //     })
+                                //     .catch(function() {
+                                //         _this.preventRepeatTouch = false;
+                                //         return;
+                                //     });
+
+                                api.confirm({
+                                    title: '提示',
+                                    msg: '当前用户水量' + _this.AbnormalStatus.text + ',确认保存？',
+                                    buttons: ['取消', '确定']
+                                }, function(ret, err){
+                                    var index = ret.buttonIndex;
+                                    if( index==2 ){
+                                      _this.LoadOrNot = 1
+                                      api.showProgress({
+                                          title: '保存中',
+                                          modal: false
+                                      });
+                                      _this.saveAndUploadLocation();
+                                    }else{
+                                      _this.preventRepeatTouch = false;
+                                      return;
+                                    }
+                                });
                             } else {
                                 _this.LoadOrNot = 1
                                 api.showProgress({
