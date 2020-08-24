@@ -229,6 +229,7 @@ function pAddwaterMark(options, callback) {
             waterMarkJson.oldimgurl = data[i].path;
             waterMarkJson.newimgurl = data[i].path;
             mobilePrint.imgPrint(waterMarkJson, function(ret) {
+              console.log(JSON.stringify(ret));
                 if (ret.status) {
                   pictureNumber++;
                   imgList.push(ret.imgurl);

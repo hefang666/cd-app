@@ -138,7 +138,7 @@
 
         #query {
             width: 100%;
-            height: 45px;
+            height: 60px;
             display: flex;
             flex-direction: row;
             background-color: #fff;
@@ -150,13 +150,14 @@
             font-size: 18px;
             background-color: #fff;
             text-align: center;
-            line-height: 45px;
+            line-height: 60px;
             color: #2F7FF6;
         }
 
         #query_dv2 {
             flex: 1;
             background-color: #fff;
+            height: 60px;
         }
 
         #query_dv3 {
@@ -165,7 +166,7 @@
             font-size: 18px;
             background-color: #fff;
             text-align: center;
-            line-height: 45px;
+            line-height: 60px;
             color: #2F7FF6;
         }
 
@@ -206,7 +207,7 @@
                 <div class="aui-searchbar-input aui-border-radius" tapmode style="background-color: #F3F3F3;margin: 0;height:40px;line-height:40px;">
                     <i class="aui-iconfont aui-icon-search"></i>
                     <form action="">
-                        <input type="search" autocomplete="off" style="height: 2rem;" placeholder="请输入搜索内容" id="search-input">
+                        <input type="search" autocomplete="off" style="height: 40px;" placeholder="请输入搜索内容" id="search-input">
                     </form>
                     <div class="aui-searchbar-clear-btn">
                         <i class="aui-iconfont aui-icon-close"></i>
@@ -506,7 +507,7 @@
                 var datas = {
                     datas: photoList
                 }
-
+                console.log(JSON.stringify(datas));
                 var str = template('photoList', datas);
 
                 $('#GDZP .img-item').remove();
@@ -548,6 +549,7 @@
         api.actionSheet({
             buttons: ['拍照']
         }, function(ret, err) {
+          console.log(JSON.stringify(ret))
             var index = ret.buttonIndex;
             if (index == 1) {
                 getCamera(data_id);

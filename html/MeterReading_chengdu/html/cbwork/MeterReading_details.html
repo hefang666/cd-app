@@ -1899,7 +1899,6 @@
             if (ret.status) {
                 if (ret.data.length > 0) {
                     var list = ret.data;
-                    console.log(JSON.stringify(ret.data))
                     for (var i = 0; i < list.length; i++) {
                         onlineId.push(list[i].ID);
                         onlineName.push(list[i].NAME);
@@ -2206,7 +2205,6 @@
                                   sql: 'SELECT * FROM MRM_SHORT_MEESSAGE_BEAN'
                               }, function(ret, err) {
                                   if (ret.status) {
-                                      console.log(JSON.stringify(ret))
                                       var dataList = ret.data
                                       if(dataList.length>0){
                                         var Massage = []
@@ -2892,7 +2890,6 @@
                 }
                   if (ret) {
                       if (ret.Status == 0) {
-                          // console.log(JSON.stringify(ret))
                           if(loctionJWD==0){
                             api.toast({
                                 msg: '表位上传成功',
@@ -3083,7 +3080,6 @@
             preview: true
         }, function(ret, err) {
             if (ret) {
-                //console.log(JSON.stringify(ret));
                 if (ret.data != '') {
                     var list = ret.data;
 
@@ -3450,7 +3446,6 @@
                         lon = " ";
                         lat = " ";
                         saveData()
-                            //  console.log(err.code);
                     }
                 });
               }
@@ -3534,7 +3529,6 @@
             sql: 'UPDATE MRM_USER_BEAN SET ZD="' + zd + '",SFGC="' + gc + '",YL="' + yl + '",CBRQ="' + cbrq + '",CBBZ="1",BYXZT="' + sbzt + '",CBYSZJD="' + lon + '",CBYSZWD="' + lat + '",SBYXZT="' +
                 cbzttext + '",XBBH="' + bh + '",SJBM="' + sjbm + '" WHERE YHBH="' + yhbh + '"'
         });
-        // console.log(JSON.stringify(ret))
 
         var list = $api.domAll('.ImgOrVideo img');
 
@@ -3747,7 +3741,6 @@
             if (ret.status) {
                 if (ret.data.length > 0) {
                     $('.section_three').removeClass('section_hidden')
-                    // console.log(JSON.stringify(ret.data))
                     var items = {
                         items: ret.data
                     }
@@ -3819,7 +3812,6 @@
                 }
                 records.push(user);
             }
-            console.log(JSON.stringify(user))
             var Parameter = {
                 "ClientId": api.deviceId,
                 "ClientName": api.deviceModel,
@@ -3841,7 +3833,6 @@
                 //console.log(body.body);
                 // alert(111)
             fnPost1('', body, 'application/json', false, function(ret, err) {
-              console.log(JSON.stringify(ret))
                 if(statusOne==0){
                   // 两个同时开启就不隐藏
                 }else {
@@ -3959,7 +3950,6 @@
         } else {
 
         }
-        console.log(JSON.stringify(retimage));
 
     }
 

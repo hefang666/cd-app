@@ -41,7 +41,6 @@ Date.prototype.Format = function(fmt) {   
 Array.prototype.findIndexNew = function(callback) {
     var indexNumber = -1, list = this;
     for(var i = 0; i < list.length; i++ ) {
-        console.log(JSON.stringify(list[i]))
         if(callback(list[i])) {
             indexNumber = i;
             break;
