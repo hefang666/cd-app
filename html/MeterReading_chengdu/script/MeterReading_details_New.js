@@ -474,12 +474,19 @@ function fnIntVue() {
                 });
                 this.UserList = ret.data;
                 if (this.UserList.length == 0 || this.UserList == '') {
-                    vant.Dialog.alert({
-                        title: "提示",
-                        message: "暂无抄表数据请前往下载"
-                    }).then(function(){
+                    // vant.Dialog.alert({
+                    //     title: "提示",
+                    //     message: "暂无抄表数据请前往下载"
+                    // }).then(function(){
+                    //     api.closeWin({});
+                    // })
+
+                    api.alert({
+                        title: '提示',
+                        msg: '暂无抄表数据请前往下载',
+                    }, function(ret, err) {
                         api.closeWin({});
-                    })
+                    });
                 }
                 var UserNumber = this.UserList.findIndexNew(function(item){
                     return item.YHBH = _this.YHBH;
@@ -538,9 +545,14 @@ function fnIntVue() {
             },
             openMemorandum: function() { //提示备忘录信息
                 var text = this.Memorandum.join("\n");
-                vant.Dialog.alert({
-                    title: "备忘录",
-                    message: text
+                // vant.Dialog.alert({
+                //     title: "备忘录",
+                //     message: text
+                // });
+                api.alert({
+                    title: '备忘录',
+                    msg: text,
+                }, function(ret, err) {
                 });
             },
             openDetails: function() { //用户信息区域向左滑动打开用户详情页
@@ -720,12 +732,18 @@ function fnIntVue() {
                         //     }
                         // }
                     } else {
-                        vant.Dialog.alert({
-                            title: "提示",
-                            message: "无法进行拍照操作,请先打开gps"
-                        }).then(function() {
+                        // vant.Dialog.alert({
+                        //     title: "提示",
+                        //     message: "无法进行拍照操作,请先打开gps"
+                        // }).then(function() {
+                        //
+                        // })
 
-                        })
+                        api.alert({
+                            title: '提示',
+                            msg: '无法进行拍照操作,请先打开gps',
+                        }, function(ret, err) {
+                        });
                     }
                 });
             },
@@ -960,12 +978,18 @@ function fnIntVue() {
                             });
                         }
                     } else {
-                        vant.Dialog.alert({
-                            title: "提示",
-                            message: "无法进行抄表操作,请先打开gps"
-                        }).then(function() {
+                        // vant.Dialog.alert({
+                        //     title: "提示",
+                        //     message: "无法进行抄表操作,请先打开gps"
+                        // }).then(function() {
+                        //
+                        // })
 
-                        })
+                        api.alert({
+                            title: '提示',
+                            msg: '无法进行抄表操作,请先打开gps',
+                        }, function(ret, err) {
+                        });
                     }
                 });
 
@@ -1008,12 +1032,18 @@ function fnIntVue() {
                             //
                             // });
                         } else {
-                            vant.Dialog.alert({
-                                title: "提示",
-                                message: "无法进行抄表操作,请先打开gps"
-                            }).then(function() {
+                            // vant.Dialog.alert({
+                            //     title: "提示",
+                            //     message: "无法进行抄表操作,请先打开gps"
+                            // }).then(function() {
+                            //
+                            // })
 
-                            })
+                            api.alert({
+                                title: '提示',
+                                msg: '无法进行抄表操作,请先打开gps',
+                            }, function(ret, err) {
+                            });
                         }
                     });
                 } else {
@@ -1059,12 +1089,18 @@ function fnIntVue() {
                             });
                         }
                     } else {
-                        vant.Dialog.alert({
-                            title: "提示",
-                            message: "无法进行抄表操作,请先打开gps"
-                        }).then(function() {
+                        // vant.Dialog.alert({
+                        //     title: "提示",
+                        //     message: "无法进行抄表操作,请先打开gps"
+                        // }).then(function() {
+                        //
+                        // })
 
-                        })
+                        api.alert({
+                            title: '提示',
+                            msg: '无法进行抄表操作,请先打开gps',
+                        }, function(ret, err) {
+                        });
                     }
                 });
             },
@@ -1323,12 +1359,18 @@ function fnIntVue() {
                                 if (ret.gps == true) {
                                     _this.upLoction()
                                 } else {
-                                    vant.Dialog.alert({
-                                        title: "提示",
-                                        message: "无法更新表位,请先打开gps"
-                                    }).then(function() {
+                                    // vant.Dialog.alert({
+                                    //     title: "提示",
+                                    //     message: "无法更新表位,请先打开gps"
+                                    // }).then(function() {
+                                    //
+                                    // })
 
-                                    })
+                                    api.alert({
+                                        title: '提示',
+                                        msg: '无法更新表位,请先打开gps',
+                                    }, function(ret, err) {
+                                    });
                                 }
                             });
                         }
@@ -1393,12 +1435,19 @@ function fnIntVue() {
                                         }
                                     });
                                 } else {
-                                    vant.Dialog.alert({
-                                        title: "提示",
-                                        message: "无法导航,请先打开gps"
-                                    }).then(function() {
+                                    // vant.Dialog.alert({
+                                    //     title: "提示",
+                                    //     message: "无法导航,请先打开gps"
+                                    // }).then(function() {
+                                    //
+                                    // })
 
-                                    })
+                                    api.alert({
+                                        title: '提示',
+                                        msg: '无法导航,请先打开gps',
+                                    }, function(ret, err) {
+
+                                    });
                                 }
                             });
                         }
@@ -2913,34 +2962,62 @@ function fnIntVue() {
                                     _this.preventRepeatTouch = false;
                                 }
                             } else {
-                                vant.Dialog.alert({
-                                        title: '提示',
-                                        message: '存在上传失败的图片，请到数据上传页面重新上传',
-                                    })
-                                    .then(function() {
-                                        if (_this.ZBBH == "") {
-                                            if (_this.sendNext == "true" && turnToNext) {
-                                                setTimeout(function() {
-                                                    _this.nextHousehold();
-                                                    _this.preventRepeatTouch = false;
-                                                }, 300);
-                                            } else {
+                                // vant.Dialog.alert({
+                                //         title: '提示',
+                                //         message: '存在上传失败的图片，请到数据上传页面重新上传',
+                                //     })
+                                //     .then(function() {
+                                //         if (_this.ZBBH == "") {
+                                //             if (_this.sendNext == "true" && turnToNext) {
+                                //                 setTimeout(function() {
+                                //                     _this.nextHousehold();
+                                //                     _this.preventRepeatTouch = false;
+                                //                 }, 300);
+                                //             } else {
+                                //                 _this.preventRepeatTouch = false;
+                                //             }
+                                //         } else {
+                                //             //搜索
+                                //             var UserNumber = this.UserList.findIndexNew(function(item) {
+                                //                 return item.YHBH == _this.ZBBH;
+                                //             });
+                                //             if (UserNumber == -1) {
+                                //                 this.UserNumber = 0;
+                                //             } else {
+                                //                 this.UserNumber = UserNumber;
+                                //             }
+                                //             _this.ZBBH = "";
+                                //             _this.preventRepeatTouch = false;
+                                //         }
+                                //     })
+
+                                  api.alert({
+                                      title: '提示',
+                                      msg: '存在上传失败的图片，请到数据上传页面重新上传',
+                                  }, function(ret, err) {
+                                    if (_this.ZBBH == "") {
+                                        if (_this.sendNext == "true" && turnToNext) {
+                                            setTimeout(function() {
+                                                _this.nextHousehold();
                                                 _this.preventRepeatTouch = false;
-                                            }
+                                            }, 300);
                                         } else {
-                                            //搜索
-                                            var UserNumber = this.UserList.findIndexNew(function(item) {
-                                                return item.YHBH == _this.ZBBH;
-                                            });
-                                            if (UserNumber == -1) {
-                                                this.UserNumber = 0;
-                                            } else {
-                                                this.UserNumber = UserNumber;
-                                            }
-                                            _this.ZBBH = "";
                                             _this.preventRepeatTouch = false;
                                         }
-                                    })
+                                    } else {
+                                        //搜索
+                                        var UserNumber = this.UserList.findIndexNew(function(item) {
+                                            return item.YHBH == _this.ZBBH;
+                                        });
+                                        if (UserNumber == -1) {
+                                            this.UserNumber = 0;
+                                        } else {
+                                            this.UserNumber = UserNumber;
+                                        }
+                                        _this.ZBBH = "";
+                                        _this.preventRepeatTouch = false;
+                                    }
+                                 });
                             }
                         }
                     }
