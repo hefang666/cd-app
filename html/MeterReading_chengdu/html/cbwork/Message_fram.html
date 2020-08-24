@@ -124,7 +124,6 @@
             sql: 'SELECT * FROM MRM_SHORT_MEESSAGE_BEAN'
         }, function(ret, err) {
             if (ret.status) {
-                console.log(JSON.stringify(ret))
                 var dataList = ret.data
                 handleAnnotData(dataList)
             } else {

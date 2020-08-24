@@ -396,7 +396,6 @@ function fnPost4(Methods, data, contentType, isLogin, isPut, callback, files, is
 
     // vue 测试
     // app.apipath = 'http://' + $api.getStorage('apiUrl')+'/api/'+path;
-    // console.log( app.apipath);
     api.ajax({
         url: $api.getStorage('cbapipath') + '/api/WaterMeters/Info', //app.apipath+path
         method: isPut ? 'put' : 'post',
@@ -429,7 +428,6 @@ function fnPost4(Methods, data, contentType, isLogin, isPut, callback, files, is
                         });
                     }
                     if (err.body.error.message == '当前用户没有登录到系统！') {
-                        // console.log(111);
                         setTimeout(function() {
                             api.closeToWin({
                                 name: 'login'

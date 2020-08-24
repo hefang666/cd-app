@@ -228,7 +228,6 @@
             sql: 'SELECT * FROM MRM_USER_BEAN WHERE YHBH=\'' + api.pageParam.userCode + '\''
         });
         if (dbret.status) {
-            console.log(JSON.stringify(dbret.data))
             var MessageList = dbret.data[0]
             if (MessageList.YDDH != "") {
                 $("#telponeNumer").val(MessageList.YDDH);
@@ -273,7 +272,6 @@
 
                 // alert( JSON.stringify( ret ) );
             } else {
-                console.log(JSON.stringify(err));
             }
         });
 
@@ -327,9 +325,7 @@
                         "Parameter": JSON.stringify(Parameter)
                     })
                 }
-                console.log(body.body);
                 fnPost('', body, 'application/json', false, function(ret, err) {
-                    console.log(JSON.stringify(ret));
                     if (ret) {
                         if (ret.Status == 0) {
                             //  上传成功存储到本地
@@ -353,12 +349,9 @@
                             }, function(ret, err) {
                                 if (ret.status) {
                                     $('#sectionone').empty()
-                                    console.log(JSON.stringify(ret))
                                     var dataList = ret.data;
                                     handleAnnotData(dataList)
-                                        //  console.log( JSON.stringify( ret ) );
                                 } else {
-                                    //  console.log( JSON.stringify( err ) );
                                 }
                             });
                         } else {
@@ -382,9 +375,7 @@
                                 $('#sectionone').empty()
                                 var dataList = ret.data;
                                 handleAnnotData(dataList)
-                                console.log(JSON.stringify(ret));
                             } else {
-                                // console.log( JSON.stringify( err ) );
                             }
                         });
                         // 存储到本地完成
