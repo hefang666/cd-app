@@ -299,12 +299,12 @@
 
         .c-filter-box {
             width: 100%;
-            height: 22rem;
+            height: 100%;
             overflow: hidden;
             overflow-y: scroll;
             -webkit-overflow-scrolling: touch;
             position: fixed;
-            bottom: 0;
+            top: 0;
             background: #fff;
             padding: 0rem;
             border-top: 2px solid #eee;
@@ -961,6 +961,8 @@
                     list: actionsData
                 }
                 var str = template('filterDemo', data);
+                str = "<div style='margin-top:"+$api.offset($api.byId('header-box')).h+"px'>" + str + "</div>"
+                console.log(str);
                 $('.c-filter-box').append(str);
             }
         });

@@ -766,6 +766,7 @@ function fnIntVue() {
                     }
                 }
                 pGetPicture(options, function(ret, err) {
+                    
                     if (ret.status) {
                         // ret.imgList.forEach(function(item, index) {
                         for(var index = 0; index < ret.imgList.length; index++) {
