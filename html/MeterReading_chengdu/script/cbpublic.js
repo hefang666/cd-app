@@ -168,7 +168,6 @@ function testNetIpRe(netIp) {
     var allNet = /^((2[0-4]\d|25[0-5]|[1-9]?\d|1\d{2})\.){3}(2[0-4]\d|25[0-5]|[1-9]?\d|1\d{2})\:([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$$/;
     var AllNets = new RegExp(allNet)
     if (AllNets.test(netIp)) {
-        console.log(true)
         return true;
     } else {
         api.toast({
@@ -184,7 +183,6 @@ function testAreaNetIpRe(netIp) {
     var testAreaNetRe = /^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\:([0-9]|[1-9]\d{1,3}|[1-5]\d{4}|6[0-5]{2}[0-3][0-5])$/;
     var AreaNetre = new RegExp(testAreaNetRe);
     if (AreaNetre.test(netIp)) {
-        console.log(true)
         return true;
     } else {
         // api.toast({

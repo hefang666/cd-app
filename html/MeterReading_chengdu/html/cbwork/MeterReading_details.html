@@ -1585,7 +1585,6 @@
                 UsersDatalis[UserNumbers].YDDH = ret.value.YDDH
                 UsersDatalis[UserNumbers].GDDH = ret.value.GDDH
             } else {
-                console.log(JSON.stringify(err));
             }
         });
 
@@ -1956,7 +1955,6 @@
                               $('#TableNumber').text(userCode)
                           }
                       } else {
-                          console.log(JSON.stringify(err));
                       }
                   });
                 }
@@ -3403,7 +3401,6 @@
                                   lon = " ";
                                   lat = " ";
                                   saveData()
-                                      //  console.log(err.code);
                               }
                           });
                         }
@@ -3752,7 +3749,6 @@
                     api.hideProgress();
                 }
             } else {
-                // console.log(JSON.stringify(err));
             }
         });
     }
@@ -3830,8 +3826,6 @@
                         "Parameter": JSON.stringify(Parameter)
                     })
                 }
-                //console.log(body.body);
-                // alert(111)
             fnPost1('', body, 'application/json', false, function(ret, err) {
                 if(statusOne==0){
                   // 两个同时开启就不隐藏
@@ -3993,7 +3987,6 @@
                         "Parameter": JSON.stringify(Parameter)
                     })
                 }
-                // console.log(body.body);
                 fnPost1('', body, 'application/json', false, function(ret, err) {
 
                     if (ret) {
