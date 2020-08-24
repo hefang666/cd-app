@@ -198,7 +198,7 @@ function pAddwaterMark(options, callback) {
     var waterMarkJson = {
         "oldimgurl": "",
         "newimgurl": "",
-        "newimgwidth": "1200", //1000
+        "newimgwidth": "1200",
         "fontnum": 0,
     };
     for (var n = 0; n < waterMarkNumber.length; n++) {
@@ -228,64 +228,45 @@ function pAddwaterMark(options, callback) {
         for (var i = 0; i < data.length; i++) {
             waterMarkJson.oldimgurl = data[i].path;
             waterMarkJson.newimgurl = data[i].path;
-            mobilePrint.imgPrint(waterMarkJson, function(ret) {
-              console.log(JSON.stringify(ret));
-                if (ret.status) {
-                  pictureNumber++;
-                  imgList.push(ret.imgurl);
-                  if (pictureNumber == data.length) {
+
+
+            var systemType = api.systemType;          // 获取当前系统
+            var systemVersion = api.systemVersion;
+            var versionArr = systemVersion.split('.');
+            if (systemType == 'android' && versionArr[0] < 5) {
+              imgList.push(data[i].path)
+              callback({
+                  msg: '成功',
+                  status: true,
+                  imgList: imgList
+              })
+            }else {
+              var imgPrint = mobilePrint.imgPrint(waterMarkJson, function(ret) {
+                  console.log(ret)
+                  if (ret.status) {
+                    pictureNumber++;
+                    imgList.push(ret.imgurl);
+                    if (pictureNumber == data.length) {
+                        var retData = {
+                            msg: '成功',
+                            status: true,
+                            imgList: []
+                        };
+                        retData.imgList = imgList;
+                        callback(retData);
+                    }
+                  } else {
                       var retData = {
-                          msg: '成功',
-                          status: true,
+                          msg: '失败',
+                          status: false,
                           imgList: []
                       };
-                      retData.imgList = imgList;
                       callback(retData);
                   }
-                    // if (options.waterMarkNewUrl != undefined) {
-                    //     pictureNumber++;
-                    //     pFsCopyFiles(ret.imgurl, options.waterMarkNewUrl, function(fsRet, err) {
-                    //         if (fsRet.status) {
-                    //             var imgurl = ret.imgurl.substring(ret.imgurl.lastIndexOf('/') + 1, ret.imgurl.length);
-                    //             imgList.push(options.waterMarkNewUrl + imgurl);
-                    //             if (pictureNumber == data.length) {
-                    //                 var retData = {
-                    //                     msg: '成功',
-                    //                     status: true,
-                    //                     imgList: []
-                    //                 };
-                    //                 retData.imgList = imgList;
-                    //                 callback(retData)
-                    //             }
-                    //         }
-                    //     })
-                    // } else {
-                    //     pictureNumber++;
-                    //     imgList.push(ret.imgurl);
-                    //     if (pictureNumber == data.length) {
-                    //         var retData = {
-                    //             msg: '成功',
-                    //             status: true,
-                    //             imgList: []
-                    //         };
-                    //         retData.imgList = imgList;
-                    //         callback(retData)
-                    //     }
-                    // }
-
-
-                } else {
-                    var retData = {
-                        msg: '失败',
-                        status: false,
-                        imgList: []
-                    };
-                    callback(retData);
-                }
-            });
+              });
+            }
         }
     }
-
 }
 
 // 图片预览
