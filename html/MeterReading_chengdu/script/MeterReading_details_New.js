@@ -3014,7 +3014,6 @@ function fnIntVue() {
                                 "', '" + _this.UserDetails.YHDZ +
                                 "', '', '" + gzyy +
                                 "', '0')";
-                            //console.log(sql);
                             var workOrderData = db.executeSqlSync({
                                 name: 'CBtest',
                                 sql: sql
@@ -3195,10 +3194,8 @@ function fnIntVue() {
                 var oDate2 = new Date(date2);
                 if (oDate1.getTime() > oDate2.getTime()) {
                     return true;
-                    console.log('第一个大');
                 } else {
                     return false;
-                    console.log('第二个大');
                 }
             }
 

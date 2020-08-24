@@ -57,7 +57,6 @@
         });
         var UserDetails = ret1.data[0];
         srcOnlien = secImg.substring(0,4)
-        console.log(srcOnlien);
         var photoBrowser = api.require("photoBrowser");
         photoBrowser.open({
             images: [
@@ -92,7 +91,6 @@
                                       name: 'CBtest',
                                       sql: 'DELETE FROM MRM_PHOTOS_BEAN WHERE YHBH ="' + yhbh + '" AND NotLoction="1"'
                                   });
-                                  console.log(JSON.stringify(DELETEimg))
                                   var ret = db.executeSqlSync({
                                       name: 'CBtest',
                                       sql: 'UPDATE MRM_USER_BEAN SET PATH=" " WHERE YHBH="' + yhbh + '"'
