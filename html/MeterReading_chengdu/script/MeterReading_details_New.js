@@ -491,7 +491,6 @@ function fnIntVue() {
                 var UserNumber = this.UserList.findIndexNew(function(item){
                     return item.YHBH == _this.YHBH;
                 })
-                console.log(UserNumber);
                 if (UserNumber == -1) {
                     this.UserNumber = 0;
                 } else {
