@@ -866,7 +866,6 @@
                     "', '" + lon +
                     "', '" + lat +
                     "', '" + address + "')";
-                //console.log(sql);
                 var workOrderData = db.executeSqlSync({
                     name: 'CBtest',
                     sql: sql
@@ -921,7 +920,6 @@
                     'JD="' + lon + '",' +
                     'WD="' + lat + '",' +
                     'DZ="' + address + '" where YHBH="' + userbean.YHBH + '"';
-                //console.log(sql);
                 var workOrderData = db.executeSqlSync({
                     name: 'CBtest',
                     sql: sql

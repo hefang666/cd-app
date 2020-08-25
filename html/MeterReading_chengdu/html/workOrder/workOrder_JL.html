@@ -507,7 +507,6 @@
                 var datas = {
                     datas: photoList
                 }
-                console.log(JSON.stringify(datas));
                 var str = template('photoList', datas);
 
                 $('#GDZP .img-item').remove();
@@ -549,7 +548,6 @@
         api.actionSheet({
             buttons: ['拍照']
         }, function(ret, err) {
-          console.log(JSON.stringify(ret))
             var index = ret.buttonIndex;
             if (index == 1) {
                 getCamera(data_id);
@@ -813,7 +811,6 @@
                     "', '" + YYMS +
                     "', '" + idstr +
                     "', '0')";
-                //console.log(sql);
                 var workOrderData = db.executeSqlSync({
                     name: 'CBtest',
                     sql: sql
@@ -841,7 +838,6 @@
                     'userName="' + LoginName + '",' +
                     'YYMS="' + YYMS + '",' +
                     'BZ="' + idstr + '" where YHBH="' + YHBH + '"';
-                //console.log(sql);
                 var workOrderData = db.executeSqlSync({
                     name: 'CBtest',
                     sql: sql

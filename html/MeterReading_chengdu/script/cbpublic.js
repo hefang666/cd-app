@@ -637,7 +637,6 @@ var params = {
     }
     // // 请求方式
     // JudgeWaterAbnormal(params, function(text) {
-    // 	console.log(text)
     // });
 
 function JudgeWaterAbnormal(params, callback) { //判断水量是否异常

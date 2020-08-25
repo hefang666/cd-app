@@ -487,8 +487,6 @@
             //     },
             //     animation:true,
             // }, function(ret,err) {
-            //console.log(JSON.stringify(ret));
-            //console.log(JSON.stringify(err));
             if (ret.eventType == 'nextStep') {
                 var UIAlbumBrowser = api.require('UIAlbumBrowser');
                 UIAlbumBrowser.closePicker();
@@ -539,7 +537,6 @@
                     $('.camera_color_' + Id).show();
                 }
             } else {
-                //console.log(JSON.stringify(err));
             }
         });
     }
@@ -595,7 +592,6 @@
             if ($api.attr(nextHome, 'id') !== undefined) {
                 allUser = JSON.parse($api.attr(nextHome, 'data-all'));
                 Id = $api.attr(nextHome, 'id');
-                //console.log(typeof allUser)
                 Array.prototype.indexVf = function(arr) {            
                     for (var i = 0; i < this.length; i++) {                
                         if (this[i].CustomerCode == arr) {                    
@@ -630,7 +626,6 @@
                 prevHome = $api.prev(cur),
                 curUser,
                 allUser;
-            //console.log(prevHome)
             if ($api.attr(prevHome, 'id') !== undefined) {
                 allUser = JSON.parse($api.attr(prevHome, 'data-all'));
                 Id = $api.attr(prevHome, 'id');
@@ -667,8 +662,6 @@
                 nextHome = $api.next(cur);
             // if($api.attr(nextHome, 'id')!==undefined){
             // }
-            //console.log(JSON.stringify($api.getStorage('loginData')));
-            //console.log(JSON.stringify($api.getStorage('loginInfo').UserId));
             var Id = $api.attr(this, 'data-id'),
                 Thereadno = $api.val($api.domAll($api.byId('MeterWatterBindListhtml'), '#Thereadno_' + Id)[0]),
                 Thewater = $api.val($api.domAll($api.byId('MeterWatterBindListhtml'), '#thisScale_' + Id)[0]),
@@ -705,19 +698,16 @@
             }
             for (var i in picarrayList) {
                 getUrlBase64(picarrayList[i], function(base64) {
-                    //console.log(base64);//base64编码值
                     Images.push(base64)
                 });
             }
             var test = JSON.stringify(picarrayList);
             var IMAGES = JSON.parse(test);
             setTimeout(function() {
-                //console.log(Images)
             }, 1000);
             if (api.pageParam.modalStyle == 1) {
                 //  在线模式
                 setTimeout(function() {
-                    //console.log(JSON.stringify({
                     ImageId: '', //图片 ID
                     CBYF: '', //抄表月份
                     Name: '', //图片名称
@@ -783,7 +773,6 @@
                     MeterState: '', //0/1 未绑定/已绑定
                 }
             }, 'application/json', false, false, function(ret, err) {
-                //console.log(JSON.stringify(ret))
                 if (ret) {
                     if (ret.code == 1) {
                         if (ret.result != '') {
@@ -797,9 +786,7 @@
                                 sql: 'DELETE FROM MeterReadingBindTable WHERE CustomerCode = "' + Id + '"'
                             }, function(ret, err) {
                                 //  alert(111);
-                                // ////console.log(JSON.stringify(ret.data));
                                 if (ret.status) {
-                                    //console.log('删除成功');
                                 } else {}
                             });
                             db.selectSql({
@@ -811,10 +798,8 @@
                                     'WHERE ReqCode = "' + ret.result.ReqCode + '"'
                             }, function(ret, err) {
                                 if (ret.status) {
-                                    //console.log(JSON.stringify('更新成功'));
                                     //  alert('更新成功');
                                 } else {
-                                    //console.log(JSON.stringify(err));
                                 }
                             });
                             if ($api.attr(nextHome, 'id') == undefined) {
@@ -846,7 +831,6 @@
                     });
                 }
 
-                //console.log(JSON.stringify(err))
                 api.hideProgress();
             })
         },
@@ -867,7 +851,6 @@
                 'WHERE CustomerCode = "' + Id + '"'
         }, function(ret, err) {
             if (ret.status) {
-                //console.log(JSON.stringify('更新成功'));
                 api.toast({
                     msg: '离线保存成功',
                     duration: 2000,
@@ -886,7 +869,6 @@
                                 'WHERE ReqCode = "' + ReqCode + '"'
                         }, function(ret, err) {
                             if (ret.status) {
-                                //console.log(JSON.stringify('更新成功'));
                                 api.execScript({
                                     name: 'MeterReading',
                                     frameName: 'MeterReading_frm',
@@ -905,31 +887,25 @@
                                                 'WHERE ReqCode = "' + ReqCode + '"'
                                         }, function(ret, err) {
                                             if (ret.status) {
-                                                //console.log(JSON.stringify('更新成功'));
                                                 api.execScript({
                                                     name: 'MeterReading',
                                                     frameName: 'MeterReading_frm',
                                                     script: 'refresh();'
                                                 });
                                             } else {
-                                                //console.log(JSON.stringify(err));
                                             }
                                         });
                                     } else {
-                                        //console.log(JSON.stringify(err));
                                     }
                                 });
 
                             } else {
-                                //console.log(JSON.stringify(err));
                             }
                         });
                     } else {
-                        //console.log(JSON.stringify(err));
                     }
                 });
             } else {
-                //console.log(JSON.stringify(err));
             }
         });
 
@@ -959,8 +935,6 @@
                 "ReqCode": ReqCode
             }
         }, 'application/json', false, false, function(ret, err) {
-            //console.log(JSON.stringify(ret));
-            //console.log(JSON.stringify(err));
             if (ret) {
                 if (ret.code == 1) {
                     if (ret.result != '') {
@@ -974,12 +948,10 @@
                             ret.result[i].CountAll = ret.result.length;
                             if (ret.result[i].image != "") {
                                 ret.result[i].image = ret.result[i].image.split('★');
-                                //  //console.log(typeof ret.result[i].image);
                                 //  var imgurl=ret.result[i].image;
                                 //  for(var i in imgurl){
                                 //    imgurl[i]=apipath+imgurl[i];
                                 //  }
-                                //  //console.log(JSON.stringify(imgurl));
                             }
                         }
                         var MeterWatterBindLists = {
@@ -998,7 +970,6 @@
                         //                 }                   
                         //              }
                         //           };
-                        //           //console.log(ret.result.indexVf($api.getStorage('Id')));
                         $api.css($api.domAll('.h-dohomework-lst')[curUser], 'display:block');
                         var collapse = new auiCollapse({
                             autoHide: true //是否自动隐藏已经展开的容器
@@ -1014,7 +985,6 @@
                     }
                 }
             }
-            //console.log(JSON.stringify(ret));
             GetInstallationMode(Id);
             api.hideProgress();
         })
@@ -1028,7 +998,6 @@
                 "isNumber": ""
             }
         }, 'application/json', false, false, function(ret, err) {
-            // //console.log(JSON.stringify(ret.result));
             if (ret) {
                 if (ret.code == 1) {
                     if (ret.result != '') {
@@ -1060,11 +1029,9 @@
             sql: 'SELECT * FROM MeterStatus'
         }, function(ret, err) {
             if (ret.status) {
-                //console.log(JSON.stringify(ret));
                 if (ret.data != '') {
                     for (var i in ret.data) {
                         var dataUser = $api.attr($api.domAll($api.byId('MeterWatterBindListhtml'), '#StatusType_' + Id)[0], 'data-value');
-                        //console.log(dataUser)
                         if (ret.data[i].Name == dataUser) {
                             ret.data[i].LocationTypeSelect = 'true';
                         } else {
@@ -1079,7 +1046,6 @@
                     $api.html(select, str);
                 }
             } else {
-                //console.log(JSON.stringify(err));
             }
         });
         //水表状态完
