@@ -489,8 +489,9 @@ function fnIntVue() {
                     });
                 }
                 var UserNumber = this.UserList.findIndexNew(function(item){
-                    return item.YHBH = _this.YHBH;
+                    return item.YHBH == _this.YHBH;
                 })
+                console.log(UserNumber);
                 if (UserNumber == -1) {
                     this.UserNumber = 0;
                 } else {
@@ -766,7 +767,7 @@ function fnIntVue() {
                     }
                 }
                 pGetPicture(options, function(ret, err) {
-                    
+
                     if (ret.status) {
                         // ret.imgList.forEach(function(item, index) {
                         for(var index = 0; index < ret.imgList.length; index++) {
