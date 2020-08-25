@@ -57,19 +57,39 @@
         initPictureBrowser();
     };
     function initPictureBrowser(){
-      vant.ImagePreview({
-          images:api.pageParam.images,
-          startPosition: api.pageParam.index,
-          className:'browserPicture',
-          onClose(){
-            api.closeWin({
-                name:'pictureBrowser',
-                animation:{
-                    type: "fade", //动画类型（详见动画类型常量）
-                    duration: 300 //动画过渡时间，默认300毫秒
-                }
-            });
+      // vant.ImagePreview({
+      //     images:api.pageParam.images,
+      //     startPosition: api.pageParam.index,
+      //     className:'browserPicture',
+      //     onClose(){
+      //       api.closeWin({
+      //           name:'pictureBrowser',
+      //           animation:{
+      //               type: "fade", //动画类型（详见动画类型常量）
+      //               duration: 300 //动画过渡时间，默认300毫秒
+      //           }
+      //       });
+      //
+      //     }
+      // });
 
+      var photoBrowser = api.require('photoBrowser');
+      photoBrowser.open({
+          images: api.pageParam.images,
+          bgColor: '#000'
+      }, function(ret, err) {
+          if (ret) {
+            if (ret.eventType == 'click') {
+              api.closeWin({
+                  name:'pictureBrowser',
+                  animation:{
+                      type: "fade", //动画类型（详见动画类型常量）
+                      duration: 300 //动画过渡时间，默认300毫秒
+                  }
+              });
+            }
+          } else {
+              // alert(JSON.stringify(err));
           }
       });
     }
