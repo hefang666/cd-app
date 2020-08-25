@@ -1078,7 +1078,7 @@ function fnIntVue() {
                                     x: 0,
                                     y: 0,
                                     w: 'auto',
-                                    h: 'auto'
+                                    h: 'auto',
                                 },
                                 pageParam: {
                                     name: 'test'
