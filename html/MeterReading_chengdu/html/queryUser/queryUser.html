@@ -195,6 +195,10 @@
             flex-direction: row;
         }
 
+        .dv_3_font {
+            font-size: 16px;
+        }
+
         .dv_3_dv1 {
             flex: 1;
             white-space: nowrap;
@@ -218,6 +222,10 @@
             white-space: nowrap;
             text-overflow: ellipsis;
             margin-bottom: 10px;
+        }
+
+        .dv_4_font {
+          font-size: 16px;
         }
 
         .aui-searchbar-clear-btn {
@@ -430,6 +438,7 @@
                 $('#dv').html('');
                 var str = template('lishiList', datas);
                 $('#dv').append(str);
+
                 fnReadyOpenWin();
             }
         } else {
@@ -522,7 +531,7 @@
         // 重复的查询不在加入表中
         db.selectSql({
             name: 'CBtest',
-            sql: 'SELECT * FROM MRM_HISTORYS_BEAN where LSLX="查询用户" and CXCS = '+ CXCS +' and userName = ' + LoginName
+            sql: 'SELECT * FROM MRM_HISTORYS_BEAN where LSLX="查询用户" and CXCS = ' + CXCS + ' and userName = ' + LoginName
         }, function(ret, err) {
             if (ret.status) {
                 if (ret.data.length == 0) {
@@ -537,16 +546,16 @@
             var sql = "";
             switch (true) {
                 case CXLX == 'YHBH' || CXLX == undefined:
-                    var sql = 'select * from MRM_USER_BEAN where YHBH = '+ CXCS +' and userName = ' + LoginName;
+                    var sql = 'select * from MRM_USER_BEAN where YHBH = ' + CXCS + ' and userName = ' + LoginName;
                     break;
                 case CXLX == 'KJ':
-                    var sql = 'select * from MRM_USER_BEAN where KJ = '+ CXCS +' and userName = ' + LoginName;
+                    var sql = 'select * from MRM_USER_BEAN where KJ = ' + CXCS + ' and userName = ' + LoginName;
                     break;
                 case CXLX == 'YHDZ':
-                    var sql = 'select * from MRM_USER_BEAN where YHDZ LIKE '+ CXCS +' and userName = ' + LoginName;
+                    var sql = 'select * from MRM_USER_BEAN where YHDZ LIKE ' + CXCS + ' and userName = ' + LoginName;
                     break;
                 case CXLX == 'YHMC':
-                    var sql = 'select * from MRM_USER_BEAN where YHMC LIKE '+ CXCS +' and userName = ' + LoginName;
+                    var sql = 'select * from MRM_USER_BEAN where YHMC LIKE ' + CXCS + ' and userName = ' + LoginName;
                     break;
             }
             var userdata = db.selectSqlSync({
@@ -571,9 +580,24 @@
                         datas: userlist
                     }
 
+
                     var str = template('userList', datas);
                     $('#dv div').remove();
                     $('#dv').append(str);
+
+
+                    var systemVersion = api.systemVersion;
+                    var versionArr = systemVersion.split('.');
+                    if (api.systemType == 'android') {
+                        if (versionArr[0] < 5) {
+                            $('.dv_3').addClass('dv_3_font');
+                            $('.dv_4').addClass('dv_4_font');
+                        } else {
+                            $('.dv_3').removeClass('dv_3_font');
+                            $('.dv_4').removeClass('dv_4_font');
+                        }
+                    }
+
                     fnReadyOpenWin();
                 } else {
                     $('#dv div').remove();
@@ -639,6 +663,24 @@
                             var str = template('userList', datas);
                             $('#dv div').remove();
                             $('#dv').append(str);
+
+                            var str = template('userList', datas);
+                            $('#dv div').remove();
+                            $('#dv').append(str);
+
+
+                            var systemVersion = api.systemVersion;
+                            var versionArr = systemVersion.split('.');
+                            if (api.systemType == 'android') {
+                                if (versionArr[0] < 5) {
+                                    $('.dv_3').addClass('dv_3_font');
+                                    $('.dv_4').addClass('dv_4_font');
+                                } else {
+                                    $('.dv_3').removeClass('dv_3_font');
+                                    $('.dv_4').removeClass('dv_4_font');
+                                }
+                            }
+
                             fnReadyOpenWin();
                         } else {
                             $('#dv div').remove();

@@ -79,8 +79,19 @@
         }
 
         .dv_tow div {
-            flex: 1;
             float: left;
+        }
+
+        .dv_two_items {
+          flex: 1;
+        }
+
+        .dv_two_left {
+          width: 65%;
+        }
+
+        .dv_two_right {
+          flex: 1;
         }
 
         #daohang {
@@ -121,15 +132,22 @@
         }
 
         .active_item {
-            padding-left: 10px;
-            padding-right: 10px;
             text-align: center;
             width: 150px;
             height: 40px;
             color: #949295;
-            font-size: 16px;
             line-height: 40px;
             border-bottom: 1px solid #ececec;
+        }
+        /*安卓4*/
+        .active_item_4 {
+          font-size: 13px;
+        }
+        /*安卓5+*/
+        .active_item_5 {
+          padding-left: 10px;
+          padding-right: 10px;
+          font-size: 16px;
         }
 
         .active_item1 {
@@ -190,12 +208,12 @@
                 <div id="YHDZ" class="dv">用户地址：</div>
                 <div id="YSXZ" class="dv">用水性质：</div> -->
                 <div class="dv dv_tow">
-                    <div id="XZXF">性质细分：</div>
-                    <div id="KJ">口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径：</div>
+                    <div class="dv_two_item1" id="XZXF">性质细分：</div>
+                    <div class="dv_two_item2" id="KJ">口&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;径：</div>
                 </div>
                 <div class="dv dv_tow">
-                    <div id="QD">起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度：</div>
-                    <div id="ZD">止&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度：</div>
+                    <div class="dv_two_item1" id="QD">起&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度：</div>
+                    <div class="dv_two_item2" id="ZD">止&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;度：</div>
                 </div>
             </div>
         </div>
@@ -257,6 +275,29 @@
         var footer = $api.byId('footer');
         footerH = $api.offset(footer).h;
         footerW = $api.offset(footer).w;
+
+        // 获取安卓版本设置相应字体大小
+        var systemVersion = api.systemVersion;
+        var versionArr = systemVersion.split('.');
+        if (api.systemType == 'android') {
+          if (versionArr[0] < 5) {
+            $('.active_item').removeClass('active_item_5');
+            $('.active_item').addClass('active_item_4');
+
+            $('.dv_two_item1').removeClass('dv_two_items');
+            $('.dv_two_item2').removeClass('dv_two_items');
+            $('.dv_two_item1').addClass('dv_two_left');
+            $('.dv_two_item2').addClass('dv_two_right');
+          }else {
+          $('.active_item').removeClass('active_item_4');
+            $('.active_item').addClass('active_item_5');
+
+            $('.dv_two_item1').removeClass('dv_two_left');
+            $('.dv_two_item2').removeClass('dv_two_right');
+            $('.dv_two_item1').addClass('dv_two_items');
+            $('.dv_two_item2').addClass('dv_two_items');
+          }
+        }
 
         var pageParam = api.pageParam;
         YHBH = pageParam.YHBH;

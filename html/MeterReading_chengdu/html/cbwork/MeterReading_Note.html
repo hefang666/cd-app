@@ -321,6 +321,10 @@
             width: 20px;
             height: 20px;
         }
+
+        .dv3_lx_font {
+          font-size: 16px;
+        }
     </style>
 </head>
 
@@ -478,6 +482,17 @@
                 '</div>';
             $('#center_bottom div').remove();
             $('#center_bottom').append(html);
+
+            var systemVersion = api.systemVersion;
+            var versionArr = systemVersion.split('.');
+            if (api.systemType == 'android') {
+                if (versionArr[0] < 5) {
+                    $('.dv3_lx').addClass('dv3_lx_font');
+                } else {
+                    $('.dv3_lx').removeClass('dv3_lx_font');
+                }
+            }
+
             fnReadyOpenWin();
         }
     }
